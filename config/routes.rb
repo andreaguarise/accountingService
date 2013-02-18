@@ -1,4 +1,7 @@
 AccountingService::Application.routes.draw do
+  resources :resource_types
+
+
   resources :sites
 
 
