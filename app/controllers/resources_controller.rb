@@ -3,7 +3,16 @@ class ResourcesController < ApplicationController
   # GET /resources.json
   def index
     @resources = Resource.all
-
+    @sites = Hash.new 
+    Site.all.each do |s|
+      @sites[s.id] = s.name
+    end
+    
+    @resource_types = Hash.new 
+    ResourceType.all.each do |t|
+      @resource_types[t.id] = t.name
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @resources }

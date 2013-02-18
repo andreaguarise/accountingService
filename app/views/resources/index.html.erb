@@ -13,13 +13,13 @@
 
 <% @resources.each do |resource| %>
   <tr>
-    <td><%= resource.name %></td>
+    <td class="main_field"><%= resource.name %></td>
     <td><%= resource.description %></td>
-    <td><%= resource.site_id %></td>
-    <td><%= resource.resource_type_id %></td>
-    <td><%= link_to 'Show', resource %></td>
-    <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
-    <td><%= link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td><%= @sites[resource.site_id] %></td>
+    <td><%= @resource_types[resource.resource_type_id] %></td>
+    <td class="list_actions"><%= link_to 'Show', resource %></td>
+    <td class="list_actions"><%= link_to 'Edit', edit_resource_path(resource) %></td>
+    <td class="list_actions"><%= link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

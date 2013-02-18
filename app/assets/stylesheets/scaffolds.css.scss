@@ -6,10 +6,28 @@ body {
   line-height: 18px;
 }
 
-p, ol, ul, td {
+p, ol, ul {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
+}
+
+th {
+  text-align: left;
+  padding: 2px;
+  border: 1px solid black;
+}
+
+td {
+  padding: 2px;
+  border: 1px solid grey;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: left;
+  &.main_field {
+    color: #090;
+  }
 }
 
 pre {
@@ -19,19 +37,14 @@ pre {
 }
 
 a {
-  color: #000;
+  color: #300;
+  font-size: 9px;
   &:visited {
-    color: #666;
+    color: #900;
   }
   &:hover {
     color: #fff;
     background-color: #000;
-  }
-}
-
-div {
-  &.field, &.actions {
-    margin-bottom: 10px;
   }
 }
 
