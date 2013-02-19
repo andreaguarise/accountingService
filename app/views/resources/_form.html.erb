@@ -20,12 +20,12 @@
     <%= f.text_area :description %>
   </div>
   <div class="field">
-    <%= f.label :site_id %><br />
-    <%= f.number_field :site_id %>
+  	Site Name<br />
+    <%= text_field_tag :site_name %>
   </div>
   <div class="field">
-    <%= f.label :resource_type_id %><br />
-    <%= f.number_field :resource_type_id %>
+    Resource type<br />
+    <%= text_field_tag :resource_type_name %>
   </div>
   <div class="actions">
     <%= f.submit %>

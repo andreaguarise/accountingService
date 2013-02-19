@@ -23,6 +23,8 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @resource = Resource.find(params[:id])
+    @site = Site.find(@resource.site_id)
+    @resource_type = ResourceType.find(@resource.resource_type_id)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -50,6 +52,14 @@ class ResourcesController < ApplicationController
   # POST /resources.json
   def create
     @resource = Resource.new(params[:resource])
+
+    site_name =  params[:site_name]
+    site = Site.find_by_name(site_name)
+    @resource.site_id = site.id
+    
+    resource_type_name =  params[:resource_type_name]
+    resource_type = ResourceType.find_by_name(resource_type_name)
+    @resource.resource_type_id = resource_type.id
 
     respond_to do |format|
       if @resource.save

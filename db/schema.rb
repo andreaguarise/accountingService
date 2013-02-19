@@ -10,7 +10,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218092907) do
+ActiveRecord::Schema.define(:version => 20130219130534) do
+
+  create_table "cloud_records", :force => true do |t|
+    t.string   "VMUUID"
+    t.integer  "resource_id"
+    t.string   "localVMID"
+    t.string   "local_user"
+    t.string   "local_group"
+    t.string   "globaluserName"
+    t.string   "FQAN"
+    t.string   "status"
+    t.datetime "startTime"
+    t.datetime "endTime"
+    t.integer  "suspendDuration"
+    t.integer  "wallDuration"
+    t.integer  "cpuDuration"
+    t.integer  "cpuCount"
+    t.string   "networkType"
+    t.integer  "networkInbound"
+    t.integer  "networkOutBound"
+    t.integer  "memory"
+    t.integer  "disk"
+    t.string   "storageRecordId"
+    t.string   "diskImage"
+    t.string   "cloudType"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "resource_types", :force => true do |t|
     t.string   "name"

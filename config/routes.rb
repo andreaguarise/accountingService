@@ -1,4 +1,7 @@
 AccountingService::Application.routes.draw do
+  resources :cloud_records
+
+
   resources :resources
 
 

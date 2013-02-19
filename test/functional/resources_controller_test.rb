@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class ResourcesControllerTest < ActionController::TestCase
+  
   setup do
     @resource = resources(:one)
+    @site = sites(:one)
+    @resource_type = resource_types(:one)
   end
 
   test "should get index" do
@@ -18,7 +21,7 @@ class ResourcesControllerTest < ActionController::TestCase
 
   test "should create resource" do
     assert_difference('Resource.count') do
-      post :create, :resource => { :description => @resource.description, :name => @resource.name, :resource_type_id => @resource.resource_type_id, :site_id => @resource.site_id }
+      post :create, :resource => { :description => @resource.description, :name => @resource.name }, :resource_type_name => @resource_type.name, :site_name => @site.name
     end
 
     assert_redirected_to resource_path(assigns(:resource))
@@ -26,7 +29,11 @@ class ResourcesControllerTest < ActionController::TestCase
 
   test "should show resource" do
     get :show, :id => @resource
-    assert_response :success
+    assert_response :success, @response.body
+    assert_select '.resource_name', /MyString/
+    assert_select '.resource_description', /MyText/
+    assert_select '.site_name', /MyString/
+    assert_select '.resource_type_name', /MyString/
   end
 
   test "should get edit" do
