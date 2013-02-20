@@ -1,34 +1,35 @@
 class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.json
+  # GET /resources.xml
   def index
     @resources = Resource.all
-    @sites = Hash.new 
-    Site.all.each do |s|
-      @sites[s.id] = s.name
-    end
-    
-    @resource_types = Hash.new 
-    ResourceType.all.each do |t|
-      @resource_types[t.id] = t.name
-    end
     
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @resources }
+      format.json {  
+        render :json => @resources.to_json(:include => { :site => {:only => :name}, :resource_type => {:only => :name} }) 
+       }
+      format.xml {
+         render :xml => @resources.to_xml(:include => { :site => {:only => :name}, :resource_type => {:only => :name} })
+       }
     end
   end
 
   # GET /resources/1
   # GET /resources/1.json
+  # GET /resources/1.xml
   def show
     @resource = Resource.find(params[:id])
-    @site = Site.find(@resource.site_id)
-    @resource_type = ResourceType.find(@resource.resource_type_id)
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @resource }
+      format.json {  
+        render :json => @resource.to_json(:include => { :site => {:only => :name}, :resource_type => {:only => :name} }) 
+       }
+       format.xml {
+         render :xml => @resource.to_xml(:include => { :site => {:only => :name}, :resource_type => {:only => :name} })
+       }
     end
   end
 
