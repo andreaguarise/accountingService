@@ -1,29 +1,35 @@
 class CloudRecordsController < ApplicationController
   # GET /cloud_records
   # GET /cloud_records.json
+  # GET /cloud_records.xml
   def index
     @cloud_records = CloudRecord.all
-    @resources = Hash.new 
-    Resource.all.each do |r|
-      @resources[r.id] = r.name
-    end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @cloud_records }
-      format.xml { render :xml => @cloud_records }
+      format.json {  
+        render :json => @cloud_records.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
+      format.xml {  
+        render :xml => @cloud_records.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
     end
   end
 
   # GET /cloud_records/1
   # GET /cloud_records/1.json
+  # GET /cloud_records/1.xml
   def show
     @cloud_record = CloudRecord.find(params[:id])
-    @resource = Resource.find(@cloud_record.resource_id)
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @cloud_record }
+      format.json {  
+        render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
+      format.xml {  
+        render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
     end
   end
 

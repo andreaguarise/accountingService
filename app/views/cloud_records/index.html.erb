@@ -32,7 +32,7 @@
 <% @cloud_records.each do |cloud_record| %>
   <tr>
     <td class="main_field"><%= cloud_record.VMUUID %></td>
-    <td class="field"><%= @resources[cloud_record.resource_id] %></td>
+    <td class="field"><%= cloud_record.resource.name %></td>
     <td class="field" ><%= cloud_record.localVMID %></td>
     <td class="field" ><%= cloud_record.local_user %></td>
     <td class="field" ><%= cloud_record.local_group %></td>
