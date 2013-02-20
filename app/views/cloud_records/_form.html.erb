@@ -1,0 +1,105 @@
+<%= form_for(@cloud_record) do |f| %>
+  <% if @cloud_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cloud_record.errors.count, "error") %> prohibited this cloud_record from being saved:</h2>
+
+      <ul>
+      <% @cloud_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :VMUUID %><br />
+    <%= f.text_field :VMUUID %>
+  </div>
+  <div class="field">
+    Resource Name<br />
+    <%= text_field_tag :resource_name %>
+  </div>
+  <div class="field">
+    <%= f.label :localVMID %><br />
+    <%= f.text_field :localVMID %>
+  </div>
+  <div class="field">
+    <%= f.label :local_user %><br />
+    <%= f.text_field :local_user %>
+  </div>
+  <div class="field">
+    <%= f.label :local_group %><br />
+    <%= f.text_field :local_group %>
+  </div>
+  <div class="field">
+    <%= f.label :globaluserName %><br />
+    <%= f.text_field :globaluserName %>
+  </div>
+  <div class="field">
+    <%= f.label :FQAN %><br />
+    <%= f.text_field :FQAN %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :startTime %><br />
+    <%= f.datetime_select :startTime %>
+  </div>
+  <div class="field">
+    <%= f.label :endTime %><br />
+    <%= f.datetime_select :endTime %>
+  </div>
+  <div class="field">
+    <%= f.label :suspendDuration %><br />
+    <%= f.number_field :suspendDuration %>
+  </div>
+  <div class="field">
+    <%= f.label :wallDuration %><br />
+    <%= f.number_field :wallDuration %>
+  </div>
+  <div class="field">
+    <%= f.label :cpuDuration %><br />
+    <%= f.number_field :cpuDuration %>
+  </div>
+  <div class="field">
+    <%= f.label :cpuCount %><br />
+    <%= f.number_field :cpuCount %>
+  </div>
+  <div class="field">
+    <%= f.label :networkType %><br />
+    <%= f.text_field :networkType %>
+  </div>
+  <div class="field">
+    <%= f.label :networkInbound %><br />
+    <%= f.number_field :networkInbound %>
+  </div>
+  <div class="field">
+    <%= f.label :networkOutBound %><br />
+    <%= f.number_field :networkOutBound %>
+  </div>
+  <div class="field">
+    <%= f.label :memory %><br />
+    <%= f.number_field :memory %>
+  </div>
+  <div class="field">
+    <%= f.label :disk %><br />
+    <%= f.number_field :disk %>
+  </div>
+  <div class="field">
+    <%= f.label :storageRecordId %><br />
+    <%= f.text_field :storageRecordId %>
+  </div>
+  <div class="field">
+    <%= f.label :diskImage %><br />
+    <%= f.text_field :diskImage %>
+  </div>
+  <div class="field">
+    <%= f.label :cloudType %><br />
+    <%= f.text_field :cloudType %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

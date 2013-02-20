@@ -1,0 +1,65 @@
+<h1>Listing cloud_records</h1>
+
+<table>
+  <tr>
+    <th>VM UUID</th>
+    <th>Resource</th>
+    <th>Local VM ID</th>
+    <th>Local user</th>
+    <th>Local group</th>
+    <th>Global User Name</th>
+    <th>FQAN</th>
+    <th>Status</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Suspendduration</th>
+    <th>Wall time</th>
+    <th>Cpu time</th>
+    <th>Cpu N.</th>
+    <th>Network</th>
+    <th>Net in</th>
+    <th>Net out</th>
+    <th>Memory</th>
+    <th>Disk</th>
+    <th>Storage Record</th>
+    <th>Disk Image</th>
+    <th>Cloud Type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @cloud_records.each do |cloud_record| %>
+  <tr>
+    <td class="main_field"><%= cloud_record.VMUUID %></td>
+    <td class="field"><%= @resources[cloud_record.resource_id] %></td>
+    <td class="field" ><%= cloud_record.localVMID %></td>
+    <td class="field" ><%= cloud_record.local_user %></td>
+    <td class="field" ><%= cloud_record.local_group %></td>
+    <td class="field" ><%= cloud_record.globaluserName %></td>
+    <td class="field" ><%= cloud_record.FQAN %></td>
+    <td class="field" ><%= cloud_record.status %></td>
+    <td class="field" ><%= cloud_record.startTime %></td>
+    <td class="field" ><%= cloud_record.endTime %></td>
+    <td class="field" ><%= cloud_record.suspendDuration %></td>
+    <td class="field" ><%= cloud_record.wallDuration %></td>
+    <td class="field" ><%= cloud_record.cpuDuration %></td>
+    <td class="field" ><%= cloud_record.cpuCount %></td>
+    <td class="field" ><%= cloud_record.networkType %></td>
+    <td class="field" ><%= cloud_record.networkInbound %></td>
+    <td class="field" ><%= cloud_record.networkOutBound %></td>
+    <td class="field" ><%= cloud_record.memory %></td>
+    <td class="field" ><%= cloud_record.disk %></td>
+    <td class="field" ><%= cloud_record.storageRecordId %></td>
+    <td class="field" ><%= cloud_record.diskImage %></td>
+    <td class="field" ><%= cloud_record.cloudType %></td>
+    <td class="list_actions" ><%= link_to 'Show', cloud_record %></td>
+    <td class="list_actions" ><%= link_to 'Edit', edit_cloud_record_path(cloud_record) %></td>
+    <td class="list_actions" ><%= link_to 'Destroy', cloud_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Cloud record', new_cloud_record_path %>

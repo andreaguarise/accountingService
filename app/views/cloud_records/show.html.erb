@@ -1,0 +1,115 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Vmuuid:</b>
+  <%= @cloud_record.VMUUID %>
+</p>
+
+<p>
+  <b>Resource:</b>
+  <%= @resource.name %>
+</p>
+
+<p>
+  <b>Localvmid:</b>
+  <%= @cloud_record.localVMID %>
+</p>
+
+<p>
+  <b>Local user:</b>
+  <%= @cloud_record.local_user %>
+</p>
+
+<p>
+  <b>Local group:</b>
+  <%= @cloud_record.local_group %>
+</p>
+
+<p>
+  <b>Globalusername:</b>
+  <%= @cloud_record.globaluserName %>
+</p>
+
+<p>
+  <b>Fqan:</b>
+  <%= @cloud_record.FQAN %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @cloud_record.status %>
+</p>
+
+<p>
+  <b>Starttime:</b>
+  <%= @cloud_record.startTime %>
+</p>
+
+<p>
+  <b>Endtime:</b>
+  <%= @cloud_record.endTime %>
+</p>
+
+<p>
+  <b>Suspendduration:</b>
+  <%= @cloud_record.suspendDuration %>
+</p>
+
+<p>
+  <b>Wallduration:</b>
+  <%= @cloud_record.wallDuration %>
+</p>
+
+<p>
+  <b>Cpuduration:</b>
+  <%= @cloud_record.cpuDuration %>
+</p>
+
+<p>
+  <b>Cpucount:</b>
+  <%= @cloud_record.cpuCount %>
+</p>
+
+<p>
+  <b>Networktype:</b>
+  <%= @cloud_record.networkType %>
+</p>
+
+<p>
+  <b>Networkinbound:</b>
+  <%= @cloud_record.networkInbound %>
+</p>
+
+<p>
+  <b>Networkoutbound:</b>
+  <%= @cloud_record.networkOutBound %>
+</p>
+
+<p>
+  <b>Memory:</b>
+  <%= @cloud_record.memory %>
+</p>
+
+<p>
+  <b>Disk:</b>
+  <%= @cloud_record.disk %>
+</p>
+
+<p>
+  <b>Storagerecordid:</b>
+  <%= @cloud_record.storageRecordId %>
+</p>
+
+<p>
+  <b>Diskimage:</b>
+  <%= @cloud_record.diskImage %>
+</p>
+
+<p>
+  <b>Cloudtype:</b>
+  <%= @cloud_record.cloudType %>
+</p>
+
+
+<%= link_to 'Edit', edit_cloud_record_path(@cloud_record) %> |
+<%= link_to 'Back', cloud_records_path %>

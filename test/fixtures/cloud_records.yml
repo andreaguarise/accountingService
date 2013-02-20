@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  VMUUID: MyString
+  resource_id: 1
+  localVMID: MyString
+  local_user: MyString
+  local_group: MyString
+  globaluserName: MyString
+  FQAN: MyString
+  status: MyString
+  startTime: 2013-02-19 14:05:34
+  endTime: 2013-02-19 14:05:34
+  suspendDuration: 1
+  wallDuration: 1
+  cpuDuration: 1
+  cpuCount: 1
+  networkType: MyString
+  networkInbound: 1
+  networkOutBound: 1
+  memory: 1
+  disk: 1
+  storageRecordId: MyString
+  diskImage: MyString
+  cloudType: MyString
+
+two:
+  VMUUID: MyString
+  resource_id: 1
+  localVMID: MyString
+  local_user: MyString
+  local_group: MyString
+  globaluserName: MyString
+  FQAN: MyString
+  status: MyString
+  startTime: 2013-02-19 14:05:34
+  endTime: 2013-02-19 14:05:34
+  suspendDuration: 1
+  wallDuration: 1
+  cpuDuration: 1
+  cpuCount: 1
+  networkType: MyString
+  networkInbound: 1
+  networkOutBound: 1
+  memory: 1
+  disk: 1
+  storageRecordId: MyString
+  diskImage: MyString
+  cloudType: MyString
