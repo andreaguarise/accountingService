@@ -6,7 +6,12 @@ class DgasGridCpuRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @dgas_grid_cpu_records }
+      format.json {  
+        render :json => @dgas_grid_cpu_records.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
+      format.xml {  
+        render :xml => @dgas_grid_cpu_records.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
     end
   end
 
@@ -17,7 +22,12 @@ class DgasGridCpuRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @dgas_grid_cpu_record }
+      format.json {  
+        render :json => @dgas_grid_cpu_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
+      format.xml {  
+        render :xml => @dgas_grid_cpu_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
+       }
     end
   end
 
@@ -41,7 +51,10 @@ class DgasGridCpuRecordsController < ApplicationController
   # POST /dgas_grid_cpu_records.json
   def create
     @dgas_grid_cpu_record = DgasGridCpuRecord.new(params[:dgas_grid_cpu_record])
-
+    resource_name =  params[:resource_name]
+    resource = Resource.find_by_name(resource_name)
+    @dgas_grid_cpu_record.resource_id = resource.id
+    
     respond_to do |format|
       if @dgas_grid_cpu_record.save
         format.html { redirect_to @dgas_grid_cpu_record, :notice => 'Dgas grid cpu record was successfully created.' }
