@@ -1,0 +1,105 @@
+<%= form_for(@dgas_grid_cpu_record) do |f| %>
+  <% if @dgas_grid_cpu_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dgas_grid_cpu_record.errors.count, "error") %> prohibited this dgas_grid_cpu_record from being saved:</h2>
+
+      <ul>
+      <% @dgas_grid_cpu_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uniqueChecksum %><br />
+    <%= f.text_field :uniqueChecksum %>
+  </div>
+  <div class="field">
+    <%= f.label :dgJobId %><br />
+    <%= f.text_field :dgJobId %>
+  </div>
+  <div class="field">
+    <%= f.label :startDate %><br />
+    <%= f.datetime_select :startDate %>
+  </div>
+  <div class="field">
+    <%= f.label :endDate %><br />
+    <%= f.datetime_select :endDate %>
+  </div>
+  <div class="field">
+    <%= f.label :resource_id %><br />
+    <%= f.number_field :resource_id %>
+  </div>
+  <div class="field">
+    <%= f.label :globaluserName %><br />
+    <%= f.text_field :globaluserName %>
+  </div>
+  <div class="field">
+    <%= f.label :FQAN %><br />
+    <%= f.text_field :FQAN %>
+  </div>
+  <div class="field">
+    <%= f.label :userVO %><br />
+    <%= f.text_field :userVO %>
+  </div>
+  <div class="field">
+    <%= f.label :cpuTime %><br />
+    <%= f.number_field :cpuTime %>
+  </div>
+  <div class="field">
+    <%= f.label :wallTime %><br />
+    <%= f.number_field :wallTime %>
+  </div>
+  <div class="field">
+    <%= f.label :pmem %><br />
+    <%= f.number_field :pmem %>
+  </div>
+  <div class="field">
+    <%= f.label :vmem %><br />
+    <%= f.text_field :vmem %>
+  </div>
+  <div class="field">
+    <%= f.label :iBenchType %><br />
+    <%= f.text_field :iBenchType %>
+  </div>
+  <div class="field">
+    <%= f.label :fBench %><br />
+    <%= f.number_field :fBench %>
+  </div>
+  <div class="field">
+    <%= f.label :fBenchType %><br />
+    <%= f.text_field :fBenchType %>
+  </div>
+  <div class="field">
+    <%= f.label :lrmsID %><br />
+    <%= f.text_field :lrmsID %>
+  </div>
+  <div class="field">
+    <%= f.label :local_user %><br />
+    <%= f.text_field :local_user %>
+  </div>
+  <div class="field">
+    <%= f.label :local_group %><br />
+    <%= f.text_field :local_group %>
+  </div>
+  <div class="field">
+    <%= f.label :urSource %><br />
+    <%= f.text_field :urSource %>
+  </div>
+  <div class="field">
+    <%= f.label :voOrigin %><br />
+    <%= f.text_field :voOrigin %>
+  </div>
+  <div class="field">
+    <%= f.label :executingNodes %><br />
+    <%= f.text_field :executingNodes %>
+  </div>
+  <div class="field">
+    <%= f.label :numNodes %><br />
+    <%= f.number_field :numNodes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

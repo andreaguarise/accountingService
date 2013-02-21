@@ -1,0 +1,65 @@
+<h1>Listing dgas_grid_cpu_records</h1>
+
+<table>
+  <tr>
+    <th>Uniquechecksum</th>
+    <th>Dgjobid</th>
+    <th>Startdate</th>
+    <th>Enddate</th>
+    <th>Resource</th>
+    <th>Globalusername</th>
+    <th>Fqan</th>
+    <th>Uservo</th>
+    <th>Cputime</th>
+    <th>Walltime</th>
+    <th>Pmem</th>
+    <th>Vmem</th>
+    <th>Ibenchtype</th>
+    <th>Fbench</th>
+    <th>Fbenchtype</th>
+    <th>Lrmsid</th>
+    <th>Local user</th>
+    <th>Local group</th>
+    <th>Ursource</th>
+    <th>Voorigin</th>
+    <th>Executingnodes</th>
+    <th>Numnodes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @dgas_grid_cpu_records.each do |dgas_grid_cpu_record| %>
+  <tr>
+    <td><%= dgas_grid_cpu_record.uniqueChecksum %></td>
+    <td><%= dgas_grid_cpu_record.dgJobId %></td>
+    <td><%= dgas_grid_cpu_record.startDate %></td>
+    <td><%= dgas_grid_cpu_record.endDate %></td>
+    <td><%= dgas_grid_cpu_record.resource_id %></td>
+    <td><%= dgas_grid_cpu_record.globaluserName %></td>
+    <td><%= dgas_grid_cpu_record.FQAN %></td>
+    <td><%= dgas_grid_cpu_record.userVO %></td>
+    <td><%= dgas_grid_cpu_record.cpuTime %></td>
+    <td><%= dgas_grid_cpu_record.wallTime %></td>
+    <td><%= dgas_grid_cpu_record.pmem %></td>
+    <td><%= dgas_grid_cpu_record.vmem %></td>
+    <td><%= dgas_grid_cpu_record.iBenchType %></td>
+    <td><%= dgas_grid_cpu_record.fBench %></td>
+    <td><%= dgas_grid_cpu_record.fBenchType %></td>
+    <td><%= dgas_grid_cpu_record.lrmsID %></td>
+    <td><%= dgas_grid_cpu_record.local_user %></td>
+    <td><%= dgas_grid_cpu_record.local_group %></td>
+    <td><%= dgas_grid_cpu_record.urSource %></td>
+    <td><%= dgas_grid_cpu_record.voOrigin %></td>
+    <td><%= dgas_grid_cpu_record.executingNodes %></td>
+    <td><%= dgas_grid_cpu_record.numNodes %></td>
+    <td><%= link_to 'Show', dgas_grid_cpu_record %></td>
+    <td><%= link_to 'Edit', edit_dgas_grid_cpu_record_path(dgas_grid_cpu_record) %></td>
+    <td><%= link_to 'Destroy', dgas_grid_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Dgas grid cpu record', new_dgas_grid_cpu_record_path %>

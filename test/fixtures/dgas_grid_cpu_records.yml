@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  uniqueChecksum: MyString
+  dgJobId: MyString
+  startDate: 2013-02-21 11:18:35
+  endDate: 2013-02-21 11:18:35
+  resource_id: 1
+  globaluserName: MyString
+  FQAN: MyString
+  userVO: MyString
+  cpuTime: 1
+  wallTime: 1
+  pmem: 1
+  vmem: 
+  iBenchType: MyString
+  fBench: 1
+  fBenchType: MyString
+  lrmsID: MyString
+  local_user: MyString
+  local_group: MyString
+  urSource: 
+  voOrigin: MyString
+  executingNodes: MyString
+  numNodes: 1
+
+two:
+  uniqueChecksum: MyString
+  dgJobId: MyString
+  startDate: 2013-02-21 11:18:35
+  endDate: 2013-02-21 11:18:35
+  resource_id: 1
+  globaluserName: MyString
+  FQAN: MyString
+  userVO: MyString
+  cpuTime: 1
+  wallTime: 1
+  pmem: 1
+  vmem: 
+  iBenchType: MyString
+  fBench: 1
+  fBenchType: MyString
+  lrmsID: MyString
+  local_user: MyString
+  local_group: MyString
+  urSource: 
+  voOrigin: MyString
+  executingNodes: MyString
+  numNodes: 1
