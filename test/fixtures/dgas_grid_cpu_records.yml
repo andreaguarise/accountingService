@@ -3,8 +3,8 @@
 one:
   uniqueChecksum: MyString
   dgJobId: MyString
-  startDate: 2013-02-21 11:18:35
-  endDate: 2013-02-21 11:18:35
+  startDate: 2013-02-21 11:24:01
+  endDate: 2013-02-21 11:24:01
   resource_id: 1
   globaluserName: MyString
   FQAN: MyString
@@ -12,14 +12,16 @@ one:
   cpuTime: 1
   wallTime: 1
   pmem: 1
-  vmem: 
+  vmem: 1
+  iBench: 1
   iBenchType: MyString
   fBench: 1
   fBenchType: MyString
   lrmsID: MyString
   local_user: MyString
   local_group: MyString
-  urSource: 
+  urSource: MyString
+  accountingProcedure: MyString
   voOrigin: MyString
   executingNodes: MyString
   numNodes: 1
@@ -27,8 +29,8 @@ one:
 two:
   uniqueChecksum: MyString
   dgJobId: MyString
-  startDate: 2013-02-21 11:18:35
-  endDate: 2013-02-21 11:18:35
+  startDate: 2013-02-21 11:24:01
+  endDate: 2013-02-21 11:24:01
   resource_id: 1
   globaluserName: MyString
   FQAN: MyString
@@ -36,14 +38,16 @@ two:
   cpuTime: 1
   wallTime: 1
   pmem: 1
-  vmem: 
+  vmem: 1
+  iBench: 1
   iBenchType: MyString
   fBench: 1
   fBenchType: MyString
   lrmsID: MyString
   local_user: MyString
   local_group: MyString
-  urSource: 
+  urSource: MyString
+  accountingProcedure: MyString
   voOrigin: MyString
   executingNodes: MyString
   numNodes: 1

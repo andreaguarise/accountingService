@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219130534) do
+ActiveRecord::Schema.define(:version => 20130221102359) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -37,6 +37,35 @@ ActiveRecord::Schema.define(:version => 20130219130534) do
     t.string   "cloudType"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "dgas_grid_cpu_records", :force => true do |t|
+    t.string   "uniqueChecksum"
+    t.string   "dgJobId"
+    t.datetime "startDate"
+    t.datetime "endDate"
+    t.integer  "resource_id"
+    t.string   "globaluserName"
+    t.string   "FQAN"
+    t.string   "userVO"
+    t.integer  "cpuTime"
+    t.integer  "wallTime"
+    t.integer  "pmem"
+    t.integer  "vmem"
+    t.integer  "iBench"
+    t.string   "iBenchType"
+    t.integer  "fBench"
+    t.string   "fBenchType"
+    t.string   "lrmsID"
+    t.string   "local_user"
+    t.string   "local_group"
+    t.string   "urSource"
+    t.string   "accountingProcedure"
+    t.string   "voOrigin"
+    t.string   "executingNodes"
+    t.integer  "numNodes"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "resource_types", :force => true do |t|

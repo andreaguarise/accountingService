@@ -57,7 +57,11 @@
   </div>
   <div class="field">
     <%= f.label :vmem %><br />
-    <%= f.text_field :vmem %>
+    <%= f.number_field :vmem %>
+  </div>
+  <div class="field">
+    <%= f.label :iBench %><br />
+    <%= f.number_field :iBench %>
   </div>
   <div class="field">
     <%= f.label :iBenchType %><br />
@@ -86,6 +90,10 @@
   <div class="field">
     <%= f.label :urSource %><br />
     <%= f.text_field :urSource %>
+  </div>
+  <div class="field">
+    <%= f.label :accountingProcedure %><br />
+    <%= f.text_field :accountingProcedure %>
   </div>
   <div class="field">
     <%= f.label :voOrigin %><br />
