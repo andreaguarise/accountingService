@@ -1,3 +1,25 @@
-// Place all the styles related to the dgasGridCpuRecords controller here.
+// Place all the styles related to the CloudRecords controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+th {
+  text-align: left;
+  padding: 2px;
+  border: 10px solid black;
+}
+
+td {
+  &.field {
+    color: #100;
+     padding: 1px;
+     border: 1px solid grey;
+     font-family: verdana, arial, helvetica, sans-serif;
+     font-size: 9px;
+     line-height: 9px;
+     text-align: left;
+     &.main_field {
+    color: #100;
+  }
+  }
+  
+}

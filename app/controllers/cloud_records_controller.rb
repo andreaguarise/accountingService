@@ -52,10 +52,15 @@ class CloudRecordsController < ApplicationController
   # POST /cloud_records
   # POST /cloud_records.json
   def create
+    if params[:cloud_record][:resource_name] #JSON post
+      params[:resource_name] = params[:cloud_record].delete(:resource_name)
+    end
     @cloud_record = CloudRecord.new(params[:cloud_record])
-    resource_name =  params[:resource_name]
-    resource = Resource.find_by_name(resource_name)
-    @cloud_record.resource_id = resource.id
+    if (params[:resource_name]) #HTML form
+     resource_name =  params[:resource_name]
+      resource = Resource.find_by_name(resource_name)
+      @cloud_record.resource_id = resource.id
+    end
 
     respond_to do |format|
       if @cloud_record.save

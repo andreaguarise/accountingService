@@ -33,33 +33,33 @@
 
 <% @dgas_grid_cpu_records.each do |dgas_grid_cpu_record| %>
   <tr>
-    <td><%= dgas_grid_cpu_record.uniqueChecksum %></td>
-    <td><%= dgas_grid_cpu_record.dgJobId %></td>
-    <td><%= dgas_grid_cpu_record.startDate %></td>
-    <td><%= dgas_grid_cpu_record.endDate %></td>
-    <td><%= dgas_grid_cpu_record.resource.name %></td>
-    <td><%= dgas_grid_cpu_record.globaluserName %></td>
-    <td><%= dgas_grid_cpu_record.FQAN %></td>
-    <td><%= dgas_grid_cpu_record.userVO %></td>
-    <td><%= dgas_grid_cpu_record.cpuTime %></td>
-    <td><%= dgas_grid_cpu_record.wallTime %></td>
-    <td><%= dgas_grid_cpu_record.pmem %></td>
-    <td><%= dgas_grid_cpu_record.vmem %></td>
-    <td><%= dgas_grid_cpu_record.iBench %></td>
-    <td><%= dgas_grid_cpu_record.iBenchType %></td>
-    <td><%= dgas_grid_cpu_record.fBench %></td>
-    <td><%= dgas_grid_cpu_record.fBenchType %></td>
-    <td><%= dgas_grid_cpu_record.lrmsID %></td>
-    <td><%= dgas_grid_cpu_record.local_user %></td>
-    <td><%= dgas_grid_cpu_record.local_group %></td>
-    <td><%= dgas_grid_cpu_record.urSource %></td>
-    <td><%= dgas_grid_cpu_record.accountingProcedure %></td>
-    <td><%= dgas_grid_cpu_record.voOrigin %></td>
-    <td><%= dgas_grid_cpu_record.executingNodes %></td>
-    <td><%= dgas_grid_cpu_record.numNodes %></td>
-    <td><%= link_to 'Show', dgas_grid_cpu_record %></td>
-    <td><%= link_to 'Edit', edit_dgas_grid_cpu_record_path(dgas_grid_cpu_record) %></td>
-    <td><%= link_to 'Destroy', dgas_grid_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td class="main_field" ><%= dgas_grid_cpu_record.uniqueChecksum %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.dgJobId %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.startDate %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.endDate %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.resource.name %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.globaluserName %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.FQAN %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.userVO %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.cpuTime %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.wallTime %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.pmem %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.vmem %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.iBench %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.iBenchType %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.fBench %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.fBenchType %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.lrmsID %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.local_user %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.local_group %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.urSource %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.accountingProcedure %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.voOrigin %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.executingNodes %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.numNodes %></td>
+    <td class="field" ><%= link_to 'Show', dgas_grid_cpu_record %></td>
+    <td class="field" ><%= link_to 'Edit', edit_dgas_grid_cpu_record_path(dgas_grid_cpu_record) %></td>
+    <td class="field" ><%= link_to 'Destroy', dgas_grid_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

@@ -50,11 +50,15 @@ class DgasGridCpuRecordsController < ApplicationController
   # POST /dgas_grid_cpu_records
   # POST /dgas_grid_cpu_records.json
   def create
+    if params[:dgas_grid_cpu_record][:resource_name] #JSON post
+      params[:resource_name] = params[:dgas_grid_cpu_record].delete(:resource_name)
+    end
     @dgas_grid_cpu_record = DgasGridCpuRecord.new(params[:dgas_grid_cpu_record])
-    resource_name =  params[:resource_name]
-    resource = Resource.find_by_name(resource_name)
-    @dgas_grid_cpu_record.resource_id = resource.id
-    
+    if (params[:resource_name]) #HTML form
+      resource_name =  params[:resource_name]
+      resource = Resource.find_by_name(resource_name)
+      @dgas_grid_cpu_record.resource_id = resource.id
+    end
     respond_to do |format|
       if @dgas_grid_cpu_record.save
         format.html { redirect_to @dgas_grid_cpu_record, :notice => 'Dgas grid cpu record was successfully created.' }
