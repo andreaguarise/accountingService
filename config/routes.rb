@@ -1,4 +1,7 @@
 AccountingService::Application.routes.draw do
+  resources :emi_compute_accounting_records
+
+
   resources :dgas_grid_cpu_records
 
 

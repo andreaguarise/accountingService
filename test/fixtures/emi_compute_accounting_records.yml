@@ -1,0 +1,69 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  recordId: MyString
+  createTime: 2013-02-25 10:47:47
+  globalJobId: MyString
+  localJobId: MyString
+  localUserId: MyString
+  globalUserName: MyString
+  charge: 
+  status: MyString
+  queue: MyString
+  group: MyString
+  jobName: MyString
+  ceCertificateSubject: MyString
+  wallDuration: 
+  cpuDuration: 
+  endTime: 2013-02-25 10:47:47
+  startTime: 2013-02-25 10:47:47
+  machineName: MyString
+  projectName: MyString
+  ceHost: MyString
+  execHost: MyString
+  physicalMemory: 
+  virtualMemory: 
+  serviceLevelIntBench: 
+  serviceLevelIntBenchType: MyString
+  serviceLevelFloatBench: 
+  serviceLevelFloatBenchType: MyString
+  timeInstantCtime: 2013-02-25 10:47:47
+  timeInstantQTime: 2013-02-25 10:47:47
+  timeInstantETime: 2013-02-25 10:47:47
+  dgasAccountingProcedure: MyString
+  vomsFQAN: MyString
+  voOrigin: MyString
+
+two:
+  recordId: MyString
+  createTime: 2013-02-25 10:47:47
+  globalJobId: MyString
+  localJobId: MyString
+  localUserId: MyString
+  globalUserName: MyString
+  charge: 
+  status: MyString
+  queue: MyString
+  group: MyString
+  jobName: MyString
+  ceCertificateSubject: MyString
+  wallDuration: 
+  cpuDuration: 
+  endTime: 2013-02-25 10:47:47
+  startTime: 2013-02-25 10:47:47
+  machineName: MyString
+  projectName: MyString
+  ceHost: MyString
+  execHost: MyString
+  physicalMemory: 
+  virtualMemory: 
+  serviceLevelIntBench: 
+  serviceLevelIntBenchType: MyString
+  serviceLevelFloatBench: 
+  serviceLevelFloatBenchType: MyString
+  timeInstantCtime: 2013-02-25 10:47:47
+  timeInstantQTime: 2013-02-25 10:47:47
+  timeInstantETime: 2013-02-25 10:47:47
+  dgasAccountingProcedure: MyString
+  vomsFQAN: MyString
+  voOrigin: MyString

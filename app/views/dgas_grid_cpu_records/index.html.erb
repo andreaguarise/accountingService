@@ -37,7 +37,7 @@
     <td class="field" ><%= dgas_grid_cpu_record.dgJobId %></td>
     <td class="field" ><%= dgas_grid_cpu_record.startDate %></td>
     <td class="field" ><%= dgas_grid_cpu_record.endDate %></td>
-    <td class="field" ><%= dgas_grid_cpu_record.resource.name %></td>
+    <td class="field" ><%= dgas_grid_cpu_record.resource.name if dgas_grid_cpu_record.resource%></td>
     <td class="field" ><%= dgas_grid_cpu_record.globaluserName %></td>
     <td class="field" ><%= dgas_grid_cpu_record.FQAN %></td>
     <td class="field" ><%= dgas_grid_cpu_record.userVO %></td>

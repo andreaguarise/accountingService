@@ -1,0 +1,85 @@
+class EmiComputeAccountingRecordsController < ApplicationController
+  # GET /emi_compute_accounting_records
+  # GET /emi_compute_accounting_records.json
+  def index
+    @emi_compute_accounting_records = EmiComputeAccountingRecord.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @emi_compute_accounting_records }
+      format.xml { render :xml => @emi_compute_accounting_records }
+    end
+  end
+
+  # GET /emi_compute_accounting_records/1
+  # GET /emi_compute_accounting_records/1.json
+  def show
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @emi_compute_accounting_record }
+      format.xml { render :xml => @emi_compute_accounting_record }
+    end
+  end
+
+  # GET /emi_compute_accounting_records/new
+  # GET /emi_compute_accounting_records/new.json
+  def new
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render :json => @emi_compute_accounting_record }
+    end
+  end
+
+  # GET /emi_compute_accounting_records/1/edit
+  def edit
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.find(params[:id])
+  end
+
+  # POST /emi_compute_accounting_records
+  # POST /emi_compute_accounting_records.json
+  def create
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.new(params[:emi_compute_accounting_record])
+
+    respond_to do |format|
+      if @emi_compute_accounting_record.save
+        format.html { redirect_to @emi_compute_accounting_record, :notice => 'Emi compute accounting record was successfully created.' }
+        format.json { render :json => @emi_compute_accounting_record, :status => :created, :location => @emi_compute_accounting_record }
+      else
+        format.html { render :action => "new" }
+        format.json { render :json => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /emi_compute_accounting_records/1
+  # PUT /emi_compute_accounting_records/1.json
+  def update
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.find(params[:id])
+
+    respond_to do |format|
+      if @emi_compute_accounting_record.update_attributes(params[:emi_compute_accounting_record])
+        format.html { redirect_to @emi_compute_accounting_record, :notice => 'Emi compute accounting record was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /emi_compute_accounting_records/1
+  # DELETE /emi_compute_accounting_records/1.json
+  def destroy
+    @emi_compute_accounting_record = EmiComputeAccountingRecord.find(params[:id])
+    @emi_compute_accounting_record.destroy
+
+    respond_to do |format|
+      format.html { redirect_to emi_compute_accounting_records_url }
+      format.json { head :no_content }
+    end
+  end
+end

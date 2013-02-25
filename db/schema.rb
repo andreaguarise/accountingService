@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221102359) do
+ActiveRecord::Schema.define(:version => 20130225132304) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -66,6 +66,43 @@ ActiveRecord::Schema.define(:version => 20130221102359) do
     t.integer  "numNodes"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "emi_compute_accounting_records", :force => true do |t|
+    t.string   "recordId"
+    t.datetime "createTime"
+    t.string   "globalJobId"
+    t.string   "localJobId"
+    t.string   "localUserId"
+    t.string   "globalUserName"
+    t.integer  "charge"
+    t.string   "status"
+    t.string   "queue"
+    t.string   "group"
+    t.string   "jobName"
+    t.string   "ceCertificateSubject"
+    t.integer  "wallDuration"
+    t.integer  "cpuDuration"
+    t.datetime "endTime"
+    t.datetime "startTime"
+    t.string   "machineName"
+    t.string   "projectName"
+    t.string   "ceHost"
+    t.string   "execHost"
+    t.integer  "physicalMemory"
+    t.integer  "virtualMemory"
+    t.integer  "serviceLevelIntBench"
+    t.string   "serviceLevelIntBenchType"
+    t.integer  "serviceLevelFloatBench"
+    t.string   "serviceLevelFloatBenchType"
+    t.datetime "timeInstantCtime"
+    t.datetime "timeInstantQTime"
+    t.datetime "timeInstantETime"
+    t.string   "dgasAccountingProcedure"
+    t.string   "vomsFQAN"
+    t.string   "voOrigin"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "resource_types", :force => true do |t|
