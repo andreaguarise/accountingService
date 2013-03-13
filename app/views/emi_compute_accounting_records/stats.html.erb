@@ -1,0 +1,32 @@
+<h1>Compute record statistics</h1>
+<br>
+<table>
+<tbody>
+<tr>
+<td>Number of
+records<br>
+</td>
+<td>total cpu<br>
+</td>
+<td >avg cpu<br>
+</td>
+<td >Earliest record<br>
+</td>
+<td >Latest record<br>
+</td>
+</tr>
+<tr>
+<td ><%= @stats[:records_count] %><br>
+</td>
+<td ><%= @stats[:records_cpu_sum] %><br>
+</td>
+<td ><%= @stats[:records_cpu_avg] %><br>
+</td>
+<td ><%= @stats[:earliest_record] %><br>
+</td>
+<td ><%= @stats[:latest_record] %><br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
