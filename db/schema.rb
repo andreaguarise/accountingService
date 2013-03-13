@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225132304) do
+ActiveRecord::Schema.define(:version => 20130313103348) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -125,6 +125,14 @@ ActiveRecord::Schema.define(:version => 20130225132304) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "hashed_password"
+    t.string   "salt"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
 end

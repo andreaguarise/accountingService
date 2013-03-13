@@ -10,6 +10,23 @@ class EmiComputeAccountingRecordsController < ApplicationController
       format.xml { render :xml => @emi_compute_accounting_records }
     end
   end
+  
+  # GET /emi_compute_accounting_records/stats
+  # GET /emi_compute_accounting_records/stats.json
+  def stats
+    @stats = {}
+    @stats[:records_count]= EmiComputeAccountingRecord.count
+    @stats[:records_cpu_sum] = EmiComputeAccountingRecord.sum(:cpuDuration)
+    @stats[:records_cpu_avg] = EmiComputeAccountingRecord.average(:cpuDuration)
+    @stats[:earliest_record] = EmiComputeAccountingRecord.minimum(:endTime)
+    @stats[:latest_record] = EmiComputeAccountingRecord.maximum(:endTime)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @stats }
+      format.xml { render :xml => @stats }
+    end
+  end
 
   # GET /emi_compute_accounting_records/1
   # GET /emi_compute_accounting_records/1.json

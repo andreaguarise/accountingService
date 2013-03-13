@@ -1,8 +1,12 @@
 AccountingService::Application.routes.draw do
-  resources :emi_compute_accounting_records
+  resources :users
 
 
-  resources :dgas_grid_cpu_records
+  resources :emi_compute_accounting_records do 
+      collection do
+        get 'stats'
+      end
+    end
 
 
   resources :cloud_records
