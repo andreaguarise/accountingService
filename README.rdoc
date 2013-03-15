@@ -1,3 +1,3 @@
 == Welcome to AccountingService
 
-This is a *prototype* for a RESTFul accounting service covering cloud, grid storage and grid cpu.  
+This is a *prototype* for a RESTful accounting service covering cloud, grid storage and grid cpu.  
