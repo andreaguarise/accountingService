@@ -1,4 +1,5 @@
 class PublishersController < ApplicationController
+  skip_before_filter :publisherAuthenticate
   # GET /publishers
   # GET /publishers.json
   def index

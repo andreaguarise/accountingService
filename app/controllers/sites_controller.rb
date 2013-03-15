@@ -1,4 +1,5 @@
 class SitesController < ApplicationController
+  skip_before_filter :publisherAuthenticate
   # GET /sites
   # GET /sites.json
   def index
