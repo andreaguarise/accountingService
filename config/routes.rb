@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
   
+  resources :publishers
+
+
   controller :sessions do
     get 'login' => :new
     post 'login' => :create 
