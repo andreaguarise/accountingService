@@ -1,4 +1,5 @@
 class EmiComputeAccountingRecordsController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /emi_compute_accounting_records
   # GET /emi_compute_accounting_records.json
   def index

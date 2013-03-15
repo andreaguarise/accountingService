@@ -1,4 +1,5 @@
 class CloudRecordsController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /cloud_records
   # GET /cloud_records.json
   # GET /cloud_records.xml
