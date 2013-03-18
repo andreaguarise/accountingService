@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ResourceTypesControllerTest < ActionController::TestCase
   setup do
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("scrocco", "1,2,3,4,5")
     @resource_type = resource_types(:one)
   end
 

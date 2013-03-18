@@ -1,5 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+anhost:
+  hostname: anhost2
+  ip: 1.2.3.4
+  token: "1238.1238"
+
 one:
   hostname: MyString
   ip: MyString

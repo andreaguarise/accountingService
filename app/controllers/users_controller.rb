@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :publisherAuthenticate
   # GET /users
   # GET /users.json
   def index

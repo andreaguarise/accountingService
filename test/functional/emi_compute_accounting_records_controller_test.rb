@@ -2,6 +2,8 @@ require 'test_helper'
 
 class EmiComputeAccountingRecordsControllerTest < ActionController::TestCase
   setup do
+    @request.env['REMOTE_ADDR'] = '1.2.3.4'
+    request.env['HTTP_AUTHORIZATION'] =  ActionController::HttpAuthentication::Token.encode_credentials("1238.1238")
     @emi_compute_accounting_record = emi_compute_accounting_records(:one)
   end
 
