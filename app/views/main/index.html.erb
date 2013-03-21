@@ -1,6 +1,10 @@
 <h1>Flexible Accounting for Usage and System Tracking</h1>
+
+<% if notice %>
+	<p id="notice"><%= notice %></p> 
+<% end %>
+
 <% #if session[:user_id] != nil  %>
-<h2>Welcome <%= User.find_by_id(session[:user_id]).name %></h2>
-<%= button_to 'Logout', logout_path, :method => :delete %>
+	<h2>Welcome <%= User.find_by_id(session[:user_id]).name %></h2>
+	<%= button_to 'Logout', logout_path, :method => :delete %>
 <% #end %>
-<p>Find me in app/views/main/index.html.erb</p>

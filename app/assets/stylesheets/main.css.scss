@@ -1,3 +1,43 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#banner {
+  background: #600;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid;
+  font: small-caps 30px/30px "Times New Roman", serif;
+  color: #c11;
+  text-align: center;
+}
+#banner img { float: left;
+}
+
+#menu thead {
+  font: small-caps 18px/18px "Times New Roman", serif;
+  text-align: center;
+}
+
+#menu #menu_table #menu_head th {
+  background: #600;
+  padding: 3px;
+  border: 0px;
+  color: #ccc; 
+  text-align: center;
+  a {
+    color: #555;
+    font-size: 14px;
+    &:visited {
+      color: #bbb;
+  }
+    &:hover {
+      color: #f00;
+      background-color: #700;
+  }
+}
+}
+
+#columns {
+  background: #141;
+}
