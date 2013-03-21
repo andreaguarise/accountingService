@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
   setup do
-    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("scrocco", "1,2,3,4,5")
+    login_as :scrocco if defined? session
     @input_attributes = {
       :name => "casco",
       :password => "ludicrous",

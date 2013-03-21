@@ -8,9 +8,15 @@ class ActiveSupport::TestCase
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
   fixtures :all
+  # Add more helper methods to be used by all tests here...
+  def login_as(user)
+    session[:user_id] = users(user).id
+  end
 
-  # Add more helper methods to be used by all tests here...  
+  def logout
+    session.delete :user_id
+  end
+
   def setup
-    #request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("scrocco", "1,2,3,4,5")
   end
 end
