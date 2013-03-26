@@ -34,6 +34,17 @@ class CloudRecordsController < ApplicationController
     end
   end
 
+  # GET /cloud_record/searchid?name=string
+  def searchid
+    @cloud_record = CloudRecord.find_by_VMUUID(params[:VMUUID])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @cloud_record }
+      format.xml { render :xml => @cloud_record }
+    end
+  end
+
   # GET /cloud_records/new
   # GET /cloud_records/new.json
   def new
@@ -67,9 +78,11 @@ class CloudRecordsController < ApplicationController
       if @cloud_record.save
         format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully created.' }
         format.json { render :json => @cloud_record, :status => :created, :location => @cloud_record }
+        format.xml { render :xml => @cloud_record, :status => :created, :location => @cloud_record }
       else
         format.html { render :action => "new" }
         format.json { render :json => @cloud_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @cloud_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -77,15 +90,28 @@ class CloudRecordsController < ApplicationController
   # PUT /cloud_records/1
   # PUT /cloud_records/1.json
   def update
+    if params[:cloud_record][:resource_name] #JSON post
+      params[:resource_name] = params[:cloud_record].delete(:resource_name)
+    end
+    if params[:cloud_record][:site] #JSON post
+      params[:site] = params[:cloud_record].delete(:site)
+    end
+   
     @cloud_record = CloudRecord.find(params[:id])
+    skipMassAssign :cloud_record
+    if params[:cloud_record][:resource]
+      params[:cloud_record].delete(:resource)
+    end
 
     respond_to do |format|
       if @cloud_record.update_attributes(params[:cloud_record])
         format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @cloud_record.errors, :status => :unprocessable_entity }
+        format.xml { render :json => @cloud_record.errors, :status => :unprocessable_entity }
       end
     end
   end

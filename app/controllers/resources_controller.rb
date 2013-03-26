@@ -1,5 +1,5 @@
 class ResourcesController < ApplicationController
-  skip_before_filter :publisherAuthenticate
+  skip_before_filter :userAuthenticate
   # GET /resources
   # GET /resources.json
   # GET /resources.xml

@@ -28,7 +28,7 @@ AccountingService::Application.routes.draw do
 
   resources :cloud_records do
     collection do
-      match 'search' => 'cloud_records#vmuuid', :via => :get
+      match 'searchid' => 'cloud_records#searchid'
     end
   end
 

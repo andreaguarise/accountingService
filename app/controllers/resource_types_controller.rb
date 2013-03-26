@@ -1,5 +1,5 @@
 class ResourceTypesController < ApplicationController
-  skip_before_filter :publisherAuthenticate
+  skip_before_filter :userAuthenticate
   # GET /resource_types
   # GET /resource_types.json
   def index
