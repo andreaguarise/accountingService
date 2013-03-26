@@ -41,6 +41,17 @@ class EmiComputeAccountingRecordsController < ApplicationController
       format.xml { render :xml => @emi_compute_accounting_record }
     end
   end
+  
+  # GET /emi_compute_accounting_records/search?recordId=string
+  def search
+    @emi_compute_accounting_record = EmiComputeAccoutningRecord.find_by_recordId(params[:recordId])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @emi_compute_accounting_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
+      format.xml { render :xml => @emi_compute_accoutnting_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
+    end
+  end
 
   # GET /emi_compute_accounting_records/new
   # GET /emi_compute_accounting_records/new.json
@@ -67,9 +78,11 @@ class EmiComputeAccountingRecordsController < ApplicationController
       if @emi_compute_accounting_record.save
         format.html { redirect_to @emi_compute_accounting_record, :notice => 'Emi compute accounting record was successfully created.' }
         format.json { render :json => @emi_compute_accounting_record, :status => :created, :location => @emi_compute_accounting_record }
+        format.xml { render :xml => @emi_compute_accounting_record, :status => :created, :location => @emi_compute_accounting_record }
       else
         format.html { render :action => "new" }
         format.json { render :json => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -78,14 +91,16 @@ class EmiComputeAccountingRecordsController < ApplicationController
   # PUT /emi_compute_accounting_records/1.json
   def update
     @emi_compute_accounting_record = EmiComputeAccountingRecord.find(params[:id])
-
+    skipMassAssign :emi_compute_accounting_record
     respond_to do |format|
       if @emi_compute_accounting_record.update_attributes(params[:emi_compute_accounting_record])
         format.html { redirect_to @emi_compute_accounting_record, :notice => 'Emi compute accounting record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @emi_compute_accounting_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -99,6 +114,7 @@ class EmiComputeAccountingRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to emi_compute_accounting_records_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end

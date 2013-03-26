@@ -21,6 +21,7 @@ AccountingService::Application.routes.draw do
   resources :emi_compute_accounting_records do
     collection do
       get 'stats'
+      match 'search' => 'emi_compute_accounting_records#search'
     end
   end
 
@@ -28,7 +29,7 @@ AccountingService::Application.routes.draw do
 
   resources :cloud_records do
     collection do
-      match 'searchid' => 'cloud_records#searchid'
+      match 'search' => 'cloud_records#search'
     end
   end
 
