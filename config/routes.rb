@@ -1,6 +1,12 @@
 AccountingService::Application.routes.draw do
   
   get "main/index"
+  
+  resources :resource_management do
+    collection do
+      get 'index' => :index
+    end
+  end
 
   resources :publishers
 
@@ -21,7 +27,13 @@ AccountingService::Application.routes.draw do
     end
 
 
-  resources :cloud_records
+#   resources :cloud_records
+  
+  resources :cloud_records do
+    collection do
+        match 'search' => 'cloud_records#vmuuid', :via => :get
+    end 
+    end
 
 
   resources :resources

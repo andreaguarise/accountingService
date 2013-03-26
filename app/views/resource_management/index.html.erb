@@ -1,0 +1,11 @@
+<h1>Resource management</h1>
+
+<% if notice %>
+	<p id="notice"><%= notice %></p> 
+<% end %>
+
+	<%= link_to 'Resurces', resources_url%>
+	<%= link_to 'Resource types', resource_types_url%>
+	<%= link_to 'Sites', sites_url%>
+	<%= button_to 'Logout', logout_path, :method => :delete %>
+
