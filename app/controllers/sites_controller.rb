@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  skip_before_filter :publisherAuthenticate
+  skip_before_filter :userAuthenticate
   # GET /sites
   # GET /sites.json
   def index
@@ -19,6 +19,16 @@ class SitesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @site }
+    end
+  end
+  
+  # GET /sites/searchid?name=string
+  def searchid
+    @site = Site.find_by_name(params[:name])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @site.id }
     end
   end
 
@@ -58,6 +68,7 @@ class SitesController < ApplicationController
   # PUT /sites/1.json
   def update
     @site = Site.find(params[:id])
+    skipMassAssign :site
 
     respond_to do |format|
       if @site.update_attributes(params[:site])

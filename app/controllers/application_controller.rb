@@ -11,12 +11,24 @@ class ApplicationController < ActionController::Base
 
   def publisherAuthenticate
     unless session[:user_id]
-
       authenticate_or_request_with_http_token do |token, options|
         ip = request.remote_ip
         Publisher.authenticate(ip,token)
       end
     end
   end
+  
+  def skipMassAssign (base)
+    if params[base][:created_at]
+      params[base].delete(:created_at)
+    end
+    if params[base][:updated_at]
+      params[base].delete(:updated_at)
+    end
+    if params[base][:id]
+      params[base].delete(:id)
+    end
+  end
+  
 end
 

@@ -1,7 +1,7 @@
 AccountingService::Application.routes.draw do
-  
+
   get "main/index"
-  
+
   resources :resource_management do
     collection do
       get 'index' => :index
@@ -9,7 +9,6 @@ AccountingService::Application.routes.draw do
   end
 
   resources :publishers
-
 
   controller :sessions do
     get 'login' => :new
@@ -19,31 +18,29 @@ AccountingService::Application.routes.draw do
 
   resources :users
 
-
-  resources :emi_compute_accounting_records do 
-      collection do
-        get 'stats'
-      end
+  resources :emi_compute_accounting_records do
+    collection do
+      get 'stats'
     end
+  end
 
+  #   resources :cloud_records
 
-#   resources :cloud_records
-  
   resources :cloud_records do
     collection do
-        match 'search' => 'cloud_records#vmuuid', :via => :get
-    end 
+      match 'search' => 'cloud_records#vmuuid', :via => :get
     end
-
+  end
 
   resources :resources
 
-
   resources :resource_types
 
-
-  resources :sites
-
+  resources :sites do
+    collection do
+      match 'searchid' => 'sites#searchid'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -96,9 +93,9 @@ AccountingService::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
   root :to => 'main#index', :as => 'main'
-  # See how all your routes lay out with "rake routes"
+# See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+# This is a legacy wild controller route that's not recommended for RESTful applications.
+# Note: This route will make all actions in every controller accessible via GET requests.
+# match ':controller(/:action(/:id))(.:format)'
 end
