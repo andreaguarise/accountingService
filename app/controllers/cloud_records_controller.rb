@@ -34,14 +34,14 @@ class CloudRecordsController < ApplicationController
     end
   end
 
-  # GET /cloud_record/searchid?name=string
-  def searchid
+  # GET /cloud_record/search?VMUUID=string
+  def search
     @cloud_record = CloudRecord.find_by_VMUUID(params[:VMUUID])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @cloud_record }
-      format.xml { render :xml => @cloud_record }
+      format.json { render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
+      format.xml { render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
     end
   end
 
@@ -125,6 +125,7 @@ class CloudRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to cloud_records_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end
