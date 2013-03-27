@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315104419) do
+ActiveRecord::Schema.define(:version => 20130327093049) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -103,6 +103,30 @@ ActiveRecord::Schema.define(:version => 20130315104419) do
     t.string   "voOrigin"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "emi_storage_records", :force => true do |t|
+    t.string   "recordIdentity"
+    t.string   "storageSystem"
+    t.string   "site"
+    t.string   "storageShare"
+    t.string   "storageMedia"
+    t.string   "storageClass"
+    t.integer  "fileCount"
+    t.string   "directoryPath"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "userIdentity"
+    t.string   "group"
+    t.string   "groupAttribute"
+    t.string   "attributeType"
+    t.datetime "startTime"
+    t.datetime "endTime"
+    t.integer  "resourceCapacityUsed"
+    t.integer  "logicalCapacityUsed"
+    t.integer  "resourceCapacityAllocated"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "publishers", :force => true do |t|

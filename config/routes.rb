@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :emi_storage_records
+
+
   get "main/index"
 
   resources :resource_management do
