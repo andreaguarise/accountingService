@@ -1,0 +1,93 @@
+<%= form_for(@emi_storage_record) do |f| %>
+  <% if @emi_storage_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@emi_storage_record.errors.count, "error") %> prohibited this emi_storage_record from being saved:</h2>
+
+      <ul>
+      <% @emi_storage_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :recordIdentity %><br />
+    <%= f.text_field :recordIdentity %>
+  </div>
+  <div class="field">
+    <%= f.label :storageSystem %><br />
+    <%= f.text_field :storageSystem %>
+  </div>
+  <div class="field">
+    <%= f.label :site %><br />
+    <%= f.text_field :site %>
+  </div>
+  <div class="field">
+    <%= f.label :storageShare %><br />
+    <%= f.text_field :storageShare %>
+  </div>
+  <div class="field">
+    <%= f.label :storageMedia %><br />
+    <%= f.text_field :storageMedia %>
+  </div>
+  <div class="field">
+    <%= f.label :storageClass %><br />
+    <%= f.text_field :storageClass %>
+  </div>
+  <div class="field">
+    <%= f.label :fileCount %><br />
+    <%= f.number_field :fileCount %>
+  </div>
+  <div class="field">
+    <%= f.label :directoryPath %><br />
+    <%= f.text_field :directoryPath %>
+  </div>
+  <div class="field">
+    <%= f.label :localUser %><br />
+    <%= f.text_field :localUser %>
+  </div>
+  <div class="field">
+    <%= f.label :localGroup %><br />
+    <%= f.text_field :localGroup %>
+  </div>
+  <div class="field">
+    <%= f.label :userIdentity %><br />
+    <%= f.text_field :userIdentity %>
+  </div>
+  <div class="field">
+    <%= f.label :group %><br />
+    <%= f.text_field :group %>
+  </div>
+  <div class="field">
+    <%= f.label :groupAttribute %><br />
+    <%= f.text_field :groupAttribute %>
+  </div>
+  <div class="field">
+    <%= f.label :attributeType %><br />
+    <%= f.text_field :attributeType %>
+  </div>
+  <div class="field">
+    <%= f.label :startTime %><br />
+    <%= f.datetime_select :startTime %>
+  </div>
+  <div class="field">
+    <%= f.label :endTime %><br />
+    <%= f.datetime_select :endTime %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceCapacityUsed %><br />
+    <%= f.number_field :resourceCapacityUsed %>
+  </div>
+  <div class="field">
+    <%= f.label :logicalCapacityUsed %><br />
+    <%= f.number_field :logicalCapacityUsed %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceCapacityAllocated %><br />
+    <%= f.number_field :resourceCapacityAllocated %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

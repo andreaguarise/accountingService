@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  recordIdentity: MyString
+  storageSystem: MyString
+  site: MyString
+  storageShare: MyString
+  storageMedia: MyString
+  storageClass: MyString
+  fileCount: 1
+  directoryPath: MyString
+  localUser: MyString
+  localGroup: MyString
+  userIdentity: MyString
+  group: MyString
+  groupAttribute: MyString
+  attributeType: MyString
+  startTime: 2013-03-27 10:30:49
+  endTime: 2013-03-27 10:30:49
+  resourceCapacityUsed: 1
+  logicalCapacityUsed: 1
+  resourceCapacityAllocated: 1
+
+two:
+  recordIdentity: MyString
+  storageSystem: MyString
+  site: MyString
+  storageShare: MyString
+  storageMedia: MyString
+  storageClass: MyString
+  fileCount: 1
+  directoryPath: MyString
+  localUser: MyString
+  localGroup: MyString
+  userIdentity: MyString
+  group: MyString
+  groupAttribute: MyString
+  attributeType: MyString
+  startTime: 2013-03-27 10:30:49
+  endTime: 2013-03-27 10:30:49
+  resourceCapacityUsed: 1
+  logicalCapacityUsed: 1
+  resourceCapacityAllocated: 1

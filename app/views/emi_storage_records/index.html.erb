@@ -1,0 +1,59 @@
+<h1>Listing emi_storage_records</h1>
+
+<table>
+  <tr>
+    <th>Recordidentity</th>
+    <th>Storagesystem</th>
+    <th>Site</th>
+    <th>Storageshare</th>
+    <th>Storagemedia</th>
+    <th>Storageclass</th>
+    <th>Filecount</th>
+    <th>Directorypath</th>
+    <th>Localuser</th>
+    <th>Localgroup</th>
+    <th>Useridentity</th>
+    <th>Group</th>
+    <th>Groupattribute</th>
+    <th>Attributetype</th>
+    <th>Starttime</th>
+    <th>Endtime</th>
+    <th>Resourcecapacityused</th>
+    <th>Logicalcapacityused</th>
+    <th>Resourcecapacityallocated</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @emi_storage_records.each do |emi_storage_record| %>
+  <tr>
+    <td><%= emi_storage_record.recordIdentity %></td>
+    <td><%= emi_storage_record.storageSystem %></td>
+    <td><%= emi_storage_record.site %></td>
+    <td><%= emi_storage_record.storageShare %></td>
+    <td><%= emi_storage_record.storageMedia %></td>
+    <td><%= emi_storage_record.storageClass %></td>
+    <td><%= emi_storage_record.fileCount %></td>
+    <td><%= emi_storage_record.directoryPath %></td>
+    <td><%= emi_storage_record.localUser %></td>
+    <td><%= emi_storage_record.localGroup %></td>
+    <td><%= emi_storage_record.userIdentity %></td>
+    <td><%= emi_storage_record.group %></td>
+    <td><%= emi_storage_record.groupAttribute %></td>
+    <td><%= emi_storage_record.attributeType %></td>
+    <td><%= emi_storage_record.startTime %></td>
+    <td><%= emi_storage_record.endTime %></td>
+    <td><%= emi_storage_record.resourceCapacityUsed %></td>
+    <td><%= emi_storage_record.logicalCapacityUsed %></td>
+    <td><%= emi_storage_record.resourceCapacityAllocated %></td>
+    <td><%= link_to 'Show', emi_storage_record %></td>
+    <td><%= link_to 'Edit', edit_emi_storage_record_path(emi_storage_record) %></td>
+    <td><%= link_to 'Destroy', emi_storage_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Emi storage record', new_emi_storage_record_path %>
