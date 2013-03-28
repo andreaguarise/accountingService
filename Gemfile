@@ -10,7 +10,9 @@ gem 'therubyracer'
 
 gem 'json'
 
-# Gems used only for assets and not required
+gem 'will_paginate', '>= 3.0.pre'
+
+# Gems used only for assets and not required:q
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
