@@ -5,7 +5,6 @@ class CloudRecordsController < ApplicationController
   # GET /cloud_records.json
   # GET /cloud_records.xml
   def index
-    @cloud_records = CloudRecord.all
     @cloud_records = CloudRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 25
 
     respond_to do |format|

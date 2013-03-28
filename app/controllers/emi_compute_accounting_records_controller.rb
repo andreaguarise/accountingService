@@ -4,7 +4,7 @@ class EmiComputeAccountingRecordsController < ApplicationController
   # GET /emi_compute_accounting_records
   # GET /emi_compute_accounting_records.json
   def index
-    @emi_compute_accounting_records = EmiComputeAccountingRecord.all
+    @emi_compute_accounting_records = EmiComputeAccountingRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 25
 
     respond_to do |format|
       format.html # index.html.erb
