@@ -1,5 +1,6 @@
 class CloudRecordsController < ApplicationController
   skip_before_filter :userAuthenticate
+  skip_before_filter :publisherAuthenticate, :only => [:stats]
   # GET /cloud_records
   # GET /cloud_records.json
   # GET /cloud_records.xml
@@ -31,6 +32,23 @@ class CloudRecordsController < ApplicationController
       format.xml {  
         render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
        }
+    end
+  end
+  
+  # GET /cloud_records/stats
+  # GET /cloud_records/stats.json
+  # GET /cloud_records/stats.xml
+  def stats
+    @stats = {}
+    @stats[:records_count]= CloudRecord.count
+    @stats[:earliest_record] = CloudRecord.minimum(:endTime)
+    @stats[:latest_record] = CloudRecord.maximum(:endTime)
+    @stats[:sum_wall] = CloudRecord.sum(:wallDuration)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @stats }
+      format.xml { render :xml => @stats }
     end
   end
 
