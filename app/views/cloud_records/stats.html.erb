@@ -24,5 +24,24 @@
 </tr>
 </tbody>
 </table>
+
+<div id='chartB'></div>
+<%= render_chart(@chartB, 'chartB') %>
+
+<table>
+  <tr>
+    <th>date</th>
+    <th>count</th>
+    <th>wall</th>
+  </tr>
+
+<% @results.each do |record| %>
+  <tr>
+    <td class="main_field"><%= record.ordered_date %></td>
+    <td class="field"><%= record.count %></td>
+    <td class="field"><%= record.sum_wall %></td>
+  </tr>
+<% end %>
+</table>
 <p><%= link_to 'Record list', cloud_records_url%></p>
 <br>

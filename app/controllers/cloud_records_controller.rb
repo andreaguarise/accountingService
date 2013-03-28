@@ -44,6 +44,23 @@ class CloudRecordsController < ApplicationController
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
     @stats[:sum_wall] = CloudRecord.sum(:wallDuration)
+    
+
+    @results = CloudRecord.select("date(endTime) as ordered_date, count(id) as count, sum(wallDuration)/864000 as sum_wall").group("date(endTime)")
+
+    table = GoogleVisualr::DataTable.new
+    
+    # Add Column Headers
+    table.new_column('string', 'Date' )
+    table.new_column('number', 'count')
+    table.new_column('number', 'sum_wall')
+    @results.slice!(-1)
+    @results.each do |result|
+      table.add_row([result.ordered_date,result.count.to_i,result.sum_wall.to_i])
+    end 
+    
+    optionB = { :width => 760, :height => 300, :title => 'VMs' }
+    @chartB = GoogleVisualr::Interactive::AreaChart.new(table, optionB)
 
     respond_to do |format|
       format.html # index.html.erb
