@@ -22,6 +22,51 @@ class EmiComputeAccountingRecordsController < ApplicationController
     @stats[:records_cpu_avg] = EmiComputeAccountingRecord.average(:cpuDuration)
     @stats[:earliest_record] = EmiComputeAccountingRecord.minimum(:endTime)
     @stats[:latest_record] = EmiComputeAccountingRecord.maximum(:endTime)
+    
+    @results1 = EmiComputeAccountingRecord.select("date(endTime) as ordered_date, count(id) as count, sum(wallDuration)/864000 as sum_wall").group("date(endTime)")
+    #@results2 = CloudRecord.select("date(startTime) as ordered_date, count(id) as count, sum(wallDuration)/864000 as sum_wall").group("date(startTime)")
+
+    table = GoogleVisualr::DataTable.new
+    table2 = GoogleVisualr::DataTable.new
+    #table3 = GoogleVisualr::DataTable.new
+    #table4 = GoogleVisualr::DataTable.new
+    
+    # Add Column Headers
+    table.new_column('string', 'Date' )
+    table.new_column('number', 'count')
+    
+    table2.new_column('string', 'Date' )
+    table2.new_column('number', 'sum_wall')
+    
+    #table3.new_column('string', 'Date' )
+    #table3.new_column('number', 'count')
+    
+    #table4.new_column('string', 'Date' )
+    #table4.new_column('number', 'sum_wall')
+    
+    @results1.each do |result1|
+      table.add_row([result1.ordered_date,result1.count.to_i])
+      table2.add_row([result1.ordered_date,result1.sum_wall.to_i])
+    end 
+    
+    #@results2.slice!(-1)
+    #@results2.each do |result2|
+    #  table3.add_row([result2.ordered_date,result2.count.to_i])
+    #  table4.add_row([result2.ordered_date,result2.sum_wall.to_i])
+    #end 
+    
+    
+    option1 = { :width => 600, :height => 300, :title => 'Ended Jobs' }
+    @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
+    
+    option2 = { :width => 600, :height => 300, :title => 'Wall time' }
+    @chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
+
+    ##option3 = { :width => 600, :height => 300, :title => 'Started VMs' }
+    #@chart3 = GoogleVisualr::Interactive::AreaChart.new(table3, option3)
+    
+    #option4 = { :width => 600, :height => 300, :title => 'Wall time' }
+    #@chart4 = GoogleVisualr::Interactive::AreaChart.new(table4, option4)
 
     respond_to do |format|
       format.html # index.html.erb
