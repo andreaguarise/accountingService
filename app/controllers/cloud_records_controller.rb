@@ -55,28 +55,28 @@ class CloudRecordsController < ApplicationController
     table4 = GoogleVisualr::DataTable.new
     
     # Add Column Headers
-    table.new_column('string', 'Date' )
+    table.new_column('date', 'Date' )
     table.new_column('number', 'count')
     
-    table2.new_column('string', 'Date' )
+    table2.new_column('date', 'Date' )
     table2.new_column('number', 'sum_wall')
     
-    table3.new_column('string', 'Date' )
+    table3.new_column('date', 'Date' )
     table3.new_column('number', 'count')
     
-    table4.new_column('string', 'Date' )
+    table4.new_column('date', 'Date' )
     table4.new_column('number', 'sum_wall')
     
     @results1.slice!(-1)
     @results1.each do |result1|
-      table.add_row([result1.ordered_date,result1.count.to_i])
-      table2.add_row([result1.ordered_date,result1.sum_wall.to_i])
+      table.add_row([result1.ordered_date.to_date,result1.count.to_i])
+      table2.add_row([result1.ordered_date.to_date,result1.sum_wall.to_i])
     end 
     
     @results2.slice!(-1)
     @results2.each do |result2|
-      table3.add_row([result2.ordered_date,result2.count.to_i])
-      table4.add_row([result2.ordered_date,result2.sum_wall.to_i])
+      table3.add_row([result2.ordered_date.to_date,result2.count.to_i])
+      table4.add_row([result2.ordered_date.to_date,result2.sum_wall.to_i])
     end 
     
     

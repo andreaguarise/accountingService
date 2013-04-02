@@ -32,10 +32,10 @@ class EmiComputeAccountingRecordsController < ApplicationController
     #table4 = GoogleVisualr::DataTable.new
     
     # Add Column Headers
-    table.new_column('string', 'Date' )
+    table.new_column('date', 'Date' )
     table.new_column('number', 'count')
     
-    table2.new_column('string', 'Date' )
+    table2.new_column('date', 'Date' )
     table2.new_column('number', 'sum_wall')
     
     #table3.new_column('string', 'Date' )
@@ -45,8 +45,8 @@ class EmiComputeAccountingRecordsController < ApplicationController
     #table4.new_column('number', 'sum_wall')
     
     @results1.each do |result1|
-      table.add_row([result1.ordered_date,result1.count.to_i])
-      table2.add_row([result1.ordered_date,result1.sum_wall.to_i])
+      table.add_row([result1.ordered_date.to_date,result1.count.to_i])
+      table2.add_row([result1.ordered_date.to_date,result1.sum_wall.to_i])
     end 
     
     #@results2.slice!(-1)
