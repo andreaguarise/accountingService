@@ -2,6 +2,7 @@ require 'test_helper'
 
 class RolesControllerTest < ActionController::TestCase
   setup do
+    login_as :scrocco if defined? session
     @role = roles(:one)
   end
 

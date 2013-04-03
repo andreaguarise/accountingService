@@ -1,7 +1,7 @@
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :password, :password_confirmation
+  attr_accessible :name, :password, :password_confirmation, :role_id
   validates :name, :presence => true, :uniqueness => true
   
   validates :password, :confirmation => true
@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   validate :password_must_be_present
   
   after_destroy :ensure_an_admin_remains
+  
+  belongs_to :role
   
   def User.authenticate(name, password)
     if user = find_by_name(name)
