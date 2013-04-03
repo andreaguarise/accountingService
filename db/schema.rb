@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130327093049) do
+ActiveRecord::Schema.define(:version => 20130403092309) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(:version => 20130327093049) do
     t.datetime "updated_at",       :null => false
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "sites", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -165,6 +172,7 @@ ActiveRecord::Schema.define(:version => 20130327093049) do
     t.string   "salt"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "role_id"
   end
 
 end

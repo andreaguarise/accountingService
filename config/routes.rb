@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :roles
+
+
   resources :emi_storage_records
 
 
