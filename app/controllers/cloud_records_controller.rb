@@ -134,9 +134,7 @@ class CloudRecordsController < ApplicationController
     end
     @cloud_record = CloudRecord.new(params[:cloud_record])
     if (params[:resource_name]) #HTML form
-     resource_name =  params[:resource_name]
-      resource = Resource.find_by_name(resource_name)
-      @cloud_record.resource_id = resource.id
+    @cloud_record.resource = Resource.find_by_name(params[:resource_name])
     end
 
     respond_to do |format|

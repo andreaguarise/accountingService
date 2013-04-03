@@ -54,15 +54,12 @@ class ResourcesController < ApplicationController
   # POST /resources.json
   def create
     @resource = Resource.new(params[:resource])
-
-    site_name =  params[:site_name]
-    site = Site.find_by_name(site_name)
-    @resource.site_id = site.id
-    
-    resource_type_name =  params[:resource_type_name]
-    resource_type = ResourceType.find_by_name(resource_type_name)
-    @resource.resource_type_id = resource_type.id
-
+    if (params[:site_name]) #HTML form
+    @resource.site = Site.find_by_name(params[:site_name])
+    end
+    if (params[:resource_type_name]) #HTML form
+    @resource.resource_type = ResourceType.find_by_name(params[:resource_type_name])
+    end
     respond_to do |format|
       if @resource.save
         format.html { redirect_to @resource, :notice => 'Resource was successfully created.' }

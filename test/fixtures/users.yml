@@ -5,8 +5,10 @@ scrocco:
   name: scrocco
   hashed_password: <%= User.encrypt_password('1,2,3,4,5', SALT) %>
   salt: <%= SALT %>
+  role_id: 1
 
 two:
   name: MyString
   hashed_password: MyString
   salt: MyString
+  role_id: 2
