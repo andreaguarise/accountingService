@@ -1,5 +1,9 @@
 class RolesController < ApplicationController
   skip_before_filter :userAuthenticate
+  before_filter :ensure_admin_remains, :only => :destroy
+  
+  
+  
   # GET /roles
   # GET /roles.json
   def index
