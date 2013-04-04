@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   after_destroy :ensure_an_admin_remains
   
   belongs_to :role
+  accepts_nested_attributes_for :role
+
   
   def User.authenticate(name, password)
     if user = find_by_name(name)

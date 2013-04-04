@@ -11,7 +11,8 @@ if Role.count == 0
   Role.create(:name=>"user", :description => 'Simple user account')
 end
 
-if User.count == 0
+if User.count == 0 #create admin user
   puts "Creating admin user"
-  User.create(:name=>"admin", :password=>'changeme', :password_confirmation => 'changeme')
+  User.create(:name=>"admin", :password=>'changeme', :password_confirmation => 'changeme', :role_id => Role.find_by_name('admin').id)
 end
+

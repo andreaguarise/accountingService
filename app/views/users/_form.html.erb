@@ -13,7 +13,7 @@
 		</ul>
 	</div>
 	<% end %>
-
+    <% roles_array = Role.all.map { |role| [role.name, role.id] } %>
 	<fieldset>
 		<legend>
 			Enter User Details
@@ -32,7 +32,7 @@
 		</div>
 		<div>
 			<%= f.label :role_name, 'Role' %>:
-    		<%= text_field_tag :role_name %>		
+			<%= f.select :role_id, options_for_select(roles_array), :prompt => 'Select a role'%>		
 		</div>
 		<div>
 			<%= f.submit %>
