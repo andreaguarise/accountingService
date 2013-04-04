@@ -12,10 +12,17 @@ p, ol, ul {
   line-height: 18px;
 }
 
+table
+{
+  border-collapse:collapse;
+}
+
 th {
   text-align: left;
-  padding: 2px;
+  padding: 3px;
   border: 1px solid black;
+  background-color: #a00;
+  color: #ddd
 }
 
 td {

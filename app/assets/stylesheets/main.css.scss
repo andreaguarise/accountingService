@@ -4,38 +4,68 @@
 
 #banner {
   background: #600;
+  padding: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 2px solid;
+  border-bottom: 4px solid;
   font: small-caps 30px/30px "Times New Roman", serif;
   color: #c11;
-  text-align: center;
+  text-align: left;
 }
 #banner img { float: left;
 }
 
 #menu thead {
+  padding: 0px;
   font: small-caps 18px/18px "Times New Roman", serif;
-  text-align: center;
+  text-align: left;
 }
 
-#menu #menu_table #menu_head th {
-  background: #600;
-  padding: 3px;
-  border: 0px;
-  color: #ccc; 
-  text-align: center;
-  a {
-    color: #555;
-    font-size: 14px;
-    &:visited {
-      color: #bbb;
+#menu #menu_table {
+  #menu_head { 
+  th.menu_head_currentuser
+  {
+    
+     background: #600;
+     padding: 3px;
+     border: 0px;
+     color: #eee; 
+     align: left;
+     text-align: left;
+     a {
+       color: #555;
+       font-size: 14px;
+       &:visited {
+         color: #bbb;
+       }
+       &:hover {
+         color: #f00;
+         background-color: #700;
+       }
+     } 
   }
-    &:hover {
-      color: #f00;
-      background-color: #700;
+  th
+  {
+    
+     background: #600;
+     padding: 3px;
+     border: 0px;
+     color: #ccc; 
+     align: left;
+     text-align: center;
+     a {
+       color: #555;
+       font-size: 14px;
+       &:visited {
+         color: #bbb;
+       }
+       &:hover {
+         color: #f00;
+         background-color: #700;
+       }
+     } 
   }
-}
+ }
 }
 
 #columns {
