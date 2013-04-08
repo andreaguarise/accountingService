@@ -1,0 +1,33 @@
+<%= form_for(@torque_dispatch_record) do |f| %>
+  <% if @torque_dispatch_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@torque_dispatch_record.errors.count, "error") %> prohibited this torque_dispatch_record from being saved:</h2>
+
+      <ul>
+      <% @torque_dispatch_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uniqueId %><br />
+    <%= f.text_field :uniqueId %>
+  </div>
+  <div class="field">
+    <%= f.label :recordDate %><br />
+    <%= f.datetime_select :recordDate %>
+  </div>
+  <div class="field">
+    <%= f.label :lrmsId %><br />
+    <%= f.text_field :lrmsId %>
+  </div>
+  <div class="field">
+    <%= f.label :requestor %><br />
+    <%= f.text_field :requestor %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

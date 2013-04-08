@@ -1,0 +1,2 @@
+module TorqueDispatchRecordsHelper
+end

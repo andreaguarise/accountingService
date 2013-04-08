@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Uniqueid:</b>
+  <%= @torque_dispatch_record.uniqueId %>
+</p>
+
+<p>
+  <b>Recorddate:</b>
+  <%= @torque_dispatch_record.recordDate %>
+</p>
+
+<p>
+  <b>Lrmsid:</b>
+  <%= @torque_dispatch_record.lrmsId %>
+</p>
+
+<p>
+  <b>Requestor:</b>
+  <%= @torque_dispatch_record.requestor %>
+</p>
+
+
+<%= link_to 'Edit', edit_torque_dispatch_record_path(@torque_dispatch_record) %> |
+<%= link_to 'Back', torque_dispatch_records_path %>
