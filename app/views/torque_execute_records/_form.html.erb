@@ -1,0 +1,105 @@
+<%= form_for(@torque_execute_record) do |f| %>
+  <% if @torque_execute_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@torque_execute_record.errors.count, "error") %> prohibited this torque_execute_record from being saved:</h2>
+
+      <ul>
+      <% @torque_execute_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uniqueId %><br />
+    <%= f.text_field :uniqueId %>
+  </div>
+  <div class="field">
+    <%= f.label :recordDate %><br />
+    <%= f.datetime_select :recordDate %>
+  </div>
+  <div class="field">
+    <%= f.label :lrmsId %><br />
+    <%= f.text_field :lrmsId %>
+  </div>
+  <div class="field">
+    <%= f.label :user %><br />
+    <%= f.text_field :user %>
+  </div>
+  <div class="field">
+    <%= f.label :group %><br />
+    <%= f.text_field :group %>
+  </div>
+  <div class="field">
+    <%= f.label :jobName %><br />
+    <%= f.text_field :jobName %>
+  </div>
+  <div class="field">
+    <%= f.label :queue %><br />
+    <%= f.text_field :queue %>
+  </div>
+  <div class="field">
+    <%= f.label :ctime %><br />
+    <%= f.number_field :ctime %>
+  </div>
+  <div class="field">
+    <%= f.label :qtime %><br />
+    <%= f.number_field :qtime %>
+  </div>
+  <div class="field">
+    <%= f.label :etime %><br />
+    <%= f.number_field :etime %>
+  </div>
+  <div class="field">
+    <%= f.label :start %><br />
+    <%= f.number_field :start %>
+  </div>
+  <div class="field">
+    <%= f.label :execHost %><br />
+    <%= f.text_field :execHost %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceList_nodect %><br />
+    <%= f.number_field :resourceList_nodect %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceList_nodes %><br />
+    <%= f.number_field :resourceList_nodes %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceList.walltime %><br />
+    <%= f.number_field :resourceList.walltime %>
+  </div>
+  <div class="field">
+    <%= f.label :session %><br />
+    <%= f.number_field :session %>
+  </div>
+  <div class="field">
+    <%= f.label :end %><br />
+    <%= f.number_field :end %>
+  </div>
+  <div class="field">
+    <%= f.label :exitStatus %><br />
+    <%= f.number_field :exitStatus %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceUsed_cput %><br />
+    <%= f.number_field :resourceUsed_cput %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceUsed_mem %><br />
+    <%= f.number_field :resourceUsed_mem %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceUsed_vmem %><br />
+    <%= f.number_field :resourceUsed_vmem %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceUsed_walltime %><br />
+    <%= f.number_field :resourceUsed_walltime %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

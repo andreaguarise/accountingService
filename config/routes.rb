@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :torque_execute_records
+
+
   resources :roles
 
 

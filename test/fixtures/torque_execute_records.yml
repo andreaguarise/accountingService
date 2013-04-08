@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  uniqueId: MyString
+  recordDate: 2013-04-08 14:05:00
+  lrmsId: MyString
+  user: MyString
+  group: MyString
+  jobName: MyString
+  queue: MyString
+  ctime: 1
+  qtime: 1
+  etime: 1
+  start: 1
+  execHost: MyString
+  resourceList_nodect: 1
+  resourceList_nodes: 1
+  resourceList.walltime: 1
+  session: 1
+  end: 1
+  exitStatus: 1
+  resourceUsed_cput: 1
+  resourceUsed_mem: 1
+  resourceUsed_vmem: 1
+  resourceUsed_walltime: 1
+
+two:
+  uniqueId: MyString
+  recordDate: 2013-04-08 14:05:00
+  lrmsId: MyString
+  user: MyString
+  group: MyString
+  jobName: MyString
+  queue: MyString
+  ctime: 1
+  qtime: 1
+  etime: 1
+  start: 1
+  execHost: MyString
+  resourceList_nodect: 1
+  resourceList_nodes: 1
+  resourceList.walltime: 1
+  session: 1
+  end: 1
+  exitStatus: 1
+  resourceUsed_cput: 1
+  resourceUsed_mem: 1
+  resourceUsed_vmem: 1
+  resourceUsed_walltime: 1

@@ -1,0 +1,65 @@
+<h1>Listing torque_execute_records</h1>
+
+<table>
+  <tr>
+    <th>Uniqueid</th>
+    <th>Recorddate</th>
+    <th>Lrmsid</th>
+    <th>User</th>
+    <th>Group</th>
+    <th>Jobname</th>
+    <th>Queue</th>
+    <th>Ctime</th>
+    <th>Qtime</th>
+    <th>Etime</th>
+    <th>Start</th>
+    <th>Exechost</th>
+    <th>Resourcelist nodect</th>
+    <th>Resourcelist nodes</th>
+    <th>Resourcelist.walltime</th>
+    <th>Session</th>
+    <th>End</th>
+    <th>Exitstatus</th>
+    <th>Resourceused cput</th>
+    <th>Resourceused mem</th>
+    <th>Resourceused vmem</th>
+    <th>Resourceused walltime</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @torque_execute_records.each do |torque_execute_record| %>
+  <tr>
+    <td><%= torque_execute_record.uniqueId %></td>
+    <td><%= torque_execute_record.recordDate %></td>
+    <td><%= torque_execute_record.lrmsId %></td>
+    <td><%= torque_execute_record.user %></td>
+    <td><%= torque_execute_record.group %></td>
+    <td><%= torque_execute_record.jobName %></td>
+    <td><%= torque_execute_record.queue %></td>
+    <td><%= torque_execute_record.ctime %></td>
+    <td><%= torque_execute_record.qtime %></td>
+    <td><%= torque_execute_record.etime %></td>
+    <td><%= torque_execute_record.start %></td>
+    <td><%= torque_execute_record.execHost %></td>
+    <td><%= torque_execute_record.resourceList_nodect %></td>
+    <td><%= torque_execute_record.resourceList_nodes %></td>
+    <td><%= torque_execute_record.resourceList.walltime %></td>
+    <td><%= torque_execute_record.session %></td>
+    <td><%= torque_execute_record.end %></td>
+    <td><%= torque_execute_record.exitStatus %></td>
+    <td><%= torque_execute_record.resourceUsed_cput %></td>
+    <td><%= torque_execute_record.resourceUsed_mem %></td>
+    <td><%= torque_execute_record.resourceUsed_vmem %></td>
+    <td><%= torque_execute_record.resourceUsed_walltime %></td>
+    <td><%= link_to 'Show', torque_execute_record %></td>
+    <td><%= link_to 'Edit', edit_torque_execute_record_path(torque_execute_record) %></td>
+    <td><%= link_to 'Destroy', torque_execute_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Torque execute record', new_torque_execute_record_path %>
