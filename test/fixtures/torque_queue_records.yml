@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  uniqueId: MyString
+  recordDate: 2013-04-08 14:11:37
+  lrmsId: MyString
+  queue: MyString
+
+two:
+  uniqueId: MyString
+  recordDate: 2013-04-08 14:11:37
+  lrmsId: MyString
+  queue: MyString

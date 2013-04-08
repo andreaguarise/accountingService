@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :torque_queue_records
+
+
   resources :torque_dispatch_records
 
 

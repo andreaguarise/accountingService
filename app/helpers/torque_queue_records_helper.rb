@@ -1,0 +1,2 @@
+module TorqueQueueRecordsHelper
+end
