@@ -5,9 +5,11 @@ one:
   recordDate: 2013-04-08 14:08:59
   lrmsId: MyString
   requestor: MyString
+  publisher_id: 1
 
 two:
   uniqueId: MyString
   recordDate: 2013-04-08 14:08:59
   lrmsId: MyString
   requestor: MyString
+  publisher_id: 1

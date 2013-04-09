@@ -42,10 +42,13 @@ class TorqueDispatchRecordsController < ApplicationController
   # POST /torque_dispatch_records.json
   def create
     @torque_dispatch_record = TorqueDispatchRecord.new(params[:torque_dispatch_record])
+    if (request.remote_ip) #HTML form
+      @torque_dispatch_record.publisher = Publisher.find_by_ip(request.remote_ip)
+    end
 
     respond_to do |format|
       if @torque_dispatch_record.save
-        format.html { redirect_to @torque_dispatch_record, :notice => 'Torque dispatch record was successfully created.' }
+        format.html { redirect_to @torque_dispatch_record, :notice => "Torque dispatch record was successfully created #{request.remote_ip}." }
         format.json { render :json => @torque_dispatch_record, :status => :created, :location => @torque_dispatch_record }
       else
         format.html { render :action => "new" }

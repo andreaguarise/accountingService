@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+  	<th>Publisher</th>
     <th>Uniqueid</th>
     <th>Recorddate</th>
     <th>Lrmsid</th>
@@ -13,6 +14,7 @@
 
 <% @torque_dispatch_records.each do |torque_dispatch_record| %>
   <tr>
+  	<td><%= torque_dispatch_record.publisher.hostname %></td>
     <td><%= torque_dispatch_record.uniqueId %></td>
     <td><%= torque_dispatch_record.recordDate %></td>
     <td><%= torque_dispatch_record.lrmsId %></td>
