@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   skip_before_filter :userAuthenticate
-  before_filter :ensure_admin_remains, :only => :destroy
+  #before_filter :ensure_admin_remains, :only => :destroy
   
   
   
@@ -78,7 +78,12 @@ class RolesController < ApplicationController
   # DELETE /roles/1.json
   def destroy
     @role = Role.find(params[:id])
-    @role.destroy
+    begin
+      @role.destroy
+      flash[:notice] = "Role #{@role.name} deleted"
+    rescue Exception => e
+      flash[:notice] = e.message
+    end
 
     respond_to do |format|
       format.html { redirect_to roles_url }

@@ -6,6 +6,11 @@ one:
   description: MyString
 
 two:
-  id : 2
+  id: 2
   name: user
   description: MyString
+  
+three:
+  id: 3
+  name: dummyRole
+  description: Not system, can delete

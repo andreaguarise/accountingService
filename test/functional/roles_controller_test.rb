@@ -4,6 +4,7 @@ class RolesControllerTest < ActionController::TestCase
   setup do
     login_as :scrocco if defined? session
     @role = roles(:one)
+    @role3 = roles(:three)
   end
 
   test "should get index" do
@@ -42,9 +43,16 @@ class RolesControllerTest < ActionController::TestCase
 
   test "should destroy role" do
     assert_difference('Role.count', -1) do
-      delete :destroy, :id => @role
+      delete :destroy, :id => @role3
     end
-
     assert_redirected_to roles_path
   end
+  
+  test "should not destroy admin role" do
+    assert_difference('Role.count', 0) do
+      delete :destroy, :id => @role
+    end
+    assert_redirected_to roles_path
+  end
+  
 end

@@ -4,17 +4,17 @@ class User < ActiveRecord::Base
   attr_accessible :name, :password, :password_confirmation, :role_id
   validates :name, :presence => true, :uniqueness => true
   validates :role_id, :presence => true, :on => :create
-  
   validates :password, :confirmation => true
   attr_accessor :password_confirmation
   attr_reader :password
   
   validate :password_must_be_present
   
-  after_destroy :ensure_an_admin_remains
-  
   belongs_to :role
   accepts_nested_attributes_for :role
+  before_destroy :ensure_user_admin_remains
+  
+  
 
   
   def User.authenticate(name, password)
@@ -50,9 +50,9 @@ class User < ActiveRecord::Base
     self.salt = self.object_id.to_s + rand.to_s
   end
   
-  def ensure_an_admin_remains 
-    if User.count.zero?
-    raise "Can't delete last user"
+  def ensure_user_admin_remains 
+    if ( self.name == "admin" && self.role.name == "admin" )
+      raise "Can't delete admin user"
     end 
   end
   
