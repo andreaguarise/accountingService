@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403092309) do
+ActiveRecord::Schema.define(:version => 20130409080313) do
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20130403092309) do
     t.string   "cloudType"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "dgas_grid_cpu_records", :force => true do |t|
@@ -103,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20130403092309) do
     t.string   "voOrigin"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "emi_storage_records", :force => true do |t|
@@ -127,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20130403092309) do
     t.integer  "resourceCapacityAllocated"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "publishers", :force => true do |t|
@@ -164,6 +167,54 @@ ActiveRecord::Schema.define(:version => 20130403092309) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "torque_dispatch_records", :force => true do |t|
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "requestor"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "publisher_id"
+  end
+
+  create_table "torque_execute_records", :force => true do |t|
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "user"
+    t.string   "group"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.integer  "publisher_id"
+  end
+
+  create_table "torque_queue_records", :force => true do |t|
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "queue"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "users", :force => true do |t|

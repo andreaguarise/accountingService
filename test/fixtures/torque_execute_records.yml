@@ -15,7 +15,7 @@ one:
   execHost: MyString
   resourceList_nodect: 1
   resourceList_nodes: 1
-  resourceList.walltime: 1
+  resourceList_walltime: 1
   session: 1
   end: 1
   exitStatus: 1
@@ -39,7 +39,7 @@ two:
   execHost: MyString
   resourceList_nodect: 1
   resourceList_nodes: 1
-  resourceList.walltime: 1
+  resourceList_walltime: 1
   session: 1
   end: 1
   exitStatus: 1

@@ -1,4 +1,5 @@
 class TorqueDispatchRecordsController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /torque_dispatch_records
   # GET /torque_dispatch_records.json
   def index

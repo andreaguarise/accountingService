@@ -15,7 +15,7 @@ class CreateTorqueExecuteRecords < ActiveRecord::Migration
       t.string :execHost
       t.integer :resourceList_nodect
       t.integer :resourceList_nodes
-      t.integer :resourceList.walltime
+      t.integer :resourceList_walltime
       t.integer :session
       t.integer :end
       t.integer :exitStatus
