@@ -10,6 +10,8 @@
       </ul>
     </div>
   <% end %>
+  
+  <% resources_array = Resource.all.map { |resource| [resource.name, resource.id] } %>
 
   <div class="field">
     <%= f.label :hostname %><br />
@@ -18,6 +20,10 @@
   <div class="field">
     <%= f.label :ip %><br />
     <%= f.text_field :ip %>
+  </div>
+  <div>
+	<%= f.label :resource_name, 'Resource' %>:
+	<%= f.select :resource_id, options_for_select(resources_array), :prompt => 'Select a resource'%>		
   </div>
   <div class="actions">
     <%= f.submit %>

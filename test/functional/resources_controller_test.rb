@@ -31,7 +31,7 @@ class ResourcesControllerTest < ActionController::TestCase
   test "should show resource" do
     get :show, :id => @resource
     assert_response :success, @response.body
-    assert_select '.resource_name', /MyString/
+    assert_select '.resource_name', /ResourceA/
     assert_select '.resource_description', /MyText/
     assert_select '.site_name', /MyString/
     assert_select '.resource_type_name', /MyString/

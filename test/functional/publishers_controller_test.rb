@@ -5,8 +5,9 @@ class PublishersControllerTest < ActionController::TestCase
     login_as :scrocco if defined? session
     @input_attributes = {
       :hostname => "localhost",
-      :ip => "127.0.0.1"
+      :ip => "127.0.0.1",
     }
+    @resource = resources(:one)
     @publisher = publishers(:one)
   end
 
@@ -23,7 +24,7 @@ class PublishersControllerTest < ActionController::TestCase
 
   test "should create publisher" do
     assert_difference('Publisher.count') do
-      post :create, :publisher => @input_attributes
+      post :create, :publisher => @input_attributes, 'resource_name' => @resource.name
     end
 
     assert_redirected_to publisher_path(assigns(:publisher))

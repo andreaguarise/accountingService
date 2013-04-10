@@ -2,14 +2,14 @@
 
 one:
   id: 1
-  name: MyString
+  name: ResourceA
   description: MyText
   site_id: 1
   resource_type_id: 1
 
 two:
   id: 2
-  name: MyString
+  name: ResourceB
   description: MyText
   site_id: 1
   resource_type_id: 1

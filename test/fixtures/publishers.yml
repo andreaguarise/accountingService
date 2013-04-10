@@ -5,15 +5,18 @@ anhost:
   hostname: anhost2
   ip: 1.2.3.4
   token: "1238.1238"
+  resource_id: 1
 
 one:
   id: 2
   hostname: MyString
   ip: MyString
   token: MyString
+  resource_id: 2
 
 two:
   id: 3
   hostname: MyString
   ip: MyString
   token: MyString
+  resource_id: 2

@@ -42,6 +42,9 @@ class PublishersController < ApplicationController
   # POST /publishers.json
   def create
     @publisher = Publisher.new(params[:publisher])
+    if (params[:resource_name]) #HTML form
+    @publisher.resource = Resource.find_by_name(params[:resource_name])
+    end
 
     respond_to do |format|
       if @publisher.save

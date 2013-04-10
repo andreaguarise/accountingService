@@ -1,10 +1,12 @@
-<h1>Listing publishers</h1>
+<h1>Publishers</h1>
 
 <table>
   <tr>
     <th>Hostname</th>
     <th>Ip</th>
     <th>Token</th>
+    <th>Resource</th>
+    <th>Site</th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +17,8 @@
     <td><%= publisher.hostname %></td>
     <td><%= publisher.ip %></td>
     <td><%= publisher.token %></td>
+    <td><%= publisher.resource.name %></td>
+    <td><%= publisher.site.name %></td>
     <td><%= link_to 'Show', publisher %></td>
     <td><%= link_to 'Edit', edit_publisher_path(publisher) %></td>
     <td><%= link_to 'Destroy', publisher, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
