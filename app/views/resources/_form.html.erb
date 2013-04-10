@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+  <% sites_array = Site.all.map { |site| [site.name, site.id] } %>
+  <% resource_types_array = ResourceType.all.map { |resource_type| [resource_type.name, resource_type.id] } %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -19,13 +21,13 @@
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </div>
-  <div class="field">
-  	Site Name<br />
-    <%= text_field_tag :site_name %>
+  <div>
+	<%= f.label :site_name, 'Site' %>:
+	<%= f.select :site_id, options_for_select(sites_array), :prompt => 'Select a site'%>		
   </div>
-  <div class="field">
-    Resource type<br />
-    <%= text_field_tag :resource_type_name %>
+  <div>
+	<%= f.label :resource_type_name, 'Resource Type' %>:
+	<%= f.select :resource_type_id, options_for_select(resource_types_array), :prompt => 'Select a resource type'%>		
   </div>
   <div class="actions">
     <%= f.submit %>
