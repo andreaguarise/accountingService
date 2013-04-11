@@ -1,6 +1,7 @@
 class Publisher < ActiveRecord::Base
   attr_accessible :hostname, :ip, :token, :resource_id
-  validates :ip, :presence => true, :uniqueness => true
+  #validates :ip, :presence => true, :uniqueness => true
+  validates :ip, :presence => true
   validates :resource_id, :presence => true, :on => :create
   
   belongs_to :resource 
@@ -14,9 +15,10 @@ class Publisher < ActiveRecord::Base
   before_create :generate_token
   
   def Publisher.authenticate(ip,token)
-    if publisher = find_by_ip(ip)
-      if publisher.token == token
-        #session[:publisher_id] = publisher.id
+    #if publisher = find_by_ip(ip)
+      #if publisher.token == token
+    if publisher = find_by_token(token)
+      if publisher.ip == ip
         publisher
       end
     end

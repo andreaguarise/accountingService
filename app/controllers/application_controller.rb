@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     unless session[:user_id]
       authenticate_or_request_with_http_token do |token, options|
         ip = request.remote_ip
+        session[:token] = token
         Publisher.authenticate(ip,token)
       end
     end
