@@ -23,6 +23,7 @@ one:
   storageRecordId: MyString
   diskImage: MyString
   cloudType: MyString
+  publisher_id: 1
 
 two:
   VMUUID: MyString
@@ -47,3 +48,4 @@ two:
   storageRecordId: MyString
   diskImage: MyString
   cloudType: MyString
+  publisher_id: 1

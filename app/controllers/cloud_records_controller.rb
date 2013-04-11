@@ -133,8 +133,11 @@ class CloudRecordsController < ApplicationController
       params[:resource_name] = params[:cloud_record].delete(:resource_name)
     end
     @cloud_record = CloudRecord.new(params[:cloud_record])
+    if (request.remote_ip) #HTML form
+      @cloud_record.publisher = Publisher.find_by_ip(request.remote_ip)
+    end
     if (params[:resource_name]) #HTML form
-    @cloud_record.resource = Resource.find_by_name(params[:resource_name])
+      @cloud_record.resource = Resource.find_by_name(params[:resource_name])
     end
 
     respond_to do |format|
