@@ -42,9 +42,8 @@ class TorqueDispatchRecordsController < ApplicationController
   # POST /torque_dispatch_records.json
   def create
     @torque_dispatch_record = TorqueDispatchRecord.new(params[:torque_dispatch_record])
-    if (request.remote_ip) #HTML form
-      @torque_dispatch_record.publisher = Publisher.find_by_ip(request.remote_ip)
-    end
+    @torque_dispatch_record.publisher = Publisher.find_by_token(session[:token])
+    logger.info "Received API-KEY:#{session[:token]}, which maps to :#{@torque_dispatch_record.publisher.hostname}"
 
     respond_to do |format|
       if @torque_dispatch_record.save
