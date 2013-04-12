@@ -42,6 +42,8 @@ class TorqueExecuteRecordsController < ApplicationController
   # POST /torque_execute_records.json
   def create
     @torque_execute_record = TorqueExecuteRecord.new(params[:torque_execute_record])
+    @torque_execute_record.publisher = Publisher.find_by_token(session[:token])
+    logger.info "Received API-KEY:#{session[:token]}, which maps to :#{@torque_execute_record.publisher.hostname}"
 
     respond_to do |format|
       if @torque_execute_record.save

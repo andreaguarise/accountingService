@@ -23,6 +23,7 @@ one:
   resourceUsed_mem: 1
   resourceUsed_vmem: 1
   resourceUsed_walltime: 1
+  publisher_id: 1
 
 two:
   uniqueId: MyString
@@ -47,3 +48,4 @@ two:
   resourceUsed_mem: 1
   resourceUsed_vmem: 1
   resourceUsed_walltime: 1
+  publisher_id: 1

@@ -3,6 +3,9 @@
 <table>
   <tr>
     <th>Uniqueid</th>
+    <th>Publisher</th>
+    <th>Resource</th>
+    <th>Site</th>
     <th>Recorddate</th>
     <th>Lrmsid</th>
     <th>User</th>
@@ -32,6 +35,9 @@
 <% @torque_execute_records.each do |torque_execute_record| %>
   <tr>
     <td><%= torque_execute_record.uniqueId %></td>
+    <td><%= torque_execute_record.publisher.hostname %></td>
+    <td><%= torque_execute_record.resource.name %></td>
+    <td><%= torque_execute_record.site.name %></td>
     <td><%= torque_execute_record.recordDate %></td>
     <td><%= torque_execute_record.lrmsId %></td>
     <td><%= torque_execute_record.user %></td>
