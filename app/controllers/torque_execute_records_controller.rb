@@ -8,6 +8,7 @@ class TorqueExecuteRecordsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @torque_execute_records }
+      format.xml { render :xml => @torque_execute_records }
     end
   end
 
@@ -19,6 +20,7 @@ class TorqueExecuteRecordsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @torque_execute_record }
+      format.xml { render :xml => @torque_execute_record }
     end
   end
 
@@ -30,6 +32,7 @@ class TorqueExecuteRecordsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @torque_execute_record }
+      format.xml { render :xml => @torque_execute_record }
     end
   end
 
@@ -49,9 +52,11 @@ class TorqueExecuteRecordsController < ApplicationController
       if @torque_execute_record.save
         format.html { redirect_to @torque_execute_record, :notice => 'Torque execute record was successfully created.' }
         format.json { render :json => @torque_execute_record, :status => :created, :location => @torque_execute_record }
+        format.xml { render :xml => @torque_execute_record, :status => :created, :location => @torque_execute_record }
       else
         format.html { render :action => "new" }
         format.json { render :json => @torque_execute_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @torque_execute_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -65,9 +70,11 @@ class TorqueExecuteRecordsController < ApplicationController
       if @torque_execute_record.update_attributes(params[:torque_execute_record])
         format.html { redirect_to @torque_execute_record, :notice => 'Torque execute record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @torque_execute_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @torque_execute_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -81,6 +88,7 @@ class TorqueExecuteRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to torque_execute_records_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end
