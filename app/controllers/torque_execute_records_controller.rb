@@ -11,6 +11,17 @@ class TorqueExecuteRecordsController < ApplicationController
       format.xml { render :xml => @torque_execute_records }
     end
   end
+  
+  # GET /torque_execute_records/search?lrmsId=string&start=string
+  def search
+    @torque_execute_record = TorqueExecuteRecord.find_by_lrmsId_and_start(params[:lrmsId],params[:start])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @torque_execute_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
+      format.xml { render :xml => @torque_execute_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
+    end
+  end
 
   # GET /torque_execute_records/1
   # GET /torque_execute_records/1.json
@@ -64,7 +75,13 @@ class TorqueExecuteRecordsController < ApplicationController
   # PUT /torque_execute_records/1
   # PUT /torque_execute_records/1.json
   def update
+    
+    
     @torque_execute_record = TorqueExecuteRecord.find(params[:id])
+    skipMassAssign :torque_execute_record
+    if params[:torque_execute_record][:resource]
+      params[:torque_execute_record].delete(:resource)
+    end
 
     respond_to do |format|
       if @torque_execute_record.update_attributes(params[:torque_execute_record])
