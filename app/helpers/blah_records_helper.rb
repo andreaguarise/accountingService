@@ -1,0 +1,2 @@
+module BlahRecordsHelper
+end

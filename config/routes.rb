@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :blah_records
+
+
   resources :torque_queue_records
 
 

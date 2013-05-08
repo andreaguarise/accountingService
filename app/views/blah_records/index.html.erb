@@ -1,0 +1,41 @@
+<h1>Listing blah_records</h1>
+
+<table>
+  <tr>
+    <th>Uniqueid</th>
+    <th>Recorddate</th>
+    <th>Timestamp</th>
+    <th>Userdn</th>
+    <th>Userfqan</th>
+    <th>Ceid</th>
+    <th>Jobid</th>
+    <th>Lrmsid</th>
+    <th>Localuser</th>
+    <th>Clientid</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @blah_records.each do |blah_record| %>
+  <tr>
+    <td><%= blah_record.uniqueId %></td>
+    <td><%= blah_record.recordDate %></td>
+    <td><%= blah_record.timestamp %></td>
+    <td><%= blah_record.userDN %></td>
+    <td><%= blah_record.userFQAN %></td>
+    <td><%= blah_record.ceId %></td>
+    <td><%= blah_record.jobId %></td>
+    <td><%= blah_record.lrmsId %></td>
+    <td><%= blah_record.localUser %></td>
+    <td><%= blah_record.clientId %></td>
+    <td><%= link_to 'Show', blah_record %></td>
+    <td><%= link_to 'Edit', edit_blah_record_path(blah_record) %></td>
+    <td><%= link_to 'Destroy', blah_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Blah record', new_blah_record_path %>
