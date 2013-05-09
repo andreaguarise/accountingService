@@ -1,4 +1,5 @@
 class BlahRecordsController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /blah_records
   # GET /blah_records.json
   def index

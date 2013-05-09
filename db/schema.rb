@@ -10,7 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410092515) do
+ActiveRecord::Schema.define(:version => 20130508150828) do
+
+  create_table "blah_records", :force => true do |t|
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.datetime "timestamp"
+    t.string   "userDN"
+    t.string   "userFQAN"
+    t.string   "ceId"
+    t.string   "jobId"
+    t.string   "lrmsId"
+    t.integer  "localUser"
+    t.string   "clientId"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
