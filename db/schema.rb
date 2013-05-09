@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508150828) do
+ActiveRecord::Schema.define(:version => 20130509083312) do
 
   create_table "blah_records", :force => true do |t|
     t.string   "uniqueId"
@@ -23,8 +23,9 @@ ActiveRecord::Schema.define(:version => 20130508150828) do
     t.string   "lrmsId"
     t.integer  "localUser"
     t.string   "clientId"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "cloud_records", :force => true do |t|

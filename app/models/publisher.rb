@@ -5,10 +5,12 @@ class Publisher < ActiveRecord::Base
   validates :resource_id, :presence => true, :on => :create
   
   belongs_to :resource 
+  has_many :blah_records
+  has_many :cloud_records
   has_many :torque_dispatch_records 
   has_many :torque_queue_records
   has_many :torque_execute_records
-  has_many :cloud_records
+  
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource
   
