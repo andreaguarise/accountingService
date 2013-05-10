@@ -10,7 +10,7 @@ class TorqueExecuteRecord < ActiveRecord::Base
   protected
 
   def computeUniqueId
-    self.uniqueId = self.start.to_s + "-" + self.lrmsId
+    self.uniqueId = self.recordDate.to_s + "-" + self.lrmsId
   end
 end
 
