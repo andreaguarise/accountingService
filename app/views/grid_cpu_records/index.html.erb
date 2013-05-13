@@ -1,0 +1,27 @@
+<h1>Listing grid_cpu_records</h1>
+
+<table>
+  <tr>
+    <th>Recordlike</th>
+    <th>Recordlike type</th>
+    <th>Blah record</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @grid_cpu_records.each do |grid_cpu_record| %>
+  <tr>
+    <td><%= grid_cpu_record.recordlike.resourceUsed_cput %></td>
+    <td><%= grid_cpu_record.recordlike_type %></td>
+    <td><%= grid_cpu_record.blah_record.lrmsId %></td>
+    <td><%= link_to 'Show', grid_cpu_record %></td>
+    <td><%= link_to 'Edit', edit_grid_cpu_record_path(grid_cpu_record) %></td>
+    <td><%= link_to 'Destroy', grid_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Grid cpu record', new_grid_cpu_record_path %>

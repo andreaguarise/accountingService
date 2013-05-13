@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Recordlike:</b>
+  <%= @grid_cpu_record.recordlike_id %>
+</p>
+
+<p>
+  <b>Recordlike type:</b>
+  <%= @grid_cpu_record.recordlike_type %>
+</p>
+
+<p>
+  <b>Blah record:</b>
+  <%= @grid_cpu_record.blah_record_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_grid_cpu_record_path(@grid_cpu_record) %> |
+<%= link_to 'Back', grid_cpu_records_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509083312) do
+ActiveRecord::Schema.define(:version => 20130513090722) do
 
   create_table "blah_records", :force => true do |t|
     t.string   "uniqueId"
@@ -146,6 +146,14 @@ ActiveRecord::Schema.define(:version => 20130509083312) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "publisher_id"
+  end
+
+  create_table "grid_cpu_records", :force => true do |t|
+    t.integer  "recordlike_id"
+    t.string   "recordlike_type"
+    t.integer  "blah_record_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "publishers", :force => true do |t|

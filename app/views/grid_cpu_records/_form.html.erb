@@ -1,0 +1,29 @@
+<%= form_for(@grid_cpu_record) do |f| %>
+  <% if @grid_cpu_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@grid_cpu_record.errors.count, "error") %> prohibited this grid_cpu_record from being saved:</h2>
+
+      <ul>
+      <% @grid_cpu_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :recordlike_id %><br />
+    <%= f.number_field :recordlike_id %>
+  </div>
+  <div class="field">
+    <%= f.label :recordlike_type %><br />
+    <%= f.text_field :recordlike_type %>
+  </div>
+  <div class="field">
+    <%= f.label :blah_record_id %><br />
+    <%= f.number_field :blah_record_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

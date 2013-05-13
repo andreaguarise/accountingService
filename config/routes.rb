@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :grid_cpu_records
+
+
   resources :blah_records
 
 
