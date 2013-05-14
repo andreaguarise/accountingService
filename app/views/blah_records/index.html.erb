@@ -18,7 +18,7 @@
   </tr>
 
 <% @blah_records.each do |blah_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= blah_record.uniqueId %></td>
     <td><%= blah_record.recordDate %></td>
     <td><%= blah_record.timestamp %></td>
@@ -37,5 +37,7 @@
 </table>
 
 <br />
+
+<p><%= will_paginate @blah_records %></p>
 
 <%= link_to 'New Blah record', new_blah_record_path %>

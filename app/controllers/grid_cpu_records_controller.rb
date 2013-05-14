@@ -4,7 +4,7 @@ class GridCpuRecordsController < ApplicationController
   # GET /grid_cpu_records
   # GET /grid_cpu_records.json
   def index
-    @grid_cpu_records = GridCpuRecord.all
+    @grid_cpu_records = GridCpuRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
 
     respond_to do |format|
       format.html # index.html.erb

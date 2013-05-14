@@ -3,7 +3,7 @@ class TorqueExecuteRecordsController < ApplicationController
   # GET /torque_execute_records
   # GET /torque_execute_records.json
   def index
-    @torque_execute_records = TorqueExecuteRecord.all
+    @torque_execute_records = TorqueExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
 
     respond_to do |format|
       format.html # index.html.erb
