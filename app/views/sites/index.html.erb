@@ -10,7 +10,7 @@
   </tr>
 
 <% @sites.each do |site| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= site.name %></td>
     <td><%= site.description %></td>
     <td><%= link_to 'Show', site %></td>

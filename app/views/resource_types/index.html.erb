@@ -9,7 +9,7 @@
   </tr>
 
 <% @resource_types.each do |resource_type| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= resource_type.name %></td>
     <td><%= link_to 'Show', resource_type %></td>
     <td><%= link_to 'Edit', edit_resource_type_path(resource_type) %></td>

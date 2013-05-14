@@ -11,7 +11,7 @@
   </tr>
 
 <% @grid_cpu_records.each do |grid_cpu_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= grid_cpu_record.recordlike.resourceUsed_cput %></td>
     <td><%= grid_cpu_record.recordlike_type %></td>
     <td><%= grid_cpu_record.blah_record.lrmsId %></td>

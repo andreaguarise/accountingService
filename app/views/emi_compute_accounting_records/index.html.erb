@@ -38,7 +38,7 @@
   </tr>
 
 <% @emi_compute_accounting_records.each do |emi_compute_accounting_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= emi_compute_accounting_record.recordId %></td>
     <td><%= emi_compute_accounting_record.createTime %></td>
     <td><%= emi_compute_accounting_record.globalJobId %></td>

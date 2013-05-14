@@ -32,7 +32,7 @@
   </tr>
 
 <% @cloud_records.each do |cloud_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td class="main_field"><%= cloud_record.VMUUID %></td>
     <td class="field"><%= cloud_record.publisher.hostname %></td>
     <td class="field"><%= cloud_record.resource.name %></td>

@@ -12,7 +12,7 @@
   </tr>
 
 <% @resources.each do |resource| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td class="main_field"><%= resource.name %></td>
     <td><%= resource.description %></td>
     <td><%= resource.site.name %></td>

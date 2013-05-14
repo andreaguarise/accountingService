@@ -27,7 +27,7 @@
   </tr>
 
 <% @emi_storage_records.each do |emi_storage_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= emi_storage_record.recordIdentity %></td>
     <td><%= emi_storage_record.storageSystem %></td>
     <td><%= emi_storage_record.site %></td>

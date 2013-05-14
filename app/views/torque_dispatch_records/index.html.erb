@@ -15,7 +15,7 @@
   </tr>
 
 <% @torque_dispatch_records.each do |torque_dispatch_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= torque_dispatch_record.uniqueId %></td>
     <td><%= torque_dispatch_record.publisher.hostname %></td>
     <td><%= torque_dispatch_record.resource.name %></td>

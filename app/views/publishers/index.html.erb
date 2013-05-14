@@ -13,7 +13,7 @@
   </tr>
 
 <% @publishers.each do |publisher| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= publisher.hostname %></td>
     <td><%= publisher.ip %></td>
     <td><%= publisher.token %></td>
