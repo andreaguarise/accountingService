@@ -11,6 +11,52 @@ class GridCpuRecordsController < ApplicationController
       format.json { render :json => @grid_cpu_records }
     end
   end
+  
+  # GET /grid_cpu_records/stats
+  # GET /grid_cpu_records/stats.json
+  def stats
+    @stats = {}
+    @stats[:records_count]= GridCpuRecord.count
+    #@stats[:records_cpu_sum] = GridCpuRecord.recordlike.sum(:resourceUsed_cput)
+    #@stats[:records_cpu_avg] = GridCpuRecord.recordlike.average(:resourceUsed_cput)
+    #@stats[:earliest_record] = GridCpuRecord.blah_record.minimum(:recordDate)
+    #@stats[:latest_record] = GridCpuRecord.blah_record.maximum(:recordDate)
+    
+    @results1 = GridCpuRecord.find_by_sql("SELECT date(blah_records.recordDate) as ordered_date, count(grid_cpu_records.id) as count FROM grid_cpu_records INNER JOIN torque_execute_records ON grid_cpu_records.recordlike_id = torque_execute_records.id INNER JOIN blah_records ON grid_cpu_records.blah_record_id = blah_records.id GROUP BY ordered_date")
+
+    table = GoogleVisualr::DataTable.new
+    #table2 = GoogleVisualr::DataTable.new
+    
+    
+    # Add Column Headers
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'count')
+    
+    #table2.new_column('date', 'Date' )
+    #table2.new_column('number', 'sum_wall')
+    
+    
+    @results1.each do |result1|
+      table.add_row([result1.ordered_date.to_date,result1.count.to_i])
+      #table2.add_row([result1.ordered_date.to_date,result1.sum_wall.to_i])
+    end 
+    
+
+    
+    option1 = { :width => 600, :height => 300, :title => 'Ended Jobs' }
+    @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
+    
+    #option2 = { :width => 600, :height => 300, :title => 'Wall time' }
+    #@chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
+
+    
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @stats }
+      format.xml { render :xml => @stats }
+    end
+  end
 
   # GET /grid_cpu_records/1
   # GET /grid_cpu_records/1.json

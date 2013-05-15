@@ -1,6 +1,11 @@
 AccountingService::Application.routes.draw do
 
-  resources :grid_cpu_records
+    resources :grid_cpu_records do
+    collection do
+      get 'stats'
+      match 'search' => 'grid_cpu_records#search'
+    end
+  end
 
 
   resources :blah_records
