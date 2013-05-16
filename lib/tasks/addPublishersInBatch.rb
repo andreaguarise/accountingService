@@ -1,7 +1,18 @@
-
+ip = ARGV[0]
+file = ARGV[1]
+if not ARGV[0]
+  puts "Please specify the ip to be assigned to publishers as first argument."
+  exit 1
+else
+  if not ARGV[1]
+    puts "Please specify the publishers file name as second argument."
+    exit 2
+  end
+  puts "Will be assigning ip:#{ip} to the publishers created from file:#{file}."
+end
 publishers = {}
 
-File.open('/tmp/publishers').each_line{ |s|
+File.open(file).each_line{ |s|
   /^(.*):(.*)$/.match(s)
   publishers[$1] = $2 if not publishers.include?($1)
 }
@@ -28,7 +39,7 @@ publishers.each do |publisher,site|
       if not Publisher.find_by_hostname(publisher) 
         p = Publisher.new
         p.hostname = publisher
-        p.ip = '10.0.2.2' #CHANGEME
+        p.ip = ip
         p.resource_id = r.id
         p.save
       j += 1
