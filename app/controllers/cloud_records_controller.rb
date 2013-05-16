@@ -83,7 +83,7 @@ class CloudRecordsController < ApplicationController
     option1 = { :width => 600, :height => 300, :title => 'Ended VMs' }
     @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
     
-    option2 = { :width => 600, :height => 300, :title => 'Wall time' }
+    option2 = { :width => 600, :height => 300, :title => 'Wall time consumed by Ended VMs' }
     @chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
 
     option3 = { :width => 600, :height => 300, :title => 'Started VMs' }

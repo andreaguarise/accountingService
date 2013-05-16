@@ -22,16 +22,17 @@ publishers.each do |publisher,site|
     r.resource_type_id = t.id
     r.site_id = s.id
     r.name = "#{site}-CE"
-    r.save
+    i += 1 if r.save
     r = Resource.find_by_name("#{site}-CE")
-    i += 1
     if r
-      p = Publisher.new
-      p.hostname = publisher
-      p.ip = '10.0.2.2' #CHANGEME
-      p.resource_id = r.id
-      p.save
+      if not Publisher.find_by_hostname(publisher) 
+        p = Publisher.new
+        p.hostname = publisher
+        p.ip = '10.0.2.2' #CHANGEME
+        p.resource_id = r.id
+        p.save
       j += 1
+      end
     end
   end
   
