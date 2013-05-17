@@ -13,8 +13,12 @@ class TorqueExecuteRecordsController < ApplicationController
   end
   
   # GET /torque_execute_records/search?lrmsId=string&start=string
+  # GET /torque_execute_records/search?first=true
+  # GET /torque_execute_records/search?last=true
   def search
-    @torque_execute_record = TorqueExecuteRecord.find_by_lrmsId_and_start(params[:lrmsId],params[:start])
+      @torque_execute_record = TorqueExecuteRecord.find_by_lrmsId_and_start(params[:lrmsId],params[:start]) if params[:lrmsId]
+      @torque_execute_record = TorqueExecuteRecord.last if params[:last]
+      @torque_execute_record = TorqueExecuteRecord.first if params[:first]
 
     respond_to do |format|
       format.html # show.html.erb
@@ -22,6 +26,7 @@ class TorqueExecuteRecordsController < ApplicationController
       format.xml { render :xml => @torque_execute_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
     end
   end
+  
 
   # GET /torque_execute_records/1
   # GET /torque_execute_records/1.json
