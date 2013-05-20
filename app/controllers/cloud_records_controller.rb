@@ -9,12 +9,12 @@ class CloudRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json {  
-        render :json => @cloud_records.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
-       }
-      format.xml {  
-        render :xml => @cloud_records.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
-       }
+      format.json {
+        render :json => @cloud_records.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } )
+      }
+      format.xml {
+        render :xml => @cloud_records.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )
+      }
     end
   end
 
@@ -26,15 +26,15 @@ class CloudRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json {  
-        render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
-       }
-      format.xml {  
-        render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) 
-       }
+      format.json {
+        render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } )
+      }
+      format.xml {
+        render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )
+      }
     end
   end
-  
+
   # GET /cloud_records/stats
   # GET /cloud_records/stats.json
   # GET /cloud_records/stats.xml
@@ -44,7 +44,6 @@ class CloudRecordsController < ApplicationController
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
     @stats[:sum_wall] = CloudRecord.sum(:wallDuration)
-    
 
     @results1 = CloudRecord.select("date(endTime) as ordered_date, count(id) as count, sum(wallDuration)/864000 as sum_wall").group("date(endTime)")
     @results2 = CloudRecord.select("date(startTime) as ordered_date, count(id) as count, sum(wallDuration)/864000 as sum_wall").group("date(startTime)")
@@ -53,43 +52,70 @@ class CloudRecordsController < ApplicationController
     table2 = GoogleVisualr::DataTable.new
     table3 = GoogleVisualr::DataTable.new
     table4 = GoogleVisualr::DataTable.new
-    
+    data_table = GoogleVisualr::DataTable.new
+    # Add Column Headers
+    data_table.new_column('date', 'date' )
+    data_table.new_column('number', 'started')
+    data_table.new_column('number', 'started-ended')
+    data_table.new_column('number', 'running')
+
+    # Add Rows and Values
+
+    started = {}
+    running = {}
+    CloudRecord.find_each(:batch_size => 50) do |r|
+    #CloudRecord.where(:local_user => "oneadmin").each do |r|
+      dateStart = DateTime.parse("#{r['startTime']}").to_date
+      if started[dateStart]
+      started[dateStart] += 1
+      else
+      started[dateStart] = 1
+      end
+    end
+    actualRunning = 0
+    started.sort.each do |date,startedCount|
+      partial = startedCount-CloudRecord.where("date(endTime)=\"#{date}\"").count
+      actualRunning = running[date] = actualRunning + partial
+      data_table.add_row([date,startedCount,partial,actualRunning])
+    end
+
+    option = { :width => 600, :height => 400, :title => 'Running VMs' }
+    @chart = GoogleVisualr::Interactive::AreaChart.new(data_table, option)
     # Add Column Headers
     table.new_column('date', 'Date' )
     table.new_column('number', 'count')
-    
+
     table2.new_column('date', 'Date' )
     table2.new_column('number', 'sum_wall')
-    
+
     table3.new_column('date', 'Date' )
     table3.new_column('number', 'count')
-    
+
     table4.new_column('date', 'Date' )
     table4.new_column('number', 'sum_wall')
-    
+
     @results1.slice!(-1)
     @results1.each do |result1|
       table.add_row([result1.ordered_date.to_date,result1.count.to_i])
       table2.add_row([result1.ordered_date.to_date,result1.sum_wall.to_i])
-    end 
-    
+    end
+
     @results2.slice!(-1)
     @results2.each do |result2|
       table3.add_row([result2.ordered_date.to_date,result2.count.to_i])
       table4.add_row([result2.ordered_date.to_date,result2.sum_wall.to_i])
-    end 
-    
-    
-    option1 = { :width => 600, :height => 300, :title => 'Ended VMs' }
+    end
+
+    option1 = { :width => 600, :height => 400, :title => 'Ended VMs' }
     @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
-    
-    option2 = { :width => 600, :height => 300, :title => 'Wall time consumed by Ended VMs' }
+
+    option2 = { :width => 600, :height => 400, :title => 'Wall time consumed by Ended VMs' }
     @chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
 
-    option3 = { :width => 600, :height => 300, :title => 'Started VMs' }
+    option3 = { :width => 600, :height => 400, :title => 'Started VMs' }
     @chart3 = GoogleVisualr::Interactive::AreaChart.new(table3, option3)
-    
-    option4 = { :width => 600, :height => 300, :title => 'Wall time' }
+
+    option4 = { :width => 600, :height => 400, :title => 'Wall time' }
     @chart4 = GoogleVisualr::Interactive::AreaChart.new(table4, option4)
 
     respond_to do |format|
@@ -158,7 +184,7 @@ class CloudRecordsController < ApplicationController
     if params[:cloud_record][:site] #JSON post
       params[:site] = params[:cloud_record].delete(:site)
     end
-   
+
     @cloud_record = CloudRecord.find(params[:id])
     skipMassAssign :cloud_record
     if params[:cloud_record][:resource]
