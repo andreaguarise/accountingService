@@ -20,6 +20,135 @@
   <%= @resource.resource_type.name %>
 </p>
 
+<h3>Registered publishers</h3>
+
+<table>
+  <tr>
+    <th>Hostname</th>
+    <th>Ip</th>
+  </tr>
+
+<% @resource.publishers.sort_by{|e| e[:hostname]}.each do |publisher| %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td><%= link_to publisher.hostname, publisher %></td>
+    <td><%= publisher.ip %></td>
+  </tr>
+<% end %>
+</table>
+
+<% if not @cloud_records.empty? %>
+
+<h3>Cloud record statistics</h3>
+
+<table>
+	<tbody>
+		<tr>
+			<td>Number of records
+			<br>
+			</td>
+			<td>total wall
+			<br>
+			</td>
+			<td >Earliest record
+			<br>
+			</td>
+			<td >Latest record
+			<br>
+			</td>
+		</tr>
+		<tr>
+			<td ><%= @stats[:records_count] %>
+			<br>
+			</td>
+			<td ><%= @stats[:sum_wall] %>
+			<br>
+			</td>
+			<td ><%= @stats[:earliest_record] %>
+			<br>
+			</td>
+			<td ><%= @stats[:latest_record] %>
+			<br>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td><div id='chart'></div> <%= render_chart(@chart, 'chart') %> </td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Cloud record list</h3>
+
+<table>
+  <tr>
+    <th>VM UUID</th>
+    <th>Publisher</th>
+    <th>Resource</th>
+    <th>Site</th>
+    <th>Local VM ID</th>
+    <th>Local user</th>
+    <th>Local group</th>
+    <th>Global User Name</th>
+    <th>FQAN</th>
+    <th>Status</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Suspendduration</th>
+    <th>Wall time</th>
+    <th>Cpu time</th>
+    <th>Cpu N.</th>
+    <th>Network</th>
+    <th>Net in</th>
+    <th>Net out</th>
+    <th>Memory</th>
+    <th>Disk</th>
+    <th>Storage Record</th>
+    <th>Disk Image</th>
+    <th>Cloud Type</th>
+    <th></th>
+  </tr>
+
+<% @cloud_records.each do |cloud_record| %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td class="field"><%= cloud_record.VMUUID %></td>
+    <td class="field"><%= cloud_record.publisher.hostname %></td>
+    <td class="field"><%= cloud_record.resource.name %></td>
+    <td class="field"><%= cloud_record.site.name %></td>
+    <td class="field" ><%= cloud_record.localVMID %></td>
+    <td class="field" ><%= cloud_record.local_user %></td>
+    <td class="field" ><%= cloud_record.local_group %></td>
+    <td class="field" ><%= cloud_record.globaluserName %></td>
+    <td class="field" ><%= cloud_record.FQAN %></td>
+    <td class="field" ><%= cloud_record.status %></td>
+    <td class="field" ><%= cloud_record.startTime %></td>
+    <td class="field" ><%= cloud_record.endTime %></td>
+    <td class="field" ><%= cloud_record.suspendDuration %></td>
+    <td class="field" ><%= cloud_record.wallDuration %></td>
+    <td class="field" ><%= cloud_record.cpuDuration %></td>
+    <td class="field" ><%= cloud_record.cpuCount %></td>
+    <td class="field" ><%= cloud_record.networkType %></td>
+    <td class="field" ><%= cloud_record.networkInbound %></td>
+    <td class="field" ><%= cloud_record.networkOutBound %></td>
+    <td class="field" ><%= cloud_record.memory %></td>
+    <td class="field" ><%= cloud_record.disk %></td>
+    <td class="field" ><%= cloud_record.storageRecordId %></td>
+    <td class="field" ><%= cloud_record.diskImage %></td>
+    <td class="field" ><%= cloud_record.cloudType %></td>
+    <td class="list_actions" ><%= link_to 'Show', cloud_record %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= will_paginate @cloud_records %></p>
+
+<% end %>
+
+<br />
+
 
 <%= link_to 'Edit', edit_resource_path(@resource) %> |
 <%= link_to 'Back', resources_path %>

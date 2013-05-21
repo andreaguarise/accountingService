@@ -17,10 +17,6 @@ class GridCpuRecordsController < ApplicationController
   def stats
     @stats = {}
     @stats[:records_count]= GridCpuRecord.count
-    #@stats[:records_cpu_sum] = GridCpuRecord.recordlike.sum(:resourceUsed_cput)
-    #@stats[:records_cpu_avg] = GridCpuRecord.recordlike.average(:resourceUsed_cput)
-    #@stats[:earliest_record] = GridCpuRecord.blah_record.minimum(:recordDate)
-    #@stats[:latest_record] = GridCpuRecord.blah_record.maximum(:recordDate)
     @stats[:earliest_record]= BlahRecord.minimum(:recordDate)
     @stats[:latest_record]= BlahRecord.maximum(:recordDate)
     startFrom = @stats[:latest_record].to_date-90

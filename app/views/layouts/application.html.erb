@@ -22,7 +22,6 @@
 				<th><%= link_to 'Main', main_url%></th>
 				<% if session[:role] == 'admin' %>
 				<th><%= link_to 'Users', users_url%></th>
-				<th><%= link_to 'Publishers', publishers_url%></th>
 				<th><%= link_to 'Resource Management', resource_management_index_url%></th>
 				<% end %>
 				<th><%= link_to 'Cloud', stats_cloud_records_url%></th>

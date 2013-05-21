@@ -1,4 +1,4 @@
-<h1>Listing resources</h1>
+<h1>Resources</h1>
 
 <table>
   <tr>
@@ -8,16 +8,14 @@
     <th>Resource type</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
-<% @resources.each do |resource| %>
+<% @resources.sort_by{|e| e[:name]}.each do |resource| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= resource.name %></td>
+    <td class="main_field"><%= link_to resource.name, resource %></td>
     <td><%= resource.description %></td>
     <td><%= resource.site.name %></td>
     <td><%= resource.resource_type.name %></td>
-    <td class="list_actions"><%= link_to 'Show', resource %></td>
     <td class="list_actions"><%= link_to 'Edit', edit_resource_path(resource) %></td>
     <td class="list_actions"><%= link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

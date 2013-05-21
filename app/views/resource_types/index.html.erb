@@ -1,17 +1,15 @@
-<h1>Listing resource_types</h1>
+<h1>Resource types</h1>
 
 <table>
   <tr>
     <th>Name</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
-<% @resource_types.each do |resource_type| %>
+<% @resource_types.sort_by{|e| e[:name]}.each do |resource_type| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td><%= resource_type.name %></td>
-    <td><%= link_to 'Show', resource_type %></td>
+    <td><%= link_to resource_type.name, resource_type %></td>
     <td><%= link_to 'Edit', edit_resource_type_path(resource_type) %></td>
     <td><%= link_to 'Destroy', resource_type, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

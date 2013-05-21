@@ -9,17 +9,15 @@
     <th>Site</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
-<% @publishers.each do |publisher| %>
+<% @publishers.sort_by{|e| e[:hostname]}.each do |publisher| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td><%= publisher.hostname %></td>
+    <td><%= link_to publisher.hostname, publisher %></td>
     <td><%= publisher.ip %></td>
     <td><%= publisher.token %></td>
     <td><%= publisher.resource.name %></td>
     <td><%= publisher.site.name %></td>
-    <td><%= link_to 'Show', publisher %></td>
     <td><%= link_to 'Edit', edit_publisher_path(publisher) %></td>
     <td><%= link_to 'Destroy', publisher, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
