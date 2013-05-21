@@ -8,6 +8,7 @@ class EmiStorageRecordsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @emi_storage_records }
+      format.xml { render :xml => @emi_storage_records }
     end
   end
 
@@ -19,6 +20,7 @@ class EmiStorageRecordsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @emi_storage_record }
+      format.xml { render :xml => @emi_storage_record }
     end
   end
 
@@ -30,6 +32,7 @@ class EmiStorageRecordsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @emi_storage_record }
+      format.xml { render :xml => @emi_storage_record }
     end
   end
 
@@ -42,14 +45,18 @@ class EmiStorageRecordsController < ApplicationController
   # POST /emi_storage_records.json
   def create
     @emi_storage_record = EmiStorageRecord.new(params[:emi_storage_record])
+    @emi_storage_record.publisher = Publisher.find_by_token(session[:token])
+    logger.info "Received API-KEY:#{session[:token]}, which maps to :#{@emi_storage_record.publisher.hostname}"
 
     respond_to do |format|
       if @emi_storage_record.save
         format.html { redirect_to @emi_storage_record, :notice => 'Emi storage record was successfully created.' }
         format.json { render :json => @emi_storage_record, :status => :created, :location => @emi_storage_record }
+        format.xml { render :xml => @emi_storage_record, :status => :created, :location => @emi_storage_record }
       else
         format.html { render :action => "new" }
         format.json { render :json => @emi_storage_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml=> @emi_storage_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -63,9 +70,11 @@ class EmiStorageRecordsController < ApplicationController
       if @emi_storage_record.update_attributes(params[:emi_storage_record])
         format.html { redirect_to @emi_storage_record, :notice => 'Emi storage record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @emi_storage_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @emi_storage_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -79,6 +88,7 @@ class EmiStorageRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to emi_storage_records_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end

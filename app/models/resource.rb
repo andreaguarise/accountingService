@@ -6,6 +6,7 @@ class Resource < ActiveRecord::Base
   has_many :publishers
   has_many :cloud_records #FIXME this should be removed since association will be through the publisher
   has_many :dgas_grid_cpu_records #FIXME this should be removed since association will be through the publisher
+  #has_many :emi_storage_records #FIXME this should be removed since association will be through the publisher
   belongs_to :resource_type
   belongs_to :site
 end
