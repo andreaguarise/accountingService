@@ -147,8 +147,8 @@
 
 <% end %>
 
-<% if @grid_cpu_records %>
-<h1>Grid CPU records</h1>
+<% if not  @grid_cpu_records.empty? %>
+<h3>Grid CPU records</h3>
 
 <table>
   <tr>
