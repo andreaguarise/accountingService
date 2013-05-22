@@ -7,4 +7,27 @@
 <% #if session[:user_id] != nil  %>
 	<h2>Welcome <%= User.find_by_id(session[:user_id]).name %></h2>
 	<%= button_to 'Logout', logout_path, :method => :delete %>
+	
+	<h3>Sites publishing to this instance</h3>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Cloud Records</th>
+    <th>Grid CPU Records</th>
+    <th>Batch CPU Records</th>
+    <th>Grid Storage Records</th>
+  </tr>
+
+<% @sites.sort_by{|e| e[:name]}.each do |site| %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td><%= link_to site.name, site %></td>
+    <td><%= site.cloud_records.count %></td>
+    <td><%= @blahBySite[site.id] %></td>
+    <td><%= @torqueBySite[site.id] %></td>
+    <td><%= @emiStorageBySite[site.name] %></td>
+  </tr>
+<% end %>
+</table>
+	
 <% #end %>

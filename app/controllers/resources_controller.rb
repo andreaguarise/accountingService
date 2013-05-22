@@ -61,7 +61,7 @@ class ResourcesController < ApplicationController
     end
   
     @storage_records = @resource.storage_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("storage_records")
-    @grid_cpu_records = @resource.grid_cpu_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("grid_cpu_records") 
+    @grid_cpu_records = @resource.grid_cpu_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 #if @resource.public_methods.member?("grid_cpu_records") 
     @torque_execute_records = @resource.torque_execute_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("torque_execute_records")
 
     respond_to do |format|
