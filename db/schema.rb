@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513090722) do
+ActiveRecord::Schema.define(:version => 20130522150314) do
 
   create_table "blah_records", :force => true do |t|
     t.string   "uniqueId"
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(:version => 20130513090722) do
     t.string   "storageShare"
     t.string   "storageMedia"
     t.string   "storageClass"
-    t.integer  "fileCount"
+    t.integer  "fileCount",                 :limit => 20
     t.string   "directoryPath"
     t.string   "localUser"
     t.string   "localGroup"
@@ -140,11 +140,11 @@ ActiveRecord::Schema.define(:version => 20130513090722) do
     t.string   "attributeType"
     t.datetime "startTime"
     t.datetime "endTime"
-    t.integer  "resourceCapacityUsed"
-    t.integer  "logicalCapacityUsed"
-    t.integer  "resourceCapacityAllocated"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "resourceCapacityUsed",      :limit => 20
+    t.integer  "logicalCapacityUsed",       :limit => 20
+    t.integer  "resourceCapacityAllocated", :limit => 20
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "publisher_id"
   end
 
