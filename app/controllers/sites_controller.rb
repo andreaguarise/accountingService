@@ -4,8 +4,9 @@ class SitesController < ApplicationController
   # GET /sites.json
   def index
     @sites = Site.all
-    @emyBySite = EmiStorageRecord.group(:site).count #FIXME this should go through :publishers as for the other record types
-
+    @emyBySite = EmiStorageRecord.group(:site).count #FIXME this should go through joins as for the other record types
+    @blahBySite = Site.joins(:blah_records).group(:site_id).count
+    @torqueBySite = Site.joins(:torque_execute_records).group(:site_id).count
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @sites }
