@@ -28,6 +28,25 @@
 <% end %>
 </table>
 
+<h3>Record statistics</h3>
+
+<table>
+	<tr>
+		<th></th>
+		<th>Count</th>
+		<th>Earliest</th>
+		<th>Latest</th>
+	</tr>
+	<% @stats.sort_by{|e| e[0]}.each do |row| %>
+	<tr class="<%= cycle("odd", "even") %>">
+      <td class="main_field"><%= row[0] %></td>
+      <td><%= row[1] %></td>
+      <td><%= row[2] %></td>
+      <td><%= row[3] %></td>
+    </tr>
+    <% end %>
+</table>
+
 
 <p>
 <%= link_to 'Edit', edit_site_path(@site) %> |
