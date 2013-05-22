@@ -4,6 +4,10 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
+    <th>Cloud Records</th>
+    <th>Grid CPU Records</th>
+    <th>Batch CPU Records</th>
+    <th>Grid Storage Records</th>
     <th></th>
     <th></th>
   </tr>
@@ -12,6 +16,10 @@
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= link_to site.name, site %></td>
     <td><%= site.description %></td>
+    <td><%= site.cloud_records.count %></td>
+    <td><%= site.blah_records.count %></td>
+    <td><%= site.torque_execute_records.count %></td>
+    <td><%= @emyBySite[site.name] %></td>
     <td><%= link_to 'Edit', edit_site_path(site) %></td>
     <td><%= link_to 'Destroy', site, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

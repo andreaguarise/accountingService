@@ -4,6 +4,7 @@ class SitesController < ApplicationController
   # GET /sites.json
   def index
     @sites = Site.all
+    @emyBySite = EmiStorageRecord.group(:site).count #FIXME this should go through :publishers as for the other record types
 
     respond_to do |format|
       format.html # index.html.erb
