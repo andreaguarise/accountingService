@@ -7,6 +7,7 @@ class Publisher < ActiveRecord::Base
   belongs_to :resource 
   has_many :blah_records
   has_many :cloud_records
+  has_many :grid_cpu_records, :through => :blah_records
   has_many :torque_dispatch_records 
   has_many :torque_queue_records
   has_many :torque_execute_records

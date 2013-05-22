@@ -3,4 +3,8 @@ class GridCpuRecord < ActiveRecord::Base
   belongs_to :recordlike ,:polymorphic => true
   belongs_to :blah_record
   validates :blah_record_id, :presence => true, :uniqueness => true, :on => :create
+  delegate :publisher, :to => :blah_record
+  delegate :resource, :to => :publisher
+  delegate :site, :to => :resource
+  
 end
