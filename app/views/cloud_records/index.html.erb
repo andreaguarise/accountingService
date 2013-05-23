@@ -28,12 +28,11 @@
     <th>Cloud Type</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @cloud_records.each do |cloud_record| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= cloud_record.VMUUID %></td>
+    <td class="main_field"><%= link_to cloud_record.VMUUID, cloud_record %></td>
     <td class="field"><%= cloud_record.publisher.hostname %></td>
     <td class="field"><%= cloud_record.resource.name %></td>
     <td class="field"><%= cloud_record.site.name %></td>
@@ -57,7 +56,6 @@
     <td class="field" ><%= cloud_record.storageRecordId %></td>
     <td class="field" ><%= cloud_record.diskImage %></td>
     <td class="field" ><%= cloud_record.cloudType %></td>
-    <td class="list_actions" ><%= link_to 'Show', cloud_record %></td>
     <td class="list_actions" ><%= link_to 'Edit', edit_cloud_record_path(cloud_record) %></td>
     <td class="list_actions" ><%= link_to 'Destroy', cloud_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

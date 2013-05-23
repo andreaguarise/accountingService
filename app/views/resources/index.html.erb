@@ -1,9 +1,10 @@
 <h1>Resources</h1>
 
-<table>
+<%= link_to 'New Resource', new_resource_path %>
+
+<table class="management">
   <tr>
     <th>Name</th>
-    <th>Description</th>
     <th>Site</th>
     <th>Resource type</th>
     <th></th>
@@ -13,7 +14,6 @@
 <% @resources.sort_by{|e| e[:name]}.each do |resource| %>
   <tr class="<%= cycle("odd", "even") %>">
     <td class="main_field"><%= link_to resource.name, resource %></td>
-    <td><%= resource.description %></td>
     <td><%= resource.site.name %></td>
     <td><%= resource.resource_type.name %></td>
     <td class="list_actions"><%= link_to 'Edit', edit_resource_path(resource) %></td>
@@ -24,4 +24,4 @@
 
 <br />
 
-<%= link_to 'New Resource', new_resource_path %>
+

@@ -23,12 +23,11 @@
     <th>Resourcecapacityallocated</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @emi_storage_records.each do |emi_storage_record| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td><%= emi_storage_record.recordIdentity %></td>
+    <td><%= link_to emi_storage_record.recordIdentity, emi_storage_record %></td>
     <td><%= emi_storage_record.storageSystem %></td>
     <td><%= emi_storage_record.site %></td>
     <td><%= emi_storage_record.storageShare %></td>
@@ -47,7 +46,6 @@
     <td><%= emi_storage_record.resourceCapacityUsed %></td>
     <td><%= emi_storage_record.logicalCapacityUsed %></td>
     <td><%= emi_storage_record.resourceCapacityAllocated %></td>
-    <td><%= link_to 'Show', emi_storage_record %></td>
     <td><%= link_to 'Edit', edit_emi_storage_record_path(emi_storage_record) %></td>
     <td><%= link_to 'Destroy', emi_storage_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

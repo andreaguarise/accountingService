@@ -25,6 +25,16 @@ th {
   color: #ddd
 }
 
+table.management {
+  font-size: 15px;
+  a {
+    font-size: 15px;
+  }
+  td {
+    font-size: 14px;
+  }
+}
+
 tr.even {
   
   background-color: #edd
@@ -38,7 +48,7 @@ td {
   line-height: 18px;
   text-align: left;
   &.main_field {
-    color: #090;
+    color: #700;
   }
 }
 

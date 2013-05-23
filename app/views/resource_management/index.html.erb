@@ -3,10 +3,13 @@
 <% if notice %>
 	<p id="notice"><%= notice %></p> 
 <% end %>
-<p>
-	<%= link_to 'Publishers', publishers_url%><br>
-	<%= link_to 'Resurces', resources_url%><br>
-	<%= link_to 'Resource types', resource_types_url%><br>
-	<%= link_to 'Sites', sites_url%><br>
-</p>
+<table class="management">
+	<tr>
+		<th></th><th>Number</th>			
+	</tr>
+	<tr><td><%= link_to 'Sites', sites_url%></td><td><%= Site.count %></td></tr>
+	<tr><td><%= link_to 'Resurces', resources_url%></td><td><%= Resource.count %></td></tr>
+	<tr><td><%= link_to 'Publishers', publishers_url%></td><td><%= Publisher.count %></td></tr>
+	<tr><td><%= link_to 'Resource types', resource_types_url%><td><%= ResourceType.count %></td></td></tr>
+</table>
 
