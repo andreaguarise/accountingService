@@ -11,12 +11,6 @@ AccountingService::Application.routes.draw do
   resources :blah_records
 
 
-  resources :torque_queue_records
-
-
-  resources :torque_dispatch_records
-
-
   resources :batch_execute_records do
     collection do
       get 'stats'

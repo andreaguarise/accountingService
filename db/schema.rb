@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130527130440) do
+ActiveRecord::Schema.define(:version => 20130527135421) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -219,26 +219,6 @@ ActiveRecord::Schema.define(:version => 20130527130440) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-  end
-
-  create_table "torque_dispatch_records", :force => true do |t|
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "requestor"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "publisher_id"
-  end
-
-  create_table "torque_queue_records", :force => true do |t|
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "queue"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "publisher_id"
   end
 
   create_table "users", :force => true do |t|
