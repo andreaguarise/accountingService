@@ -1,4 +1,4 @@
-<h1>Flexible Accounting for Usage and System Tracking</h1>
+<h2>Flexible Accounting for Usage and System Tracking</h2>
 
 <% if notice %>
 	<p id="notice"><%= notice %></p> 
@@ -7,7 +7,9 @@
 <% #if session[:user_id] != nil  %>
 	
 	<h3>Sites publishing to this instance</h3>
-
+<table>
+<tr>
+<td>
 <table>
   <tr>
     <th>Name</th>
@@ -25,7 +27,12 @@
     <td><%= @torqueBySite[site.id] %></td>
     <td><%= @emiStorageBySite[site.name] %></td>
   </tr>
+
 <% end %>
-</table>
-	
+ </table>
+ </td>
+ <td>
+ </td>
+ </tr>
+ </table>
 <% #end %>

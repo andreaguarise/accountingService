@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src='http://www.google.com/jsapi'></script>
-  <title>AccountingService</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body id ="faust">
-	
-	<div class="banner">
-		<%= @page_title || "F.A.U.S.T" %>
-	
-	
-	<% if session[:user_id] %>
-	<div id="menu">
-		<table id="menu_table">
-			<thead id="menu_head">
-				<th>Logged in as: </th>
-				<th class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></th>
-				<th>-</th>
-				<th><%= link_to 'Main', main_url%></th>
-				<% if session[:role] == 'admin' %>
-				<th><%= link_to 'Users', users_url%></th>
-				<th><%= link_to 'Resource Management', resource_management_index_url%></th>
-				<% end %>
-				<th><%= link_to 'Cloud', stats_cloud_records_url%></th>
-				<th><%= link_to 'Grid', stats_grid_cpu_records_url%></th>
-				<th><%= link_to 'Storage', emi_storage_records_url%></th>
-				<th>-</th>
-				<th><%= link_to 'Logout', logout_path, :method => :delete %></th>
-			</thead>
+	<head>
+		<script src='http://www.google.com/jsapi'></script>
+		<title>AccountingService</title>
+		<%= stylesheet_link_tag    "application", :media => "all" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body id ="faust">
+		<table class="header">
+			<tr>
+				<td class="logo">F.A.U.S.T</td>
+				<td> <% if session[:user_id] %>
+				<div id="menu">
+					<table id="menu_table">
+						<thead id="menu_head">
+							<th>Logged in as: </th>
+							<th class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></th>
+							<th>-</th>
+							<th><%= link_to 'Main', main_url%></th>
+							<% if session[:role] == 'admin' %>
+							<th><%= link_to 'Users', users_url%></th>
+							<th><%= link_to 'Resource Management', resource_management_index_url%></th>
+							<% end %>
+							<th><%= link_to 'Cloud', stats_cloud_records_url%></th>
+							<th><%= link_to 'Grid', stats_grid_cpu_records_url%></th>
+							<th><%= link_to 'Storage', emi_storage_records_url%></th>
+							<th>-</th>
+							<th><%= link_to 'Logout', logout_path, :method => :delete %></th>
+						</thead>
+					</table>
+				</div> <% end %> </td>
+			</tr>
 		</table>
-	</div>
-	<% end %>
-	</div>
 
-<%= yield %>
+		<%= yield %>
 
-</body>
+	</body>
 </html>

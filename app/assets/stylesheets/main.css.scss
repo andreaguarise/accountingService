@@ -2,15 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.banner {
+table.header {
   background: #600;
   padding: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 4px solid;
-  font: small-caps 30px/30px "Times New Roman", serif;
   color: #c11;
   text-align: left;
+  width: 1350px;
+  td.logo {
+    font: small-caps 28px/28px "Times New Roman", serif;
+    padding: 10px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  }
 }
 
 #banner img { float: left;
