@@ -17,10 +17,10 @@ AccountingService::Application.routes.draw do
   resources :torque_dispatch_records
 
 
-  resources :torque_execute_records do
+  resources :batch_execute_records do
     collection do
       get 'stats'
-      match 'search' => 'torque_execute_records#search'
+      match 'search' => 'batch_execute_records#search'
     end
   end
 

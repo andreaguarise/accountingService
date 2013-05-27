@@ -20,7 +20,7 @@ class GridCpuRecordsControllerTest < ActionController::TestCase
 
   test "should create grid_cpu_record" do
     assert_difference('GridCpuRecord.count') do
-      post :create, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :recordlike_id => @grid_cpu_record.recordlike_id, :recordlike_type => @grid_cpu_record.recordlike_type }
+      post :create, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
     end
 
     assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
@@ -37,7 +37,7 @@ class GridCpuRecordsControllerTest < ActionController::TestCase
   end
 
   test "should update grid_cpu_record" do
-    put :update, :id => @grid_cpu_record, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :recordlike_id => @grid_cpu_record.recordlike_id, :recordlike_type => @grid_cpu_record.recordlike_type }
+    put :update, :id => @grid_cpu_record, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
     assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
   end
 

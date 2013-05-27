@@ -6,7 +6,7 @@ class SitesController < ApplicationController
     @sites = Site.all
     @emiStorageBySite = EmiStorageRecord.group(:site).count #FIXME this should go through joins as for the other record types
     @blahBySite = Site.joins(:blah_records).group(:site_id).count
-    @torqueBySite = Site.joins(:torque_execute_records).group(:site_id).count
+    @batchBySite = Site.joins(:batch_execute_records).group(:site_id).count
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @sites }
@@ -24,8 +24,8 @@ class SitesController < ApplicationController
     if @site.public_methods.member?("blah_records")
       @stats << ["grid",@site.blah_records.count,@site.blah_records.minimum(:recordDate),@site.blah_records.maximum(:recordDate)]
     end
-    if @site.public_methods.member?("torque_execute_records")
-      @stats << ["batch",@site.torque_execute_records.count,@site.torque_execute_records.minimum(:recordDate),@site.torque_execute_records.maximum(:recordDate)]
+    if @site.public_methods.member?("batch_execute_records")
+      @stats << ["batch",@site.batch_execute_records.count,@site.batch_execute_records.minimum(:recordDate),@site.batch_execute_records.maximum(:recordDate)]
     end
     if true #FXME should be as for other record types
       @stats << ["storage",EmiStorageRecord.where(:site => @site.name).count,"NA","NA"]

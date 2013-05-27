@@ -1,0 +1,73 @@
+<h1>Listing batch_execute_records</h1>
+
+<table>
+  <tr>
+    <th>Uniqueid</th>
+    <th>Publisher</th>
+    <th>Resource</th>
+    <th>Site</th>
+    <th>Recorddate</th>
+    <th>Lrmsid</th>
+    <th>User</th>
+    <th>Group</th>
+    <th>Jobname</th>
+    <th>Queue</th>
+    <th>Ctime</th>
+    <th>Qtime</th>
+    <th>Etime</th>
+    <th>Start</th>
+    <th>Exechost</th>
+    <th>Resourcelist nodect</th>
+    <th>Resourcelist nodes</th>
+    <th>Resourcelist.walltime</th>
+    <th>Session</th>
+    <th>End</th>
+    <th>Exitstatus</th>
+    <th>Resourceused cput</th>
+    <th>Resourceused mem</th>
+    <th>Resourceused vmem</th>
+    <th>Resourceused walltime</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @batch_execute_records.each do |batch_execute_record| %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td><%= batch_execute_record.uniqueId %></td>
+    <td><%= batch_execute_record.publisher.hostname %></td>
+    <td><%= batch_execute_record.resource.name %></td>
+    <td><%= batch_execute_record.site.name %></td>
+    <td><%= batch_execute_record.recordDate %></td>
+    <td><%= batch_execute_record.lrmsId %></td>
+    <td><%= batch_execute_record.user %></td>
+    <td><%= batch_execute_record.group %></td>
+    <td><%= batch_execute_record.jobName %></td>
+    <td><%= batch_execute_record.queue %></td>
+    <td><%= batch_execute_record.ctime %></td>
+    <td><%= batch_execute_record.qtime %></td>
+    <td><%= batch_execute_record.etime %></td>
+    <td><%= batch_execute_record.start %></td>
+    <td><%= batch_execute_record.execHost %></td>
+    <td><%= batch_execute_record.resourceList_nodect %></td>
+    <td><%= batch_execute_record.resourceList_nodes %></td>
+    <td><%= batch_execute_record.resourceList_walltime %></td>
+    <td><%= batch_execute_record.session %></td>
+    <td><%= batch_execute_record.end %></td>
+    <td><%= batch_execute_record.exitStatus %></td>
+    <td><%= batch_execute_record.resourceUsed_cput %></td>
+    <td><%= batch_execute_record.resourceUsed_mem %></td>
+    <td><%= batch_execute_record.resourceUsed_vmem %></td>
+    <td><%= batch_execute_record.resourceUsed_walltime %></td>
+    <td><%= link_to 'Show', batch_execute_record %></td>
+    <td><%= link_to 'Edit', edit_batch_execute_record_path(batch_execute_record) %></td>
+    <td><%= link_to 'Destroy', batch_execute_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p><%= will_paginate @batch_execute_records %></p>
+
+<%= link_to 'New Batch execute record', new_batch_execute_record_path %>

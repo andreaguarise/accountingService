@@ -10,7 +10,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522150314) do
+ActiveRecord::Schema.define(:version => 20130527130440) do
+
+  create_table "batch_execute_records", :force => true do |t|
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "user"
+    t.string   "group"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.integer  "publisher_id"
+  end
 
   create_table "blah_records", :force => true do |t|
     t.string   "uniqueId"
@@ -149,11 +177,10 @@ ActiveRecord::Schema.define(:version => 20130522150314) do
   end
 
   create_table "grid_cpu_records", :force => true do |t|
-    t.integer  "recordlike_id"
-    t.string   "recordlike_type"
+    t.integer  "batch_execute_record_id"
     t.integer  "blah_record_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "publishers", :force => true do |t|
@@ -201,34 +228,6 @@ ActiveRecord::Schema.define(:version => 20130522150314) do
     t.string   "requestor"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.integer  "publisher_id"
-  end
-
-  create_table "torque_execute_records", :force => true do |t|
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "user"
-    t.string   "group"
-    t.string   "jobName"
-    t.string   "queue"
-    t.integer  "ctime"
-    t.integer  "qtime"
-    t.integer  "etime"
-    t.integer  "start"
-    t.string   "execHost"
-    t.integer  "resourceList_nodect"
-    t.integer  "resourceList_nodes"
-    t.integer  "resourceList_walltime"
-    t.integer  "session"
-    t.integer  "end"
-    t.integer  "exitStatus"
-    t.integer  "resourceUsed_cput"
-    t.integer  "resourceUsed_mem"
-    t.integer  "resourceUsed_vmem"
-    t.integer  "resourceUsed_walltime"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
     t.integer  "publisher_id"
   end
 

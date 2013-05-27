@@ -11,21 +11,19 @@
     <th>siteName</th>
     <th>cpuTime</th>
     <th>wallTime</th>
-    <th>lrmsType</th>
   </tr>
 
 <% @grid_cpu_records.each do |grid_cpu_record| %>
   <tr class="<%= cycle("odd", "even") %>">
   	<td><%= link_to "#{grid_cpu_record.blah_record.jobId}", grid_cpu_record.blah_record %></td>
-    <td><%= link_to "#{grid_cpu_record.recordlike.lrmsId}", grid_cpu_record.recordlike %></td>
+    <td><%= link_to "#{grid_cpu_record.batch_execute_record.lrmsId}", grid_cpu_record.batch_execute_record %></td>
     <td><%= grid_cpu_record.blah_record.recordDate %></td>
-    <td><%= grid_cpu_record.recordlike.recordDate %></td>
+    <td><%= grid_cpu_record.batch_execute_record.recordDate %></td>
     <td><%= grid_cpu_record.blah_record.userDN %></td>
     <td><%= grid_cpu_record.blah_record.userFQAN %></td>
-    <td><%= grid_cpu_record.recordlike.site.name %></td>
-    <td><%= grid_cpu_record.recordlike.resourceUsed_cput %></td>
-    <td><%= grid_cpu_record.recordlike.resourceUsed_walltime %></td>
-    <td><%= grid_cpu_record.recordlike_type %></td>
+    <td><%= grid_cpu_record.batch_execute_record.site.name %></td>
+    <td><%= grid_cpu_record.batch_execute_record.resourceUsed_cput %></td>
+    <td><%= grid_cpu_record.batch_execute_record.resourceUsed_walltime %></td>
   </tr>
 <% end %>
 </table>

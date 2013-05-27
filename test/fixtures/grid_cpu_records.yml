@@ -1,11 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  recordlike_id: 1
-  recordlike_type: MyString
+  batch_execute_record_id: 1
   blah_record_id: 1
 
 two:
-  recordlike_id: 1
-  recordlike_type: MyString
+  batch_execute_record_id: 1
   blah_record_id: 1

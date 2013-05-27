@@ -9,7 +9,7 @@ class Resource < ActiveRecord::Base
   has_many :grid_cpu_records, :through => :publishers
   has_many :cloud_records, :through => :publishers
   has_many :blah_records, :through => :publishers
-  has_many :torque_execute_records, :through => :publishers
+  has_many :batch_execute_records, :through => :publishers
   has_many :emi_storage_records, :through => :publishers
   #has_many :emi_storage_records #FIXME this should be removed since association will be through the publisher
   belongs_to :resource_type
