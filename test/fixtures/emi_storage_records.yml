@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  recordIdentity: MyString
+  recordIdentity: MyString1
   storageSystem: MyString
   site: MyString
   storageShare: MyString
@@ -20,9 +20,10 @@ one:
   resourceCapacityUsed: 1
   logicalCapacityUsed: 1
   resourceCapacityAllocated: 1
+  publisher_id: 1
 
 two:
-  recordIdentity: MyString
+  recordIdentity: MyString2
   storageSystem: MyString
   site: MyString
   storageShare: MyString
@@ -41,3 +42,4 @@ two:
   resourceCapacityUsed: 1
   logicalCapacityUsed: 1
   resourceCapacityAllocated: 1
+  publisher_id: 1

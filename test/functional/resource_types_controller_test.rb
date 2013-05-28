@@ -4,6 +4,8 @@ class ResourceTypesControllerTest < ActionController::TestCase
   setup do
     login_as :scrocco if defined? session
     @resource_type = resource_types(:one)
+    @resource_type.name = "newUniqueName"
+    @resource_type_two = resource_types(:two)
   end
 
   test "should get index" do
@@ -23,6 +25,12 @@ class ResourceTypesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to resource_type_path(assigns(:resource_type))
+  end
+  
+  test "should fail to create resource_type whit non unique name" do
+    assert_no_difference('ResourceType.count') do
+      post :create, :resource_type => { :name => @resource_type_two.name }
+    end
   end
 
   test "should show resource_type" do

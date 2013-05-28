@@ -5,6 +5,8 @@ class EmiStorageRecordsControllerTest < ActionController::TestCase
     @request.env['REMOTE_ADDR'] = '1.2.3.4'
     request.env['HTTP_AUTHORIZATION'] =  ActionController::HttpAuthentication::Token.encode_credentials("1238.1238")
     @emi_storage_record = emi_storage_records(:one)
+    @emi_storage_record2 = emi_storage_records(:two)
+    @emi_storage_record.recordIdentity = "NewRecordId"
   end
 
   test "should get index" do
@@ -24,6 +26,12 @@ class EmiStorageRecordsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to emi_storage_record_path(assigns(:emi_storage_record))
+  end
+  
+  test "should fail create emi_storage_record with duplicate recordIdentity" do
+    assert_no_difference('EmiStorageRecord.count') do
+      post :create, :emi_storage_record => { :attributeType => @emi_storage_record2.attributeType, :directoryPath => @emi_storage_record2.directoryPath, :endTime => @emi_storage_record2.endTime, :fileCount => @emi_storage_record2.fileCount, :group => @emi_storage_record2.group, :groupAttribute => @emi_storage_record2.groupAttribute, :localGroup => @emi_storage_record2.localGroup, :localUser => @emi_storage_record2.localUser, :logicalCapacityUsed => @emi_storage_record2.logicalCapacityUsed, :recordIdentity => @emi_storage_record2.recordIdentity, :resourceCapacityAllocated => @emi_storage_record2.resourceCapacityAllocated, :resourceCapacityUsed => @emi_storage_record2.resourceCapacityUsed, :site => @emi_storage_record2.site, :startTime => @emi_storage_record2.startTime, :storageClass => @emi_storage_record2.storageClass, :storageMedia => @emi_storage_record2.storageMedia, :storageShare => @emi_storage_record2.storageShare, :storageSystem => @emi_storage_record2.storageSystem, :userIdentity => @emi_storage_record2.userIdentity }
+    end
   end
 
   test "should show emi_storage_record" do

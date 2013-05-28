@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
+batch_one:
   uniqueId: MyString
   recordDate: 2013-04-08 14:05:00
   lrmsId: MyString
@@ -25,7 +25,7 @@ one:
   resourceUsed_walltime: 1
   publisher_id: 1
 
-two:
+batch_two:
   uniqueId: MyString
   recordDate: 2013-04-08 14:05:00
   lrmsId: MyString

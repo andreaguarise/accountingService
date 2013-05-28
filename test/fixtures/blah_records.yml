@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  uniqueId: MyString
+blah_one:
+  uniqueId: MyString1
   recordDate: 2013-05-08 17:08:28
   timestamp: 2013-05-08 17:08:28
   userDN: MyString
@@ -11,10 +11,10 @@ one:
   lrmsId: MyString
   localUser: 1
   clientId: MyString
-  publisher_id: 1
+  publisher: one
 
-two:
-  uniqueId: MyString
+blah_two:
+  uniqueId: MyString2
   recordDate: 2013-05-08 17:08:28
   timestamp: 2013-05-08 17:08:28
   userDN: MyString
@@ -24,4 +24,17 @@ two:
   lrmsId: MyString
   localUser: 1
   clientId: MyString
-  publisher_id: 1
+  publisher: one
+  
+blah_three:
+  uniqueId: MyString3
+  recordDate: 2013-05-08 17:08:28
+  timestamp: 2013-05-08 17:08:28
+  userDN: MyString
+  userFQAN: MyString
+  ceId: MyString
+  jobId: MyString
+  lrmsId: MyString
+  localUser: 1
+  clientId: MyString
+  publisher: one

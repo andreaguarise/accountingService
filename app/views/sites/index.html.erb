@@ -13,13 +13,13 @@
     <th></th>
   </tr>
 
-<% @sites.sort_by{|e| e[:name]}.each do |site| %>
+<% @sites.each do |site| %>
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= link_to site.name, site %></td>
     <td><%= site.cloud_records.count %></td>
-    <td><%= @blahBySite[site.id] %></td>
-    <td><%= @torqueBySite[site.id] %></td>
-    <td><%= @emiStorageBySite[site.name] %></td>
+    <td><%= @blahBySite[site.id] if @blahBySite %></td>
+    <td><%= @batchBySite[site.id] if @batchBySite%></td>
+    <td><%= @emiStorageBySite[site.name] if @emiStorageBySite %></td>
     <td><%= link_to 'Edit', edit_site_path(site) %></td>
     <td><%= link_to 'Destroy', site, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

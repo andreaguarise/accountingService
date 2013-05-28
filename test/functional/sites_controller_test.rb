@@ -4,6 +4,8 @@ class SitesControllerTest < ActionController::TestCase
   setup do
     login_as :scrocco if defined? session
     @site = sites(:one)
+    @site.name = "newUniqueName"
+    @site_two = sites(:two)
   end
 
   test "should get index" do
@@ -23,6 +25,12 @@ class SitesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to site_path(assigns(:site))
+  end
+  
+  test "should fail create site with duplicate name" do
+    assert_no_difference('Site.count') do
+      post :create, :site => { :description => @site_two.description, :name => @site_two.name }
+    end
   end
 
   test "should show site" do

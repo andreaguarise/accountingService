@@ -5,6 +5,7 @@ class GridCpuRecordsControllerTest < ActionController::TestCase
     @request.env['REMOTE_ADDR'] = '1.2.3.4'
     request.env['HTTP_AUTHORIZATION'] =  ActionController::HttpAuthentication::Token.encode_credentials("1238.1238")
     @grid_cpu_record = grid_cpu_records(:one)
+    @grid_cpu_record.blah_record = blah_records(:blah_three)
   end
 
   test "should get index" do

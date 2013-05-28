@@ -5,6 +5,8 @@ class ResourcesControllerTest < ActionController::TestCase
   setup do
     login_as :scrocco if defined? session
     @resource = resources(:one)
+    @resource.name = "newUniqueName"
+    @resource_two = resources(:two)
     @site = sites(:one)
     @resource_type = resource_types(:one)
   end
@@ -26,6 +28,12 @@ class ResourcesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to resource_path(assigns(:resource))
+  end
+  
+  test "should fail in create resource on duplicate name" do
+    assert_no_difference('Resource.count') do
+      post :create, :resource => { :description => @resource_two.description, :name => @resource_two.name }, :resource_type_name => @resource_type.name, :site_name => @site.name
+    end
   end
 
   test "should show resource" do

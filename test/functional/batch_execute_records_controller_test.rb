@@ -4,7 +4,7 @@ class BatchExecuteRecordsControllerTest < ActionController::TestCase
   setup do
     @request.env['REMOTE_ADDR'] = '1.2.3.4'
     request.env['HTTP_AUTHORIZATION'] =  ActionController::HttpAuthentication::Token.encode_credentials("1238.1238")
-    @batch_execute_record = batch_execute_records(:one)
+    @batch_execute_record = batch_execute_records(:batch_one)
   end
 
   test "should get index" do
