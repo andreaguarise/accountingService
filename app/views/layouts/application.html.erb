@@ -10,7 +10,7 @@
 	<body id ="faust">
 		<table class="header">
 			<tr>
-				<td class="logo">F.A.U.S.T</td>
+				<td class="logo"><%= link_to 'F.A.U.S.T.', main_url%></td>
 				<td> <% if session[:user_id] %>
 				<div id="menu">
 					<table id="menu_table">
@@ -18,10 +18,10 @@
 							<th>Logged in as: </th>
 							<th class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></th>
 							<th>-</th>
-							<th><%= link_to 'Main', main_url%></th>
 							<% if session[:role] == 'admin' %>
 							<th><%= link_to 'Users', users_url%></th>
-							<th><%= link_to 'Resource Management', resource_management_index_url%></th>
+							<th><%= link_to 'Resources', resource_management_index_url%></th>
+							<th>-</th>
 							<% end %>
 							<th><%= link_to 'Cloud', stats_cloud_records_url%></th>
 							<th><%= link_to 'Grid', stats_grid_cpu_records_url%></th>
@@ -30,7 +30,11 @@
 							<th><%= link_to 'Logout', logout_path, :method => :delete %></th>
 						</thead>
 					</table>
-				</div> <% end %> </td>
+				</div> <% end %> 
+				</td>
+				<td>
+					Help
+				</td>	
 			</tr>
 		</table>
 

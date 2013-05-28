@@ -16,6 +16,15 @@ table.header {
     padding: 10px;
   padding-top: 9px;
   padding-bottom: 9px;
+  a {
+    font: small-caps 28px/28px "Times New Roman", serif;
+    color: #c11;
+    text-decoration: none;
+    &:hover {
+         color: #f00;
+         background-color: #700;
+       }
+  }
   }
 }
 
@@ -51,6 +60,7 @@ table.header {
        }
      } 
   }
+  
   th
   {
     
@@ -62,7 +72,8 @@ table.header {
      text-align: center;
      a {
        color: #555;
-       font-size: 14px;
+       font-size: 15px;
+       text-decoration: none;
        &:visited {
          color: #bbb;
        }
