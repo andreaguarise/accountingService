@@ -10,6 +10,7 @@ class Publisher < ActiveRecord::Base
   has_many :grid_cpu_records, :through => :blah_records 
   has_many :batch_execute_records
   has_many :emi_storage_records
+  has_many :benchmark_values
   
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource
