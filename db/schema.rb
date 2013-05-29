@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130527135421) do
+ActiveRecord::Schema.define(:version => 20130529120735) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(:version => 20130527135421) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.integer  "publisher_id"
+  end
+
+  create_table "benchmark_types", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "blah_records", :force => true do |t|

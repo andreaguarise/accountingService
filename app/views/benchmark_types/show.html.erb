@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @benchmark_type.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @benchmark_type.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_benchmark_type_path(@benchmark_type) %> |
+<%= link_to 'Back', benchmark_types_path %>

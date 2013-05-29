@@ -1,0 +1,25 @@
+<h1>Listing benchmark_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @benchmark_types.each do |benchmark_type| %>
+  <tr>
+    <td><%= benchmark_type.name %></td>
+    <td><%= benchmark_type.description %></td>
+    <td><%= link_to 'Show', benchmark_type %></td>
+    <td><%= link_to 'Edit', edit_benchmark_type_path(benchmark_type) %></td>
+    <td><%= link_to 'Destroy', benchmark_type, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Benchmark type', new_benchmark_type_path %>

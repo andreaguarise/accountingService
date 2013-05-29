@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :benchmark_types
+
+
     resources :grid_cpu_records do
     collection do
       get 'stats'

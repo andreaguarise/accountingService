@@ -1,0 +1,2 @@
+module BenchmarkTypesHelper
+end
