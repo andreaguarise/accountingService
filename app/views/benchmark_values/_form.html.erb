@@ -1,0 +1,33 @@
+<%= form_for(@benchmark_value) do |f| %>
+  <% if @benchmark_value.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@benchmark_value.errors.count, "error") %> prohibited this benchmark_value from being saved:</h2>
+
+      <ul>
+      <% @benchmark_value.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :benchmark_type_id %><br />
+    <%= f.number_field :benchmark_type_id %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :publisher_id %><br />
+    <%= f.number_field :publisher_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

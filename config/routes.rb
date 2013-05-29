@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :benchmark_values
+
+
   resources :benchmark_types
 
 

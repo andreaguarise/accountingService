@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Benchmark type:</b>
+  <%= @benchmark_value.benchmark_type_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @benchmark_value.value %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @benchmark_value.date %>
+</p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @benchmark_value.publisher_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_benchmark_value_path(@benchmark_value) %> |
+<%= link_to 'Back', benchmark_values_path %>

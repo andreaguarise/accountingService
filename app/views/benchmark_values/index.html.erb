@@ -1,0 +1,29 @@
+<h1>Listing benchmark_values</h1>
+
+<table>
+  <tr>
+    <th>Benchmark type</th>
+    <th>Value</th>
+    <th>Date</th>
+    <th>Publisher</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @benchmark_values.each do |benchmark_value| %>
+  <tr>
+    <td><%= benchmark_value.benchmark_type_id %></td>
+    <td><%= benchmark_value.value %></td>
+    <td><%= benchmark_value.date %></td>
+    <td><%= benchmark_value.publisher_id %></td>
+    <td><%= link_to 'Show', benchmark_value %></td>
+    <td><%= link_to 'Edit', edit_benchmark_value_path(benchmark_value) %></td>
+    <td><%= link_to 'Destroy', benchmark_value, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Benchmark value', new_benchmark_value_path %>

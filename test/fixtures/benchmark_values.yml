@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  benchmark_type_id: 1
+  value: 1.5
+  date: 2013-05-29 14:25:04
+  publisher_id: 1
+
+two:
+  benchmark_type_id: 1
+  value: 1.5
+  date: 2013-05-29 14:25:04
+  publisher_id: 1
