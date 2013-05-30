@@ -3,7 +3,14 @@ class BatchExecuteRecordsController < ApplicationController
   # GET /batch_execute_records
   # GET /batch_execute_records.json
   def index
-    @batch_execute_records = BatchExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
+    respond_to do |format|
+      format.html {
+        @batch_execute_records = BatchExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
+      }
+      format.any(:xml,:json) {
+        @batch_execute_records = BatchExecuteRecord.all 
+      }
+    end
 
     respond_to do |format|
       format.html # index.html.erb
