@@ -16,3 +16,16 @@ if User.count == 0 #create admin user
   User.create(:name=>"admin", :password=>'changeme', :password_confirmation => 'changeme', :role_id => Role.find_by_name('admin').id)
 end
 
+if not BenchmarkType.find_by_name("specInt2k")
+  BenchmarkType.create(:name=>"specInt2k", :description=>"SPEC 2000 Benchmark for integer based computations")
+end
+
+if not BenchmarkType.find_by_name("HEPSPEC06")
+  BenchmarkType.create(:name=>"HEPSPEC06", :description=>"HEP 2006 Benchmark for integer based computations")
+end
+if not BenchmarkType.find_by_name("specFloat2k")
+  BenchmarkType.create(:name=>"specFloat2k", :description=>"SPEC 2000 Benchmark for floatin point based computations")
+end
+
+
+
