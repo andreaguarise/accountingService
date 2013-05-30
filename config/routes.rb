@@ -1,5 +1,13 @@
 AccountingService::Application.routes.draw do
 
+  resources :local_cpu_records 
+  #do
+  #  collection do
+  #    match 'show' => 'batch_execute_records#show'
+  #  end
+  #end
+
+
   resources :benchmark_values
 
 

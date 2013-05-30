@@ -1,0 +1,2 @@
+module LocalCpuRecordsHelper
+end

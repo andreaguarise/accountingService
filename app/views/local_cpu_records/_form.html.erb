@@ -1,0 +1,21 @@
+<%= form_for(@local_cpu_record) do |f| %>
+  <% if @local_cpu_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@local_cpu_record.errors.count, "error") %> prohibited this local_cpu_record from being saved:</h2>
+
+      <ul>
+      <% @local_cpu_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :lrmsId %><br />
+    <%= f.text_field :lrmsId %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

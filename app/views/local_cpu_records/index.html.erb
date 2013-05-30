@@ -1,0 +1,23 @@
+<h1>Listing local_cpu_records</h1>
+
+<table>
+  <tr>
+    <th>Lrmsid</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @local_cpu_records.each do |local_cpu_record| %>
+  <tr>
+    <td><%= local_cpu_record.lrmsId %></td>
+    <td><%= link_to 'Show', local_cpu_record %></td>
+    <td><%= link_to 'Edit', edit_local_cpu_record_path(local_cpu_record) %></td>
+    <td><%= link_to 'Destroy', local_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Local cpu record', new_local_cpu_record_path %>
