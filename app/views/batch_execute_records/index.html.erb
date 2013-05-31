@@ -4,6 +4,7 @@
   <tr>
     <th>Uniqueid</th>
     <th>Publisher</th>
+    <th>benchmark_value</th>
     <th>Resource</th>
     <th>Site</th>
     <th>Recorddate</th>
@@ -36,6 +37,7 @@
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= batch_execute_record.uniqueId %></td>
     <td><%= batch_execute_record.publisher.hostname %></td>
+    <td><%= @bvalues_hash[batch_execute_record.id]%></td>
     <td><%= batch_execute_record.resource.name %></td>
     <td><%= batch_execute_record.site.name %></td>
     <td><%= batch_execute_record.recordDate %></td>
@@ -65,6 +67,7 @@
   </tr>
 <% end %>
 </table>
+
 
 <br />
 
