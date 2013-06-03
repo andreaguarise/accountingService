@@ -1,0 +1,2 @@
+module LocalCpuSummariesHelper
+end

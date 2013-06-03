@@ -7,7 +7,7 @@ class BatchExecuteRecordsController < ApplicationController
       format.html {
         @bvalues_hash = {}
         #@batch_execute_records = BatchExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
-        #this snippet associates each BatchExecuteRecord to is own benchmark_value on the bais of the date, taking the nearest 
+        #this snippet associates each BatchExecuteRecord to is own benchmark_value on the base of the date, taking the nearest 
         #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done thrugh the publisher_id.
         #note that the limitation of the current implementation is that just one benchmark type per publisher would actually work. FIXME for this
         #limitation is needed.

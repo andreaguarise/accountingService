@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Date:</b>
+  <%= @local_cpu_summary.date %>
+</p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @local_cpu_summary.publisher_id %>
+</p>
+
+<p>
+  <b>Totalrecords:</b>
+  <%= @local_cpu_summary.totalRecords %>
+</p>
+
+<p>
+  <b>Totalcput:</b>
+  <%= @local_cpu_summary.totalCpuT %>
+</p>
+
+<p>
+  <b>Totalwallt:</b>
+  <%= @local_cpu_summary.totalWallT %>
+</p>
+
+<p>
+  <b>Localuser:</b>
+  <%= @local_cpu_summary.localUser %>
+</p>
+
+<p>
+  <b>Localgroup:</b>
+  <%= @local_cpu_summary.localGroup %>
+</p>
+
+<p>
+  <b>Queue:</b>
+  <%= @local_cpu_summary.queue %>
+</p>
+
+
+<%= link_to 'Edit', edit_local_cpu_summary_path(@local_cpu_summary) %> |
+<%= link_to 'Back', local_cpu_summaries_path %>

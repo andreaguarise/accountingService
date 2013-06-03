@@ -1,0 +1,49 @@
+<%= form_for(@local_cpu_summary) do |f| %>
+  <% if @local_cpu_summary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@local_cpu_summary.errors.count, "error") %> prohibited this local_cpu_summary from being saved:</h2>
+
+      <ul>
+      <% @local_cpu_summary.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :publisher_id %><br />
+    <%= f.text_field :publisher_id %>
+  </div>
+  <div class="field">
+    <%= f.label :totalRecords %><br />
+    <%= f.number_field :totalRecords %>
+  </div>
+  <div class="field">
+    <%= f.label :totalCpuT %><br />
+    <%= f.number_field :totalCpuT %>
+  </div>
+  <div class="field">
+    <%= f.label :totalWallT %><br />
+    <%= f.number_field :totalWallT %>
+  </div>
+  <div class="field">
+    <%= f.label :localUser %><br />
+    <%= f.text_field :localUser %>
+  </div>
+  <div class="field">
+    <%= f.label :localGroup %><br />
+    <%= f.text_field :localGroup %>
+  </div>
+  <div class="field">
+    <%= f.label :queue %><br />
+    <%= f.text_field :queue %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

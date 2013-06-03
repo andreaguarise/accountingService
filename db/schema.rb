@@ -10,7 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130529122504) do
+ActiveRecord::Schema.define(:version => 20130603084516) do
+
+  create_table "batch_cpu_summaries", :force => true do |t|
+    t.date     "date"
+    t.string   "publisher_id"
+    t.integer  "totalRecords"
+    t.integer  "totalCpuT"
+    t.integer  "totalWallT"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "queue"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -197,6 +210,19 @@ ActiveRecord::Schema.define(:version => 20130529122504) do
     t.integer  "blah_record_id"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
+  end
+
+  create_table "local_cpu_summaries", :force => true do |t|
+    t.date     "date"
+    t.string   "publisher_id"
+    t.integer  "totalRecords"
+    t.integer  "totalCpuT"
+    t.integer  "totalWallT"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "queue"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "publishers", :force => true do |t|

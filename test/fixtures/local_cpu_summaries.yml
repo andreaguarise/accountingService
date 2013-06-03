@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-06-03
+  publisher_id: MyString
+  totalRecords: 1
+  totalCpuT: 1
+  totalWallT: 1
+  localUser: MyString
+  localGroup: MyString
+  queue: MyString
+
+two:
+  date: 2013-06-03
+  publisher_id: MyString
+  totalRecords: 1
+  totalCpuT: 1
+  totalWallT: 1
+  localUser: MyString
+  localGroup: MyString
+  queue: MyString
