@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130603084516) do
+ActiveRecord::Schema.define(:version => 20130604085615) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -221,8 +221,10 @@ ActiveRecord::Schema.define(:version => 20130603084516) do
     t.string   "localUser"
     t.string   "localGroup"
     t.string   "queue"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.float    "normalisedCpuT"
+    t.float    "normalisedWallT"
   end
 
   create_table "publishers", :force => true do |t|

@@ -1,5 +1,5 @@
 class LocalCpuSummary < ActiveRecord::Base
-  attr_accessible :date, :localGroup, :localUser, :publisher_id, :queue, :totalCpuT, :totalRecords, :totalWallT
+  attr_accessible :date, :localGroup, :localUser,:normalisedCpuT,:normalisedWallT, :publisher_id, :queue, :totalCpuT, :totalRecords, :totalWallT
   validates :publisher_id, :presence => true, :on => :create
   validates :date, :presence => true
   validates_uniqueness_of :date, :scope =>[:publisher_id,:localGroup,:localUser,:queue]
@@ -10,6 +10,7 @@ class LocalCpuSummary < ActiveRecord::Base
   delegate :site, :to => :resource
   
   def self.populate(startDate = "")
+    
     summary = LocalCpuRecord.summary(startDate)
     summary.each do |r|
       newSummaryLine = LocalCpuSummary.new
@@ -28,6 +29,27 @@ class LocalCpuSummary < ActiveRecord::Base
           oldRecord.save #UPDATE since it exists
       end
     end
+  end
+  
+  def self.populateNormalisedValues(startDate = "")
+    #FIXME there must be a better way to manege normalisations.
+    bvalues = {}
+    summaries =  []
+    if startDate != ""
+      summaries = LocalCpuSummary.includes(:benchmark_values).find(:all, :order => 'benchmark_values.date', :conditions => "local_cpu_summaries.date >= \"#{startDate}\"")
+    else
+      summaries = LocalCpuSummary.includes(:benchmark_values).find(:all, :order => 'benchmark_values.date')
+    end
+    summaries.each do |l|
+      bvalue = l.benchmark_values.select { |a| a.date.to_date < l.date.to_date }.last
+      bvalues[l.id] = bvalue.value if bvalue
+    end
+    LocalCpuSummary.all.each do |r|
+      r.normalisedCpuT = bvalues[r.id] * r.totalCpuT if bvalues[r.id]
+      r.normalisedWallT = bvalues[r.id] * r.totalWallT if bvalues[r.id]
+      r.save
+    end
+   
   end
   
 end

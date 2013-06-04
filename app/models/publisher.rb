@@ -8,6 +8,7 @@ class Publisher < ActiveRecord::Base
   has_many :blah_records
   has_many :cloud_records
   has_many :grid_cpu_records, :through => :blah_records 
+  has_many :local_cpu_summaries
   has_many :batch_execute_records
   has_many :emi_storage_records
   has_many :benchmark_values
