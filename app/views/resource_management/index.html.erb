@@ -7,9 +7,11 @@
 	<tr>
 		<th></th><th>Number</th>			
 	</tr>
+	<tr><td><%= link_to 'Resource types', resource_types_url%><td><%= ResourceType.count %></td></td></tr>
 	<tr><td><%= link_to 'Sites', sites_url%></td><td><%= Site.count %></td></tr>
 	<tr><td><%= link_to 'Resurces', resources_url%></td><td><%= Resource.count %></td></tr>
 	<tr><td><%= link_to 'Publishers', publishers_url%></td><td><%= Publisher.count %></td></tr>
-	<tr><td><%= link_to 'Resource types', resource_types_url%><td><%= ResourceType.count %></td></td></tr>
+	<tr><td><%= link_to 'Benchmark types', benchmark_types_url%></td><td><%= BenchmarkType.count %></td></tr>
+	<tr><td><%= link_to 'Benchmark values', benchmark_values_url%></td><td><%= BenchmarkValue.count %></td></tr>
 </table>
 

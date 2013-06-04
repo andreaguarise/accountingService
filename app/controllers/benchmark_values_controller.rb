@@ -3,7 +3,7 @@ class BenchmarkValuesController < ApplicationController
   # GET /benchmark_values
   # GET /benchmark_values.json
   def index
-    @benchmark_values = BenchmarkValue.all
+    @benchmark_values = BenchmarkValue.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
 
     respond_to do |format|
       format.html # index.html.erb

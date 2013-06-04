@@ -1,22 +1,23 @@
-<h1>Listing benchmark_values</h1>
+<h1>Benchmark Values</h1>
+
+<%= link_to 'New Benchmark value', new_benchmark_value_path %>
 
 <table>
   <tr>
+  	<th>Date</th>
+    <th>Publisher</th>
     <th>Benchmark type</th>
     <th>Value</th>
-    <th>Date</th>
-    <th>Publisher</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-
-<% @benchmark_values.each do |benchmark_value| %>
-  <tr>
-    <td><%= benchmark_value.benchmark_type_id %></td>
+<% @benchmark_values.sort_by{|e| e[:date]}.each do |benchmark_value| %>
+  <tr class="<%= cycle("odd", "even") %>">
+  	<td><%= benchmark_value.date %></td>
+    <td><%= benchmark_value.publisher.hostname %></td>
+    <td><%= benchmark_value.benchmark_type.name %></td>
     <td><%= benchmark_value.value %></td>
-    <td><%= benchmark_value.date %></td>
-    <td><%= benchmark_value.publisher_id %></td>
     <td><%= link_to 'Show', benchmark_value %></td>
     <td><%= link_to 'Edit', edit_benchmark_value_path(benchmark_value) %></td>
     <td><%= link_to 'Destroy', benchmark_value, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
@@ -26,4 +27,4 @@
 
 <br />
 
-<%= link_to 'New Benchmark value', new_benchmark_value_path %>
+<p><%= will_paginate @benchmark_values %></p>
