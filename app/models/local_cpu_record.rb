@@ -13,7 +13,7 @@ class LocalCpuRecord < BatchExecuteRecord
   def self.summary(startDate = "")
     dateQuery =""
     if ( Rails.env.production? )
-      dateQuery = "date(end,'unixepoch', 'localtime')"#MYSQL syntax
+      dateQuery = "date(FROM_UNIXTIME(end))"#MYSQL syntax
     else
       dateQuery = "date(end,'unixepoch', 'localtime')"#sqlite syntax
     end   

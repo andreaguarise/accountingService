@@ -19,7 +19,10 @@ class GridCpuRecordsController < ApplicationController
     @stats[:records_count]= GridCpuRecord.count
     @stats[:earliest_record]= BlahRecord.minimum(:recordDate)
     @stats[:latest_record]= BlahRecord.maximum(:recordDate)
-    startFrom = @stats[:latest_record].to_date-90
+    startFrom = "2007-04-06".to_date
+    if @stats[:latest_record]
+      startFrom = @stats[:latest_record].to_date-90 
+    end
     #GRAPH for latest 3 months.
     @results1 = GridCpuRecord.find_by_sql("SELECT date(blah_records.recordDate) as ordered_date, count(grid_cpu_records.id) as count, sum(batch_execute_records.resourceUsed_walltime)/3600 as wall, sum(batch_execute_records.resourceUsed_cput)/3600 as cpu FROM grid_cpu_records INNER JOIN batch_execute_records ON grid_cpu_records.batch_execute_record_id = batch_execute_records.id INNER JOIN blah_records ON grid_cpu_records.blah_record_id = blah_records.id WHERE blah_records.recordDate >= \"#{startFrom.to_s}\" GROUP BY ordered_date")
 
