@@ -3,7 +3,7 @@ class LocalCpuRecordsController < ApplicationController
   # GET /local_cpu_records
   # GET /local_cpu_records.json
   def index
-    @local_cpu_records = LocalCpuRecord.all
+    @local_cpu_records = LocalCpuRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
 
     respond_to do |format|
       format.html # index.html.erb
