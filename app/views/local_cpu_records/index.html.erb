@@ -2,7 +2,32 @@
 
 <table>
   <tr>
+    <th>Uniqueid</th>
+    <th>Publisher</th>
+    <th>benchmark_value</th>
+    <th>Resource</th>
+    <th>Site</th>
+    <th>Recorddate</th>
     <th>Lrmsid</th>
+    <th>User</th>
+    <th>Group</th>
+    <th>Jobname</th>
+    <th>Queue</th>
+    <th>Ctime</th>
+    <th>Qtime</th>
+    <th>Etime</th>
+    <th>Start</th>
+    <th>Exechost</th>
+    <th>Resourcelist nodect</th>
+    <th>Resourcelist nodes</th>
+    <th>Resourcelist.walltime</th>
+    <th>Session</th>
+    <th>End</th>
+    <th>Exitstatus</th>
+    <th>Resourceused cput</th>
+    <th>Resourceused mem</th>
+    <th>Resourceused vmem</th>
+    <th>Resourceused walltime</th>
     <th></th>
     <th></th>
     <th></th>
@@ -10,7 +35,32 @@
 
 <% @local_cpu_records.each do |local_cpu_record| %>
   <tr class="<%= cycle("odd", "even") %>">
+    <td><%= local_cpu_record.uniqueId %></td>
+    <td><%= local_cpu_record.publisher.hostname %></td>
+    <td><%= @bvalues_hash[local_cpu_record.id]%></td>
+    <td><%= local_cpu_record.resource.name %></td>
+    <td><%= local_cpu_record.site.name %></td>
+    <td><%= local_cpu_record.recordDate %></td>
     <td><%= local_cpu_record.lrmsId %></td>
+    <td><%= local_cpu_record.user %></td>
+    <td><%= local_cpu_record.group %></td>
+    <td><%= local_cpu_record.jobName %></td>
+    <td><%= local_cpu_record.queue %></td>
+    <td><%= local_cpu_record.ctime %></td>
+    <td><%= local_cpu_record.qtime %></td>
+    <td><%= local_cpu_record.etime %></td>
+    <td><%= local_cpu_record.start %></td>
+    <td><%= local_cpu_record.execHost %></td>
+    <td><%= local_cpu_record.resourceList_nodect %></td>
+    <td><%= local_cpu_record.resourceList_nodes %></td>
+    <td><%= local_cpu_record.resourceList_walltime %></td>
+    <td><%= local_cpu_record.session %></td>
+    <td><%= local_cpu_record.end %></td>
+    <td><%= local_cpu_record.exitStatus %></td>
+    <td><%= local_cpu_record.resourceUsed_cput %></td>
+    <td><%= local_cpu_record.resourceUsed_mem %></td>
+    <td><%= local_cpu_record.resourceUsed_vmem %></td>
+    <td><%= local_cpu_record.resourceUsed_walltime %></td>
     <td><%= link_to 'Show', local_cpu_record %></td>
     <td><%= link_to 'Edit', edit_local_cpu_record_path(local_cpu_record) %></td>
     <td><%= link_to 'Destroy', local_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
