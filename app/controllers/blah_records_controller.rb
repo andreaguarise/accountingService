@@ -23,6 +23,22 @@ class BlahRecordsController < ApplicationController
       format.xml { render :xml => @blah_record }
     end
   end
+  
+  
+  # GET /blah_records/search?lrmsId=string&recordDate=string
+  # GET /blah_records/search?first=true
+  # GET /blah_records/search?last=true
+  def search
+      @blah_record = BlahRecord.find_by_lrmsId_and_recordDate(params[:lrmsId],params[:recordDate].to_time) if params[:lrmsId]
+      @blah_record = BlahRecord.last if params[:last]
+      @blah_record = BlahRecord.first if params[:first]
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @blah_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
+      format.xml { render :xml => @blah_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
+    end
+  end
 
   # GET /blah_records/new
   # GET /blah_records/new.json
@@ -65,14 +81,17 @@ class BlahRecordsController < ApplicationController
   # PUT /blah_records/1.json
   def update
     @blah_record = BlahRecord.find(params[:id])
+    skipMassAssign :blah_record
 
     respond_to do |format|
       if @blah_record.update_attributes(params[:blah_record])
         format.html { redirect_to @blah_record, :notice => 'Blah record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @blah_record.errors, :status => :unprocessable_entity }
+        format.xml { render :json => @blah_record.errors, :status => :unprocessable_entity }
       end
     end
   end

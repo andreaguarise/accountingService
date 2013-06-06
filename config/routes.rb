@@ -20,7 +20,11 @@ AccountingService::Application.routes.draw do
   end
 
 
-  resources :blah_records
+  resources :blah_records do
+    collection do
+      match 'search' => 'blah_records#search'
+    end
+  end
 
 
   resources :batch_execute_records do
