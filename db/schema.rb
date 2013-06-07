@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130607150316) do
+ActiveRecord::Schema.define(:version => 20130607150317) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(:version => 20130607150316) do
     t.integer  "resourceCapacityAllocated", :limit => 8
     t.integer  "resourceCapacityUsed",      :limit => 8
     t.integer  "logicalCapacityUsed",       :limit => 8
-    t.integer  "storageClass"
+    t.string   "storageClass"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end
