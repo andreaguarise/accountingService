@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604085615) do
+ActiveRecord::Schema.define(:version => 20130607150314) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
