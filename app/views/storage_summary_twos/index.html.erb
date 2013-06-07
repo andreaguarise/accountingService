@@ -1,0 +1,37 @@
+<h1>Listing storage_summary_twos</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Publisher</th>
+    <th>Site</th>
+    <th>Storagesystem</th>
+    <th>Group</th>
+    <th>Resourcecapacityused</th>
+    <th>Logicalcapacityused</th>
+    <th>Storageclass</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @storage_summary_twos.each do |storage_summary_two| %>
+  <tr>
+    <td><%= storage_summary_two.date %></td>
+    <td><%= storage_summary_two.publisher_id %></td>
+    <td><%= storage_summary_two.site %></td>
+    <td><%= storage_summary_two.storageSystem %></td>
+    <td><%= storage_summary_two.group %></td>
+    <td><%= storage_summary_two.resourceCapacityUsed %></td>
+    <td><%= storage_summary_two.logicalCapacityUsed %></td>
+    <td><%= storage_summary_two.storageClass %></td>
+    <td><%= link_to 'Show', storage_summary_two %></td>
+    <td><%= link_to 'Edit', edit_storage_summary_two_path(storage_summary_two) %></td>
+    <td><%= link_to 'Destroy', storage_summary_two, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Storage summary two', new_storage_summary_two_path %>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-06-07
+  publisher_id: MyString
+  site: MyString
+  storageSystem: MyString
+  group: MyString
+  resourceCapacityUsed: 1
+  logicalCapacityUsed: 1
+  storageClass: MyString
+
+two:
+  date: 2013-06-07
+  publisher_id: MyString
+  site: MyString
+  storageSystem: MyString
+  group: MyString
+  resourceCapacityUsed: 1
+  logicalCapacityUsed: 1
+  storageClass: MyString
