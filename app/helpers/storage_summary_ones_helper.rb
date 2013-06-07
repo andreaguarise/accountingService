@@ -1,0 +1,2 @@
+module StorageSummaryOnesHelper
+end

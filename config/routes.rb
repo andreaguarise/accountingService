@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :storage_summary_ones
+
+
   resources :local_cpu_summaries
 
 

@@ -1,0 +1,49 @@
+<%= form_for(@storage_summary_one) do |f| %>
+  <% if @storage_summary_one.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@storage_summary_one.errors.count, "error") %> prohibited this storage_summary_one from being saved:</h2>
+
+      <ul>
+      <% @storage_summary_one.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :date %><br />
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :publisher_id %><br />
+    <%= f.text_field :publisher_id %>
+  </div>
+  <div class="field">
+    <%= f.label :site %><br />
+    <%= f.text_field :site %>
+  </div>
+  <div class="field">
+    <%= f.label :storageSystem %><br />
+    <%= f.text_field :storageSystem %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceCapacityAllocated %><br />
+    <%= f.number_field :resourceCapacityAllocated %>
+  </div>
+  <div class="field">
+    <%= f.label :resourceCapacityUsed %><br />
+    <%= f.number_field :resourceCapacityUsed %>
+  </div>
+  <div class="field">
+    <%= f.label :logicalCapacityUsed %><br />
+    <%= f.number_field :logicalCapacityUsed %>
+  </div>
+  <div class="field">
+    <%= f.label :storageClass %><br />
+    <%= f.number_field :storageClass %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
