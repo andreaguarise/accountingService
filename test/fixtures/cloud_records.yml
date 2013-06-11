@@ -49,3 +49,28 @@ two:
   diskImage: MyString
   cloudType: MyString
   publisher_id: 1
+  
+three:
+  VMUUID: MyString
+  resource_id: 1
+  localVMID: MyString
+  local_user: MyString
+  local_group: MyString
+  globaluserName: MyString
+  FQAN: MyString
+  status: MyString
+  startTime: 1361282730
+  endTime: 1361282738
+  suspendDuration: 1
+  wallDuration: 1
+  cpuDuration: 1
+  cpuCount: 1
+  networkType: MyString
+  networkInbound: 1
+  networkOutBound: 1
+  memory: 1
+  disk: 1
+  storageRecordId: MyString
+  diskImage: MyString
+  cloudType: MyString
+  publisher_id: 1
