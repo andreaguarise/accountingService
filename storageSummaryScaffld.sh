@@ -1,9 +1,9 @@
-rails generate scaffold StorageSummaryOne \
+rails generate scaffold StorageSummaryTwo \
 date:date \
 publisher_id: \
 site:string \
 storageSystem:string \
-resourceCapacityAllocated:integer \
+group:string \
 resourceCapacityUsed:integer \
 logicalCapacityUsed:integer \
-storageClass:integer
+storageShare:string
