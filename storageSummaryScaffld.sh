@@ -1,4 +1,4 @@
-rails generate scaffold StorageSummaryTwo \
+rails generate scaffold StorageSummary \
 date:date \
 publisher_id: \
 site:string \

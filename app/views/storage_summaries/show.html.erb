@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Date:</b>
+  <%= @storage_summary.date %>
+</p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @storage_summary.publisher_id %>
+</p>
+
+<p>
+  <b>Site:</b>
+  <%= @storage_summary.site %>
+</p>
+
+<p>
+  <b>Storagesystem:</b>
+  <%= @storage_summary.storageSystem %>
+</p>
+
+<p>
+  <b>Group:</b>
+  <%= @storage_summary.group %>
+</p>
+
+<p>
+  <b>Resourcecapacityused:</b>
+  <%= @storage_summary.resourceCapacityUsed %>
+</p>
+
+<p>
+  <b>Logicalcapacityused:</b>
+  <%= @storage_summary.logicalCapacityUsed %>
+</p>
+
+<p>
+  <b>Storageshare:</b>
+  <%= @storage_summary.storageShare %>
+</p>
+
+
+<%= link_to 'Edit', edit_storage_summary_path(@storage_summary) %> |
+<%= link_to 'Back', storage_summaries_path %>
