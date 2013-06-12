@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612131348) do
+ActiveRecord::Schema.define(:version => 20130612145540) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -214,6 +214,8 @@ ActiveRecord::Schema.define(:version => 20130612131348) do
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
+
+  add_index "grid_cpu_records", ["batch_execute_record_id"], :name => "index_grid_cpu_records_on_batch_execute_record_id"
 
   create_table "local_cpu_summaries", :force => true do |t|
     t.date     "date"
