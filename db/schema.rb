@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611080341) do
+ActiveRecord::Schema.define(:version => 20130612131348) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(:version => 20130611080341) do
     t.datetime "updated_at",            :null => false
     t.integer  "publisher_id"
   end
+
+  add_index "batch_execute_records", ["lrmsId"], :name => "index_batch_execute_records_on_lrmsId"
+  add_index "batch_execute_records", ["recordDate"], :name => "index_batch_execute_records_on_recordDate"
 
   create_table "benchmark_types", :force => true do |t|
     t.string   "name"
