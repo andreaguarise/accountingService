@@ -54,24 +54,25 @@ class CloudRecordsController < ApplicationController
 
     # Add Rows and Values
 
-    started = {}
+    partial = {}
     running = {}
-    CloudRecord.find_each(:batch_size => 50) do |r|
-    #CloudRecord.where(:local_user => "oneadmin").each do |r|
-      dateStart = DateTime.parse("#{r['startTime']}").to_date
-      if started[dateStart]
-      started[dateStart] += 1
-      else
-      started[dateStart] = 1
-      end
-    end
-    actualRunning = 0
-    started.sort.each do |date,startedCount|
-      partial = startedCount-CloudRecord.where("date(endTime)=\"#{date}\"").count
-      actualRunning = running[date] = actualRunning + partial
-      data_table.add_row([date,startedCount,partial,actualRunning])
-    end
+    incremental = 0
 
+    started_ary = CloudRecord.group('date(startTime)').count
+    ended_ary = CloudRecord.group('date(endTime)').count
+
+    started_ary.each do |date,startedCount|
+      if ended_ary[date]
+      partial[date] = startedCount-ended_ary[date]
+      else
+      partial[date] = startedCount
+      end
+      incremental = incremental + partial[date]
+      running[date] = incremental
+      #puts "date:#{date}, running:#{running[date]}  --->  partial: #{partial[date]}"
+      data_table.add_row([date.to_date,startedCount,partial[date],running[date]])
+    end
+    
     option = { :width => 1100, :height => 650, :title => 'Running VMs' }
     @chart = GoogleVisualr::Interactive::AreaChart.new(data_table, option)
 
