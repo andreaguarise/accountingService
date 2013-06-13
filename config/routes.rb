@@ -6,7 +6,12 @@ AccountingService::Application.routes.draw do
   resources :local_cpu_summaries
 
 
-  resources :local_cpu_records
+  resources :local_cpu_records do
+    collection do
+      get 'stats'
+      match 'search' => 'local_cpu_records#search'
+    end
+  end
 
 
   resources :benchmark_values
