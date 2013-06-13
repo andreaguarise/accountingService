@@ -10,6 +10,7 @@
     <th>Resourcecapacityused</th>
     <th>Logicalcapacityused</th>
     <th>Storageshare</th>
+    <th>ResourceCapacityAllocated</th>
     <th></th>
     <th></th>
     <th></th>
@@ -25,6 +26,7 @@
     <td><%= storage_summary.resourceCapacityUsed %></td>
     <td><%= storage_summary.logicalCapacityUsed %></td>
     <td><%= storage_summary.storageShare %></td>
+    <td><%= storage_summary.resourceCapacityAllocated %></td>
     <td><%= link_to 'Show', storage_summary %></td>
     <td><%= link_to 'Edit', edit_storage_summary_path(storage_summary) %></td>
     <td><%= link_to 'Destroy', storage_summary, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
