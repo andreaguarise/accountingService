@@ -4,5 +4,6 @@ class Site < ActiveRecord::Base
   has_many :cloud_records, :through => :resources
   has_many :blah_records, :through => :resources
   has_many :batch_execute_records, :through => :resources
+  has_many :local_cpu_records, :through => :resources
   validates :name, :presence => true, :uniqueness => true, :on => :create
 end
