@@ -3,6 +3,7 @@ class Resource < ActiveRecord::Base
   validates :site_id, :presence => true, :on => :create
   validates :resource_type_id, :presence => true, :on => :create
   validates :name, :presence => true, :uniqueness => true, :on => :create
+  
   has_many :publishers
    
   has_many :dgas_grid_cpu_records 
@@ -12,7 +13,8 @@ class Resource < ActiveRecord::Base
   has_many :blah_records, :through => :publishers
   has_many :batch_execute_records, :through => :publishers
   has_many :emi_storage_records, :through => :publishers
-  #has_many :emi_storage_records #FIXME this should be removed since association will be through the publisher
   belongs_to :resource_type
   belongs_to :site
+  
+  accepts_nested_attributes_for :site
 end

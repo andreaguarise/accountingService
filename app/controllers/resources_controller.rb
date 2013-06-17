@@ -5,7 +5,7 @@ class ResourcesController < ApplicationController
   # GET /resources.xml
   def index
     params[:sort] = "resource_name" if not params[:sort]
-    @resources =  @resources = Resource.joins(:site,:resource_type).select("resources.id as resource_id, resources.name as resource_name,sites.name as site_name,resource_types.name as type_name")
+    @resources = Resource.joins(:site,:resource_type).select("resources.id as resource_id, resources.name as resource_name,sites.name as site_name,resource_types.name as type_name")
     @resources = @resources.sort_by{|e| e[params[:sort]]}
     @resources.reverse! if params[:desc]
     

@@ -3,7 +3,10 @@ class PublishersController < ApplicationController
   # GET /publishers
   # GET /publishers.json
   def index
-    @publishers = Publisher.all
+    params[:sort] = "publisher_hostname" if not params[:sort]
+    @publishers = Publisher.joins(:resource,:resource => :site).select("publishers.id as publisher_id, publishers.hostname as publisher_hostname,sites.name as site_name,resources.name as resource_name, publishers.ip as publisher_ip, publishers.token as publisher_token")
+    @publishers = @publishers.sort_by{|e| e[params[:sort]]}
+    @publishers.reverse! if params[:desc]
 
     respond_to do |format|
       format.html # index.html.erb

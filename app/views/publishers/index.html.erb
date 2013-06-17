@@ -4,24 +4,24 @@
 
 <table class="management">
   <tr>
-    <th>Hostname</th>
-    <th>Ip</th>
+    <th>Hostname<%= upArrowLink "publisher_hostname"%><%= downArrowLink "publisher_hostname" %></th>
+    <th>Ip<%= upArrowLink "publisher_ip"%><%= downArrowLink "publisher_ip" %></th>
     <th>Token</th>
-    <th>Resource</th>
-    <th>Site</th>
+    <th>Resource<%= upArrowLink "resource_name"%><%= downArrowLink "resource_name" %></th>
+    <th>Site<%= upArrowLink "site_name"%><%= downArrowLink "site_name" %></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @publishers.sort_by{|e| e[:hostname]}.each do |publisher| %>
+<% @publishers.each do |publisher| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td><%= link_to publisher.hostname, publisher %></td>
-    <td><%= publisher.ip %></td>
-    <td><%= publisher.token %></td>
-    <td><%= publisher.resource.name %></td>
-    <td><%= publisher.site.name %></td>
-    <td><%= link_to 'Edit', edit_publisher_path(publisher) %></td>
-    <td><%= link_to 'Destroy', publisher, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td><%= link_to publisher.publisher_hostname, publisher_path(publisher.publisher_id) %></td>
+    <td><%= publisher.publisher_ip %></td>
+    <td><%= publisher.publisher_token %></td>
+    <td><%= publisher.resource_name %></td>
+    <td><%= publisher.site_name %></td>
+    <td><%= link_to 'Edit', edit_publisher_path(publisher.publisher_id) %></td>
+    <td><%= link_to 'Destroy', publisher_path(publisher.publisher_id), :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
