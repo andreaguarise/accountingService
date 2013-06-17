@@ -2,24 +2,25 @@
 
 <%= link_to 'New Resource', new_resource_path %>
 
+
 <table class="management">
   <tr>
-    <th>Name</th>
-    <th>Site</th>
-    <th>Resource type</th>
+    <th>Resource name<%= upArrowLink "resource_name"%><%= downArrowLink "resource_name" %></th>
+    <th>Site<%= upArrowLink "site_name" %><%= downArrowLink "site_name" %></th>
+    <th><%= link_to "Resource Type", :sort => "type_name" %></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @resources.sort_by{|e| e[:name]}.each do |resource| %>
+<% @resources.each do |resource| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= link_to resource.name, resource %></td>
-    <td><%= resource.site.name %></td>
-    <td><%= resource.resource_type.name %></td>
-    <td class="list_actions"><%= link_to 'Edit', edit_resource_path(resource) %></td>
-    <td class="list_actions"><%= link_to 'Destroy', resource, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td class="main_field"><%= link_to resource.resource_name, resource_path(resource.resource_id) %></td>
+    <td><%= resource.site_name %></td>
+    <td><%= resource.type_name %></td>
+    <td class="list_actions"><%= link_to 'Edit', edit_resource_path(resource.resource_id) %></td>
+    <td class="list_actions"><%= link_to 'Destroy', resource_path(resource.resource_id), :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
-<% end %>
+<%end%>
 </table>
 
 <br />
