@@ -126,6 +126,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  arel
   capistrano
   coffee-rails (~> 3.2.1)
   google_visualr (>= 2.1)

@@ -31,5 +31,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def tableSort! ( table, params, default_key )
+    params[:sort] = default_key if not params[:sort]
+    table = table.sort_by{|e| e[params[:sort]]}
+    table.reverse! if params[:desc]
+    table
+  end
+  
 end
 

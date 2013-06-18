@@ -3,8 +3,11 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-    @sites = Site.all
-    @sites.sort_by {|s| s[:name]} 
+    params[:sort] = "name" if not params[:sort]
+    @sites = Site.search(params[:key],params[:search])
+    @sites = @sites.sort_by{|e| e[params[:sort]]}
+    @sites.reverse! if params[:desc]
+    
     @emiStorageBySite = EmiStorageRecord.group(:site).count #FIXME this should go through joins as for the other record types
     @blahBySite = Site.joins(:blah_records).group(:site_id).count
     @batchBySite = Site.joins(:batch_execute_records).group(:site_id).count

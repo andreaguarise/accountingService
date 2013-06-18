@@ -1,4 +1,5 @@
 class Resource < ActiveRecord::Base
+  include Search
   attr_accessible :description, :name, :resource_type_id, :site_id
   validates :site_id, :presence => true, :on => :create
   validates :resource_type_id, :presence => true, :on => :create

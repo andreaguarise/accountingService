@@ -1,4 +1,5 @@
 class Publisher < ActiveRecord::Base
+  include Search
   attr_accessible :hostname, :ip, :token, :resource_id
   #validates :ip, :presence => true, :uniqueness => true
   validates :ip, :presence => true

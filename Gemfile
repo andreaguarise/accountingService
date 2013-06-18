@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'therubyracer'
 
 gem 'json'
+gem 'arel'
 
 gem 'will_paginate', '>= 3.0.pre'
 gem "google_visualr", ">= 2.1"
