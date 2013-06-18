@@ -1,4 +1,5 @@
 class LocalCpuSummary < ActiveRecord::Base
+  include Search
   attr_accessible :date, :localGroup, :localUser,:normalisedCpuT,:normalisedWallT, :publisher_id, :queue, :totalCpuT, :totalRecords, :totalWallT
   validates :publisher_id, :presence => true, :on => :create
   validates :date, :presence => true

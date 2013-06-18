@@ -8,17 +8,20 @@ class BatchExecuteRecordsController < ApplicationController
         @bvalues_hash = {}
         #@batch_execute_records = BatchExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
         #this snippet associates each BatchExecuteRecord to is own benchmark_value on the base of the date, taking the nearest 
-        #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done thrugh the publisher_id.
+        #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done through the publisher_id.
         #note that the limitation of the current implementation is that just one benchmark type per publisher would actually work. FIXME for this
         #limitation is needed.
-        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values).paginate( :page=>params[:page], :order=>'batch_execute_records.id desc', :per_page => 20).find(:all, :order => 'benchmark_values.date')
+        params[:sort] = 'batch_execute_records.id' if not params[:sort]
+        order_string = params[:sort]
+        order_string = order_string + " desc" if params[:desc]
+        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :order=>order_string, :per_page => 20).order('benchmark_values.date').search(params[:key],params[:search])
         @batch_execute_records.each do |ber|
           bvalue = ber.benchmark_values.select { |a| a.date.to_date < ber.recordDate.to_date }.last
           @bvalues_hash[ber.id] = bvalue.value if bvalue
         end 
       }
       format.any(:xml,:json) {
-        @batch_execute_records = BatchExecuteRecord.all 
+        @batch_execute_records = BatchExecuteRecord.search(params[:key],params[:search])
       }
     end
 

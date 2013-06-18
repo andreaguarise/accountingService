@@ -1,4 +1,5 @@
 class BlahRecord < ActiveRecord::Base
+  include Search
   attr_accessible :ceId, :clientId, :jobId, :localUser, :lrmsId, :publisher_id, :recordDate, :timestamp, :uniqueId, :userDN, :userFQAN
   before_validation :computeUniqueId
   belongs_to :publisher

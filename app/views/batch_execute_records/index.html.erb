@@ -1,16 +1,16 @@
-<h1>Listing batch_execute_records</h1>
+<h1>Batch execute records</h1>
 
 <table>
   <tr>
     <th>Uniqueid</th>
-    <th>Publisher</th>
-    <th>benchmark_value</th>
-    <th>Resource</th>
-    <th>Site</th>
+    <th>Publisher<%= upArrowLink "publishers.hostname"%><%= downArrowLink "publishers.hostname" %></th>
+    <th>benchmark_value<%= upArrowLink "benchmark_values.value"%><%= downArrowLink "benchmark_values.value" %></th>
+    <th>Resource<%= upArrowLink "resources.name"%><%= downArrowLink "resources.name" %></th>
+    <th>Site<%= upArrowLink "sites.name"%><%= downArrowLink "sites.name" %></th>
     <th>Recorddate</th>
     <th>Lrmsid</th>
-    <th>User</th>
-    <th>Group</th>
+    <th>User<%= upArrowLink "user"%><%= downArrowLink "user" %></th>
+    <th>Group<%= upArrowLink "group"%><%= downArrowLink "group" %></th>
     <th>Jobname</th>
     <th>Queue</th>
     <th>Ctime</th>
