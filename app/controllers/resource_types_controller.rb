@@ -4,7 +4,7 @@ class ResourceTypesController < ApplicationController
   # GET /resource_types.json
   def index
     params[:sort] = "name" if not params[:sort]
-    @resource_types = ResourceType.search(params[:search])
+    @resource_types = ResourceType.search(params[:key],params[:search])
     @resource_types = @resource_types.sort_by{|e| e[params[:sort]]}
     @resource_types.reverse! if params[:desc]
 
