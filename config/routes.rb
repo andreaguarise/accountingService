@@ -46,7 +46,11 @@ AccountingService::Application.routes.draw do
   resources :roles
 
 
-  resources :emi_storage_records
+  resources :emi_storage_records do
+    collection do
+      get 'stats'
+    end
+  end
 
 
   get "main/index"

@@ -6,7 +6,7 @@
 			<td>Total number of records
 			<br>
 			</td>
-			<td>total cpu time (days)
+			<td>total storage (GB)
 			<br>
 			</td>
 			<td >Earliest record date
@@ -20,7 +20,7 @@
 			<td ><%= @stats[:records_count] %>
 			<br>
 			</td>
-			<td ><%= @stats[:records_cpu_sum] %>
+			<td ><%= @stats[:records_storage_sum] %>
 			<br>
 			</td>
 			<td ><%= @stats[:earliest_record] %>
@@ -43,9 +43,9 @@
 </tbody>
 </table>
 <p>
-	<%= link_to 'Record list', local_cpu_records_url%>
+	<%= link_to 'Record list', emi_storage_records_url%>
 </p>
 <p>
-	<%= link_to 'Record summaries', local_cpu_summaries_url%>
+	<%= link_to 'Record summaries', storage_summaries_url%>
 </p>
 <br>

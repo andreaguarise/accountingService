@@ -36,6 +36,7 @@ class LocalCpuRecordsController < ApplicationController
     @stats[:records_count]= LocalCpuRecord.count
     @stats[:earliest_record]= LocalCpuRecord.minimum(:recordDate)
     @stats[:latest_record]= LocalCpuRecord.maximum(:recordDate)
+    @stats[:records_cpu_sum]= LocalCpuRecord.sum(:resourceUsed_cput)/86400
     startFrom = "2007-04-06".to_date
     if @stats[:latest_record]
       startFrom = @stats[:latest_record].to_date-90 
@@ -56,13 +57,9 @@ class LocalCpuRecordsController < ApplicationController
       table.add_row([result1.ordered_date.to_date,result1.count.to_i,result1.wall.to_i,result1.cpu.to_i])
     end 
     
-
     
-    option1 = { :width => 1100, :height => 650, :title => 'Local Jobs' }
+    option1 = { :width => 1200, :height => 600, :title => 'Local Jobs' }
     @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
-    
-    #option2 = { :width => 600, :height => 300, :title => 'Wall time' }
-    #@chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
 
     
 

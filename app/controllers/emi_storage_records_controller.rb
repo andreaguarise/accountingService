@@ -11,6 +11,46 @@ class EmiStorageRecordsController < ApplicationController
       format.xml { render :xml => @emi_storage_records }
     end
   end
+  
+   # GET /emi_storage_records/stats
+  # GET /emi_storage_records/stats.json
+  def stats
+    @stats = {}
+    @stats[:records_count]= EmiStorageRecord.count
+    @stats[:earliest_record]= EmiStorageRecord.minimum(:endTime)
+    @stats[:latest_record]= EmiStorageRecord.maximum(:endTime)
+    @stats[:records_storage_sum]= EmiStorageRecord.sum(:resourceCapacityUsed)/1024000000
+    startFrom = "2007-04-06".to_date
+    if @stats[:latest_record]
+      startFrom = @stats[:latest_record].to_date-90 
+    end
+    #GRAPH for latest 3 months.
+    @results1 = EmiStorageRecord.select("date(endTime) as ordered_date, count(*) as count, sum(resourceCapacityUsed)/1048576000000 as used").group("date(endTime)").order("ordered_date")
+    table = GoogleVisualr::DataTable.new
+    
+    
+    # Add Column Headers
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'records')
+    table.new_column('number', 'storage consumed (PB)')
+    
+    
+    @results1.each do |result1|
+      table.add_row([result1.ordered_date.to_date,result1.count.to_i,result1.used.to_i])
+    end 
+    
+    
+    option1 = { :width => 1200, :height => 600, :title => 'Storage records' }
+    @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
+
+    
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @stats }
+      format.xml { render :xml => @stats }
+    end
+  end
 
   # GET /emi_storage_records/1
   # GET /emi_storage_records/1.json
