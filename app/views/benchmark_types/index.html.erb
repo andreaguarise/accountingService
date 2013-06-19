@@ -13,7 +13,7 @@
     <td><%= link_to benchmark_type.name, benchmark_type_path(benchmark_type.id) %></td>
     <td><%= benchmark_type.description %></td>
     <td><%= link_to 'Edit', edit_benchmark_type_path(benchmark_type) %></td>
-    <td><%= link_to 'Destroy', benchmark_type, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', benchmark_type, :method => :delete, :data => { :confirm => 'Are you sure? Associated benchmark values will be deleted too.' } %></td>
   </tr>
 <% end %>
 </table>
