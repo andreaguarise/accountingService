@@ -12,7 +12,7 @@ class Publisher < ActiveRecord::Base
   has_many :local_cpu_summaries
   has_many :batch_execute_records
   has_many :emi_storage_records
-  has_many :benchmark_values
+  has_many :benchmark_values, :dependent => :destroy
   
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource
