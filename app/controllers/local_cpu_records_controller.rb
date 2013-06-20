@@ -7,12 +7,11 @@ class LocalCpuRecordsController < ApplicationController
     respond_to do |format|
       format.html {
         @bvalues_hash = {}
-        #@batch_execute_records = BatchExecuteRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
         #this snippet associates each BatchExecuteRecord to is own benchmark_value on the base of the date, taking the nearest
-        #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done thrugh the publisher_id.
+        #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done through the publisher_id.
         #note that the limitation of the current implementation is that just one benchmark type per publisher would actually work. FIXME for this
         #limitation is needed.
-        @local_cpu_records = LocalCpuRecord.includes(:benchmark_values).paginate( :page=>params[:page], :order=>'batch_execute_records.id desc', :per_page => 20).find(:all, :order => 'benchmark_values.date')
+        @local_cpu_records = LocalCpuRecord.includes(:benchmark_values).orderByParms('batch_execute_records.id desc',params).paginate( :page=>params[:page], :per_page => 20).find(:all, :order => 'benchmark_values.date')
         @local_cpu_records.each do |lcr|
           bvalue = lcr.benchmark_values.select { |a| a.date.to_date < lcr.recordDate.to_date }.last
           @bvalues_hash[lcr.id] = bvalue.value if bvalue

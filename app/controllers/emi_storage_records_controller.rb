@@ -3,7 +3,7 @@ class EmiStorageRecordsController < ApplicationController
   # GET /emi_storage_records
   # GET /emi_storage_records.json
   def index
-    @emi_storage_records = EmiStorageRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
+    @emi_storage_records = EmiStorageRecord.orderByParms('id desc',params).paginate :page=>params[:page], :per_page => 20
 
     respond_to do |format|
       format.html # index.html.erb

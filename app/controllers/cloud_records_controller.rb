@@ -5,8 +5,14 @@ class CloudRecordsController < ApplicationController
   # GET /cloud_records.json
   # GET /cloud_records.xml
   def index
-    @cloud_records = CloudRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 25
-
+    respond_to do |format|
+      format.html {
+        @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => 25).orderByParms('id desc',params)
+      }
+      format.any(:xml,:json){
+        @cloud_records = CloudRecord.all
+      }
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json {

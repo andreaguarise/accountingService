@@ -4,19 +4,20 @@
 
 <table>
   <tr>
-  	<th>Date</th>
-    <th>Publisher</th>
-    <th>Benchmark type</th>
+  	<th>Date<%= upArrowLink "date"%><%= downArrowLink "date" %></th>
+    <th>Publisher<%= upArrowLink "publishers_hostname"%><%= downArrowLink "publishers_hostname" %></th>
+    <th>Benchmark type<%= upArrowLink "benchmark_types_name"%><%= downArrowLink "benchmark_types_name" %></th>
     <th>Value</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
-<% @benchmark_values.sort_by{|e| e[:date]}.each do |benchmark_value| %>
+  
+<% @benchmark_values.each do |benchmark_value| %>
   <tr class="<%= cycle("odd", "even") %>">
   	<td><%= benchmark_value.date %></td>
-    <td><%= benchmark_value.publisher.hostname %></td>
-    <td><%= benchmark_value.benchmark_type.name %></td>
+    <td><%= benchmark_value.publishers_hostname %></td>
+    <td><%= benchmark_value.benchmark_types_name %></td>
     <td><%= benchmark_value.value %></td>
     <td><%= link_to 'Show', benchmark_value %></td>
     <td><%= link_to 'Edit', edit_benchmark_value_path(benchmark_value) %></td>
@@ -25,6 +26,6 @@
 <% end %>
 </table>
 
-<br />
+<%= will_paginate @benchmark_values %>
 
-<p><%= will_paginate @benchmark_values %></p>
+<br />

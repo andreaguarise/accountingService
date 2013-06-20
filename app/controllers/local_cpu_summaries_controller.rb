@@ -3,7 +3,7 @@ class LocalCpuSummariesController < ApplicationController
   # GET /local_cpu_summaries
   # GET /local_cpu_summaries.json
   def index
-    @local_cpu_summaries = LocalCpuSummary.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
+    @local_cpu_summaries = LocalCpuSummary.orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => 20)
 
     respond_to do |format|
       format.html # index.html.erb

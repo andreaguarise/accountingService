@@ -4,13 +4,7 @@ class BenchmarkTypesController < ApplicationController
   # GET /benchmark_types.json
   # GET /benchmark_types.xml
   def index
-    @benchmark_types = BenchmarkType.search(params[:key],params[:search])
-    respond_to do |format|
-      format.html {
-        @benchmark_types = tableSort!(@benchmark_types, params, "name")
-    }
-    format.any(:xml,:json) {}
-    end
+    @benchmark_types = BenchmarkType.orderByParms('name',params).search(params[:key],params[:search])
 
     respond_to do |format|
       format.html # index.html.erb

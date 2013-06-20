@@ -11,10 +11,10 @@ class BatchExecuteRecordsController < ApplicationController
         #(respect to recordDate) benchmark_values.value found in the benchmark_values table. association is done through the publisher_id.
         #note that the limitation of the current implementation is that just one benchmark type per publisher would actually work. FIXME for this
         #limitation is needed.
-        params[:sort] = 'batch_execute_records.id' if not params[:sort]
-        order_string = params[:sort]
-        order_string = order_string + " desc" if params[:desc]
-        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :order=>order_string, :per_page => 20).order('benchmark_values.date').search(params[:key],params[:search])
+        #@batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :order=>orderString('batch_execute_record_id'), :per_page => 20).order('benchmark_values.date').search(params[:key],params[:search])
+        #@batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :per_page => 20).orderBy('batch_execute_record_id',params).order('benchmark_values.date').search(params[:key],params[:search])
+        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :per_page => 20).orderByParms('batch_execute_records.id',params).order('benchmark_values.date').search(params[:key],params[:search])
+
         @batch_execute_records.each do |ber|
           bvalue = ber.benchmark_values.select { |a| a.date.to_date < ber.recordDate.to_date }.last
           @bvalues_hash[ber.id] = bvalue.value if bvalue

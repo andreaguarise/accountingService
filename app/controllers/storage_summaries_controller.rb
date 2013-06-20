@@ -2,7 +2,7 @@ class StorageSummariesController < ApplicationController
   # GET /storage_summaries
   # GET /storage_summaries.json
   def index
-    @storage_summaries = StorageSummary.all
+    @storage_summaries = StorageSummary.orderByParms('id desc',params).all
 
     respond_to do |format|
       format.html # index.html.erb

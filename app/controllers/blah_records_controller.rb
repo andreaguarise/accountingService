@@ -3,7 +3,14 @@ class BlahRecordsController < ApplicationController
   # GET /blah_records
   # GET /blah_records.json
   def index
-    @blah_records = BlahRecord.paginate :page=>params[:page], :order=>'id desc', :per_page => 20
+    respond_to do |format|
+      format.html {
+        @blah_records = BlahRecord.paginate(:page=>params[:page],:per_page => 20).orderByParms('id desc',params)
+      }
+      format.any(:xml,:json){
+        @blah_records = BlahRecord.all
+      }
+    end
 
     respond_to do |format|
       format.html # index.html.erb

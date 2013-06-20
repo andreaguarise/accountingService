@@ -38,5 +38,6 @@ class ApplicationController < ActionController::Base
     table
   end
   
+  
 end
 

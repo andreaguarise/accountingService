@@ -5,7 +5,7 @@ class BlahRecord < ActiveRecord::Base
   belongs_to :publisher
   validates :publisher_id, :presence => true, :on => :create
   validates :uniqueId, :uniqueness => true, :on => :create
-  has_one :grid_cpu_record
+  has_one :grid_cpu_record, :dependent => :destroy
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
 
