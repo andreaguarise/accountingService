@@ -13,7 +13,7 @@ class BatchExecuteRecordsController < ApplicationController
         #limitation is needed.
         #@batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :order=>orderString('batch_execute_record_id'), :per_page => 20).order('benchmark_values.date').search(params[:key],params[:search])
         #@batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :per_page => 20).orderBy('batch_execute_record_id',params).order('benchmark_values.date').search(params[:key],params[:search])
-        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :per_page => 20).orderByParms('batch_execute_records.id',params).order('benchmark_values.date').search(params[:key],params[:search])
+        @batch_execute_records = BatchExecuteRecord.includes(:benchmark_values, :publisher, :publisher => :resource, :publisher => {:resource => :site}).paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('batch_execute_records.id',params).order('benchmark_values.date').search(params[:key],params[:search])
 
         @batch_execute_records.each do |ber|
           bvalue = ber.benchmark_values.select { |a| a.date.to_date < ber.recordDate.to_date }.last
@@ -21,7 +21,7 @@ class BatchExecuteRecordsController < ApplicationController
         end 
       }
       format.any(:xml,:json) {
-        @batch_execute_records = BatchExecuteRecord.search(params[:key],params[:search])
+        @batch_execute_records = BatchExecuteRecord.paginate( :page=>params[:page], :per_page => config.itemsPerPage).search(params[:key],params[:search])
       }
     end
 

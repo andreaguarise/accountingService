@@ -11,7 +11,7 @@ class BenchmarkValuesController < ApplicationController
           date, 
           publishers.hostname as publishers_hostname, 
           benchmark_types.name as benchmark_types_name, 
-          value").paginate( :page=>params[:page], :per_page => 20).orderByParms('id',params).search(params[:key],params[:search])
+          value").paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id',params).search(params[:key],params[:search])
     }
     format.any(:xml,:json) {
         @benchmark_values = BenchmarkValue.search(params[:key],params[:search])

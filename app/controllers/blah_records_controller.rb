@@ -5,7 +5,7 @@ class BlahRecordsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @blah_records = BlahRecord.paginate(:page=>params[:page],:per_page => 20).orderByParms('id desc',params)
+        @blah_records = BlahRecord.paginate(:page=>params[:page],:per_page => config.itemsPerPageHTML).orderByParms('id desc',params)
       }
       format.any(:xml,:json){
         @blah_records = BlahRecord.all

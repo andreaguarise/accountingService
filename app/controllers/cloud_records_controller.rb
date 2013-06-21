@@ -7,10 +7,10 @@ class CloudRecordsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => 25).orderByParms('id desc',params)
+        @cloud_records = CloudRecord.includes(:publisher,:publisher => :resource, :publisher => {:resource => :site}).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params)
       }
       format.any(:xml,:json){
-        @cloud_records = CloudRecord.all
+        @cloud_records = CloudRecord.includes(:publisher,:publisher => :resource, :publisher => {:resource => :site}).paginate(:page=>params[:page], :per_page => config.itemsPerPage).all
       }
     end
     respond_to do |format|
@@ -47,6 +47,7 @@ class CloudRecordsController < ApplicationController
   def stats
     @stats = {}
     @stats[:records_count]= CloudRecord.count
+    @stats[:records_pages]= (CloudRecord.count/250.0).ceil
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
     @stats[:sum_wall] = CloudRecord.sum(:wallDuration)

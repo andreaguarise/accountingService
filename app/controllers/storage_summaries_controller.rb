@@ -1,4 +1,5 @@
 class StorageSummariesController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /storage_summaries
   # GET /storage_summaries.json
   def index
