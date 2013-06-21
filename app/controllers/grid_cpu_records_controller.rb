@@ -4,7 +4,7 @@ class GridCpuRecordsController < ApplicationController
   # GET /grid_cpu_records
   # GET /grid_cpu_records.json
   def index
-    @grid_cpu_records = GridCpuRecord.orderByParms('id desc',params).paginate :page=>params[:page], :per_page => config.itemsPerPageHTML
+    @grid_cpu_records = GridCpuRecord.includes(:blah_record, :batch_execute_record, :blah_record => :publisher, :blah_record => {:publisher => :resource}, :blah_record => {:publisher => {:resource => :site}} ).orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML)
 
     respond_to do |format|
       format.html # index.html.erb

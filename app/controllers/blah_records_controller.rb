@@ -8,7 +8,7 @@ class BlahRecordsController < ApplicationController
         @blah_records = BlahRecord.paginate(:page=>params[:page],:per_page => config.itemsPerPageHTML).orderByParms('id desc',params)
       }
       format.any(:xml,:json){
-        @blah_records = BlahRecord.all
+        @blah_records = BlahRecord.paginate( :page=>params[:page], :per_page => config.itemsPerPage).all
       }
     end
 

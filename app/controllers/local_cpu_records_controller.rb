@@ -18,7 +18,7 @@ class LocalCpuRecordsController < ApplicationController
         end
       }
       format.any(:xml,:json) {
-        @local_cpu_records = LocalCpuRecord.all
+        @local_cpu_records = LocalCpuRecord.paginate( :page=>params[:page], :per_page => config.itemsPerPage).all
       }
     end
     respond_to do |format|

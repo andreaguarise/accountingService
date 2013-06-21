@@ -2,7 +2,7 @@
 ##considered to be local becous no grid information are available.
 
 class LocalCpuRecord < BatchExecuteRecord
-  default_scope joins("LEFT JOIN grid_cpu_records ON  grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")
+  default_scope includes(:publisher).joins("LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")
   #default scope apply to all methods:
   #
   #  BatchExecuteRecord.find_by_sql("SELECT batch_execute_records.* FROM batch_execute_records LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id WHERE grid_cpu_records.id IS NULL")

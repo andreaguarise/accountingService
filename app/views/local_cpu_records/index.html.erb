@@ -61,7 +61,7 @@
     <td><%= local_cpu_record.resourceUsed_mem %></td>
     <td><%= local_cpu_record.resourceUsed_vmem %></td>
     <td><%= local_cpu_record.resourceUsed_walltime %></td>
-    <td><%= link_to 'Show', BatchExecuteRecord.find(local_cpu_record.id) %></td>
+    <td><%= link_to 'Show', batch_execute_record_path(local_cpu_record.id) %></td>
     <td><%= link_to 'Edit', edit_batch_execute_record_path(local_cpu_record) %></td>
     <td><%= link_to 'Destroy', local_cpu_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

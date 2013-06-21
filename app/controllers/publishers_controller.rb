@@ -7,7 +7,7 @@ class PublishersController < ApplicationController
       "publishers.id as publisher_id, 
       publishers.hostname as publisher_hostname,
       sites.name as site_name,resources.name as resource_name, 
-      publishers.ip as publisher_ip, publishers.token as publisher_token").orderByParms('publisher_hostname',params).search(params[:key],params[:search])
+      publishers.ip as publisher_ip, publishers.token as publisher_token").paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('publisher_hostname',params).search(params[:key],params[:search])
     respond_to do |format|
       format.html {}
       format.any(:xml,:json) {}
