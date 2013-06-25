@@ -61,6 +61,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.23)
+    minitest (4.7.4)
     multi_json (1.7.3)
     mysql2 (0.3.11)
     net-scp (1.1.1)
@@ -132,6 +133,7 @@ DEPENDENCIES
   google_visualr (>= 2.1)
   jquery-rails
   json
+  minitest
   mysql2
   rails (= 3.2.11)
   sass-rails (~> 3.2.3)
