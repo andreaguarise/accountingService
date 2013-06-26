@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626090000) do
+ActiveRecord::Schema.define(:version => 20130626090001) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20130626090000) do
     t.string   "uniqueId"
     t.datetime "recordDate"
     t.string   "lrmsId"
-    t.string   "user"
-    t.string   "group"
+    t.string   "localUser"
+    t.string   "localGroup"
     t.string   "jobName"
     t.string   "queue"
     t.integer  "ctime"
