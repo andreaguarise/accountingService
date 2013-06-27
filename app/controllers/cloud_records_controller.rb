@@ -58,26 +58,27 @@ class CloudRecordsController < ApplicationController
     data_table.new_column('number', 'started')
     data_table.new_column('number', 'started-ended')
     data_table.new_column('number', 'running')
+    #data_table.new_column('number', 'wallDuration')
 
     # Add Rows and Values
 
-    partial = {}
+    partialRunning = {}
     running = {}
     incremental = 0
 
-    started_ary = CloudRecord.group('date(startTime)').count
+    started_ary = CloudRecord.select("date(startTime) as _date,count(id) as _count").group('date(startTime)')
     ended_ary = CloudRecord.group('date(endTime)').count
 
-    started_ary.each do |date,startedCount|
-      if ended_ary[date]
-      partial[date] = startedCount-ended_ary[date]
+    started_ary.each do |r|
+      if ended_ary[r["_date"]]
+      partialRunning[r["_date"]] = r["_count"]-ended_ary[r["_date"]]
       else
-      partial[date] = startedCount
+      partialRunning[r["_date"]] = r["_count"]
       end
-      incremental = incremental + partial[date]
-      running[date] = incremental
+      incremental = incremental + partialRunning[r["_date"]]
+      running[r["_date"]] = incremental
       #puts "date:#{date}, running:#{running[date]}  --->  partial: #{partial[date]}"
-      data_table.add_row([date.to_date,startedCount,partial[date],running[date]])
+      data_table.add_row([r["_date"].to_date,r["_count"],partialRunning[r["_date"]],running[r["_date"]]])
     end
     
     option = { :width => 1100, :height => 650, :title => 'Running VMs' }

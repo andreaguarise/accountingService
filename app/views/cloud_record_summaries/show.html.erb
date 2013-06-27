@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Date:</b>
+  <%= @cloud_record_summary.date %>
+</p>
+
+<p>
+  <b>Site:</b>
+  <%= @cloud_record_summary.site_id %>
+</p>
+
+<p>
+  <b>Local group:</b>
+  <%= @cloud_record_summary.local_group %>
+</p>
+
+<p>
+  <b>Local user:</b>
+  <%= @cloud_record_summary.local_user %>
+</p>
+
+<p>
+  <b>Vmcount:</b>
+  <%= @cloud_record_summary.vmCount %>
+</p>
+
+<p>
+  <b>Wallduration:</b>
+  <%= @cloud_record_summary.wallDuration %>
+</p>
+
+<p>
+  <b>Networkinbound:</b>
+  <%= @cloud_record_summary.networkInBound %>
+</p>
+
+<p>
+  <b>Networkoutbound:</b>
+  <%= @cloud_record_summary.networkOutBound %>
+</p>
+
+<p>
+  <b>Cpucount:</b>
+  <%= @cloud_record_summary.cpuCount %>
+</p>
+
+<p>
+  <b>Memory:</b>
+  <%= @cloud_record_summary.memory %>
+</p>
+
+
+<%= link_to 'Edit', edit_cloud_record_summary_path(@cloud_record_summary) %> |
+<%= link_to 'Back', cloud_record_summaries_path %>

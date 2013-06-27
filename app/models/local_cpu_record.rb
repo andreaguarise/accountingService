@@ -1,5 +1,5 @@
 ##WARNING  This model has no rea underlying table. Ineriths from LocaCpuRecord. It's purpose is just to show batch record
-##considered to be local becous no grid information are available.
+##considered to be local since no related grid information are available.
 
 class LocalCpuRecord < BatchExecuteRecord
   default_scope includes(:publisher).joins("LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")

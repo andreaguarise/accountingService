@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-06-27
+  site_id: 1
+  local_group: MyString
+  local_user: MyString
+  vmCount: 1
+  wallDuration: 1
+  networkInBound: 1
+  networkOutBound: 1
+  cpuCount: 1
+  memory: 1
+
+two:
+  date: 2013-06-27
+  site_id: 1
+  local_group: MyString
+  local_user: MyString
+  vmCount: 1
+  wallDuration: 1
+  networkInBound: 1
+  networkOutBound: 1
+  cpuCount: 1
+  memory: 1
