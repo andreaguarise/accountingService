@@ -11,14 +11,14 @@ class CloudRecord < ActiveRecord::Base
   delegate :site, :to => :resource
   
   def self.produceSummaries
-    sites = self.joins(:publisher,:resource,:site).select("count(*),sites.name as site_name").group("site_name")
+    sites = self.joins(:publisher,:resource,:site).select("count(*),sites.id as site_id").group("site_id")
     groups = self.select(:local_group).uniq
     users = self.select(:local_user).uniq
 
     
 
     #ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, sites.name as sn, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN").where("sites.name = ?",site.site_name).all
-    ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, sites.name as sn, local_group as lg, local_user as lu, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN, memory as memory").all
+    ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, sites.id as si, local_group as lg, local_user as lu, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN, memory as memory").all
     
     sites.each do |site|
     users.each do |user|
@@ -33,7 +33,7 @@ class CloudRecord < ActiveRecord::Base
       ary.each do |r|
         next if group.local_group != r[:lg]
         next if user.local_user != r[:lu]
-        next if site.site_name != r[:sn]
+        next if site.site_id != r[:si]
         #puts "#{group.local_group} -- #{user.local_user}"
         dRange = (r[:d0].to_date..r[:d1].to_date)
         dRange.each do |d|
@@ -58,10 +58,29 @@ class CloudRecord < ActiveRecord::Base
         end
       end
       i=0
-      wallH.sort.each do |k,v|
+      wallH.sort.each do |k,wallTime|
         i = i +1
-        puts "#{i} group: #{site.site_name}, # group: #{group.local_group}, user:#{user.local_user} - date: #{k}: #{v}, #{netInH[k]}, #{netOutH[k]}, #{cpuCountH[k]}, #{vmCountH[k]}, #{memoryH[k]}"
-      end
+        puts "#{i} group: #{site.site_id}, # group: #{group.local_group}, user:#{user.local_user} - date: #{k}: #{wallTime}, #{netInH[k]}, #{netOutH[k]}, #{cpuCountH[k]}, #{vmCountH[k]}, #{memoryH[k]}"
+        
+        newSummaryLine = CloudRecordSummary.new
+        newSummaryLine.date = k
+        newSummaryLine.site_id = site.site_id
+        newSummaryLine.local_group = group.local_group
+        newSummaryLine.local_user = user.local_user
+        newSummaryLine.cpuCount = cpuCountH[k]
+        newSummaryLine.memory = memoryH[k]
+        newSummaryLine.networkInBound = netInH[k]
+        newSummaryLine.networkOutBound = netOutH[k]
+        newSummaryLine.vmCount = vmCountH[k]
+        newSummaryLine.wallDuration = wallTime
+        newSummaryLine.save #INSERT if new
+        if not newSummaryLine.valid?
+          oldRecord = CloudRecordSummary.where(:date => newSummaryLine.date, :site_id =>newSummaryLine.site_id, :local_group => newSummaryLine.local_group, :local_user => newSummaryLine.local_user ).first
+          oldRecord.update_attributes(newSummaryLine.attributes.except("id", "created_at", "updated_at"))     
+          oldRecord.save #UPDATE since it exists
+        end
+      end      
+      #end
 
     end
     end
