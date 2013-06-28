@@ -1,2 +1,2 @@
-LocalCpuSummary.populate
-LocalCpuSummary.populateNormalisedValues
+CloudRecord.produceSummaries
+
