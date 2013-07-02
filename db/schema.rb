@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702143740) do
+ActiveRecord::Schema.define(:version => 20130702145040) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(:version => 20130702143740) do
     t.datetime "updated_at",   :null => false
     t.integer  "publisher_id"
   end
+
+  add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId"
 
   create_table "cloud_record_summaries", :force => true do |t|
     t.date     "date"
