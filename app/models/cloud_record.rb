@@ -18,7 +18,7 @@ class CloudRecord < ActiveRecord::Base
     
 
     #ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, sites.name as sn, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN").where("sites.name = ?",site.site_name).all
-    ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, sites.id as si, local_group as lg, local_user as lu, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN, memory as memory").all
+    ary = self.joins(:publisher,:resource,:site).select("date(startTime) as d0, date(endTime) as d1, date(cloud_records.updated_at) as d2, sites.id as si, local_group as lg, local_user as lu, wallDuration as w, networkInbound as netIn, networkOutBound as netOut, cpuCount as cpuN, memory as memory").all
     
     sites.each do |site|
     users.each do |user|
@@ -35,6 +35,9 @@ class CloudRecord < ActiveRecord::Base
         next if user.local_user != r[:lu]
         next if site.site_id != r[:si]
         #puts "#{group.local_group} -- #{user.local_user}"
+        if not r[:d1] 
+          r[:d1] = r[:d2] ##Running vms: use record update time instead of vm end time
+        end
         dRange = (r[:d0].to_date..r[:d1].to_date)
         dRange.each do |d|
           buffWall = 0.0
