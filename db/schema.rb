@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702145040) do
+ActiveRecord::Schema.define(:version => 20130709121600) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -226,16 +226,6 @@ ActiveRecord::Schema.define(:version => 20130702145040) do
     t.integer  "publisher_id"
   end
 
-  create_table "grid_cpu_records", :force => true do |t|
-    t.integer  "batch_execute_record_id"
-    t.integer  "blah_record_id"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-  end
-
-  add_index "grid_cpu_records", ["batch_execute_record_id"], :name => "index_grid_cpu_records_on_batch_execute_record_id"
-  add_index "grid_cpu_records", ["blah_record_id"], :name => "index_grid_cpu_records_on_blah_record_id"
-
   create_table "local_cpu_summaries", :force => true do |t|
     t.date     "date"
     t.string   "publisher_id"
@@ -311,5 +301,10 @@ ActiveRecord::Schema.define(:version => 20130702145040) do
     t.datetime "updated_at",      :null => false
     t.integer  "role_id"
   end
+  
+  ##Creates the SQL VIEW which acts as a table for model GridCpuRecord
+  GridCpuRecord.connection.execute('
+    CREATE VIEW `grid_cpu_records` AS SELECT DISTINCT `blah`.`id` as `id`, `batch`.`id` AS `batch_execute_record_id`,`blah`.`id` AS `blah_record_id` from (((`blah_records` `blah` join `batch_execute_records` `batch` on(((`blah`.`lrmsId` = `batch`.`lrmsId`) and (`batch`.`recordDate` >= `blah`.`recordDate`)))) join `publishers` `blah_p` on((`blah_p`.`id` = `blah`.`publisher_id`))) join `publishers` `batch_p` on(((`batch_p`.`id` = `batch`.`publisher_id`) and (`batch_p`.`resource_id` = `blah_p`.`resource_id`)))) order by `batch`.`recordDate`
+    ')
 
 end

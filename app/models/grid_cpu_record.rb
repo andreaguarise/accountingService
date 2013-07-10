@@ -1,4 +1,5 @@
 class GridCpuRecord < ActiveRecord::Base
+  #after_initialize :readonly!
   include Search
   attr_accessible :blah_record_id, :batch_execute_record_id
   belongs_to :batch_execute_record

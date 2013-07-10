@@ -19,34 +19,34 @@ class GridCpuRecordsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create grid_cpu_record" do
-    assert_difference('GridCpuRecord.count') do
-      post :create, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
-    end
+#  test "should create grid_cpu_record" do
+#    assert_difference('GridCpuRecord.count') do
+#      post :create, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
+#    end
 
-    assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
-  end
+#    assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
+#  end
 
   test "should show grid_cpu_record" do
     get :show, :id => @grid_cpu_record
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, :id => @grid_cpu_record
-    assert_response :success
-  end
+#  test "should get edit" do
+#    get :edit, :id => @grid_cpu_record
+#    assert_response :success
+#  end
 
-  test "should update grid_cpu_record" do
-    put :update, :id => @grid_cpu_record, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
-    assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
-  end
+#  test "should update grid_cpu_record" do
+#    put :update, :id => @grid_cpu_record, :grid_cpu_record => { :blah_record_id => @grid_cpu_record.blah_record_id, :batch_execute_record_id => @grid_cpu_record.batch_execute_record_id }
+#   assert_redirected_to grid_cpu_record_path(assigns(:grid_cpu_record))
+#  end
 
-  test "should destroy grid_cpu_record" do
-    assert_difference('GridCpuRecord.count', -1) do
-      delete :destroy, :id => @grid_cpu_record
-    end
+#  test "should destroy grid_cpu_record" do
+#    assert_difference('GridCpuRecord.count', -1) do
+#      delete :destroy, :id => @grid_cpu_record
+#    end
 
-    assert_redirected_to grid_cpu_records_path
-  end
+#    assert_redirected_to grid_cpu_records_path
+#  end
 end
