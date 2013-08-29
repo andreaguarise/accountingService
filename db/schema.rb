@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709121600) do
+ActiveRecord::Schema.define(:version => 20130711110000) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130709121600) do
   end
 
   add_index "batch_execute_records", ["lrmsId"], :name => "index_batch_execute_records_on_lrmsId"
+  add_index "batch_execute_records", ["publisher_id"], :name => "index_batch_execute_records_on_publisher_id"
   add_index "batch_execute_records", ["recordDate"], :name => "index_batch_execute_records_on_recordDate"
   add_index "batch_execute_records", ["uniqueId"], :name => "index_batch_execute_records_on_uniqueId"
 
@@ -89,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20130709121600) do
     t.integer  "publisher_id"
   end
 
+  add_index "blah_records", ["lrmsId"], :name => "index_blah_records_on_lrmsId"
+  add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
   add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId"
 
   create_table "cloud_record_summaries", :force => true do |t|
@@ -301,10 +304,5 @@ ActiveRecord::Schema.define(:version => 20130709121600) do
     t.datetime "updated_at",      :null => false
     t.integer  "role_id"
   end
-  
-  ##Creates the SQL VIEW which acts as a table for model GridCpuRecord
-  GridCpuRecord.connection.execute('
-    CREATE VIEW `grid_cpu_records` AS SELECT DISTINCT `blah`.`id` as `id`, `batch`.`id` AS `batch_execute_record_id`,`blah`.`id` AS `blah_record_id` from (((`blah_records` `blah` join `batch_execute_records` `batch` on(((`blah`.`lrmsId` = `batch`.`lrmsId`) and (`batch`.`recordDate` >= `blah`.`recordDate`)))) join `publishers` `blah_p` on((`blah_p`.`id` = `blah`.`publisher_id`))) join `publishers` `batch_p` on(((`batch_p`.`id` = `batch`.`publisher_id`) and (`batch_p`.`resource_id` = `blah_p`.`resource_id`)))) order by `batch`.`recordDate`
-    ')
 
 end

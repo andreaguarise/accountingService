@@ -1,4 +1,4 @@
-##WARNING  This model has no rea underlying table. Ineriths from LocaCpuRecord. It's purpose is just to show batch record
+##WARNING  This model has no real underlying table. Inherits from LocaCpuRecord. It's purpose is just to show batch record
 ##considered to be local since no related grid information are available.
 
 class LocalCpuRecord < BatchExecuteRecord
