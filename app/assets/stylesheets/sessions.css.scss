@@ -1,3 +1,20 @@
 // Place all the styles related to the sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+fieldset
+{
+  background: #caa;
+     color: #133; 
+     width:1340px;
+     align: center;
+     text-align: left;
+     padding: 3px;
+     border: 0px;
+     div {
+     padding: 3px;
+     border: 0px;
+     text-align: center;
+     }
+}

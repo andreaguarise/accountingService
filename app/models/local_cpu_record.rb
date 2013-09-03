@@ -2,7 +2,8 @@
 ##considered to be local since no related grid information are available.
 
 class LocalCpuRecord < BatchExecuteRecord
-  default_scope includes(:publisher).joins("LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")
+  #default_scope includes(:publisher).joins("LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")
+  default_scope includes(:publisher).joins("LEFT JOIN blah_records ON blah_records.lrmsId=batch_execute_records.lrmsId").where("blah_records.id IS NULL")
   #default scope apply to all methods:
   #
   #  BatchExecuteRecord.find_by_sql("SELECT batch_execute_records.* FROM batch_execute_records LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id WHERE grid_cpu_records.id IS NULL")
@@ -19,7 +20,7 @@ class LocalCpuRecord < BatchExecuteRecord
     end   
     summary = LocalCpuRecord.select("#{dateQuery} as eDate,publisher_id,queue,localGroup as localGroup,localUser as localUser,count(lrmsId) as countRecord,sum(resourceUsed_cput)as sumCpu,sum(resourceUsed_walltime) as sumWall" ).group(:eDate,:publisher_id,:queue,:localUser,:localGroup)
     if startDate != ""
-      summary = summary.where(" recordDate >= #{startDate}")
+      summary = summary.where(" batch_execute_record.recordDate >= #{startDate}")
     end
     summary  
   end

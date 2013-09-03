@@ -41,7 +41,7 @@ class LocalCpuRecordsController < ApplicationController
       startFrom = @stats[:latest_record].to_date-90 
     end
     #GRAPH for latest 3 months.
-    @results1 = LocalCpuRecord.select("date(recordDate) as ordered_date , count(*) as count, sum(resourceUsed_walltime)/3600 as wall, sum(resourceUsed_cput)/3600 as cpu").where("recordDate > ?",startFrom).group("ordered_date")
+    @results1 = LocalCpuRecord.select("date(batch_execute_records.recordDate) as ordered_date , count(*) as count, sum(resourceUsed_walltime)/3600 as wall, sum(resourceUsed_cput)/3600 as cpu").where("batch_execute_records.recordDate > ?",startFrom).group("ordered_date")
     table = GoogleVisualr::DataTable.new
     
     

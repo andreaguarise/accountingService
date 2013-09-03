@@ -9,18 +9,12 @@
 			<td>total wall
 			<br>
 			</td>
-			<td >Earliest record
-			<br>
-			</td>
 			<td >Latest record
 			<br>
 			</td>
 		</tr>
 		<tr>
 			<td ><%= @stats[:records_count] %>
-			<br>
-			</td>
-			<td ><%= @stats[:sum_wall] %>
 			<br>
 			</td>
 			<td ><%= @stats[:earliest_record] %>
@@ -39,6 +33,9 @@
 		</tr>
 	</tbody>
 </table>
+<p>
+	<%= link_to 'Record summaries', cloud_record_summaries_url%>
+</p>
 <p>
 	<%= link_to 'Record list', cloud_records_url%>
 </p>
