@@ -35,7 +35,6 @@ class LocalCpuRecordsController < ApplicationController
     @stats[:records_count]= LocalCpuRecord.count
     @stats[:earliest_record]= LocalCpuRecord.minimum(:recordDate)
     @stats[:latest_record]= LocalCpuRecord.maximum(:recordDate)
-    @stats[:records_cpu_sum]= LocalCpuRecord.sum(:resourceUsed_cput)/86400
     startFrom = "2007-04-06".to_date
     if @stats[:latest_record]
       startFrom = @stats[:latest_record].to_date-90 

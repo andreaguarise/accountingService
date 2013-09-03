@@ -6,9 +6,6 @@
 			<td>Total number of records
 			<br>
 			</td>
-			<td>total storage (GB)
-			<br>
-			</td>
 			<td >Earliest record date
 			<br>
 			</td>
@@ -18,9 +15,6 @@
 		</tr>
 		<tr>
 			<td ><%= @stats[:records_count] %>
-			<br>
-			</td>
-			<td ><%= @stats[:records_storage_sum] %>
 			<br>
 			</td>
 			<td ><%= @stats[:earliest_record] %>
@@ -42,10 +36,12 @@
 </tr>
 </tbody>
 </table>
-<p>
-	<%= link_to 'Record list', emi_storage_records_url%>
-</p>
-<p>
-	<%= link_to 'Record summaries', storage_summaries_url%>
-</p>
+<table>
+	<tbody>
+		<tr>
+			<td><%= link_to 'Record list', emi_storage_records_url%></td>
+			<td><%= link_to 'Record summaries', storage_summaries_url%></td>
+		</tr>
+	</tbody>
+</table>
 <br>

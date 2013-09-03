@@ -19,7 +19,6 @@ class EmiStorageRecordsController < ApplicationController
     @stats[:records_count]= EmiStorageRecord.count
     @stats[:earliest_record]= EmiStorageRecord.minimum(:endTime)
     @stats[:latest_record]= EmiStorageRecord.maximum(:endTime)
-    @stats[:records_storage_sum]= EmiStorageRecord.sum(:resourceCapacityUsed)/1024000000
     startFrom = "2007-04-06".to_date
     if @stats[:latest_record]
       startFrom = @stats[:latest_record].to_date-90 
@@ -44,7 +43,6 @@ class EmiStorageRecordsController < ApplicationController
     @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
 
     
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @stats }

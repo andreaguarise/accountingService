@@ -50,7 +50,6 @@ class CloudRecordsController < ApplicationController
     @stats[:records_pages]= (CloudRecord.count/250.0).ceil
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
-    @stats[:sum_wall] = CloudRecord.sum(:wallDuration)
 
     data_table = GoogleVisualr::DataTable.new
     # Add Column Headers
