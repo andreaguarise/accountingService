@@ -7,12 +7,6 @@
 			records
 			<br>
 			</td>
-			<td>total cpu
-			<br>
-			</td>
-			<td >avg cpu
-			<br>
-			</td>
 			<td >Earliest record
 			<br>
 			</td>
@@ -23,14 +17,8 @@
 		<tr>
 			<td ><%= @stats[:records_count] %>
 			<br>
-			</td>
-			<td ><%= @stats[:records_cpu_sum] %>
-			<br>
-			</td>
-			<td ><%= @stats[:records_cpu_avg] %>
-			<br>
-			</td>
-			<td ><%= @stats[:earliest_record] %>
+			</td>	
+		    <td ><%= @stats[:earliest_record] %>
 			<br>
 			</td>
 			<td ><%= @stats[:latest_record] %>
