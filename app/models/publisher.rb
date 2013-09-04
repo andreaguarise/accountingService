@@ -16,6 +16,7 @@ class Publisher < ActiveRecord::Base
   
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource
+  delegate :resource_type, :to => :resource
   
   before_create :generate_token
   

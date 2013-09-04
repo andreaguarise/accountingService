@@ -4,6 +4,8 @@ class ResourceTypesController < ApplicationController
   # GET /resource_types.json
   def index
     @resource_types = ResourceType.orderByParms('name',params).search(params[:key],params[:search])
+    @resourceByType = ResourceType.joins(:resources).group(:resource_type_id).count
+    @publisherByType = ResourceType.joins(:publishers).group(:resource_type_id).count  
 
     respond_to do |format|
       format.html # index.html.erb
