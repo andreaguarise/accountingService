@@ -3,7 +3,7 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-    @sites = Site.orderByParms('name',params).search(params[:key],params[:search])
+    @sites = Site.paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('name',params).search(params[:key],params[:search])
     
     @emiStorageBySite = EmiStorageRecord.group(:site).count #FIXME this should go through joins as for the other record types
     @blahBySite = Site.joins(:blah_records).group(:site_id).count

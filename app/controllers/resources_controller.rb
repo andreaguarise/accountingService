@@ -4,7 +4,7 @@ class ResourcesController < ApplicationController
   # GET /resources.json
   # GET /resources.xml
   def index
-    @resources = Resource.joins(:site,:resource_type).select("resources.id as resource_id, resources.name as resource_name,sites.name as site_name,resource_types.name as type_name").orderByParms('resource_name',params)
+    @resources = Resource.joins(:site,:resource_type).select("resources.id as resource_id, resources.name as resource_name,sites.name as site_name,resource_types.name as type_name").paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('resource_name',params)
    
     respond_to do |format|
       format.html # index.html.erb
