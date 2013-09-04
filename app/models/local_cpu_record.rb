@@ -18,7 +18,7 @@ class LocalCpuRecord < BatchExecuteRecord
     else
       dateQuery = "date(end,'unixepoch', 'localtime')"#sqlite syntax
     end   
-    summary = LocalCpuRecord.select("#{dateQuery} as eDate,publisher_id,queue,localGroup as localGroup,localUser as localUser,count(lrmsId) as countRecord,sum(resourceUsed_cput)as sumCpu,sum(resourceUsed_walltime) as sumWall" ).group(:eDate,:publisher_id,:queue,:localUser,:localGroup)
+    summary = LocalCpuRecord.select("#{dateQuery} as eDate,batch_execute_records.publisher_id,queue,localGroup as localGroup,batch_execute_records.localUser as localUser,count(batch_execute_records.lrmsId) as countRecord,sum(resourceUsed_cput)as sumCpu,sum(resourceUsed_walltime) as sumWall" ).group(:eDate,"batch_execute_records.publisher_id",:queue,:localUser,:localGroup)
     if startDate != ""
       summary = summary.where(" batch_execute_record.recordDate >= #{startDate}")
     end
