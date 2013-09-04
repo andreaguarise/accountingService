@@ -6,12 +6,12 @@ class Publisher < ActiveRecord::Base
   validates :resource_id, :presence => true, :on => :create
   
   belongs_to :resource 
-  has_many :blah_records
-  has_many :cloud_records
+  has_many :blah_records, :dependent => :destroy
+  has_many :cloud_records, :dependent => :destroy
   has_many :grid_cpu_records, :through => :blah_records 
-  has_many :local_cpu_summaries
-  has_many :batch_execute_records
-  has_many :emi_storage_records
+  has_many :local_cpu_summaries, :dependent => :destroy
+  has_many :batch_execute_records, :dependent => :destroy
+  has_many :emi_storage_records, :dependent => :destroy
   has_many :benchmark_values, :dependent => :destroy
   
   accepts_nested_attributes_for :resource
