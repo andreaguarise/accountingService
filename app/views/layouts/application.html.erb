@@ -15,9 +15,6 @@
 				<div id="menu">
 					<table id="menu_table">
 						<thead id="menu_head">
-							<th>Logged in as: </th>
-							<th class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></th>
-							<th>-</th>
 							<% if session[:role] == 'admin' %>
 							<th><%= link_to 'Users', users_url%></th>
 							<th><%= link_to 'Resources', resource_management_index_url%></th>
@@ -27,15 +24,16 @@
 							<th><%= link_to 'Grid cpu', stats_grid_cpu_records_url%></th>
 							<th><%= link_to 'Local cpu', stats_local_cpu_records_url%></th>
 							<th><%= link_to 'Storage', stats_emi_storage_records_url%></th>
-							<th>-</th>
-							<th><%= link_to 'Logout', logout_path, :method => :delete %></th>
+							<th></th>
 						</thead>
 					</table>
 				</div> <% end %> 
 				</td>
-				<td>
-					Help
-				</td>	
+					<% if session[:user_id] %>
+					  <td class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></td>
+				      <td><%= link_to 'Logout', logout_path, :method => :delete %></td>
+				    <% end %>
+					<td>Help</td>
 			</tr>
 		</table>
 

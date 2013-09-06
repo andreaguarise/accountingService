@@ -6,17 +6,20 @@
 	<% end %>
 	<%= form_tag do %>
 	<fieldset>
-		<div>
-			<label for="name">User:</label>
-			<%= text_field_tag :name, params[:name] %>
-		</div>
-		<div>
-			<label for="password">Password:</label>
-			<%= password_field_tag :password, params[:password] %>
-		</div>
-		<div>
-			<%= submit_tag "Login" %>
-		</div>
+		<table>
+		<tr>
+			<td><label for="name">User:</label></td>
+			<td><%= text_field_tag :name, params[:name] %></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><%= password_field_tag :password, params[:password] %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="submit"><%= submit_tag "Login" %></td>
+		</tr>
+		</table>
 	</fieldset>
 	<% end %>
 </div>

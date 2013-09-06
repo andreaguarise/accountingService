@@ -37,9 +37,7 @@ table.header {
   text-align: left;
 }
 
-#menu #menu_table {
-  #menu_head { 
-  th.menu_head_currentuser
+td.menu_head_currentuser
   {
     
      background: #600;
@@ -60,7 +58,9 @@ table.header {
        }
      } 
   }
-  
+
+#menu #menu_table {
+  #menu_head { 
   th
   {
     
