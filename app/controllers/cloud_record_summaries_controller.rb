@@ -3,11 +3,18 @@ class CloudRecordSummariesController < ApplicationController
   # GET /cloud_record_summaries
   # GET /cloud_record_summaries.json
   def index
-    @cloud_record_summaries = CloudRecordSummary.all
-
+    respond_to do |format|
+      format.html {
+        @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).all
+      }
+      format.any(:xml,:json){
+        @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPage).all
+      }
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @cloud_record_summaries }
+      format.xml { render :xml => @cloud_record_summaries }
     end
   end
 

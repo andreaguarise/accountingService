@@ -50,6 +50,10 @@ class CloudRecordsController < ApplicationController
     @stats[:records_pages]= (CloudRecord.count/250.0).ceil
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
+    startFrom = "2007-04-06".to_date
+    if @stats[:latest_record]
+      startFrom = @stats[:latest_record].to_date-90 
+    end
 
     data_table = GoogleVisualr::DataTable.new
     # Add Column Headers
