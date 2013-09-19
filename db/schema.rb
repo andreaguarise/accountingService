@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919085300) do
+ActiveRecord::Schema.define(:version => 20130919155527) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -188,8 +188,9 @@ ActiveRecord::Schema.define(:version => 20130919085300) do
 
   create_table "resource_types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "description"
   end
 
   create_table "resources", :force => true do |t|

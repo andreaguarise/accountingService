@@ -26,6 +26,16 @@ end
 if not BenchmarkType.find_by_name("specFloat2k")
   BenchmarkType.create(:name=>"specFloat2k", :description=>"SPEC 2000 Benchmark for floatin point based computations")
 end
+if not ResourceType.find_by_name("Farm_grid")
+  ResourceType.create(:name=>"Farm_grid", :description=>"Pure GRID farm, no local jobs allowed")
+end
+if not ResourceType.find_by_name("Farm_local")
+  ResourceType.create(:name=>"Farm_local", :description=>"Pure LOCAL farm, no grid jobs submittted to this farm")
+end
+if not ResourceType.find_by_name("Farm_grid+local")
+  ResourceType.create(:name=>"Farm_grid+local", :description=>"Hybrid LOCAL and GRID farm. Both type of jobs allowed")
+end
+
 
 
 
