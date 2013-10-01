@@ -9,6 +9,7 @@ class GridCpuRecordsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @grid_cpu_records }
+      format.xml { render :xml => @grid_cpu_records }
     end
   end
   
@@ -65,6 +66,7 @@ class GridCpuRecordsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @grid_cpu_record }
+      format.xml { render :xml => @grid_cpu_record }
     end
   end
 
@@ -76,6 +78,7 @@ class GridCpuRecordsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @grid_cpu_record }
+      format.xml { render :xml => @grid_cpu_record }
     end
   end
 
@@ -93,9 +96,11 @@ class GridCpuRecordsController < ApplicationController
       if @grid_cpu_record.save
         format.html { redirect_to @grid_cpu_record, :notice => 'Grid cpu record was successfully created.' }
         format.json { render :json => @grid_cpu_record, :status => :created, :location => @grid_cpu_record }
+        format.xml { render :xml => @grid_cpu_record, :status => :created, :location => @grid_cpu_record }
       else
         format.html { render :action => "new" }
         format.json { render :json => @grid_cpu_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @grid_cpu_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -109,9 +114,11 @@ class GridCpuRecordsController < ApplicationController
       if @grid_cpu_record.update_attributes(params[:grid_cpu_record])
         format.html { redirect_to @grid_cpu_record, :notice => 'Grid cpu record was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @grid_cpu_record.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @grid_cpu_record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -125,6 +132,7 @@ class GridCpuRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to grid_cpu_records_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end
