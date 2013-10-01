@@ -83,6 +83,7 @@ class ResourcesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @resource }
+      format.xml { render :xml => @resource }
     end
   end
 
@@ -105,9 +106,11 @@ class ResourcesController < ApplicationController
       if @resource.save
         format.html { redirect_to @resource, :notice => 'Resource was successfully created.' }
         format.json { render :json => @resource, :status => :created, :location => @resource }
+        format.xml { render :xml => @resource, :status => :created, :location => @resource }
       else
         format.html { render :action => "new" }
         format.json { render :json => @resource.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @resource.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -121,9 +124,11 @@ class ResourcesController < ApplicationController
       if @resource.update_attributes(params[:resource])
         format.html { redirect_to @resource, :notice => 'Resource was successfully updated.' }
         format.json { head :no_content }
+        format.xml { head :no_content }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @resource.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @resource.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -137,6 +142,7 @@ class ResourcesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to resources_url }
       format.json { head :no_content }
+      format.xml { head :no_content }
     end
   end
 end
