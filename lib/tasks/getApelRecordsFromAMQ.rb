@@ -19,7 +19,7 @@ class BlahRecordConverter
     #puts @@record_ary.to_json
     puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    puts "#{now} - Record count: #{@@recordCount}"
+    puts "#{now} - Blah Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |b|
       b.computeUniqueId
@@ -94,30 +94,44 @@ class EventRecordConverter
   def import
     puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    puts "#{now} - Record count: #{@@recordCount}"
+    puts "#{now} - Event Record count: #{@@recordCount}"
     valuesBuffer = ""
-    @@record_ary.each do |b|
-      b.computeUniqueId
+    @@record_ary.each do |e|
+      e.computeUniqueId
       #puts b.uniqueId
-      valuesBuffer << "(NULL,'#{b.uniqueId}','#{b.recordDate}','#{b.recordDate}','#{b.userDN}','#{b.userFQAN}','#{b.ceId}','','#{b.lrmsId}','#{b.localUser}','','#{now}','#{now}',#{b.publisher_id})"
-      if b != @@record_ary.last 
+      valuesBuffer << "(NULL,'#{e.uniqueId}','#{e.recordDate}','#{e.lrmsId}','#{e.localUser}','','','#{e.queue}','','','',#{e.start},'#{e.execHost}',#{e.resourceList_nodect},'','','',#{e.end},'',#{e.resourceUsed_cput},#{e.resourceUsed_mem},#{e.resourceUsed_vmem},#{e.resourceUsed_walltime},'#{now}','#{now}',#{e.publisher_id})"
+      if e != @@record_ary.last 
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT INTO blah_records (`id`,
+    bulkInsert = "INSERT INTO batch_execute_records
+(`id`,
 `uniqueId`,
 `recordDate`,
-`timestamp`,
-`userDN`,
-`userFQAN`,
-`ceId`,
-`jobId`,
 `lrmsId`,
 `localUser`,
-`clientId`,
+`localGroup`,
+`jobName`,
+`queue`,
+`ctime`,
+`qtime`,
+`etime`,
+`start`,
+`execHost`,
+`resourceList_nodect`,
+`resourceList_nodes`,
+`resourceList_walltime`,
+`session`,
+`end`,
+`exitStatus`,
+`resourceUsed_cput`,
+`resourceUsed_mem`,
+`resourceUsed_vmem`,
+`resourceUsed_walltime`,
 `created_at`,
 `updated_at`,
-`publisher_id`) VALUES "
+`publisher_id`)
+VALUES "
     bulkInsert << valuesBuffer
     ActiveRecord::Base.connection.execute bulkInsert
     @@record_ary.clear
@@ -153,7 +167,7 @@ class EventRecordConverter
       e.start = r["StartTime"]
       #e.uniqueId = "" #AUTOMATICALLY INSERTED BY SERVER in MODEL
       e.localUser = r["LocalUserId"]
-      b.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
     
       @@record_ary << e
       @@recordCount = @@recordCount + 1;

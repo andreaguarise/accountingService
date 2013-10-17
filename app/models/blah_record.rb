@@ -9,7 +9,7 @@ class BlahRecord < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
 
-protected
+public
 
 def computeUniqueId
     self.uniqueId = self.recordDate.to_s + "-" + self.lrmsId

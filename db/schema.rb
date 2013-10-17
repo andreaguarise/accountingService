@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(:version => 20130919155527) do
     t.string   "storageShare"
     t.string   "storageMedia"
     t.string   "storageClass"
-    t.integer  "fileCount",                 :limit => 20
+    t.integer  "fileCount"
     t.string   "directoryPath"
     t.string   "localUser"
     t.string   "localGroup"
@@ -154,11 +154,11 @@ ActiveRecord::Schema.define(:version => 20130919155527) do
     t.string   "attributeType"
     t.datetime "startTime"
     t.datetime "endTime"
-    t.integer  "resourceCapacityUsed",      :limit => 20
-    t.integer  "logicalCapacityUsed",       :limit => 20
-    t.integer  "resourceCapacityAllocated", :limit => 20
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.integer  "resourceCapacityUsed"
+    t.integer  "logicalCapacityUsed"
+    t.integer  "resourceCapacityAllocated"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "publisher_id"
   end
 
