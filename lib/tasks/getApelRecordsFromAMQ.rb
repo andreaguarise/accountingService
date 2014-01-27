@@ -70,7 +70,7 @@ class BlahRecordConverter
       @@record_ary << b
       @@recordCount = @@recordCount + 1;
       #puts @@record_ary.length
-      if ( @@record_ary.length > @n )
+      if ( @@record_ary.length >= @n )
         self.import
       end
       #puts "RecordDate --> **#{b.recordDate.to_s}**"
@@ -171,7 +171,7 @@ VALUES "
     
       @@record_ary << e
       @@recordCount = @@recordCount + 1;
-      if ( @@record_ary.length > @n )
+      if ( @@record_ary.length >= @n )
         self.import
       end
     end
@@ -223,16 +223,17 @@ while @count < 100
     blah = BlahRecordConverter.new(200)
     event = EventRecordConverter.new(200)
     records.each do |r|
-        if records.length > 200
+        if records.length >= 200
           #treat case when there are at least n records to be bulk processed
           event.convert(r)
           blah.convert(r)
         else
+          puts "#{records.length} remaining in message --> Single insert."
           #treat case where there are no sufficient record to be bulk processed
-          event = EventRecordConverter.new(1)
-          event.convert(r)
-          blah = BlahRecordConverter.new(1)
-          blah.convert(r)
+          partialEvent = EventRecordConverter.new(records.length) if not partialEvent
+          partialEvent.convert(r)
+          partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
+          partialBlah.convert(r)
         end
     end
   end

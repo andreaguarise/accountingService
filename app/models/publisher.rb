@@ -13,6 +13,7 @@ class Publisher < ActiveRecord::Base
   has_many :batch_execute_records, :dependent => :destroy
   has_many :emi_storage_records, :dependent => :destroy
   has_many :benchmark_values, :dependent => :destroy
+  has_many :database_schemes, :dependent => :destroy
   
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource

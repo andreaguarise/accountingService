@@ -1,0 +1,27 @@
+<%= form_for(@database_scheme) do |f| %>
+  <% if @database_scheme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@database_scheme.errors.count, "error") %> prohibited this database_scheme from being saved:</h2>
+
+      <ul>
+      <% @database_scheme.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <% publishers_array = Publisher.all.map { |publisher| [publisher.hostname, publisher.id] } %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :publisher_name, 'Publisher' %>:
+	<%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

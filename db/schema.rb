@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919155527) do
+ActiveRecord::Schema.define(:version => 20140127125316) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -137,6 +137,13 @@ ActiveRecord::Schema.define(:version => 20130919155527) do
     t.integer  "publisher_id"
   end
 
+  create_table "database_schemes", :force => true do |t|
+    t.string   "name"
+    t.integer  "publisher_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "emi_storage_records", :force => true do |t|
     t.string   "recordIdentity"
     t.string   "storageSystem"
@@ -160,6 +167,12 @@ ActiveRecord::Schema.define(:version => 20130919155527) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "publisher_id"
+  end
+
+  create_table "grid_cpu_records", :id => false, :force => true do |t|
+    t.integer "id",                      :default => 0, :null => false
+    t.integer "batch_execute_record_id", :default => 0, :null => false
+    t.integer "blah_record_id",          :default => 0, :null => false
   end
 
   create_table "local_cpu_summaries", :force => true do |t|
