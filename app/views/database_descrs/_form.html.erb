@@ -1,0 +1,29 @@
+<%= form_for(@database_descr) do |f| %>
+  <% if @database_descr.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@database_descr.errors.count, "error") %> prohibited this database_descr from being saved:</h2>
+
+      <ul>
+      <% @database_descr.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :backend %><br />
+    <%= f.text_field :backend %>
+  </div>
+  <div class="field">
+    <%= f.label :backendVersion %><br />
+    <%= f.text_field :backendVersion %>
+  </div>
+  <div class="field">
+    <%= f.label :database_scheme_id %><br />
+    <%= f.number_field :database_scheme_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

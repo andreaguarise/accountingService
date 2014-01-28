@@ -1,0 +1,27 @@
+<h1>Listing database_descrs</h1>
+
+<table>
+  <tr>
+    <th>Backend</th>
+    <th>Backendversion</th>
+    <th>Database scheme</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @database_descrs.each do |database_descr| %>
+  <tr>
+    <td><%= database_descr.backend %></td>
+    <td><%= database_descr.backendVersion %></td>
+    <td><%= database_descr.database_scheme_id %></td>
+    <td><%= link_to 'Show', database_descr %></td>
+    <td><%= link_to 'Edit', edit_database_descr_path(database_descr) %></td>
+    <td><%= link_to 'Destroy', database_descr, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Database descr', new_database_descr_path %>

@@ -1,0 +1,2 @@
+module DatabaseDescrsHelper
+end

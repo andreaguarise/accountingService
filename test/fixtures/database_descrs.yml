@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  backend: MyString
+  backendVersion: MyString
+  database_scheme_id: 1
+
+two:
+  backend: MyString
+  backendVersion: MyString
+  database_scheme_id: 1
