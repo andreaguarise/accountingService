@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Publisher</th>
+    <th>DB backend</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= database_scheme.name %></td>
     <td><%= database_scheme.publisher.hostname %></td>
+    <td><%= database_scheme.database_descr.backend %></td>
     <td><%= link_to 'Show', database_scheme %></td>
     <td><%= link_to 'Edit', edit_database_scheme_path(database_scheme) %></td>
     <td><%= link_to 'Destroy', database_scheme, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>

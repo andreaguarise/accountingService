@@ -18,7 +18,7 @@ class DatabaseDescrsControllerTest < ActionController::TestCase
 
   test "should create database_descr" do
     assert_difference('DatabaseDescr.count') do
-      post :create, :database_descr => { :backend => @database_descr.backend, :backendVersion => @database_descr.backendVersion, :database_scheme_id => @database_descr.database_scheme_id }
+      post :create, :database_descr => { :backend => @database_descr.backend, :version => @database_descr.version }
     end
 
     assert_redirected_to database_descr_path(assigns(:database_descr))
@@ -35,7 +35,7 @@ class DatabaseDescrsControllerTest < ActionController::TestCase
   end
 
   test "should update database_descr" do
-    put :update, :id => @database_descr, :database_descr => { :backend => @database_descr.backend, :backendVersion => @database_descr.backendVersion, :database_scheme_id => @database_descr.database_scheme_id }
+    put :update, :id => @database_descr, :database_descr => { :backend => @database_descr.backend, :version => @database_descr.version }
     assert_redirected_to database_descr_path(assigns(:database_descr))
   end
 

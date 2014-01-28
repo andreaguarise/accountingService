@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127125316) do
+ActiveRecord::Schema.define(:version => 20140128110827) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -137,11 +137,19 @@ ActiveRecord::Schema.define(:version => 20140127125316) do
     t.integer  "publisher_id"
   end
 
+  create_table "database_descrs", :force => true do |t|
+    t.string   "backend"
+    t.string   "version"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "database_schemes", :force => true do |t|
     t.string   "name"
     t.integer  "publisher_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "database_descr_id"
   end
 
   create_table "emi_storage_records", :force => true do |t|

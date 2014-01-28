@@ -3,8 +3,7 @@
 <table>
   <tr>
     <th>Backend</th>
-    <th>Backendversion</th>
-    <th>Database scheme</th>
+    <th>Version</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,8 +12,7 @@
 <% @database_descrs.each do |database_descr| %>
   <tr>
     <td><%= database_descr.backend %></td>
-    <td><%= database_descr.backendVersion %></td>
-    <td><%= database_descr.database_scheme_id %></td>
+    <td><%= database_descr.version %></td>
     <td><%= link_to 'Show', database_descr %></td>
     <td><%= link_to 'Edit', edit_database_descr_path(database_descr) %></td>
     <td><%= link_to 'Destroy', database_descr, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>

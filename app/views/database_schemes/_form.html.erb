@@ -12,6 +12,7 @@
   <% end %>
   
   <% publishers_array = Publisher.all.map { |publisher| [publisher.hostname, publisher.id] } %>
+  <% database_descrs_array = DatabaseDescr.all.map { |db_descr| ["#{db_descr.backend}-#{db_descr.version}", db_descr.id] } %>
 
   <div class="field">
     <%= f.label :name %><br />
@@ -20,6 +21,10 @@
   <div class="field">
     <%= f.label :publisher_name, 'Publisher' %>:
 	<%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+  </div>
+  <div class="field">
+    <%= f.label :database_descr_name, 'DB descr' %>:
+	<%= f.select :database_descr_id, options_for_select(database_descrs_array), :prompt => 'Select a database type'%>
   </div>
   <div class="actions">
     <%= f.submit %>
