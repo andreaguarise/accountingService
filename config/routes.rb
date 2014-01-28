@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :database_tables
+
+
   resources :database_descrs
 
 

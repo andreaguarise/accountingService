@@ -3,6 +3,8 @@ class DatabaseScheme < ActiveRecord::Base
   
   belongs_to :publisher
   belongs_to :database_descr
+  
+  has_many :database_table
 end
 
 
