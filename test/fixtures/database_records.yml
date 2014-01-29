@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  time: 2014-01-29 09:08:55
+  rows: 1
+  tablesize: 1
+  indexsize: 1
+  database_table_id: 1
+
+two:
+  time: 2014-01-29 09:08:55
+  rows: 1
+  tablesize: 1
+  indexsize: 1
+  database_table_id: 1

@@ -1,0 +1,2 @@
+module DatabaseRecordsHelper
+end

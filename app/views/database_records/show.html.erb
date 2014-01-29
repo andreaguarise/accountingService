@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Time:</b>
+  <%= @database_record.time %>
+</p>
+
+<p>
+  <b>Rows:</b>
+  <%= @database_record.rows %>
+</p>
+
+<p>
+  <b>Tablesize:</b>
+  <%= @database_record.tablesize %>
+</p>
+
+<p>
+  <b>Indexsize:</b>
+  <%= @database_record.indexsize %>
+</p>
+
+<p>
+  <b>Database table:</b>
+  <%= @database_record.database_table_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_database_record_path(@database_record) %> |
+<%= link_to 'Back', database_records_path %>
