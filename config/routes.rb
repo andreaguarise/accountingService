@@ -1,6 +1,11 @@
 AccountingService::Application.routes.draw do
 
-  resources :database_records
+  resources :database_records do
+    collection do
+      get 'stats'
+      match 'search' => 'database_records#search'
+    end
+  end
 
 
   resources :database_tables

@@ -29,7 +29,6 @@ class GridCpuRecordsController < ApplicationController
 
     table = GoogleVisualr::DataTable.new
     
-    
     # Add Column Headers
     table.new_column('date', 'Date' )
     table.new_column('number', 'jobs')

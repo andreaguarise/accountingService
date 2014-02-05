@@ -23,6 +23,49 @@ class DatabaseRecordsController < ApplicationController
       format.xml { render :xml => @database_record }
     end
   end
+  
+  # GET /cloud_records/stats
+  # GET /cloud_records/stats.json
+  # GET /cloud_records/stats.xml
+  def stats
+    @stats = {}
+    @stats[:databaserecords_count]= DatabaseRecord.count
+    @stats[:databasetables_count]= DatabaseTable.count
+    @stats[:databaseschemes_count]= DatabaseScheme.count
+    @stats[:earliest_record] = DatabaseRecord.first.time
+    @stats[:latest_record] = DatabaseRecord.last.time
+    
+    if @stats[:latest_record]
+      startFrom = @stats[:latest_record].to_date-90 
+    end
+    
+    #GRAPH for latest 3 months.
+    @results1 = GridCpuRecord.find_by_sql("SELECT ordered_date,sum(k_rows) as k_rows,sum(table_kb) as table_kb,sum(index_kb) as index_kb FROM (SELECT date(database_records.time) as ordered_date,database_table_id as tb, max(database_records.rows) as k_rows, max(database_records.tablesize/1024) as table_kb, max(database_records.indexsize/1024) as index_kb FROM database_records WHERE database_records.time >= \"#{startFrom.to_s}\" group by ordered_date,tb) as records group by ordered_date")
+    #@results1 = DatabaseRecord.find_by_sql("SELECT database_records.time as ordered_date, sum(database_records.rows) as k_rows, sum(database_records.tablesize)/1024 as table_kb, sum(database_records.indexsize)/1024 as index_kb FROM database_records GROUP BY ordered_date")
+
+    table = GoogleVisualr::DataTable.new
+    
+    
+    # Add Column Headers
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'krows')
+    table.new_column('number', 'table size (kb)')
+    table.new_column('number', 'index size (kb)')
+    
+    
+    @results1.each do |result1|
+      table.add_row([result1.ordered_date.to_date,result1.k_rows.to_i,result1.table_kb.to_i,result1.index_kb.to_i])
+    end 
+    
+    option1 = { :width => 1100, :height => 650, :title => 'Database statistics' }
+    @chart1 = GoogleVisualr::Interactive::LineChart.new(table, option1)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @stats }
+      format.xml { render :xml => @stats }
+    end
+  end
 
   # GET /database_records/new
   # GET /database_records/new.json
