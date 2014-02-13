@@ -94,9 +94,9 @@ class CloudRecordsController < ApplicationController
     end
   end
 
-  # GET /cloud_record/search?VMUUID=string
+  # GET /cloud_records/search?VMUUID=string
   def search
-    @cloud_record = CloudRecord.find_by_VMUUID(params[:VMUUID])
+    @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
 
     respond_to do |format|
       format.html # show.html.erb
