@@ -100,20 +100,27 @@ class CloudRecordsController < ApplicationController
 
     if params[:doGraph] == "true"
       min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where("VMUUID=\"#{params[:VMUUID]}\"")
-      graph_ary = CloudRecord.select("endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu").where("VMUUID=\"#{params[:VMUUID]}\"")
-      table = GoogleVisualr::DataTable.new
+      graph_ary = CloudRecord.select("endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu,networkInbound/1024 as netIn,networkOutBound/1024 as netOut").where("VMUUID=\"#{params[:VMUUID]}\"")
+      tableCpu = GoogleVisualr::DataTable.new
+      tableNet = GoogleVisualr::DataTable.new
     
       # Add Column Headers
-      table.new_column('datetime', 'Date' )
-      table.new_column('number', 'wall time (min)')
-      table.new_column('number', 'cpu time (min)')
+      tableCpu.new_column('datetime', 'Date' )
+      tableCpu.new_column('number', 'wall time (min)')
+      tableCpu.new_column('number', 'cpu time (min)')
     
+      tableNet.new_column('datetime', 'Date' )
+      tableNet.new_column('number', 'inbound net (KB)')
+      tableNet.new_column('number', 'outbound net (KB)')
     
       graph_ary.each do |row|
-        table.add_row([row.ordered_date.to_datetime,row.wall.to_i,row.cpu.to_i])
+        tableCpu.add_row([row.ordered_date.to_datetime,row.wall.to_i,row.cpu.to_i])
+        tableNet.add_row([row.ordered_date.to_datetime,row.netIn.to_i,row.netOut.to_i])
       end 
-      option1 = { :width => 1100, :height => 650, :title => 'VM History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
-      @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
+      optionCpu = { :width => 1100, :height => 325, :title => 'VM CPU History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      @chartCpu = GoogleVisualr::Interactive::AreaChart.new(tableCpu, optionCpu)
+      optionNet = { :width => 1100, :height => 325, :title => 'VM Network History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      @chartNet = GoogleVisualr::Interactive::AreaChart.new(tableNet, optionNet)
     end
     respond_to do |format|
       format.html # show.html.erb
