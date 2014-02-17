@@ -98,6 +98,22 @@ class CloudRecordsController < ApplicationController
   def search
     @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
 
+    if params[:doGraph] == "true"
+      graph_ary = CloudRecord.select("date(endTime) as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu").group('date(startTime)').where("VMUUID=\"#{params[:VMUUID]}\"")
+      table = GoogleVisualr::DataTable.new
+    
+      # Add Column Headers
+      table.new_column('date', 'Date' )
+      table.new_column('number', 'wall time (min)')
+      table.new_column('number', 'cpu time (min)')
+    
+    
+      graph_ary.each do |row|
+        table.add_row([row.ordered_date.to_date,row.wall.to_i,row.cpu.to_i])
+      end 
+      option1 = { :width => 1100, :height => 650, :title => 'VM History' }
+      @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
