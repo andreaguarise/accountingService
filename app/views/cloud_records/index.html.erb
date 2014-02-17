@@ -32,7 +32,7 @@
 
 <% @cloud_records.each do |cloud_record| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= link_to cloud_record.VMUUID, cloud_record %></td>
+    <td class="main_field"><%= link_to cloud_record.VMUUID, search_cloud_records_path(:VMUUID => cloud_record.VMUUID, :doGraph => true) %></td>
     <td class="field"><%= cloud_record.publisher.hostname %></td>
     <td class="field"><%= cloud_record.resource.name %></td>
     <td class="field"><%= cloud_record.site.name %></td>
