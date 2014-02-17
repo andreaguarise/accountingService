@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140203103414) do
+ActiveRecord::Schema.define(:version => 20140217114014) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -125,15 +125,15 @@ ActiveRecord::Schema.define(:version => 20140203103414) do
     t.integer  "cpuDuration"
     t.integer  "cpuCount"
     t.string   "networkType"
-    t.integer  "networkInbound"
-    t.integer  "networkOutBound"
+    t.integer  "networkInbound",  :limit => 8
+    t.integer  "networkOutBound", :limit => 8
     t.integer  "memory"
     t.integer  "disk"
     t.string   "storageRecordId"
     t.string   "diskImage"
     t.string   "cloudType"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.integer  "publisher_id"
   end
 
