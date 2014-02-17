@@ -111,7 +111,7 @@ class CloudRecordsController < ApplicationController
       graph_ary.each do |row|
         table.add_row([row.ordered_date.to_date,row.wall.to_i,row.cpu.to_i])
       end 
-      option1 = { :width => 1100, :height => 650, :title => 'VM History' }
+      option1 = { :width => 1100, :height => 650, :title => 'VM History', :hAxis => {:minValue => "2013-01-01".to_date, :maxValue => "2015-01-01".to_date} }
       @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
     end
     respond_to do |format|
