@@ -99,19 +99,20 @@ class CloudRecordsController < ApplicationController
     @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
 
     if params[:doGraph] == "true"
-      graph_ary = CloudRecord.select("date(endTime) as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu").group('date(startTime)').where("VMUUID=\"#{params[:VMUUID]}\"")
+      min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where("VMUUID=\"#{params[:VMUUID]}\"")
+      graph_ary = CloudRecord.select("endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu").where("VMUUID=\"#{params[:VMUUID]}\"")
       table = GoogleVisualr::DataTable.new
     
       # Add Column Headers
-      table.new_column('date', 'Date' )
+      table.new_column('datetime', 'Date' )
       table.new_column('number', 'wall time (min)')
       table.new_column('number', 'cpu time (min)')
     
     
       graph_ary.each do |row|
-        table.add_row([row.ordered_date.to_date,row.wall.to_i,row.cpu.to_i])
+        table.add_row([row.ordered_date.to_datetime,row.wall.to_i,row.cpu.to_i])
       end 
-      option1 = { :width => 1100, :height => 650, :title => 'VM History', :hAxis => {:minValue => "2013-01-01".to_date, :maxValue => "2015-01-01".to_date} }
+      option1 = { :width => 1100, :height => 650, :title => 'VM History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
     end
     respond_to do |format|
