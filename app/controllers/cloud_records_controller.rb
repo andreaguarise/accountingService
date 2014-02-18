@@ -101,6 +101,12 @@ class CloudRecordsController < ApplicationController
     when params.include?(:VMUUID) then
       @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
       whereBuffer = "VMUUID=\"#{params[:VMUUID]}\""
+    when params.include?(:local_user) then
+      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:local_user])
+      whereBuffer = "local_user=\"#{params[:local_user]}\""
+    when params.include?(:local_group) then
+      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:local_group])
+      whereBuffer = "local_group=\"#{params[:local_group]}\""
     when params.include?(:localVMID) then
       @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:localVMID])
       whereBuffer = "localVMID=\"#{params[:localVMID]}\""
