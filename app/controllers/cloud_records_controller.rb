@@ -96,11 +96,22 @@ class CloudRecordsController < ApplicationController
 
   # GET /cloud_records/search?VMUUID=string
   def search
-    @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
-
+    whereBuffer = String.new
+    case
+    when params.include?(:VMUUID) then
+      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
+      whereBuffer = "VMUUID=\"#{params[:VMUUID]}\""
+    when params.include?(:localVMID) then
+      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:localVMID])
+      whereBuffer = "localVMID=\"#{params[:localVMID]}\""
+    else
+      #@cloud_records.find_all
+    end  
+      
+      
     if params[:doGraph] == "true"
-      min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where("VMUUID=\"#{params[:VMUUID]}\"")
-      graph_ary = CloudRecord.select("endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu,networkInbound/1024 as netIn,networkOutBound/1024 as netOut").where("VMUUID=\"#{params[:VMUUID]}\"")
+      min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
+      graph_ary = CloudRecord.select("endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu,networkInbound/1048576 as netIn,networkOutBound/1048576 as netOut").where(whereBuffer).order(:ordered_date)
       tableCpu = GoogleVisualr::DataTable.new
       tableNet = GoogleVisualr::DataTable.new
     
@@ -110,8 +121,8 @@ class CloudRecordsController < ApplicationController
       tableCpu.new_column('number', 'cpu time (min)')
     
       tableNet.new_column('datetime', 'Date' )
-      tableNet.new_column('number', 'inbound net (KB)')
-      tableNet.new_column('number', 'outbound net (KB)')
+      tableNet.new_column('number', 'inbound net (MB)')
+      tableNet.new_column('number', 'outbound net (MB)')
     
       graph_ary.each do |row|
         tableCpu.add_row([row.ordered_date.to_datetime,row.wall.to_i,row.cpu.to_i])
