@@ -100,12 +100,12 @@ class CloudRecordsController < ApplicationController
       @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_local_user(params[:local_user])
       whereBuffer = "local_user=\"#{params[:local_user]}\""
       groupBuffer = "ordered_date"
-      relationBuffer = "date(endTime) as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
+      relationBuffer = "endTime as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
     when params.include?(:local_group) then
       @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_local_group(params[:local_group])
       whereBuffer = "local_group=\"#{params[:local_group]}\""
       groupBuffer = "ordered_date"
-      relationBuffer = "date(endTime) as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
+      relationBuffer = "endTime as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
     when params.include?(:localVMID) then
       @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:localVMID])
       whereBuffer = "localVMID=\"#{params[:localVMID]}\""
