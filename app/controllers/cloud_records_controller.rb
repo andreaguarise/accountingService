@@ -54,37 +54,30 @@ class CloudRecordsController < ApplicationController
     if @stats[:latest_record]
       startFrom = @stats[:latest_record].to_date-90 
     end
+    endFrom = @stats[:latest_record]
 
     data_table = GoogleVisualr::DataTable.new
     # Add Column Headers
     data_table.new_column('date', 'date' )
-    data_table.new_column('number', 'started')
-    data_table.new_column('number', 'started-ended')
     data_table.new_column('number', 'running')
-    #data_table.new_column('number', 'wallDuration')
+    data_table.new_column('number', 'not running')
 
     # Add Rows and Values
 
-    partialRunning = {}
-    running = {}
-    incremental = 0
-
-    started_ary = CloudRecord.select("date(startTime) as _date,count(id) as _count").group('date(startTime)')
-    ended_ary = CloudRecord.group('date(endTime)').count
-
-    started_ary.each do |r|
-      if ended_ary[r["_date"]]
-      partialRunning[r["_date"]] = r["_count"]-ended_ary[r["_date"]]
-      else
-      partialRunning[r["_date"]] = r["_count"]
-      end
-      incremental = incremental + partialRunning[r["_date"]]
-      running[r["_date"]] = incremental
-      #puts "date:#{date}, running:#{running[date]}  --->  partial: #{partial[date]}"
-      data_table.add_row([r["_date"].to_date,r["_count"],partialRunning[r["_date"]],running[r["_date"]]])
+    all_ary = CloudRecord.select("date(endTime) as ordered_date,count(id) as all_count").group('ordered_date').order('ordered_date')  
+    running_ary = CloudRecord.select("date(endTime) as ordered_date,count(id) as running_count").where("status=\"RUNNING\"").group('ordered_date').order('ordered_date')
+    
+    graph_hash = {}
+    
+    all_ary.each do |row|
+      graph_hash[row.ordered_date] = row.all_count
     end
     
-    option = { :width => 1100, :height => 650, :title => 'Running VMs' }
+    running_ary.each do |row|
+      data_table.add_row([row.ordered_date.to_date,row.running_count,graph_hash[row.ordered_date]-row.running_count])
+    end
+    
+    option = { :width => 1100, :height => 650, :title => 'Running VMs', :hAxis => {:minValue => startFrom, :maxValue => endFrom }}
     @chart = GoogleVisualr::Interactive::AreaChart.new(data_table, option)
 
     respond_to do |format|
