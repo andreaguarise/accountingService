@@ -121,11 +121,11 @@ class CloudRecordsController < ApplicationController
       tableNet = GoogleVisualr::DataTable.new
     
       # Add Column Headers
-      tableCpu.new_column('datetime', 'Date' )
+      tableCpu.new_column('date', 'Date' )
       tableCpu.new_column('number', 'wall time (min)')
       tableCpu.new_column('number', 'cpu time (min)')
     
-      tableNet.new_column('datetime', 'Date' )
+      tableNet.new_column('date', 'Date' )
       tableNet.new_column('number', 'inbound net (MB)')
       tableNet.new_column('number', 'outbound net (MB)')
     
