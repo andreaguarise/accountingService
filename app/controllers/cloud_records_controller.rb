@@ -64,8 +64,8 @@ class CloudRecordsController < ApplicationController
 
     # Add Rows and Values
 
-    all_ary = CloudRecord.select("date(endTime) as ordered_date,count(id) as all_count").group('ordered_date').order('ordered_date')  
-    running_ary = CloudRecord.select("date(endTime) as ordered_date,count(id) as running_count").where("status=\"RUNNING\"").group('ordered_date').order('ordered_date')
+    all_ary = CloudRecord.select("endTime as ordered_date,count(id) as all_count").group('ordered_date').order('ordered_date')  
+    running_ary = CloudRecord.select("endTime as ordered_date,count(localVMID) as running_count").where("status=\"RUNNING\"").group('ordered_date').order('ordered_date')
     
     graph_hash = {}
     
