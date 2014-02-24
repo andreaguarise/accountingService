@@ -11,6 +11,12 @@ class CloudRecord < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
   
+  @attr_searchable =[:VMUUID, :diskImage, :localVMID, :local_group, :local_user]
+  
+  def self.attrSearchable
+    @attr_searchable  
+  end
+  
   def self.produceSummaries
     sites = self.joins(:publisher,:resource,:site).select("count(*),sites.id as site_id").group("site_id")
     groups = self.select(:local_group).uniq

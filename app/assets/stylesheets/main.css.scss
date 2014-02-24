@@ -2,75 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-table.header {
+
+
+#banner {
   background: #600;
-  padding: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 4px solid;
-  color: #c11;
-  text-align: left;
-  width: 1350px;
-  td.logo {
-    font: small-caps 28px/28px "Times New Roman", serif;
-    padding: 10px;
-  padding-top: 9px;
-  padding-bottom: 9px;
+  height: 40px;
+  color: #ccc; 
   a {
-    font: small-caps 28px/28px "Times New Roman", serif;
-    color: #c11;
-    text-decoration: none;
-    &:hover {
-         color: #f00;
-         background-color: #700;
-       }
-  }
-  }
-}
-
-#banner img { float: left;
-}
-
-#menu thead {
-  padding: 0px;
-  font: small-caps 18px/18px "Times New Roman", serif;
-  text-align: left;
-}
-
-td.menu_head_currentuser
-  {
-    
-     background: #600;
-     padding: 3px;
-     border: 0px;
-     color: #eee; 
-     align: left;
-     text-align: left;
-     a {
-       color: #ddd;
-       font-size: 14px;
-       &:visited {
-         color: #bbb;
-       }
-       &:hover {
-         color: #f00;
-         background-color: #700;
-       }
-     } 
-  }
-
-#menu #menu_table {
-  #menu_head { 
-  th
-  {
-    
-     background: #600;
-     padding: 3px;
-     border: 0px;
-     color: #ccc; 
-     align: left;
-     text-align: center;
-     a {
        color: #555;
        font-size: 15px;
        text-decoration: none;
@@ -82,10 +20,38 @@ td.menu_head_currentuser
          background-color: #700;
        }
      } 
-  }
- }
+}
+
+#banner #logo {
+  float: left;
+  font-size: 30 px;
+  li { display: inline; }
+  a { font-size: 30px; }
+}
+
+#banner #menu { 
+  li { display: inline; }
 }
 
 #columns {
-  background: #141;
+  background: #d55;
 }
+
+#main {
+  margin-left: 14em;
+  padding-top: 4ex;
+  padding-left: 2em;
+  background: white;
+}
+
+#side {
+  float: left;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  width: 13em;
+  background: #d55;
+}
+
+
+

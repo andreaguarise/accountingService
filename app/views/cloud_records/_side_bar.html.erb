@@ -1,0 +1,17 @@
+<H3>Cloud Records</H3>
+
+<div id = "sidemenu">
+<ul>
+<li><%= link_to 'Record list', cloud_records_url%></li>
+<li><%= link_to 'Record summaries', cloud_record_summaries_url%></li>
+</ul>
+</div>
+
+<div id ="search">
+	Search:
+	<ul>
+	<% CloudRecord.attrSearchable.each do |item| %>
+	<li><%= item %></li>
+	<% end%>
+	</ul>
+</div>

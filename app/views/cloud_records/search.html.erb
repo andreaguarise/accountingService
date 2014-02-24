@@ -1,5 +1,3 @@
-<h1>Cloud records</h1>
-
 <% if true %>
 <table>
 	<tbody>
@@ -20,65 +18,9 @@
 <% end%>
 
 <table>
-  <tr>
-    <th>VM UUID</th>
-    <th>Publisher</th>
-    <th>Resource</th>
-    <th>Site</th>
-    <th>Local VM ID</th>
-    <th>Local user</th>
-    <th>Local group</th>
-    <th>Global User Name</th>
-    <th>FQAN</th>
-    <th>Status</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Suspendduration</th>
-    <th>Wall time</th>
-    <th>Cpu time</th>
-    <th>Cpu N.</th>
-    <th>Network</th>
-    <th>Net in</th>
-    <th>Net out</th>
-    <th>Memory</th>
-    <th>Disk</th>
-    <th>Storage Record</th>
-    <th>Disk Image</th>
-    <th>Cloud Type</th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= render "table_header" %>
 
-<% @cloud_records.each do |cloud_record| %>
-  <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= link_to cloud_record.VMUUID, cloud_record %></td>
-    <td class="field"><%= cloud_record.publisher.hostname %></td>
-    <td class="field"><%= cloud_record.resource.name %></td>
-    <td class="field"><%= cloud_record.site.name %></td>
-    <td class="field" ><%= cloud_record.localVMID %></td>
-    <td class="field" ><%= cloud_record.local_user %></td>
-    <td class="field" ><%= cloud_record.local_group %></td>
-    <td class="field" ><%= cloud_record.globaluserName %></td>
-    <td class="field" ><%= cloud_record.FQAN %></td>
-    <td class="field" ><%= cloud_record.status %></td>
-    <td class="field" ><%= cloud_record.startTime %></td>
-    <td class="field" ><%= cloud_record.endTime %></td>
-    <td class="field" ><%= cloud_record.suspendDuration %></td>
-    <td class="field" ><%= cloud_record.wallDuration %></td>
-    <td class="field" ><%= cloud_record.cpuDuration %></td>
-    <td class="field" ><%= cloud_record.cpuCount %></td>
-    <td class="field" ><%= cloud_record.networkType %></td>
-    <td class="field" ><%= cloud_record.networkInbound %></td>
-    <td class="field" ><%= cloud_record.networkOutBound %></td>
-    <td class="field" ><%= cloud_record.memory %></td>
-    <td class="field" ><%= cloud_record.disk %></td>
-    <td class="field" ><%= cloud_record.storageRecordId %></td>
-    <td class="field" ><%= cloud_record.diskImage %></td>
-    <td class="field" ><%= cloud_record.cloudType %></td>
-    <td class="list_actions" ><%= link_to 'Edit', edit_cloud_record_path(cloud_record) %></td>
-    <td class="list_actions" ><%= link_to 'Destroy', cloud_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%= render(@cloud_records)%>
 </table>
 
 <br />

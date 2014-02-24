@@ -2,43 +2,38 @@
 <html>
 	<head>
 		<script src='http://www.google.com/jsapi'></script>
-		<title>AccountingService</title>
+		<title>FAUST</title>
 		<%= stylesheet_link_tag    "application", :media => "all" %>
 		<%= javascript_include_tag "application" %>
 		<%= csrf_meta_tags %>
 	</head>
 	<body id ="faust">
-		<table class="header">
-			<tr>
-				<td class="logo"><%= link_to 'F.A.U.S.T.', main_url%></td>
-				<td> <% if session[:user_id] %>
-				<div id="menu">
-					<table id="menu_table">
-						<thead id="menu_head">
-							<% if session[:role] == 'admin' %>
-							<th><%= link_to 'Users', users_url%></th>
-							<th><%= link_to 'Resources', resource_management_index_url%></th>
-							<th>-</th>
-							<% end %>
-							<th><%= link_to 'Cloud', stats_cloud_records_url%></th>
-							<th><%= link_to 'Grid cpu', stats_grid_cpu_records_url%></th>
-							<th><%= link_to 'Local cpu', stats_local_cpu_records_url%></th>
-							<th><%= link_to 'Storage', stats_emi_storage_records_url%></th>
-							<th><%= link_to 'Database', database_records_url%></th>
-							<th></th>
-						</thead>
-					</table>
-				</div> <% end %> 
-				</td>
-					<% if session[:user_id] %>
-					  <td class="menu_head_currentuser"><%= User.find_by_id(session[:user_id]).name %></td>
-				      <td><%= link_to 'Logout', logout_path, :method => :delete %></td>
-				    <% end %>
-					<td>Help</td>
-			</tr>
-		</table>
-
-		<%= yield %>
-
+		<div id="banner">
+				<div id="logo"><%= link_to 'F.A.U.S.T.', main_url%></div>
+			    <% if session[:user_id] %>
+					<ul id="menu">
+						<% if session[:role] == 'admin' %>
+							<li><%= link_to 'Users', users_url%></li>
+							<li><%= link_to 'Resources', resource_management_index_url%></li>
+						<% end %>
+						<li><%= link_to 'Cloud', stats_cloud_records_url%></li>
+						<li><%= link_to 'Grid cpu', stats_grid_cpu_records_url%></li>
+						<li><%= link_to 'Local cpu', stats_local_cpu_records_url%></li>
+						<li><%= link_to 'Storage', stats_emi_storage_records_url%></li>
+						<li><%= link_to 'Database', database_records_url%></li>				
+					 	<li><%= User.find_by_id(session[:user_id]).name %></li>
+				      	<li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+				<% end %>
+				<li>Help</li>
+				</p>
+		</div>
+		<div id="columns">
+			<div id="side">
+				<%=  render "side_bar" %>
+			</div>	
+			<div id ="main">
+				<%= yield %>
+			</div>
+		</div>
 	</body>
 </html>
