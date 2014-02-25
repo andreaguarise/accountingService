@@ -91,41 +91,21 @@ class CloudRecordsController < ApplicationController
   def search
     whereBuffer = String.new
     groupBuffer = String.new
+    logger.info "Entering #search method."
+    
+    params.each do |param_k,param_v|
+      if CloudRecord.attrSearchable.include?(param_k) && param_v != ""
+        logger.info "Got search parameter: #{param_k} ==> #{param_v}" 
+        if ( whereBuffer != "" )
+          whereBuffer += " AND "
+        end
+        whereBuffer += "#{param_k}=\"#{param_v}\"" 
+      end
+   end
+    
     relationBuffer = "endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu,networkInbound/1048576 as netIn,networkOutBound/1048576 as netOut"
-    case
-    when params.include?(:VMUUID) then
-      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_VMUUID(params[:VMUUID])
-      if ( whereBuffer != "" )
-        whereBuffer += " AND "
-      end
-      whereBuffer += "VMUUID=\"#{params[:VMUUID]}\""
-    when params.include?(:local_user) then
-      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_local_user(params[:local_user])
-      if ( whereBuffer != "" )
-        whereBuffer += " AND "
-      end
-      whereBuffer += "local_user=\"#{params[:local_user]}\""
-      groupBuffer = "ordered_date"
-      relationBuffer = "endTime as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
-    when params.include?(:local_group) then
-      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_local_group(params[:local_group])
-      if ( whereBuffer != "" )
-        whereBuffer += " AND "
-      end
-      whereBuffer += "local_group=\"#{params[:local_group]}\""
-      groupBuffer = "ordered_date"
-      relationBuffer = "endTime as ordered_date,sum(wallDuration)/60 as wall,sum(cpuDuration)/60 as cpu,sum(networkInbound/1048576) as netIn, sum(networkOutBound/1048576) as netOut"
-    when params.include?(:localVMID) then
-      @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).find_all_by_localVMID(params[:localVMID])
-      if ( whereBuffer != "" )
-        whereBuffer += " AND "
-      end
-      whereBuffer += "localVMID=\"#{params[:localVMID]}\""
-    else
-      #@cloud_records.find_all
-    end  
-      
-      
+    @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all 
+    
     if params[:doGraph] == "true"
       min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
       graph_ary = CloudRecord.select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)

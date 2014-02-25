@@ -11,7 +11,8 @@
 		<div id="banner">
 				<div id="logo"><%= link_to 'F.A.U.S.T.', main_url%></div>
 			    <% if session[:user_id] %>
-					<ul id="menu">
+			    	<div id ="menu">
+					<ul>
 						<% if session[:role] == 'admin' %>
 							<li><%= link_to 'Users', users_url%></li>
 							<li><%= link_to 'Resources', resource_management_index_url%></li>
@@ -20,12 +21,16 @@
 						<li><%= link_to 'Grid cpu', stats_grid_cpu_records_url%></li>
 						<li><%= link_to 'Local cpu', stats_local_cpu_records_url%></li>
 						<li><%= link_to 'Storage', stats_emi_storage_records_url%></li>
-						<li><%= link_to 'Database', database_records_url%></li>				
-					 	<li><%= User.find_by_id(session[:user_id]).name %></li>
+						<li><%= link_to 'Database', database_records_url%></li>	
+					</ul>	
+					</div>
+					<div id = "user" >
+					<ul>		
+					 	<li>Logged in as: <%= User.find_by_id(session[:user_id]).name %></li>
 				      	<li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+				    </ul>
+				    </div>
 				<% end %>
-				<li>Help</li>
-				</p>
 		</div>
 		<div id="columns">
 			<div id="side">

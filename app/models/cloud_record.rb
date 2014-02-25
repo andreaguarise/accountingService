@@ -11,7 +11,7 @@ class CloudRecord < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
   
-  @attr_searchable =[:VMUUID, :diskImage, :localVMID, :local_group, :local_user]
+  @attr_searchable =["VMUUID", "diskImage", "localVMID", "local_group", "local_user","status"]
   
   def self.attrSearchable
     @attr_searchable  

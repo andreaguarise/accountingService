@@ -7,11 +7,16 @@
 </ul>
 </div>
 
-<div id ="search">
-	Search:
-	<ul>
-	<% CloudRecord.attrSearchable.each do |item| %>
-	<li><%= item %></li>
-	<% end%>
-	</ul>
-</div>
+<%= form_tag(search_cloud_records_path ) do %>
+  <% CloudRecord.attrSearchable.each do |item| %>
+	<div class="field">
+    	<%= item %>:
+    	<%= text_field_tag item %>
+  	</div>
+  <% end %>
+  <div class="field">
+    	doGraph:
+   		<%= text_field_tag "doGraph" %>
+  </div>
+  <%= submit_tag("Search...") %>
+<% end %>

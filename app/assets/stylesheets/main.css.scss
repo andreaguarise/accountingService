@@ -9,7 +9,7 @@
   height: 40px;
   color: #ccc; 
   a {
-       color: #555;
+       color: #aaa;
        font-size: 15px;
        text-decoration: none;
        &:visited {
@@ -22,26 +22,40 @@
      } 
 }
 
+#banner {
+  padding: 10px;
+}
+
 #banner #logo {
   float: left;
-  font-size: 30 px;
+  font-size: 34 px;
+  ul { display: inline; }
   li { display: inline; }
   a { font-size: 30px; }
 }
 
 #banner #menu { 
+  float: left;
+  ul { display: inline; }
+  li { display: inline; }
+}
+
+#banner #user { 
+  ul { display: inline; }
   li { display: inline; }
 }
 
 #columns {
-  background: #d55;
+  float: left;
+  background: #fee;
 }
 
 #main {
-  margin-left: 14em;
+  margin-left: 16em;
   padding-top: 4ex;
   padding-left: 2em;
   background: white;
+  height: 50 em;
 }
 
 #side {
@@ -49,8 +63,8 @@
   padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 1em;
-  width: 13em;
-  background: #d55;
+  width: 15em;
+  height: 50 em;
 }
 
 
