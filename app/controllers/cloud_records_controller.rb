@@ -103,7 +103,8 @@ class CloudRecordsController < ApplicationController
       end
    end
     
-    relationBuffer = "endTime as ordered_date,wallDuration/60 as wall,cpuDuration/60 as cpu,networkInbound/1048576 as netIn,networkOutBound/1048576 as netOut"
+    relationBuffer = "endTime as ordered_date,sum(wallDuration/60) as wall,sum(cpuDuration/60) as cpu,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
+    group_buffer = "ordered_date"
     @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all 
     
     if params[:doGraph] == "true"
