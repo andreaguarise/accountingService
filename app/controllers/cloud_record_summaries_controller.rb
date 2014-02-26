@@ -45,7 +45,7 @@ class CloudRecordSummariesController < ApplicationController
       end
    end
     
-    relationBuffer = "date as ordered_date,sum(wallDuration/60) as wall,count(*) as count,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
+    relationBuffer = "date as ordered_date,sum(wallDuration/60) as wall,sum(vmCount) as count,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
     groupBuffer = "ordered_date"
     @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => 2).orderByParms('id desc',params).where(whereBuffer).all
     if params[:doGraph] == "1"
