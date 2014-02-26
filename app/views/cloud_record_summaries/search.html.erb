@@ -1,0 +1,34 @@
+<% if params[:doGraph] == "1" %>
+<table>
+	<tbody>
+<tr>
+	<td>
+		<div id='chartCpu'></div>
+		<%= render_chart(@chartCpu, 'chartCpu') %>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div id='chartCount'></div>
+		<%= render_chart(@chartCount, 'chartCount') %>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div id='chartNet'></div>
+		<%= render_chart(@chartNet, 'chartNet') %>
+	</td>
+</tr>
+</tbody>
+</table>
+<% end%>
+<table id="recordstable">
+
+<%= render "table_header" %>
+
+<%= render(@cloud_record_summaries)%>
+</table>
+
+<br />
+
+<div id="pagination"><%= will_paginate @cloud_record_summaries %></div>
