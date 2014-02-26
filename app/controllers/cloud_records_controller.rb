@@ -107,7 +107,7 @@ class CloudRecordsController < ApplicationController
     groupBuffer = "ordered_date"
     @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all 
     
-    if params[:doGraph] == "true"
+    if params[:doGraph] == "1"
       min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
       graph_ary = CloudRecord.select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)
       tableCpu = GoogleVisualr::DataTable.new
