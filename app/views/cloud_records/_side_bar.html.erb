@@ -8,7 +8,7 @@
 </div>
 
 <div id = "sidesearch">
-<%= form_tag(search_cloud_records_path ) do %>
+<%= form_tag(search_cloud_records_path, :method => 'get' ) do %>
   <% CloudRecord.attrSearchable.each do |item| %>
 	<div class="field">
     	<p><%= item %>:</p>
