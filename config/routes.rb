@@ -17,7 +17,12 @@ AccountingService::Application.routes.draw do
   resources :database_schemes
 
 
-  resources :cloud_record_summaries
+  resources :cloud_record_summaries do
+    collection do
+      get 'stats'
+      match 'search' => 'cloud_record_summaries#search'
+    end
+  end
 
 
   resources :storage_summaries

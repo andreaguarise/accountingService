@@ -29,6 +29,24 @@ class CloudRecordSummariesController < ApplicationController
     end
   end
 
+  # GET /cloud_record_summaries/search?VMUUID=string
+  def search
+    respond_to do |format|
+      format.html {
+        @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).all
+      }
+      format.any(:xml,:json){
+        @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPage).all
+      }
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @cloud_record_summaries }
+      format.xml { render :xml => @cloud_record_summaries }
+    end
+  end
+
+
   # GET /cloud_record_summaries/new
   # GET /cloud_record_summaries/new.json
   def new
@@ -39,6 +57,7 @@ class CloudRecordSummariesController < ApplicationController
       format.json { render :json => @cloud_record_summary }
     end
   end
+ 
 
   # GET /cloud_record_summaries/1/edit
   def edit

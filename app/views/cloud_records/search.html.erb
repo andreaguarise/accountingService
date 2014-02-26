@@ -17,7 +17,7 @@
 </table>
 <% end%>
 
-<table>
+<table id="recordstable">
 <%= render "table_header" %>
 
 <%= render(@cloud_records)%>
@@ -25,5 +25,5 @@
 
 <br />
 
-<p><%= will_paginate @cloud_records %></p>
+<div id="pagination"><%= will_paginate @cloud_records %></div>
 
