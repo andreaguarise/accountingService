@@ -1,5 +1,4 @@
-<% @cloud_record_summaries.each do |cloud_record_summary| %>
-  <tr>
+ <tr class="<%= cycle("odd", "even") %>">
     <td><%= cloud_record_summary.date %></td>
     <td><%= cloud_record_summary.site_id %></td>
     <td><%= cloud_record_summary.local_group %></td>
@@ -12,4 +11,3 @@
     <td><%= cloud_record_summary.memory %></td>
     <td><%= link_to 'Destroy', cloud_record_summary, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
-<% end %>

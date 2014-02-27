@@ -11,11 +11,6 @@ class CloudRecordSummariesController < ApplicationController
         @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPage).all
       }
     end
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @cloud_record_summaries }
-      format.xml { render :xml => @cloud_record_summaries }
-    end
   end
 
   # GET /cloud_record_summaries/1
@@ -47,7 +42,8 @@ class CloudRecordSummariesController < ApplicationController
     
     relationBuffer = "date as ordered_date,sum(wallDuration/60) as wall,sum(vmCount) as count,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
     groupBuffer = "ordered_date"
-    @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => 2).orderByParms('id desc',params).where(whereBuffer).all
+    @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all
+    
     if params[:doGraph] == "1"
       min_max =  CloudRecordSummary.select("min(date) as minDate,max(date) as maxDate").where(whereBuffer)
       graph_ary = CloudRecordSummary.select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)
