@@ -1,0 +1,48 @@
+<h1>Listing cloud_view_vm_summaries</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Vmuuid</th>
+    <th>Localvmid</th>
+    <th>Publisher</th>
+    <th>Local group</th>
+    <th>Local user</th>
+    <th>Status</th>
+    <th>Diskimage</th>
+    <th>Cloudtype</th>
+    <th>Disk</th>
+    <th>Wallduration</th>
+    <th>Cpuduration</th>
+    <th>Networkinbound</th>
+    <th>Networkoutbound</th>
+    <th>Memory</th>
+    <th>Cpucount</th>
+    <th></th>
+  </tr>
+
+<% @cloud_view_vm_summaries.each do |cloud_view_vm_summary| %>
+  <tr>
+    <td><%= cloud_view_vm_summary.date %></td>
+    <td><%= cloud_view_vm_summary.VMUUID %></td>
+    <td><%= cloud_view_vm_summary.localVMID %></td>
+    <td><%= cloud_view_vm_summary.publisher_id %></td>
+    <td><%= cloud_view_vm_summary.local_group %></td>
+    <td><%= cloud_view_vm_summary.local_user %></td>
+    <td><%= cloud_view_vm_summary.status %></td>
+    <td><%= cloud_view_vm_summary.diskImage %></td>
+    <td><%= cloud_view_vm_summary.cloudType %></td>
+    <td><%= cloud_view_vm_summary.disk %></td>
+    <td><%= cloud_view_vm_summary.wallDuration %></td>
+    <td><%= cloud_view_vm_summary.cpuDuration %></td>
+    <td><%= cloud_view_vm_summary.networkInbound %></td>
+    <td><%= cloud_view_vm_summary.networkOutbound %></td>
+    <td><%= cloud_view_vm_summary.memory %></td>
+    <td><%= cloud_view_vm_summary.cpuCount %></td>
+    <td><%= link_to 'Show', cloud_view_vm_summary %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

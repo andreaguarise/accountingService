@@ -1,0 +1,2 @@
+module CloudViewVmSummariesHelper
+end

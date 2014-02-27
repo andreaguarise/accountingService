@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140217114014) do
+ActiveRecord::Schema.define(:version => 20140227131841) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -109,6 +109,26 @@ ActiveRecord::Schema.define(:version => 20140217114014) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "cloud_record_vm_view", :id => false, :force => true do |t|
+    t.integer "id",                                             :default => 0, :null => false
+    t.date    "date"
+    t.string  "VMUUID"
+    t.string  "localVMID"
+    t.integer "publisher_id"
+    t.string  "local_user"
+    t.string  "local_group"
+    t.string  "status"
+    t.string  "diskImage"
+    t.string  "cloudType"
+    t.decimal "disk",            :precision => 14, :scale => 4
+    t.decimal "wallDuration",    :precision => 14, :scale => 4
+    t.decimal "cpuDuration",     :precision => 14, :scale => 4
+    t.decimal "networkInbound",  :precision => 23, :scale => 4
+    t.decimal "networkOutbound", :precision => 23, :scale => 4
+    t.decimal "memory",          :precision => 14, :scale => 4
+    t.decimal "cpuCount",        :precision => 14, :scale => 4
+  end
+
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
     t.integer  "resource_id"
@@ -135,6 +155,26 @@ ActiveRecord::Schema.define(:version => 20140217114014) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.integer  "publisher_id"
+  end
+
+  create_table "cloud_view_vm_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                             :default => 0, :null => false
+    t.date    "date"
+    t.string  "VMUUID"
+    t.string  "localVMID"
+    t.integer "publisher_id"
+    t.string  "local_user"
+    t.string  "local_group"
+    t.string  "status"
+    t.string  "diskImage"
+    t.string  "cloudType"
+    t.decimal "disk",            :precision => 14, :scale => 4
+    t.decimal "wallDuration",    :precision => 14, :scale => 4
+    t.decimal "cpuDuration",     :precision => 14, :scale => 4
+    t.decimal "networkInbound",  :precision => 23, :scale => 4
+    t.decimal "networkOutbound", :precision => 23, :scale => 4
+    t.decimal "memory",          :precision => 14, :scale => 4
+    t.decimal "cpuCount",        :precision => 14, :scale => 4
   end
 
   create_table "database_descrs", :force => true do |t|

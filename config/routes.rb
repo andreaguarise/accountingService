@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :cloud_view_vm_summaries
+
+
   resources :database_records do
     collection do
       get 'stats'
