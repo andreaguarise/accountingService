@@ -1,2 +1,0 @@
-CloudRecord.produceSummaries
-
