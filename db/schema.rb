@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140227131841) do
+ActiveRecord::Schema.define(:version => 20140228102000) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -94,39 +94,20 @@ ActiveRecord::Schema.define(:version => 20140227131841) do
   add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
   add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId"
 
-  create_table "cloud_record_summaries", :force => true do |t|
-    t.date     "date"
-    t.integer  "site_id"
-    t.string   "local_group"
-    t.string   "local_user"
-    t.integer  "vmCount"
-    t.integer  "wallDuration"
-    t.integer  "networkInBound"
-    t.integer  "networkOutBound"
-    t.integer  "cpuCount"
-    t.integer  "memory"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "cloud_record_vm_view", :id => false, :force => true do |t|
-    t.integer "id",                                             :default => 0, :null => false
+  create_table "cloud_record_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                                          :default => 0, :null => false
     t.date    "date"
-    t.string  "VMUUID"
-    t.string  "localVMID"
-    t.integer "publisher_id"
-    t.string  "local_user"
+    t.integer "site_id"
     t.string  "local_group"
+    t.string  "local_user"
     t.string  "status"
-    t.string  "diskImage"
-    t.string  "cloudType"
-    t.decimal "disk",            :precision => 14, :scale => 4
-    t.decimal "wallDuration",    :precision => 14, :scale => 4
-    t.decimal "cpuDuration",     :precision => 14, :scale => 4
-    t.decimal "networkInbound",  :precision => 23, :scale => 4
-    t.decimal "networkOutbound", :precision => 23, :scale => 4
-    t.decimal "memory",          :precision => 14, :scale => 4
-    t.decimal "cpuCount",        :precision => 14, :scale => 4
+    t.integer "vmCount",         :limit => 8,                                :default => 0, :null => false
+    t.decimal "wallDuration",                 :precision => 36, :scale => 4
+    t.decimal "cpuDuration",                  :precision => 36, :scale => 4
+    t.decimal "networkInbound",               :precision => 45, :scale => 4
+    t.decimal "networkOutbound",              :precision => 45, :scale => 4
+    t.decimal "cpuCount",                     :precision => 36, :scale => 4
+    t.decimal "memory",                       :precision => 36, :scale => 4
   end
 
   create_table "cloud_records", :force => true do |t|
@@ -175,6 +156,22 @@ ActiveRecord::Schema.define(:version => 20140227131841) do
     t.decimal "networkOutbound", :precision => 23, :scale => 4
     t.decimal "memory",          :precision => 14, :scale => 4
     t.decimal "cpuCount",        :precision => 14, :scale => 4
+  end
+
+  create_table "cloud_vm_tmp_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                                          :default => 0, :null => false
+    t.date    "date"
+    t.integer "site_id"
+    t.string  "local_group"
+    t.string  "local_user"
+    t.string  "status"
+    t.integer "vmCount",         :limit => 8,                                :default => 0, :null => false
+    t.decimal "wallDuration",                 :precision => 36, :scale => 4
+    t.decimal "cpuDuration",                  :precision => 36, :scale => 4
+    t.decimal "networkInbound",               :precision => 45, :scale => 4
+    t.decimal "networkOutbound",              :precision => 45, :scale => 4
+    t.decimal "cpuCount",                     :precision => 36, :scale => 4
+    t.decimal "memory",                       :precision => 36, :scale => 4
   end
 
   create_table "database_descrs", :force => true do |t|

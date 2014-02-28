@@ -4,10 +4,11 @@
     <td><%= cloud_record_summary.local_group %></td>
     <td><%= cloud_record_summary.local_user %></td>
     <td><%= cloud_record_summary.vmCount %></td>
+    <td><%= cloud_record_summary.status %></td>
     <td><%= cloud_record_summary.wallDuration %></td>
-    <td><%= cloud_record_summary.networkInBound %></td>
-    <td><%= cloud_record_summary.networkOutBound %></td>
+    <td><%= cloud_record_summary.cpuDuration %></td>
+    <td><%= cloud_record_summary.networkInbound %></td>
+    <td><%= cloud_record_summary.networkOutbound %></td>
     <td><%= cloud_record_summary.cpuCount %></td>
     <td><%= cloud_record_summary.memory %></td>
-    <td><%= link_to 'Destroy', cloud_record_summary, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
