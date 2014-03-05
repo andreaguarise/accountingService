@@ -164,6 +164,11 @@ class CloudRecordsController < ApplicationController
     @cloud_record.publisher = Publisher.find_by_token(session[:token])
     logger.info "Received API-KEY:#{session[:token]}, which maps to :#{@cloud_record.publisher.hostname}"
 
+    if @cloud_record.cpuDuration > (@cloud_record.wallDuration*@cloud_record.cpuCount)
+      logger.info "Got unbelievable cpuDuration of #{@cloud_record.cpuDuration}. Set it to ZERO. Sorry, not my fault..."
+      @cloud_record.cpuDuration = 0
+    end
+    
     respond_to do |format|
       if @cloud_record.save
         format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully created.' }
