@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140228102000) do
+ActiveRecord::Schema.define(:version => 20140305103112) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -126,16 +126,17 @@ ActiveRecord::Schema.define(:version => 20140228102000) do
     t.integer  "cpuDuration"
     t.integer  "cpuCount"
     t.string   "networkType"
-    t.integer  "networkInbound",  :limit => 8
-    t.integer  "networkOutBound", :limit => 8
+    t.integer  "networkInbound",      :limit => 8
+    t.integer  "networkOutBound",     :limit => 8
     t.integer  "memory"
     t.integer  "disk"
     t.string   "storageRecordId"
     t.string   "diskImage"
     t.string   "cloudType"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "publisher_id"
+    t.string   "hypervisor_hostname"
   end
 
   create_table "cloud_view_vm_summaries", :id => false, :force => true do |t|
@@ -156,22 +157,6 @@ ActiveRecord::Schema.define(:version => 20140228102000) do
     t.decimal "networkOutbound", :precision => 23, :scale => 4
     t.decimal "memory",          :precision => 14, :scale => 4
     t.decimal "cpuCount",        :precision => 14, :scale => 4
-  end
-
-  create_table "cloud_vm_tmp_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                                          :default => 0, :null => false
-    t.date    "date"
-    t.integer "site_id"
-    t.string  "local_group"
-    t.string  "local_user"
-    t.string  "status"
-    t.integer "vmCount",         :limit => 8,                                :default => 0, :null => false
-    t.decimal "wallDuration",                 :precision => 36, :scale => 4
-    t.decimal "cpuDuration",                  :precision => 36, :scale => 4
-    t.decimal "networkInbound",               :precision => 45, :scale => 4
-    t.decimal "networkOutbound",              :precision => 45, :scale => 4
-    t.decimal "cpuCount",                     :precision => 36, :scale => 4
-    t.decimal "memory",                       :precision => 36, :scale => 4
   end
 
   create_table "database_descrs", :force => true do |t|

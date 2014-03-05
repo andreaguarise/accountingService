@@ -1,6 +1,6 @@
 class CloudRecord < ActiveRecord::Base
   include Search
-  attr_accessible :FQAN, :VMUUID, :cloudType, :cpuCount, :cpuDuration, :disk, :diskImage, :endTime, :globaluserName, :localVMID, :local_group, :local_user, :memory, :networkInbound, :networkOutBound, :networkType, :publisher_id, :resource_id, :startTime, :status, :storageRecordId, :suspendDuration, :wallDuration
+  attr_accessible :FQAN, :VMUUID, :cloudType, :cpuCount, :cpuDuration, :disk, :diskImage, :endTime, :globaluserName, :hypervisor_hostname, :localVMID, :local_group, :local_user, :memory, :networkInbound, :networkOutBound, :networkType, :publisher_id, :resource_id, :startTime, :status, :storageRecordId, :suspendDuration, :wallDuration
   before_create :translateDates
   belongs_to :publisher
   validates :VMUUID, :presence => true, :on => :create
@@ -10,7 +10,7 @@ class CloudRecord < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
   
-  @attr_searchable =["VMUUID", "diskImage", "localVMID", "local_group", "local_user","status"]
+  @attr_searchable =["VMUUID", "diskImage", "localVMID", "local_group", "local_user","status","hypervisor_hostname"]
   
   def self.attrSearchable
     @attr_searchable  
