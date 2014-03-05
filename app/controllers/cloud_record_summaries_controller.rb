@@ -29,6 +29,7 @@ class CloudRecordSummariesController < ApplicationController
     whereBuffer = String.new
     groupBuffer = String.new
     logger.info "Entering #search method."
+    params[:doGraph] = "1"
     
     params.each do |param_k,param_v|
       if CloudRecordSummary.attrSearchable.include?(param_k) && param_v != ""
