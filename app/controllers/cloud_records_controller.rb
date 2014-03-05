@@ -89,27 +89,24 @@ class CloudRecordsController < ApplicationController
 
   # GET /cloud_records/search?VMUUID=string
   def search
-    whereBuffer = String.new
+    whereBuffer = {}
     groupBuffer = String.new
     logger.info "Entering #search method."
     
     params.each do |param_k,param_v|
       if CloudRecord.attrSearchable.include?(param_k) && param_v != ""
         logger.info "Got search parameter: #{param_k} ==> #{param_v}" 
-        if ( whereBuffer != "" )
-          whereBuffer += " AND "
-        end
-        whereBuffer += "#{param_k}=\"#{param_v}\"" 
+        whereBuffer[param_k]=param_v 
       end
    end
     
     relationBuffer = "endTime as ordered_date,sum(wallDuration/60) as wall,sum(cpuDuration/60) as cpu,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
     groupBuffer = "ordered_date"
-    @cloud_records = CloudRecord.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all 
+    @cloud_records = CloudRecord.joins(:publisher,:resource,:site).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('cloud_records.id desc',params).where(whereBuffer).all 
     
     if params[:doGraph] == "1"
-      min_max =  CloudRecord.select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
-      graph_ary = CloudRecord.select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)
+      min_max =  CloudRecord.joins(:publisher,:resource,:site).select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
+      graph_ary = CloudRecord.joins(:publisher,:resource,:site).select(relationBuffer).where(whereBuffer).group(groupBuffer).order("ordered_date")
       tableCpu = GoogleVisualr::DataTable.new
       tableNet = GoogleVisualr::DataTable.new
     
