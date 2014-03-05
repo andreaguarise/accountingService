@@ -170,15 +170,24 @@ class CloudRecordsController < ApplicationController
     end
     
     respond_to do |format|
-      if @cloud_record.save
-        format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully created.' }
-        format.json { render :json => @cloud_record, :status => :created, :location => @cloud_record }
-        format.xml { render :xml => @cloud_record, :status => :created, :location => @cloud_record }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @cloud_record.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @cloud_record.errors, :status => :unprocessable_entity }
-      end
+      if CloudRecord.terminal_state.include?(@cloud_record.status) && (CloudRecord.where(:status => @cloud_record.status, :VMUUID => @cloud_record.VMUUID).count > 0)
+         #Vm terminal state
+         logger.info "Got record for terminal state."
+           logger.info "record already found in db. Ignoring"
+           format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully created.' }
+           format.json { render :json => @cloud_record, :status => :created, :location => @cloud_record }
+           format.xml { render :xml => @cloud_record, :status => :created, :location => @cloud_record }
+      else 
+        if @cloud_record.save
+          format.html { redirect_to @cloud_record, :notice => 'Cloud record was successfully created.' }
+          format.json { render :json => @cloud_record, :status => :created, :location => @cloud_record }
+          format.xml { render :xml => @cloud_record, :status => :created, :location => @cloud_record }
+        else
+          format.html { render :action => "new" }
+          format.json { render :json => @cloud_record.errors, :status => :unprocessable_entity }
+          format.xml { render :xml => @cloud_record.errors, :status => :unprocessable_entity }
+        end
+     end
     end
   end
 
