@@ -43,11 +43,11 @@ class CloudRecordSummariesController < ApplicationController
     
     relationBuffer = "date as ordered_date,sum(wallDuration/3600) as wall, sum(cpuDuration/3600) as cpu,sum(vmCount) as count,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut, sum(memory/1024) as mem"
     groupBuffer = "ordered_date"
-    @cloud_record_summaries = CloudRecordSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all
+    @cloud_record_summaries = CloudRecordSummary.joins(:site).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('id desc',params).where(whereBuffer).all
     
     if params[:doGraph] == "1"
-      min_max =  CloudRecordSummary.select("min(date) as minDate,max(date) as maxDate").where(whereBuffer)
-      graph_ary = CloudRecordSummary.select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)
+      min_max =  CloudRecordSummary.joins(:site).select("min(date) as minDate,max(date) as maxDate").where(whereBuffer)
+      graph_ary = CloudRecordSummary.joins(:site).select(relationBuffer).where(whereBuffer).group(groupBuffer).order(:ordered_date)
       tableCpu = GoogleVisualr::DataTable.new
       tableMem = GoogleVisualr::DataTable.new
       tableCount = GoogleVisualr::DataTable.new

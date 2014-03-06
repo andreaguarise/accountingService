@@ -1,15 +1,15 @@
 
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="main_field"><%= link_to cloud_record.VMUUID, search_cloud_records_path(:VMUUID => cloud_record.VMUUID, :doGraph => '1') %></td>
+    <td class="main_field"><%= link_to cloud_record.VMUUID, search_cloud_records_path(:VMUUID => cloud_record.VMUUID) %></td>
     <td class="field"><%= cloud_record.publisher.hostname %></td>
     <td class="field"><%= cloud_record.resource.name %></td>
     <td class="field"><%= cloud_record.site.name %></td>
-    <td class="field" ><%= link_to cloud_record.localVMID, search_cloud_records_path(:localVMID => cloud_record.localVMID, :doGraph => '1') %></td>
-    <td class="field" ><%= link_to cloud_record.local_user, search_cloud_records_path(:local_user => cloud_record.local_user, :doGraph => '1') %></td>
-    <td class="field" ><%= link_to cloud_record.local_group, search_cloud_records_path(:local_group => cloud_record.local_group, :doGraph => '1') %></td>
+    <td class="field" ><%= link_to cloud_record.localVMID, search_cloud_records_path(:localVMID => cloud_record.localVMID) %></td>
+    <td class="field" ><%= link_to cloud_record.local_user, search_cloud_records_path(:local_user => cloud_record.local_user) %></td>
+    <td class="field" ><%= link_to cloud_record.local_group, search_cloud_records_path(:local_group => cloud_record.local_group) %></td>
     <td class="field" ><%= cloud_record.globaluserName %></td>
     <td class="field" ><%= cloud_record.FQAN %></td>
-    <td class="field" ><%= link_to cloud_record.status, search_cloud_records_path(:status => cloud_record.status, :doGraph => '1') %></td>
+    <td class="field" ><%= link_to cloud_record.status, search_cloud_records_path(:status => cloud_record.status) %></td>
     <td class="field" ><%= cloud_record.startTime %></td>
     <td class="field" ><%= cloud_record.endTime %></td>
     <td class="field" ><%= cloud_record.suspendDuration %></td>
@@ -22,8 +22,8 @@
     <td class="field" ><%= cloud_record.memory %></td>
     <td class="field" ><%= cloud_record.disk %></td>
     <td class="field" ><%= cloud_record.storageRecordId %></td>
-    <td class="field" ><%= link_to cloud_record.diskImage, search_cloud_records_path(:diskImage => cloud_record.diskImage, :doGraph => '1') %></td>
-    <td class="field" ><%= link_to ( cloud_record.hypervisor_hostname, search_cloud_records_path(:hypervisor_hostname => cloud_record.hypervisor_hostname, :doGraph => '1')) if ( cloud_record.hypervisor_hostname != "" ) %></td>
+    <td class="field" ><%= link_to cloud_record.diskImage, search_cloud_records_path(:diskImage => cloud_record.diskImage) %></td>
+    <td class="field" ><%= link_to ( cloud_record.hypervisor_hostname, search_cloud_records_path(:hypervisor_hostname => cloud_record.hypervisor_hostname)) if ( cloud_record.hypervisor_hostname != "" ) %></td>
     <td class="field" ><%= cloud_record.cloudType %></td>
     <td class="list_actions" ><%= link_to 'Edit', edit_cloud_record_path(cloud_record) %></td>
     <td class="list_actions" ><%= link_to 'Destroy', cloud_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>

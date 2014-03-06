@@ -111,6 +111,7 @@ AccountingService::Application.routes.draw do
 
   resources :cloud_records do
     collection do
+      get '' => :search
       get 'stats'
       match 'search' => 'cloud_records#search'
     end

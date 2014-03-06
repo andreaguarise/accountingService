@@ -5,9 +5,14 @@ class CloudRecordSummary < ActiveRecord::Base
   belongs_to :site
   
   
-  @attr_searchable =["local_group", "local_user", "status"]
+  @attr_searchable =["sites.name","local_group", "local_user", "status"]
+  @date_searchable = ["date"]
   
   def self.attrSearchable
     @attr_searchable  
+  end
+  
+  def self.dateSearchable
+    @date_searchable
   end
 end

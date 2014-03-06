@@ -11,6 +11,7 @@ class CloudRecord < ActiveRecord::Base
   delegate :site, :to => :resource
   
   @attr_searchable =["publishers.hostname", "resources.name", "sites.name", "VMUUID", "diskImage", "localVMID", "local_group", "local_user","status","hypervisor_hostname"]
+  @date_searchable = ["endTime"]
   @terminal_state =["EPILOG","CLEANUP","DONE","FAIL"]
   
   def self.attrSearchable
