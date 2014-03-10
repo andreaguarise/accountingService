@@ -72,7 +72,7 @@ class CloudRecordSummariesController < ApplicationController
       graph_ary.each do |row|
         tableCpu.add_row([row.ordered_date.to_datetime,row.wall.to_i, row.cpu.to_i])
         tableMem.add_row([row.ordered_date.to_datetime,row.mem.to_i])
-        tableCount.add_row([row.ordered_date.to_datetime,row.count.to_i, row.cpuCount.to_i])
+        tableCount.add_row([row.ordered_date.to_datetime,row.count.to_i, row.cpuCount.to_f])
         tableNet.add_row([row.ordered_date.to_datetime,row.netIn.to_i,row.netOut.to_i])
       end 
       optionCpu = { :width => 1100, :height => 215, :title => 'VM CPU/Wall time History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
