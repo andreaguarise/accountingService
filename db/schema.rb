@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140310110014) do
+ActiveRecord::Schema.define(:version => 20140317101040) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20140310110014) do
   add_index "batch_execute_records", ["lrmsId"], :name => "index_batch_execute_records_on_lrmsId"
   add_index "batch_execute_records", ["publisher_id"], :name => "index_batch_execute_records_on_publisher_id"
   add_index "batch_execute_records", ["recordDate"], :name => "index_batch_execute_records_on_recordDate"
-  add_index "batch_execute_records", ["uniqueId"], :name => "index_batch_execute_records_on_uniqueId"
+  add_index "batch_execute_records", ["uniqueId"], :name => "index_batch_execute_records_on_uniqueId", :unique => true
 
   create_table "benchmark_types", :force => true do |t|
     t.string   "name"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20140310110014) do
 
   add_index "blah_records", ["lrmsId"], :name => "index_blah_records_on_lrmsId"
   add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
-  add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId"
+  add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId", :unique => true
 
   create_table "cloud_record_summaries", :id => false, :force => true do |t|
     t.integer "id",                                                          :default => 0, :null => false
