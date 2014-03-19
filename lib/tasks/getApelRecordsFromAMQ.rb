@@ -1,3 +1,5 @@
+require 'optparse'
+
 
 class BlahRecordConverter
   @@record_ary = Array.new
@@ -17,9 +19,9 @@ class BlahRecordConverter
   
   def import
     #puts @@record_ary.to_json
-    puts @@publishersCache.to_json
+    #Rails.logger.info @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    puts "#{now} - Blah Record count: #{@@recordCount}"
+    Rails.logger.info "#{now} - Blah Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |b|
       b.computeUniqueId
@@ -29,7 +31,7 @@ class BlahRecordConverter
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT INTO blah_records (`id`,
+    bulkInsert = "INSERT IGNORE INTO blah_records (`id`,
 `uniqueId`,
 `recordDate`,
 `timestamp`,
@@ -92,9 +94,9 @@ class EventRecordConverter
   end
   
   def import
-    puts @@publishersCache.to_json
+    #puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    puts "#{now} - Event Record count: #{@@recordCount}"
+    Rails.logger.info "#{now} - Event Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
       e.computeUniqueId
@@ -104,7 +106,7 @@ class EventRecordConverter
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT INTO batch_execute_records
+    bulkInsert = "INSERT IGNORE INTO batch_execute_records
 (`id`,
 `uniqueId`,
 `recordDate`,
@@ -209,38 +211,110 @@ class SSMMessage
   
 end
 
-@conn = Stomp::Connection.open '', '', 'dgas-broker.to.infn.it', 61613, false
-@count = 0
 
-@conn.subscribe "/queue/apel.output.1"
-while @count < 100
-  records = Array.new
-  @msg = @conn.receive
-  @count = @count + 1
-  if @msg.command == "MESSAGE"
-    ssm_msg = SSMMessage.new(@msg.body)
-    records = ssm_msg.parse
-    blah = BlahRecordConverter.new(200)
-    event = EventRecordConverter.new(200)
-    records.each do |r|
-        if records.length >= 200
-          #treat case when there are at least n records to be bulk processed
-          event.convert(r)
-          blah.convert(r)
-        else
-          puts "#{records.length} remaining in message --> Single insert."
-          #treat case where there are no sufficient record to be bulk processed
-          partialEvent = EventRecordConverter.new(records.length) if not partialEvent
-          partialEvent.convert(r)
-          partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
-          partialBlah.convert(r)
-        end
+
+
+
+class ApelSSMRecords
+  def initialize
+    @options = {}
+  end
+  
+  def getLineParameters
+    
+    opt_parser = OptionParser.new do |opt|
+      opt.banner = "Usage: opennebulaSensorMain.rb [OPTIONS]"
+
+      @options[:verbose] = false
+      opt.on( '-v', '--verbose', 'Output more information') do
+        @options[:verbose] = true
+      end
+  
+      #@options[:dryrun] = false
+      #  opt.on( '-d', '--dryrun', 'Do not talk to server') do
+      #  @options[:dryrun] = true
+      #end
+      
+      @options[:env] = nil
+      opt.on( '-e', '--environment env', 'rails environment') do |env|
+        @options[:env] = env
+      end
+      
+      @options[:limit] = "1000"
+      opt.on( '-L', '--Limit limit', 'number of messages to fetch') do |limit|
+        @options[:limit] = limit
+      end
+      
+      @options[:queue] = nil
+      opt.on( '-Q', '--Queue queue', 'JMS Queue to poll') do |queue|
+        @options[:queue] = queue  
+      end
+      
+      @options[:uri] = nil
+      opt.on( '-U', '--Uri uri', 'Broker uri e.g. dgas.broker.to.infn.it:61613') do |uri|
+        @options[:uri] = uri
+      end
+
+      opt.on( '-h', '--help', 'Print this screen') do
+        puts opt
+        exit
+      end 
     end
+
+    opt_parser.parse!
+  end
+  
+  def main
+    self.getLineParameters
+    Rails.logger.info "Retrieving SSM grid records messages from queue: #{@options[:queue]}"
+    pattern = /^(.*):(.*)$/
+    pattern =~ @options[:uri]
+    data = Regexp.last_match
+    host = data[1]
+    port = data[2]
+    Rails.logger.info "Broker: #{host}, port: #{port}"
+    @conn = Stomp::Connection.open '', '', host, port, false
+    @count = 0
+
+    @conn.subscribe "/queue/#{@options[:queue]}"
+    countLimit = @options[:limit].to_i
+    while @count < countLimit
+      records = Array.new
+      @msg = @conn.receive
+      @count = @count + 1
+      if @msg.command == "MESSAGE"
+        ssm_msg = SSMMessage.new(@msg.body)
+        records = ssm_msg.parse
+        blah = BlahRecordConverter.new(20)
+        event = EventRecordConverter.new(20)
+        records.each do |r|
+          if records.length >= 20
+              #treat case when there are at least n records to be bulk processed
+              event.convert(r)
+              blah.convert(r)
+          else
+              Rails.logger.info "#{records.length} remaining in message --> Single insert."
+              #treat case where there are no sufficient record to be bulk processed
+              partialEvent = EventRecordConverter.new(records.length) if not partialEvent
+              Rails.logger.debug "Do single Event"
+              partialEvent.convert(r)
+              partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
+              Rails.logger.debug "Do single Blah"
+              partialBlah.convert(r)
+          end
+        end
+      end
+    end
+    @conn.disconnect
   end
 end
-@conn.disconnect
 
+if defined?(Rails) && (Rails.env == 'development')
+  Rails.logger = Logger.new(STDOUT)
+end
 
+SSM = ApelSSMRecords.new
+SSM.main
 
 
 
