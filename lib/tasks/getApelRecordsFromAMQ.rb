@@ -1,4 +1,5 @@
 require 'optparse'
+require 'timeout'
 
 
 class BlahRecordConverter
@@ -25,7 +26,6 @@ class BlahRecordConverter
     valuesBuffer = ""
     @@record_ary.each do |b|
       b.computeUniqueId
-      #puts b.uniqueId
       valuesBuffer << "(NULL,'#{b.uniqueId}','#{b.recordDate}','#{b.recordDate}','#{b.userDN}','#{b.userFQAN}','#{b.ceId}','','#{b.lrmsId}','#{b.localUser}','','#{now}','#{now}',#{b.publisher_id})"
       if b != @@record_ary.last 
         valuesBuffer << ","
@@ -99,8 +99,11 @@ class EventRecordConverter
     Rails.logger.info "#{now} - Event Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
+      Rails.logger.info "#{now} date:#{e.recordDate} lrmsId:#{e.lrmsId}"
+      if ( ! e.recordDate ) || ( ! e.lrmsId )
+        Rails.logger.info "#{now} #{e.to_json}"
+      end
       e.computeUniqueId
-      #puts b.uniqueId
       valuesBuffer << "(NULL,'#{e.uniqueId}','#{e.recordDate}','#{e.lrmsId}','#{e.localUser}','','','#{e.queue}','','','',#{e.start},'#{e.execHost}',#{e.resourceList_nodect},'','','',#{e.end},'',#{e.resourceUsed_cput},#{e.resourceUsed_mem},#{e.resourceUsed_vmem},#{e.resourceUsed_walltime},'#{now}','#{now}',#{e.publisher_id})"
       if e != @@record_ary.last 
         valuesBuffer << ","
@@ -140,6 +143,9 @@ VALUES "
   end
   
   def convert(r)
+    if not r["MachineName"]
+      Rails.logger.info "#{r.to_json}"
+    end
     if not @@publishersCache.key?(r["MachineName"])
       publisher = Publisher.find_by_hostname(r["MachineName"])
       @@publishersCache[r["MachineName"]] = publisher.id
@@ -194,6 +200,10 @@ class SSMMessage
     recordBuff = Hash.new
     haveApelRecord =false
     @m.lines.each do |line|
+      if ( line =~ /APEL-sync-message/)
+        Rails.logger.info "Found APEL sync message. skipping"
+        return
+      end
       if ( line =~ /%%/ )
         if haveApelRecord
           @records << recordBuff.clone
@@ -240,14 +250,24 @@ class ApelSSMRecords
         @options[:env] = env
       end
       
-      @options[:limit] = "1000"
+      @options[:limit] = 1000
       opt.on( '-L', '--Limit limit', 'number of messages to fetch') do |limit|
-        @options[:limit] = limit
+        @options[:limit] = limit.to_i
+      end
+      
+      @options[:timeout] = 30
+      opt.on( '-T', '--Timeout timeout', 'Timeout to wait for new messages before unsubscribing') do |timeout|
+        @options[:timeout] = timeout.to_i
       end
       
       @options[:queue] = nil
       opt.on( '-Q', '--Queue queue', 'JMS Queue to poll') do |queue|
         @options[:queue] = queue  
+      end
+      
+      @options[:bulk] = 100
+      opt.on( '-B', '--Bulk bulk', 'number of record inserte per single insert command') do |bulk|
+        @options[:bulk] = bulk.to_i  
       end
       
       @options[:uri] = nil
@@ -277,18 +297,26 @@ class ApelSSMRecords
     @count = 0
 
     @conn.subscribe "/queue/#{@options[:queue]}"
-    countLimit = @options[:limit].to_i
-    while @count < countLimit
+    while @count < @options[:limit]
       records = Array.new
-      @msg = @conn.receive
+      begin Timeout::Error
+      timeout(@options[:timeout]) { @msg = @conn.receive }
+      rescue Timeout::Error
+        @conn.unsubscribe "/queue/#{@options[:queue]}"
+        @conn.disconnect
+        Rails.logger.info "No more messages. Exiting."
+        return
+      end
       @count = @count + 1
       if @msg.command == "MESSAGE"
         ssm_msg = SSMMessage.new(@msg.body)
+        Rails.logger.debug "#{ssm_msg}"
         records = ssm_msg.parse
-        blah = BlahRecordConverter.new(20)
-        event = EventRecordConverter.new(20)
+        next if not records
+        blah = BlahRecordConverter.new(@options[:bulk])
+        event = EventRecordConverter.new(@options[:bulk])
         records.each do |r|
-          if records.length >= 20
+          if records.length >= @options[:bulk]
               #treat case when there are at least n records to be bulk processed
               event.convert(r)
               blah.convert(r)
@@ -305,6 +333,7 @@ class ApelSSMRecords
         end
       end
     end
+    @conn.unsubscribe "/queue/#{@options[:queue]}"
     @conn.disconnect
   end
 end
