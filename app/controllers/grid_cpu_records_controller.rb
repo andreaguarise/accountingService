@@ -52,7 +52,17 @@ class GridCpuRecordsController < ApplicationController
   end
   
   def search
-    @grid_cpu_records = GridCpuRecord.includes(:blah_record, :batch_execute_record, :blah_record => :publisher, :blah_record => {:publisher => :resource}, :blah_record => {:publisher => {:resource => :site}} ).orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML)
+    whereBuffer = {}
+    logger.info "Entering #search method."
+    
+    params.each do |param_k,param_v|
+      if GridCpuRecord.attrSearchable.include?(param_k) && param_v != ""
+        logger.info "Got search parameter: #{param_k} ==> #{param_v}" 
+        whereBuffer[param_k]=param_v 
+      end
+   end
+    
+    @grid_cpu_records = GridCpuRecord.joins(:blah_record, :batch_execute_record, :blah_record => :publisher, :blah_record => {:publisher => :resource}, :blah_record => {:publisher => {:resource => :site}} ).orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).where(whereBuffer)
 
     respond_to do |format|
       format.html # index.html.erb
