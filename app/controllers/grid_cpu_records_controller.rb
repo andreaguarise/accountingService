@@ -40,20 +40,24 @@ class GridCpuRecordsController < ApplicationController
       table.add_row([result1.ordered_date.to_date,result1.count.to_i,result1.wall.to_i,result1.cpu.to_i])
     end 
     
-
-    
     option1 = { :width => 1100, :height => 650, :title => 'Grid Jobs' }
     @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
-    
-    #option2 = { :width => 600, :height => 300, :title => 'Wall time' }
-    #@chart2 = GoogleVisualr::Interactive::AreaChart.new(table2, option2)
-
-    
+   
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @stats }
       format.xml { render :xml => @stats }
+    end
+  end
+  
+  def search
+    @grid_cpu_records = GridCpuRecord.includes(:blah_record, :batch_execute_record, :blah_record => :publisher, :blah_record => {:publisher => :resource}, :blah_record => {:publisher => {:resource => :site}} ).orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @grid_cpu_records }
+      format.xml { render :xml => @grid_cpu_records }
     end
   end
 

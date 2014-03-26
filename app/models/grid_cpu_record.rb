@@ -9,4 +9,10 @@ class GridCpuRecord < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
   
+  @attr_searchable =["publishers.hostname", "resources.name", "sites.name"]
+  
+  def self.attrSearchable
+    @attr_searchable  
+  end
+  
 end
