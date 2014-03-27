@@ -1,0 +1,22 @@
+<% if params[:doGraph] == "1" %>
+<table>
+	<tbody>
+<tr>
+	<td>
+		<div id='chartCpu'></div>
+		<%= render_chart(@chartCpu, 'chartCpu') %>
+	</td>
+</tr>
+</tbody>
+</table>
+<% end%>
+<table id="recordstable">
+
+<%= render "table_header" %>
+
+<%= render(@cloud_record_summaries)%>
+</table>
+
+<br />
+
+<div id="pagination"><%= will_paginate @cloud_record_summaries %></div>

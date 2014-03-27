@@ -25,6 +25,7 @@ AccountingService::Application.routes.draw do
       get '' => :search
       get 'stats'
       match 'search' => 'cloud_record_summaries#search'
+      match 'userreports' => 'cloud_record_summaries#userreports'
     end
   end
 
