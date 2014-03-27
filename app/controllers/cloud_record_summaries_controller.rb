@@ -136,16 +136,19 @@ class CloudRecordSummariesController < ApplicationController
       dates.each do |date|
         date_id[date.date] = id_d
         tableCpu.add_rows(1)
+        user_id.each do |uk,uv|
+          tableCpu.set_cell(id_d,uv,0)
+        end
         tableCpu.set_cell(id_d, 0, date.date.to_datetime)
         id_d = id_d + 1
       end
       
     
       graph_ary.each do |row|
-        logger.info "#{row.ordered_date} --> #{date_id[row.ordered_date]}, #{row.local_user} --> #{user_id[row.local_user]}"
-        tableCpu.set_cell(date_id[row.ordered_date],user_id[row.local_user],row.cpu.to_i)
+        logger.info "#{row.ordered_date} --> #{date_id[row.ordered_date]}, #{row.local_user} --> #{user_id[row.local_user]}, #{row.cpuCount}"
+        tableCpu.set_cell(date_id[row.ordered_date],user_id[row.local_user],row.cpuCount.to_i)
       end 
-      optionCpu = { :width => 1100, :height => 215, :title => 'Number of CPUs', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionCpu = { :width => 1100, :height => 300, :title => 'Number of CPUs', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartCpu = GoogleVisualr::Interactive::LineChart.new(tableCpu, optionCpu)
       
     end
