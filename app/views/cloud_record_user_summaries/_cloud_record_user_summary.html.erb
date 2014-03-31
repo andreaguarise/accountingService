@@ -1,0 +1,14 @@
+ <tr class="<%= cycle("odd", "even") %>">
+    <td><%= cloud_record_user_summary.date %></td>
+    <td><%= link_to cloud_record_user_summary.site.name, cloud_record_user_summaries_path('sites.name' => cloud_record_user_summary.site.name) %></td>
+    <td><%= link_to cloud_record_user_summary.local_user, cloud_record_user_summaries_path(:local_user => cloud_record_user_summary.local_user) %></td>
+    <td><%= link_to cloud_record_user_summary.local_group, cloud_record_user_summaries_path(:local_group => cloud_record_user_summary.local_group) %></td>
+    <td><%= cloud_record_user_summary.vmCount %></td>
+    <td><%= link_to cloud_record_user_summary.status, cloud_record_user_summaries_path(:status => cloud_record_user_summary.status) %></td>
+    <td><%= cloud_record_user_summary.wallDuration %></td>
+    <td><%= cloud_record_user_summary.cpuDuration %></td>
+    <td><%= cloud_record_user_summary.networkInbound %></td>
+    <td><%= cloud_record_user_summary.networkOutbound %></td>
+    <td><%= cloud_record_user_summary.cpuCount %></td>
+    <td><%= cloud_record_user_summary.memory %></td>
+  </tr>

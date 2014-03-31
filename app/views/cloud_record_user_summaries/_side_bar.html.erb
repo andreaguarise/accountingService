@@ -1,4 +1,4 @@
-<H3>Cloud Records</H3>
+<H3>Cloud Record User Summaries</H3>
 
 <div id = "sidemenu">
 <ul>
@@ -9,8 +9,8 @@
 </div>
 
 <div id = "sidesearch">
-<%= form_tag(search_cloud_records_path, :method => 'get' ) do %>
-  <% CloudRecord.attrSearchable.each do |item| %>
+<%= form_tag(search_cloud_record_user_summaries_path, :method => 'get' ) do %>
+  <% CloudRecordUserSummary.attrSearchable.each do |item| %>
 	<div class="field">
     	<p><%= item %>:</p>
     	<%= search_field_tag (item, params[item]) %>
