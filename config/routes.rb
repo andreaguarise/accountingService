@@ -13,6 +13,7 @@ AccountingService::Application.routes.draw do
 
   resources :database_records do
     collection do
+      get '' => :search
       get 'stats'
       match 'search' => 'database_records#search'
     end

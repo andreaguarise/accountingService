@@ -2,7 +2,7 @@ class DatabaseRecordsController < ApplicationController
   skip_before_filter :userAuthenticate
   # GET /database_records
   # GET /database_records.json
-  def index
+  def search
     @database_records = DatabaseRecord.all
 
     respond_to do |format|
@@ -24,9 +24,9 @@ class DatabaseRecordsController < ApplicationController
     end
   end
   
-  # GET /cloud_records/stats
-  # GET /cloud_records/stats.json
-  # GET /cloud_records/stats.xml
+  # GET /database_records/search
+  # GET /database_records/search.json
+  # GET /database_records/search.xml
   def stats
     @stats = {}
     @stats[:databaserecords_count]= DatabaseRecord.count
@@ -44,7 +44,6 @@ class DatabaseRecordsController < ApplicationController
     #@results1 = DatabaseRecord.find_by_sql("SELECT database_records.time as ordered_date, sum(database_records.rows) as k_rows, sum(database_records.tablesize)/1024 as table_kb, sum(database_records.indexsize)/1024 as index_kb FROM database_records GROUP BY ordered_date")
 
     table = GoogleVisualr::DataTable.new
-    
     
     # Add Column Headers
     table.new_column('date', 'Date' )
