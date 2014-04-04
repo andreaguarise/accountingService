@@ -14,6 +14,7 @@ class Resource < ActiveRecord::Base
   has_many :blah_records, :through => :publishers
   has_many :batch_execute_records, :through => :publishers
   has_many :emi_storage_records, :through => :publishers
+  has_many :database_schemes, :through => :publishers
   belongs_to :resource_type
   belongs_to :site
   

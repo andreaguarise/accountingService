@@ -22,48 +22,11 @@ class ResourcesController < ApplicationController
   # GET /resources/1.xml
   def show
     @resource = Resource.find(params[:id])
-    if @resource.public_methods.member?("cloud_records")
-      @cloud_records = @resource.cloud_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 
-      @stats = {}
-      @stats[:records_count]= @resource.cloud_records.count
-      @stats[:earliest_record] = @resource.cloud_records.minimum(:endTime)
-      @stats[:latest_record] = @resource.cloud_records.maximum(:endTime)
-      @stats[:sum_wall] = @resource.cloud_records.sum(:wallDuration)
-
-      data_table = GoogleVisualr::DataTable.new
-      # Add Column Headers
-      data_table.new_column('date', 'date' )
-      data_table.new_column('number', 'started')
-      data_table.new_column('number', 'started-ended')
-      data_table.new_column('number', 'running')
-
-      # Add Rows and Values
-
-      started = {}
-      running = {}
-      @resource.cloud_records.find_each(:batch_size => 50) do |r|
-        dateStart = DateTime.parse("#{r['startTime']}").to_date
-        if started[dateStart]
-          started[dateStart] += 1
-        else
-        started[dateStart] = 1
-        end
-      end
-      actualRunning = 0
-      started.sort.each do |date,startedCount|
-        partial = startedCount-@resource.cloud_records.where("date(endTime)=\"#{date}\"").count
-        actualRunning = running[date] = actualRunning + partial
-        data_table.add_row([date,startedCount,partial,actualRunning])
-      end
-
-      option = { :width => 800, :height => 400, :title => 'Running VMs' }
-      @chart = GoogleVisualr::Interactive::AreaChart.new(data_table, option)
+    
+    if @resource.resource_type.name == "Database"
+      @database_schemes = @resource.database_schemes
     end
-  
-    @storage_records = @resource.storage_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("storage_records")
-    @grid_cpu_records = @resource.grid_cpu_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("grid_cpu_records") 
-    @batch_execute_records = @resource.batch_execute_records.paginate :page=>params[:page], :order=>'id desc', :per_page => 5 if @resource.public_methods.member?("batch_execute_records")
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json {  

@@ -35,7 +35,9 @@ end
 if not ResourceType.find_by_name("Farm_grid+local")
   ResourceType.create(:name=>"Farm_grid+local", :description=>"Hybrid LOCAL and GRID farm. Both type of jobs allowed")
 end
-
+if not ResourceType.find_by_name("Database")
+  ResourceType.create(:name=>"Database", :description=>"Relational Database")
+end
 
 
 

@@ -36,149 +36,26 @@
 <% end %>
 </table>
 
-<% if not @cloud_records.empty? %>
-
-<h3>Cloud record statistics</h3>
-
-<table>
-	<tbody>
-		<tr>
-			<td>Number of records
-			<br>
-			</td>
-			<td>total wall
-			<br>
-			</td>
-			<td >Earliest record
-			<br>
-			</td>
-			<td >Latest record
-			<br>
-			</td>
-		</tr>
-		<tr>
-			<td ><%= @stats[:records_count] %>
-			<br>
-			</td>
-			<td ><%= @stats[:sum_wall] %>
-			<br>
-			</td>
-			<td ><%= @stats[:earliest_record] %>
-			<br>
-			</td>
-			<td ><%= @stats[:latest_record] %>
-			<br>
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-<table>
-	<tbody>
-		<tr>
-			<td><div id='chart'></div> <%= render_chart(@chart, 'chart') %> </td>
-		</tr>
-	</tbody>
-</table>
-
-<h3>Cloud record list</h3>
-
-<table>
+<% if @resource.resource_type.name == "Database" %>
+ <h3>Schema registered on this resource</h3>
+ 
+ <table>
   <tr>
-    <th>VM UUID</th>
+    <th>Schema</th>
     <th>Publisher</th>
-    <th>Resource</th>
-    <th>Site</th>
-    <th>Local VM ID</th>
-    <th>Local user</th>
-    <th>Local group</th>
-    <th>Global User Name</th>
-    <th>FQAN</th>
-    <th>Status</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Suspendduration</th>
-    <th>Wall time</th>
-    <th>Cpu time</th>
-    <th>Cpu N.</th>
-    <th>Network</th>
-    <th>Net in</th>
-    <th>Net out</th>
-    <th>Memory</th>
-    <th>Disk</th>
-    <th>Storage Record</th>
-    <th>Disk Image</th>
-    <th>Cloud Type</th>
-    <th></th>
   </tr>
-
-<% @cloud_records.each do |cloud_record| %>
+ 
+<% @database_schemes.sort_by{|e| e[:name]}.each do |scheme| %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td class="field"><%= cloud_record.VMUUID %></td>
-    <td class="field"><%= cloud_record.publisher.hostname %></td>
-    <td class="field"><%= cloud_record.resource.name %></td>
-    <td class="field"><%= cloud_record.site.name %></td>
-    <td class="field" ><%= cloud_record.localVMID %></td>
-    <td class="field" ><%= cloud_record.local_user %></td>
-    <td class="field" ><%= cloud_record.local_group %></td>
-    <td class="field" ><%= cloud_record.globaluserName %></td>
-    <td class="field" ><%= cloud_record.FQAN %></td>
-    <td class="field" ><%= cloud_record.status %></td>
-    <td class="field" ><%= cloud_record.startTime %></td>
-    <td class="field" ><%= cloud_record.endTime %></td>
-    <td class="field" ><%= cloud_record.suspendDuration %></td>
-    <td class="field" ><%= cloud_record.wallDuration %></td>
-    <td class="field" ><%= cloud_record.cpuDuration %></td>
-    <td class="field" ><%= cloud_record.cpuCount %></td>
-    <td class="field" ><%= cloud_record.networkType %></td>
-    <td class="field" ><%= cloud_record.networkInbound %></td>
-    <td class="field" ><%= cloud_record.networkOutBound %></td>
-    <td class="field" ><%= cloud_record.memory %></td>
-    <td class="field" ><%= cloud_record.disk %></td>
-    <td class="field" ><%= cloud_record.storageRecordId %></td>
-    <td class="field" ><%= cloud_record.diskImage %></td>
-    <td class="field" ><%= cloud_record.cloudType %></td>
-    <td class="list_actions" ><%= link_to 'Show', cloud_record %></td>
+    <td><%= link_to scheme.name, scheme %></td>
+    <td><%= link_to scheme.publisher.hostname, scheme.publisher %></td>
   </tr>
 <% end %>
 </table>
 
-<p><%= will_paginate @cloud_records %></p>
-
-<% end %>
-
-<% if not  @grid_cpu_records.empty? %>
-<h3>Grid CPU records</h3>
-
-<table>
-  <tr>
-    <th>GridId</th>
-    <th>LrmsId</th>
-    <th>submitted</th>
-    <th>ended</th>	
-    <th>userDN</th>
-    <th>userFQAN</th>
-    <th>siteName</th>
-    <th>cpuTime</th>
-    <th>wallTime</th>
-  </tr>
-
-<% @grid_cpu_records.each do |grid_cpu_record| %>
-  <tr class="<%= cycle("odd", "even") %>">
-  	<td><%= link_to "#{grid_cpu_record.blah_record.jobId}", grid_cpu_record.blah_record %></td>
-    <td><%= link_to "#{grid_cpu_record.batch_execute_record.lrmsId}", grid_cpu_record.batch_execute_record %></td>
-    <td><%= grid_cpu_record.blah_record.recordDate %></td>
-    <td><%= grid_cpu_record.batch_execute_record.recordDate %></td>
-    <td><%= grid_cpu_record.blah_record.userDN %></td>
-    <td><%= grid_cpu_record.blah_record.userFQAN %></td>
-    <td><%= grid_cpu_record.batch_execute_record.site.name %></td>
-    <td><%= grid_cpu_record.batch_execute_record.resourceUsed_cput %></td>
-    <td><%= grid_cpu_record.batch_execute_record.resourceUsed_walltime %></td>
-  </tr>
-<% end %>
-</table>
-
-<p><%= will_paginate @grid_cpu_records %></p>
+<%= link_to 'Database schemes', database_schemes_path %> |
+<%= link_to 'Database types', database_descrs_path %>
+ 
 <% end %>
 
 
