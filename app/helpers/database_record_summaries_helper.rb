@@ -1,0 +1,2 @@
+module DatabaseRecordSummariesHelper
+end

@@ -1,0 +1,37 @@
+<h1>Listing database_record_summaries</h1>
+
+<table>
+  <tr>
+    <th>Record date</th>
+    <th>Table name</th>
+    <th>Scheme name</th>
+    <th>Rows</th>
+    <th>Tablesize</th>
+    <th>Indexsize</th>
+    <th>Publisher</th>
+    <th>Database descr</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @database_record_summaries.each do |database_record_summary| %>
+  <tr>
+    <td><%= database_record_summary.record_date %></td>
+    <td><%= database_record_summary.table_name %></td>
+    <td><%= database_record_summary.scheme_name %></td>
+    <td><%= database_record_summary.rows %></td>
+    <td><%= database_record_summary.tablesize %></td>
+    <td><%= database_record_summary.indexsize %></td>
+    <td><%= database_record_summary.publisher_id %></td>
+    <td><%= database_record_summary.database_descr_id %></td>
+    <td><%= link_to 'Show', database_record_summary %></td>
+    <td><%= link_to 'Edit', edit_database_record_summary_path(database_record_summary) %></td>
+    <td><%= link_to 'Destroy', database_record_summary, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Database record summary', new_database_record_summary_path %>
