@@ -1,6 +1,16 @@
-<h1>Listing database record summaries</h1>
-  
+<% if params[:doGraph] == "1" %>
+<table>
+	<tbody>
+<tr>
+	<td>
+		<div id='chartRows'></div>
+		<%= render_chart(@chartRows, 'chartRows') %>
+	</td>
+</tr>
 
+</tbody>
+</table>
+<% end%>
 <table id="recordstable">
 
 <%= render "table_header" %>

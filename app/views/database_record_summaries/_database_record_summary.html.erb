@@ -1,0 +1,12 @@
+ <tr class="<%= cycle("odd", "even") %>">
+    <td><%= database_record_summary.record_date %></td>
+    <td><%= database_record_summary.table_name %></td>
+    <td><%= database_record_summary.scheme_name %></td>
+    <td><%= database_record_summary.rows %></td>
+    <td><%= database_record_summary.tablesize %></td>
+    <td><%= database_record_summary.indexsize %></td>
+    <td><%= database_record_summary.resource.name %></td>
+    <td><%= database_record_summary.site.name %></td>
+    <td><%= database_record_summary.database_descr.backend %></td>
+    <td><%= link_to 'Show', database_record_summary %></td>
+  </tr>

@@ -1,6 +1,11 @@
 AccountingService::Application.routes.draw do
 
-  resources :database_record_summaries
+  resources :database_record_summaries do
+    collection do
+      get '' => :search
+      match 'search' => 'cloud_record_user_summaries#search'
+    end
+  end
 
 
   resources :cloud_record_user_summaries do

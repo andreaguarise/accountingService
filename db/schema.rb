@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140407091106) do
+ActiveRecord::Schema.define(:version => 20140407151106) do
 
   create_table "batch_cpu_summaries", :force => true do |t|
     t.date     "date"
@@ -94,6 +94,21 @@ ActiveRecord::Schema.define(:version => 20140407091106) do
   add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
   add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId", :unique => true
 
+  create_table "cloud_record_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                                          :default => 0, :null => false
+    t.date    "date"
+    t.integer "site_id"
+    t.string  "local_group"
+    t.string  "local_user"
+    t.string  "status"
+    t.integer "vmCount",         :limit => 8,                                :default => 0, :null => false
+    t.decimal "wallDuration",                 :precision => 36, :scale => 4
+    t.decimal "cpuDuration",                  :precision => 36, :scale => 4
+    t.decimal "networkInbound",               :precision => 45, :scale => 4
+    t.decimal "networkOutbound",              :precision => 45, :scale => 4
+    t.decimal "cpuCount",                     :precision => 34, :scale => 6
+    t.decimal "memory",                       :precision => 36, :scale => 4
+  end
 
   create_table "cloud_records", :force => true do |t|
     t.string   "VMUUID"
@@ -124,11 +139,43 @@ ActiveRecord::Schema.define(:version => 20140407091106) do
     t.string   "hypervisor_hostname"
   end
 
+  create_table "cloud_view_vm_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                             :default => 0, :null => false
+    t.date    "date"
+    t.string  "VMUUID"
+    t.string  "localVMID"
+    t.integer "publisher_id"
+    t.string  "local_user"
+    t.string  "local_group"
+    t.string  "status"
+    t.string  "diskImage"
+    t.string  "cloudType"
+    t.decimal "disk",            :precision => 14, :scale => 4
+    t.decimal "wallDuration",    :precision => 14, :scale => 4
+    t.decimal "cpuDuration",     :precision => 14, :scale => 4
+    t.decimal "networkInbound",  :precision => 23, :scale => 4
+    t.decimal "networkOutbound", :precision => 23, :scale => 4
+    t.decimal "memory",          :precision => 14, :scale => 4
+    t.decimal "cpuCount",        :precision => 12, :scale => 6
+  end
+
   create_table "database_descrs", :force => true do |t|
     t.string   "backend"
     t.string   "version"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "database_record_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                               :default => 0, :null => false
+    t.date    "record_date"
+    t.string  "table_name"
+    t.string  "scheme_name"
+    t.decimal "rows",              :precision => 23, :scale => 4
+    t.decimal "tablesize",         :precision => 23, :scale => 4
+    t.decimal "indexsize",         :precision => 23, :scale => 4
+    t.integer "publisher_id"
+    t.integer "database_descr_id"
   end
 
   create_table "database_records", :force => true do |t|
@@ -181,6 +228,11 @@ ActiveRecord::Schema.define(:version => 20140407091106) do
     t.integer  "publisher_id"
   end
 
+  create_table "grid_cpu_records", :id => false, :force => true do |t|
+    t.integer "id",                      :default => 0, :null => false
+    t.integer "batch_execute_record_id", :default => 0, :null => false
+    t.integer "blah_record_id",          :default => 0, :null => false
+  end
 
   create_table "local_cpu_summaries", :force => true do |t|
     t.date     "date"
