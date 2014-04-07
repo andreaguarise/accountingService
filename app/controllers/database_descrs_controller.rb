@@ -1,4 +1,5 @@
 class DatabaseDescrsController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /database_descrs
   # GET /database_descrs.json
   def index

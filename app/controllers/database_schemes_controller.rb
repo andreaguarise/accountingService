@@ -1,4 +1,5 @@
 class DatabaseSchemesController < ApplicationController
+  skip_before_filter :userAuthenticate
   # GET /database_schemes
   # GET /database_schemes.json
   def index
