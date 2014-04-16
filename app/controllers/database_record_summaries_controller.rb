@@ -95,7 +95,7 @@ class DatabaseRecordSummariesController < ApplicationController
         #tableNetOut.set_cell(date_id[row.ordered_date],user_id[row.local_user],row.netOut.to_i)
         #tableRatio.set_cell(date_id[row.ordered_date],user_id[row.local_user],(row.cpu/row.wall)*100)
       end 
-      optionRows = { :width => 1100, :height => 300, :title => 'Number of rows', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionRows = { :explorer => {}, :width => 1100, :height => 300, :title => 'Number of rows', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartRows = GoogleVisualr::Interactive::LineChart.new(tableRows, optionRows)
       #optionNetIn = { :width => 1100, :height => 150, :title => 'Network Inbound (GB)', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       #@chartNetIn = GoogleVisualr::Interactive::LineChart.new(tableNetIn, optionNetIn)

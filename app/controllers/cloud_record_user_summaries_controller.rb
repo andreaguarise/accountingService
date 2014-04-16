@@ -99,13 +99,13 @@ class CloudRecordUserSummariesController < CloudRecordSummariesController
         tableNetOut.set_cell(date_id[row.ordered_date],user_id[row.local_user],row.netOut.to_i)
         tableRatio.set_cell(date_id[row.ordered_date],user_id[row.local_user],(row.cpu/row.wall)*100)
       end 
-      optionCpu = { :width => 1100, :height => 300, :title => 'Number of CPUs', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionCpu = { :explorer => {}, :width => 1100, :height => 300, :title => 'Number of CPUs', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartCpu = GoogleVisualr::Interactive::LineChart.new(tableCpu, optionCpu)
-      optionNetIn = { :width => 1100, :height => 150, :title => 'Network Inbound (GB)', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionNetIn = { :explorer => {}, :width => 1100, :height => 150, :title => 'Network Inbound (GB)', :vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartNetIn = GoogleVisualr::Interactive::LineChart.new(tableNetIn, optionNetIn)
-      optionNetOut = { :width => 1100, :height => 150, :title => 'Network Outbound (GB)',:vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionNetOut = { :explorer => {}, :width => 1100, :height => 150, :title => 'Network Outbound (GB)',:vAxis => {:logScale => true}, :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartNetOut = GoogleVisualr::Interactive::LineChart.new(tableNetOut, optionNetOut)
-      optionRatio = { :width => 1100, :height => 150, :title => 'CpuTime/WallTime (%)', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
+      optionRatio = { :explorer => {}, :width => 1100, :height => 150, :title => 'CpuTime/WallTime (%)', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
       @chartRatio = GoogleVisualr::Interactive::LineChart.new(tableRatio, optionRatio)
       
     end
