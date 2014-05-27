@@ -1,10 +1,10 @@
 class Publisher < ActiveRecord::Base
   include Search
-  attr_accessible :hostname, :ip, :token, :resource_id
+  attr_accessible :hostname, :ip, :token, :resource_id, :resource_name
   #validates :ip, :presence => true, :uniqueness => true
   validates :ip, :presence => true
   validates :resource_id, :presence => true, :on => :create
-  
+  validates_uniqueness_of :hostname, :scope => :resource_id
   belongs_to :resource 
   has_many :blah_records, :dependent => :destroy
   has_many :cloud_records, :dependent => :destroy

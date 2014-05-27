@@ -73,9 +73,11 @@ class SitesController < ApplicationController
       if @site.save
         format.html { redirect_to @site, :notice => 'Site was successfully created.' }
         format.json { render :json => @site, :status => :created, :location => @site }
+        format.xml { render :xml => @site, :status => :created, :location => @site }
       else
         format.html { render :action => "new" }
         format.json { render :json => @site.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @site.errors, :status => :unprocessable_entity }
       end
     end
   end

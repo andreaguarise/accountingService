@@ -58,6 +58,12 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.json
   def create
+    if params[:resource][:site_name]
+      params[:site_name] = params[:resource].delete(:site_name)
+    end
+    if params[:resource][:resource_type_name]
+      params[:resource_type_name] = params[:resource].delete(:resource_type_name)
+    end
     @resource = Resource.new(params[:resource])
     if (params[:site_name]) #HTML form
     @resource.site = Site.find_by_name(params[:site_name])

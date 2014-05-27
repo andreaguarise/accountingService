@@ -1,5 +1,6 @@
 class PublishersController < ApplicationController
-  skip_before_filter :publisherAuthenticate
+  #skip_before_filter :publisherAuthenticate
+  skip_before_filter :userAuthenticate
   # GET /publishers
   # GET /publishers.json
   def index
@@ -49,6 +50,9 @@ class PublishersController < ApplicationController
   # POST /publishers
   # POST /publishers.json
   def create
+    if params[:publisher][:resource_name]
+      params[:resource_name] = params[:publisher].delete(:resource_name)
+    end
     @publisher = Publisher.new(params[:publisher])
     if (params[:resource_name]) #HTML form
     @publisher.resource = Resource.find_by_name(params[:resource_name])
@@ -58,9 +62,11 @@ class PublishersController < ApplicationController
       if @publisher.save
         format.html { redirect_to @publisher, :notice => 'Publisher was successfully created.' }
         format.json { render :json => @publisher, :status => :created, :location => @publisher }
+        format.xml { render :xml => @publisher, :status => :created, :location => @publisher }
       else
         format.html { render :action => "new" }
         format.json { render :json => @publisher.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @publisher.errors, :status => :unprocessable_entity }
       end
     end
   end
