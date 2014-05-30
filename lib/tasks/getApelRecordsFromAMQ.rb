@@ -1,6 +1,44 @@
 require 'optparse'
 require 'timeout'
 
+class BenchmarkRecordConverter
+  ## use to populate benchmark values (the model server side already takes care of the sampling period)
+  @@publishersCache = Hash.new
+  @@lastBenchmark = Hash.new
+  
+  def convert(r)
+    if not @@publishersCache.key?(r["MachineName"])
+      publisher = Publisher.find_by_hostname(r["MachineName"])
+      @@publishersCache[r["MachineName"]] = publisher.id
+    end
+    if @@publishersCache[r["MachineName"]]
+      
+      bv = BenchmarkValue.new
+      bv.publisher_id = @@publishersCache[r["MachineName"]] 
+      bv.date = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      bv.value = r["ServiceLevel"]
+      #LOG HERE FOR DEBUG
+      if not @@lastBenchmark.key?(r["MachineName"])
+        @@lastBenchmark[r["MachineName"]] = "0"
+        #puts "lastBenchmark inserting #{r["MachineName"]} --> #{@@lastBenchmark[r["MachineName"]]}"
+      end
+      #puts "lastBenchmark:#{r["MachineName"]} --> #{r["EndTime"]} -- #{@@lastBenchmark[r["MachineName"]]}"
+      if r["EndTime"].to_i - @@lastBenchmark[r["MachineName"]].to_i > 86400
+        bt = BenchmarkType.new
+        ##GO on by creating ActiveRecord benchmarkvalue object and saving it.
+        if (r["ServiceLevelType"] == "si2k" )
+            bt = BenchmarkType.find_by_name("specInt2k")
+        end
+        if (r["ServiceLevelType"] == "hs06" )##check against apel
+            bt = BenchmarkType.find_by_name("HEPSPEC06")
+        end
+        bv.benchmark_type_id = bt.id
+        bv.save
+        @@lastBenchmark[r["MachineName"]] = r["EndTime"]
+      end
+    end
+  end
+end
 
 class BlahRecordConverter
   @@record_ary = Array.new
@@ -64,7 +102,7 @@ class BlahRecordConverter
       #b.jobId = r[""]
       b.localUser = r["LocalUserId"] #BLAH has the numericId, APEL the local User Name. This probably should be removed from the table and the MODEL.
       b.lrmsId = r["LocalJobId"]
-      b.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #BLAH do lag at the start of the job
+      b.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #BLAH do log at the start of the job
       b.timestamp = r["StartTime"]
       #b.uniqueId = ##AUTOMATICALLY INSERTED BY SERVER in MODEL
       b.userDN = r["GlobalUserName"]
@@ -315,11 +353,13 @@ class ApelSSMRecords
         next if not records
         blah = BlahRecordConverter.new(@options[:bulk])
         event = EventRecordConverter.new(@options[:bulk])
+        benchmark = BenchmarkRecordConverter.new
         records.each do |r|
           if records.length >= @options[:bulk]
               #treat case when there are at least n records to be bulk processed
               event.convert(r)
               blah.convert(r)
+              benchmark.convert(r)
           else
               Rails.logger.info "#{records.length} remaining in message --> Single insert."
               #treat case where there are no sufficient record to be bulk processed
@@ -329,6 +369,7 @@ class ApelSSMRecords
               partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
               Rails.logger.debug "Do single Blah"
               partialBlah.convert(r)
+              benchmark.convert(r) #we do not do bulk insert for benchmarks
           end
         end
       end
