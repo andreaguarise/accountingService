@@ -137,7 +137,7 @@ class EventRecordConverter
     Rails.logger.info "#{now} - Event Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
-      Rails.logger.info "#{now} date:#{e.recordDate} lrmsId:#{e.lrmsId}"
+      Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.lrmsId}"
       if ( ! e.recordDate ) || ( ! e.lrmsId )
         Rails.logger.info "#{now} #{e.to_json}"
       end

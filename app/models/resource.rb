@@ -5,7 +5,7 @@ class Resource < ActiveRecord::Base
   validates :resource_type_id, :presence => true, :on => :create
   validates :name, :presence => true, :uniqueness => true, :on => :create
   
-  has_many :publishers
+  has_many :publishers, :dependent => :destroy
    
   has_many :dgas_grid_cpu_records 
   has_many :local_cpu_summaries, :through => :publishers

@@ -10,20 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140407151106) do
-
-  create_table "batch_cpu_summaries", :force => true do |t|
-    t.date     "date"
-    t.string   "publisher_id"
-    t.integer  "totalRecords"
-    t.integer  "totalCpuT"
-    t.integer  "totalWallT"
-    t.string   "localUser"
-    t.string   "localGroup"
-    t.string   "queue"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
+ActiveRecord::Schema.define(:version => 20140616105748) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -54,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
   end
 
   add_index "batch_execute_records", ["lrmsId"], :name => "index_batch_execute_records_on_lrmsId"
+  add_index "batch_execute_records", ["publisher_id"], :name => "batch_execute_records_publisher_id"
   add_index "batch_execute_records", ["publisher_id"], :name => "index_batch_execute_records_on_publisher_id"
   add_index "batch_execute_records", ["recordDate"], :name => "index_batch_execute_records_on_recordDate"
   add_index "batch_execute_records", ["uniqueId"], :name => "index_batch_execute_records_on_uniqueId", :unique => true
@@ -74,6 +62,9 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.datetime "updated_at",        :null => false
   end
 
+  add_index "benchmark_values", ["date"], :name => "date"
+  add_index "benchmark_values", ["publisher_id"], :name => "publisher_id"
+
   create_table "blah_records", :force => true do |t|
     t.string   "uniqueId"
     t.datetime "recordDate"
@@ -90,8 +81,11 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.integer  "publisher_id"
   end
 
+  add_index "blah_records", ["lrmsId"], :name => "blah_records_lrmsId"
   add_index "blah_records", ["lrmsId"], :name => "index_blah_records_on_lrmsId"
+  add_index "blah_records", ["publisher_id"], :name => "blah_records_publisher_id"
   add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
+  add_index "blah_records", ["recordDate"], :name => "blah_records_recordDate"
   add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId", :unique => true
 
   create_table "cloud_record_summaries", :id => false, :force => true do |t|
@@ -139,6 +133,8 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.string   "hypervisor_hostname"
   end
 
+  add_index "cloud_records", ["publisher_id"], :name => "index_cloud_records_on_publisher_id"
+
   create_table "cloud_view_vm_summaries", :id => false, :force => true do |t|
     t.integer "id",                                             :default => 0, :null => false
     t.date    "date"
@@ -178,6 +174,19 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.integer "database_descr_id"
   end
 
+  create_table "database_record_summaries_ls", :id => false, :force => true do |t|
+    t.integer "id",                                                            :default => 0, :null => false
+    t.date    "record_date"
+    t.integer "record_timestamp",  :limit => 8
+    t.string  "table_name"
+    t.string  "scheme_name"
+    t.integer "rows",              :limit => 8
+    t.decimal "tablesize",                      :precision => 23, :scale => 4
+    t.decimal "indexsize",                      :precision => 23, :scale => 4
+    t.integer "publisher_id"
+    t.integer "database_descr_id"
+  end
+
   create_table "database_records", :force => true do |t|
     t.datetime "time"
     t.integer  "rows",              :limit => 8
@@ -210,7 +219,7 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.string   "storageShare"
     t.string   "storageMedia"
     t.string   "storageClass"
-    t.integer  "fileCount"
+    t.integer  "fileCount",                 :limit => 8
     t.string   "directoryPath"
     t.string   "localUser"
     t.string   "localGroup"
@@ -220,18 +229,84 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.string   "attributeType"
     t.datetime "startTime"
     t.datetime "endTime"
-    t.integer  "resourceCapacityUsed"
-    t.integer  "logicalCapacityUsed"
-    t.integer  "resourceCapacityAllocated"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "resourceCapacityUsed",      :limit => 8
+    t.integer  "logicalCapacityUsed",       :limit => 8
+    t.integer  "resourceCapacityAllocated", :limit => 8
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.integer  "publisher_id"
   end
+
+  add_index "emi_storage_records", ["publisher_id"], :name => "index_emi_storage_records_on_publisher_id"
 
   create_table "grid_cpu_records", :id => false, :force => true do |t|
     t.integer "id",                      :default => 0, :null => false
     t.integer "batch_execute_record_id", :default => 0, :null => false
     t.integer "blah_record_id",          :default => 0, :null => false
+  end
+
+  create_table "gridfarm_all_cpu_records", :id => false, :force => true do |t|
+    t.integer  "id",                    :default => 0, :null => false
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "publisher_id"
+  end
+
+  create_table "gridfarm_grid_cpu_record_ids", :id => false, :force => true do |t|
+    t.integer "id",                      :default => 0, :null => false
+    t.integer "batch_execute_record_id", :default => 0, :null => false
+    t.integer "blah_record_id",          :default => 0, :null => false
+  end
+
+  create_table "gridfarm_local_cpu_records", :id => false, :force => true do |t|
+    t.integer  "id",                    :default => 0, :null => false
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "publisher_id"
   end
 
   create_table "local_cpu_summaries", :force => true do |t|
@@ -249,6 +324,78 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.float    "normalisedWallT"
   end
 
+  create_table "localfarm_local_cpu_norm_records", :id => false, :force => true do |t|
+    t.integer  "id",                    :default => 0, :null => false
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "publisher_id"
+    t.float    "benchmark_value"
+  end
+
+  create_table "localfarm_local_cpu_records", :id => false, :force => true do |t|
+    t.integer  "id",                    :default => 0, :null => false
+    t.string   "uniqueId"
+    t.datetime "recordDate"
+    t.string   "lrmsId"
+    t.string   "localUser"
+    t.string   "localGroup"
+    t.string   "jobName"
+    t.string   "queue"
+    t.integer  "ctime"
+    t.integer  "qtime"
+    t.integer  "etime"
+    t.integer  "start"
+    t.string   "execHost"
+    t.integer  "resourceList_nodect"
+    t.integer  "resourceList_nodes"
+    t.integer  "resourceList_walltime"
+    t.integer  "session"
+    t.integer  "end"
+    t.integer  "exitStatus"
+    t.integer  "resourceUsed_cput"
+    t.integer  "resourceUsed_mem"
+    t.integer  "resourceUsed_vmem"
+    t.integer  "resourceUsed_walltime"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "publisher_id"
+  end
+
+  create_table "localfarm_local_cpu_summaries", :id => false, :force => true do |t|
+    t.date    "endDate"
+    t.integer "publisher_id"
+    t.string  "localGroup"
+    t.string  "queue"
+    t.string  "localUser"
+    t.integer "countRecord",     :limit => 8,                                :default => 0, :null => false
+    t.decimal "sumCpu",                       :precision => 32, :scale => 0
+    t.decimal "sumWall",                      :precision => 32, :scale => 0
+    t.float   "normalisedCpuT"
+    t.float   "normalisedWallT"
+  end
+
   create_table "publishers", :force => true do |t|
     t.string   "hostname"
     t.string   "ip"
@@ -257,6 +404,8 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.datetime "updated_at",  :null => false
     t.integer  "resource_id"
   end
+
+  add_index "publishers", ["resource_id"], :name => "resource_id"
 
   create_table "resource_types", :force => true do |t|
     t.string   "name"
@@ -274,11 +423,23 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "resources", ["resource_type_id"], :name => "resource_type_id"
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "since_table_prooftaf", :id => false, :force => true do |t|
+    t.string  "table"
+    t.integer "place"
+  end
+
+  create_table "since_table_root", :id => false, :force => true do |t|
+    t.string  "table"
+    t.integer "place"
   end
 
   create_table "sites", :force => true do |t|
@@ -300,6 +461,20 @@ ActiveRecord::Schema.define(:version => 20140407151106) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.integer  "resourceCapacityAllocated", :limit => 8
+  end
+
+  create_table "storage_summaries_view", :id => false, :force => true do |t|
+    t.date     "date"
+    t.integer  "publisher_id"
+    t.string   "site"
+    t.string   "storageSystem"
+    t.string   "group"
+    t.integer  "resourceCapacityUsed",      :limit => 8
+    t.integer  "resourceCapacityAllocated", :limit => 8
+    t.integer  "logicalCapacityUsed",       :limit => 8
+    t.string   "storageShare"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   create_table "users", :force => true do |t|
