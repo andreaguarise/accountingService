@@ -1,5 +1,4 @@
-class GridCpuRecord < ActiveRecord::Base
-  #after_initialize :readonly!
+class CpuGridId < ActiveRecord::Base
   include Search
   attr_accessible :blah_record_id, :batch_execute_record_id
   belongs_to :batch_execute_record
@@ -14,5 +13,4 @@ class GridCpuRecord < ActiveRecord::Base
   def self.attrSearchable
     @attr_searchable  
   end
-  
 end

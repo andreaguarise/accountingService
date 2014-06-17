@@ -1,0 +1,25 @@
+<h1>Listing cpu_grid_ids</h1>
+
+<table>
+  <tr>
+    <th>Batch execute record</th>
+    <th>Blah record</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @cpu_grid_ids.each do |cpu_grid_id| %>
+  <tr>
+    <td><%= cpu_grid_id.batch_execute_record_id %></td>
+    <td><%= cpu_grid_id.blah_record_id %></td>
+    <td><%= link_to 'Show', cpu_grid_id %></td>
+    <td><%= link_to 'Edit', edit_cpu_grid_id_path(cpu_grid_id) %></td>
+    <td><%= link_to 'Destroy', cpu_grid_id, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Cpu grid', new_cpu_grid_id_path %>

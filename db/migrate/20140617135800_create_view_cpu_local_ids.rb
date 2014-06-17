@@ -1,6 +1,6 @@
 class CreateViewCpuLocalIds < ActiveRecord::Migration
   def up
-    GridCpuRecord.connection.execute('CREATE VIEW `cpu_local_ids` AS
+    CpuGridId.connection.execute('CREATE VIEW `cpu_local_ids` AS
     select 
         `batch_execute_records`.`id` AS `id`,
         `batch_execute_records`.`id` AS `batch_execute_record_id`
@@ -20,6 +20,6 @@ class CreateViewCpuLocalIds < ActiveRecord::Migration
   end
 
   def down
-    GridCpuRecord.connection.execute('DROP VIEW `cpu_local_ids`')
+    CpuGridId.connection.execute('DROP VIEW `cpu_local_ids`')
   end
 end

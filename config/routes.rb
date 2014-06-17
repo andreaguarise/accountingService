@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :cpu_grid_ids
+
+
   resources :database_record_summaries do
     collection do
       get '' => :search
@@ -66,13 +69,13 @@ AccountingService::Application.routes.draw do
 
   resources :benchmark_types
 
-
-    resources :grid_cpu_records do
-    collection do
-      get 'stats'
-      match 'search' => 'grid_cpu_records#search'
-    end
-  end
+#OLD superseeded by cpu_grid_ids
+#    resources :grid_cpu_records do
+#    collection do
+#      get 'stats'
+#      match 'search' => 'grid_cpu_records#search'
+#    end
+#  end
 
 
   resources :blah_records do
