@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140616105748) do
+ActiveRecord::Schema.define(:version => 20140617135800) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -153,6 +153,17 @@ ActiveRecord::Schema.define(:version => 20140616105748) do
     t.decimal "networkOutbound", :precision => 23, :scale => 4
     t.decimal "memory",          :precision => 14, :scale => 4
     t.decimal "cpuCount",        :precision => 12, :scale => 6
+  end
+
+  create_table "cpu_grid_ids", :id => false, :force => true do |t|
+    t.integer "id",                      :default => 0, :null => false
+    t.integer "batch_execute_record_id", :default => 0, :null => false
+    t.integer "blah_record_id",          :default => 0, :null => false
+  end
+
+  create_table "cpu_local_ids", :id => false, :force => true do |t|
+    t.integer "id",                      :default => 0, :null => false
+    t.integer "batch_execute_record_id", :default => 0, :null => false
   end
 
   create_table "database_descrs", :force => true do |t|
