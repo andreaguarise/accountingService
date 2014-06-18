@@ -1,0 +1,22 @@
+<H3>Cloud Records</H3>
+
+<div id = "sidemenu">
+<ul>
+<li><%= link_to 'Record list', cpu_grid_ids_url%></li>
+</ul>
+</div>
+
+<div id = "sidesearch">
+<%= form_tag(search_cpu_grid_ids_path, :method => 'get' ) do %>
+  <% CpuGridId.attrSearchable.each do |item| %>
+	<div class="field">
+    	<p><%= item %>:</p>
+    	<%= search_field_tag (item, params[item]) %>
+  	</div>
+  <% end %>
+  <div>
+  <p></p>
+  <%= submit_tag("Search...") %>
+  </div>
+<% end %>
+</div>

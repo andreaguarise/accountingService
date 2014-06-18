@@ -8,7 +8,7 @@ class CpuGridId < ActiveRecord::Base
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
   
-  @attr_searchable =["publishers.hostname", "resources.name", "sites.name", "blah_records.userDN", "batch_execute_records.localUser"]
+  @attr_searchable =["publishers.hostname", "sites.name", "blah_records.userDN", "batch_execute_records.localUser", "batch_execute_records.lrmsId"]
   
   def self.attrSearchable
     @attr_searchable  
