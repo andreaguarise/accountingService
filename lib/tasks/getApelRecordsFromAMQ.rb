@@ -1,6 +1,48 @@
 require 'optparse'
 require 'timeout'
 
+class DirQ  
+  def initialize(parent)
+    @parent=parent
+  end
+  
+  def dir
+    dir = "deadbeef"
+    if (!File.directory? "#{@parent}/#{dir}")
+      Dir.mkdir "#{@parent}/#{dir}"
+    end
+    dir
+  end
+  
+  def RandomExa(length, chars = 'abcdef0123456789')
+        rnd_str = ''
+        length.times { rnd_str << chars[rand(chars.size)] }
+        rnd_str
+  end
+  
+  def file
+    time = Time.now.to_i
+    timeHex = time.to_s(16)
+    random_string = self.RandomExa(6)
+    filename = timeHex + random_string
+    filename
+  end
+  
+end
+
+class DeadMessage
+  def initialize(message,parent_dir)
+    @message = message
+    @parent_dir = parent_dir
+    @dirq = DirQ.new(parent_dir)
+    @filename = @dirq.dir + "/" + @dirq.file    
+  end 
+  
+  def write
+    open("#{@parent_dir}/#{@filename}", "a") { |f| f << @message }
+  end
+end
+
 class BenchmarkRecordConverter
   ## use to populate benchmark values (the model server side already takes care of the sampling period)
   @@publishersCache = Hash.new
@@ -91,6 +133,25 @@ class BlahRecordConverter
   def convert(r)
     return if r["InfrastructureType"] == "local" # Do not pollute blah_records with non grid jobs.
     if not @@publishersCache.key?(r["MachineName"])
+      publisher = Publisher.find_by_hostname(r["MachineName"])
+      @@publishersCache[r["MachineName"]] = publisher.id
+    end
+    if ! @@publishersCache[r["MachineName"]]
+      #Publisher does not exists.
+      site = Site.find_by_name(r["Site"])
+      rtype = ResourceType.find_by_name("Farm_grid+local") 
+      autoResource = Resource.new
+      autoResource.resource_type_id = rtype.id
+      autoResource.name = "#{r["Site"]}-autoCE"
+      Rails.logger.info "Creating Resource: #{autoResource.name}"
+      autoResource.site_id = site.id
+      autoResource.save
+      autoResource.find_by_name(autoResource.name)
+      autoPublisher = Publisher.new
+      autoPublisher.hostname = r["MachineName"]
+      Rails.logger.info "Creating Publisher: #{autoPublisher.hostname}"
+      autoPublisher.resource_id = autoResource.id
+      autoPublisher.save
       publisher = Publisher.find_by_hostname(r["MachineName"])
       @@publishersCache[r["MachineName"]] = publisher.id
     end
@@ -186,8 +247,29 @@ VALUES "
     end
     if not @@publishersCache.key?(r["MachineName"])
       publisher = Publisher.find_by_hostname(r["MachineName"])
+      if !publisher
+        #Publisher does not exists.
+        site = Site.find_by_name(r["Site"])
+        rtype = ResourceType.find_by_name("Farm_grid+local") 
+        autoResource = Resource.new
+        autoResource.resource_type_id = rtype.id
+        autoResource.name = "#{r["Site"]}-autoCE"
+        Rails.logger.info "Creating Resource: #{autoResource.name}"
+        autoResource.site_id = site.id
+        autoResource.save
+        autoPublisher = Publisher.new
+        autoPublisher.hostname = r["MachineName"]
+        Rails.logger.info "Creating Publisher: #{autoPublisher.hostname}"
+        autoPublisher.resource_id = autoResource.id
+        autoPublisher.ip = "127.0.0.1"
+        autoPublisher.save
+        publisher = Publisher.find_by_hostname(r["MachineName"])
+        @@publishersCache[r["MachineName"]] = publisher.id
+      end
+      ##If publisher does not exists create it
       @@publishersCache[r["MachineName"]] = publisher.id
     end
+    
     if @@publishersCache[r["MachineName"]]
       e = BatchExecuteRecord.new
       #e.ctime =
@@ -220,6 +302,9 @@ VALUES "
       if ( @@record_ary.length >= @n )
         self.import
       end
+    else
+      puts "Publisher does not exists. Error!"
+      exit 1
     end
   end
 end
@@ -277,6 +362,11 @@ class ApelSSMRecords
       opt.on( '-v', '--verbose', 'Output more information') do
         @options[:verbose] = true
       end
+      
+      @options[:autocreate] = false
+      opt.on( '-a', '--autocreate', 'Automatically create publisher and resource (site MUST already exists)') do
+        @options[:autocreate] = true
+      end
   
       #@options[:dryrun] = false
       #  opt.on( '-d', '--dryrun', 'Do not talk to server') do
@@ -304,13 +394,18 @@ class ApelSSMRecords
       end
       
       @options[:bulk] = 100
-      opt.on( '-B', '--Bulk bulk', 'number of record inserte per single insert command') do |bulk|
+      opt.on( '-B', '--Bulk bulk', 'number of record insert per single insert command') do |bulk|
         @options[:bulk] = bulk.to_i  
       end
       
       @options[:uri] = nil
       opt.on( '-U', '--Uri uri', 'Broker uri e.g. dgas.broker.to.infn.it:61613') do |uri|
         @options[:uri] = uri
+      end
+      
+      @options[:deaddir] = nil
+      opt.on( '-D', '--Deaddir path', 'Path to directory used as dead letter repository, for apel SSM to resend it to queue') do |dir|
+        @options[:deaddir] = dir
       end
 
       opt.on( '-h', '--help', 'Print this screen') do
@@ -349,29 +444,37 @@ class ApelSSMRecords
       if @msg.command == "MESSAGE"
         ssm_msg = SSMMessage.new(@msg.body)
         Rails.logger.debug "#{ssm_msg}"
-        records = ssm_msg.parse
-        next if not records
-        blah = BlahRecordConverter.new(@options[:bulk])
-        event = EventRecordConverter.new(@options[:bulk])
-        benchmark = BenchmarkRecordConverter.new
-        records.each do |r|
-          if records.length >= @options[:bulk]
-              #treat case when there are at least n records to be bulk processed
-              event.convert(r)
-              blah.convert(r)
-              benchmark.convert(r)
-          else
-              Rails.logger.info "#{records.length} remaining in message --> Single insert."
-              #treat case where there are no sufficient record to be bulk processed
-              partialEvent = EventRecordConverter.new(records.length) if not partialEvent
-              Rails.logger.debug "Do single Event"
-              partialEvent.convert(r)
-              partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
-              Rails.logger.debug "Do single Blah"
-              partialBlah.convert(r)
-              benchmark.convert(r) #we do not do bulk insert for benchmarks
+        begin
+          records = ssm_msg.parse
+          next if not records
+          blah = BlahRecordConverter.new(@options[:bulk])
+          event = EventRecordConverter.new(@options[:bulk])
+          benchmark = BenchmarkRecordConverter.new
+          records.each do |r|
+            if records.length >= @options[:bulk]
+               #treat case when there are at least n records to be bulk processed
+                event.convert(r)
+                blah.convert(r)
+                benchmark.convert(r)
+           else
+                Rails.logger.info "#{records.length} remaining in message --> Single insert."
+                #treat case where there are no sufficient record to be bulk processed
+                partialEvent = EventRecordConverter.new(records.length) if not partialEvent
+                Rails.logger.debug "Do single Event"
+                partialEvent.convert(r)
+                partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
+                Rails.logger.debug "Do single Blah"
+               partialBlah.convert(r)
+                benchmark.convert(r) #we do not do bulk insert for benchmarks
+            end
           end
-        end
+        rescue Exception => e
+           Rails.logger.info "Got Error inserting records, pushing message to dead.letter.queue"
+           Rails.logger.info "Error: #{e.message}"
+           Rails.logger.info e.backtrace.inspect
+           dm = DeadMessage.new(@msg.body,@options[:deaddir])
+           dm.write
+        end  
       end
     end
     @conn.unsubscribe "/queue/#{@options[:queue]}"
