@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  publisher_id: 1
+  lrmsId: MyString
+  recordDate: 2014-06-18 16:32:28
+  localUser: MyString
+  execHost: MyString
+  nodect: 1
+  nodes: 1
+  cput: 1
+  wallt: 1
+  pmem: 1
+  vmem: 1
+  userDN: MyString
+  FQAN: MyString
+  benchmark_value_id: 1
+
+two:
+  publisher_id: 1
+  lrmsId: MyString
+  recordDate: 2014-06-18 16:32:28
+  localUser: MyString
+  execHost: MyString
+  nodect: 1
+  nodes: 1
+  cput: 1
+  wallt: 1
+  pmem: 1
+  vmem: 1
+  userDN: MyString
+  FQAN: MyString
+  benchmark_value_id: 1

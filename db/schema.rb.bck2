@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140619113112) do
+ActiveRecord::Schema.define(:version => 20140617144800) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -79,9 +79,6 @@ ActiveRecord::Schema.define(:version => 20140619113112) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "publisher_id"
-    t.string   "vo"
-    t.string   "voGroup"
-    t.string   "voRole"
   end
 
   add_index "blah_records", ["lrmsId"], :name => "blah_records_lrmsId"
@@ -162,55 +159,6 @@ ActiveRecord::Schema.define(:version => 20140619113112) do
     t.integer "id",                      :default => 0, :null => false
     t.integer "batch_execute_record_id", :default => 0, :null => false
     t.integer "blah_record_id",          :default => 0, :null => false
-  end
-
-  create_table "cpu_grid_norm_records", :id => false, :force => true do |t|
-    t.integer  "id",                              :default => 0
-    t.integer  "publisher_id"
-    t.string   "lrmsId"
-    t.datetime "recordDate"
-    t.string   "localUser"
-    t.string   "execHost"
-    t.integer  "nodect"
-    t.integer  "nodes"
-    t.integer  "cput"
-    t.integer  "wallt"
-    t.integer  "pmem"
-    t.integer  "vmem"
-    t.string   "userDN"
-    t.string   "FQAN"
-    t.integer  "benchmark_value_id", :limit => 8
-  end
-
-  create_table "cpu_grid_norm_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                              :default => 0
-    t.integer  "publisher_id"
-    t.string   "lrmsId"
-    t.datetime "recordDate"
-    t.string   "localUser"
-    t.string   "execHost"
-    t.integer  "nodect"
-    t.integer  "nodes"
-    t.integer  "cput"
-    t.integer  "wallt"
-    t.integer  "pmem"
-    t.integer  "vmem"
-    t.string   "userDN"
-    t.string   "FQAN"
-    t.integer  "benchmark_value_id", :limit => 8
-  end
-
-  create_table "cpu_grid_summaries_tentative", :id => false, :force => true do |t|
-    t.integer "id",                                                            :default => 0
-    t.date    "date"
-    t.integer "publisher_id"
-    t.string  "userDN"
-    t.string  "FQAN"
-    t.integer "records",           :limit => 8,                                :default => 0, :null => false
-    t.decimal "cput",                           :precision => 32, :scale => 0
-    t.decimal "wallt",                          :precision => 32, :scale => 0
-    t.float   "benchmark_value"
-    t.integer "benchmark_type_id"
   end
 
   create_table "cpu_local_ids", :id => false, :force => true do |t|

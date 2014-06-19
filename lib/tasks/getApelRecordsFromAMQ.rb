@@ -106,7 +106,7 @@ class BlahRecordConverter
     valuesBuffer = ""
     @@record_ary.each do |b|
       b.computeUniqueId
-      valuesBuffer << "(NULL,'#{b.uniqueId}','#{b.recordDate}','#{b.recordDate}','#{b.userDN}','#{b.userFQAN}','#{b.ceId}','','#{b.lrmsId}','#{b.localUser}','','#{now}','#{now}',#{b.publisher_id})"
+      valuesBuffer << "(NULL,'#{b.uniqueId}','#{b.recordDate}','#{b.recordDate}','#{b.userDN}','#{b.userFQAN}','#{b.vo}','#{b.voGroup}','#{b.voRole}','#{b.ceId}','','#{b.lrmsId}','#{b.localUser}','','#{now}','#{now}',#{b.publisher_id})"
       if b != @@record_ary.last 
         valuesBuffer << ","
       end    
@@ -117,6 +117,9 @@ class BlahRecordConverter
 `timestamp`,
 `userDN`,
 `userFQAN`,
+`vo`,
+`voGroup`,
+`voRole`,
 `ceId`,
 `jobId`,
 `lrmsId`,
@@ -168,6 +171,9 @@ class BlahRecordConverter
       #b.uniqueId = ##AUTOMATICALLY INSERTED BY SERVER in MODEL
       b.userDN = r["GlobalUserName"]
       b.userFQAN = r["FQAN"]
+      b.vo = r["VO"]
+      b.voGroup = r["VOGroup"]
+      b.voRole = r["VORole"]
       @@record_ary << b
       @@recordCount = @@recordCount + 1;
       #puts @@record_ary.length

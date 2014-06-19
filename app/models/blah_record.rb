@@ -1,6 +1,6 @@
 class BlahRecord < ActiveRecord::Base
   include Search
-  attr_accessible :ceId, :clientId, :jobId, :localUser, :lrmsId, :publisher_id, :recordDate, :timestamp, :uniqueId, :userDN, :userFQAN
+  attr_accessible :ceId, :clientId, :jobId, :localUser, :lrmsId, :publisher_id, :recordDate, :timestamp, :uniqueId, :userDN, :userFQAN, :vo, :voGroup, :voRole
   before_validation :computeUniqueId
   belongs_to :publisher
   validates :publisher_id, :presence => true, :on => :create
