@@ -6,6 +6,7 @@ class BenchmarkValue < ActiveRecord::Base
   belongs_to :publisher
   has_many :batch_execute_record, :through => :publisher
   has_many :local_cpu_summary, :through => :publisher
+  has_many :cpu_grid_norm_record
   
   delegate :resource, :to => :publisher 
   
