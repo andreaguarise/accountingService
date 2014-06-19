@@ -1,0 +1,41 @@
+<h1>Listing cpu_grid_summaries</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Publisher</th>
+    <th>Userdn</th>
+    <th>Vo</th>
+    <th>Fqan</th>
+    <th>Records</th>
+    <th>Cput</th>
+    <th>Wallt</th>
+    <th>Benchmark value</th>
+    <th>Benchmark type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @cpu_grid_summaries.each do |cpu_grid_summary| %>
+  <tr>
+    <td><%= cpu_grid_summary.date %></td>
+    <td><%= cpu_grid_summary.publisher_id %></td>
+    <td><%= cpu_grid_summary.userDN %></td>
+    <td><%= cpu_grid_summary.vo %></td>
+    <td><%= cpu_grid_summary.FQAN %></td>
+    <td><%= cpu_grid_summary.records %></td>
+    <td><%= cpu_grid_summary.cput %></td>
+    <td><%= cpu_grid_summary.wallt %></td>
+    <td><%= cpu_grid_summary.benchmark_value %></td>
+    <td><%= cpu_grid_summary.benchmark_type_id %></td>
+    <td><%= link_to 'Show', cpu_grid_summary %></td>
+    <td><%= link_to 'Edit', edit_cpu_grid_summary_path(cpu_grid_summary) %></td>
+    <td><%= link_to 'Destroy', cpu_grid_summary, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Cpu grid summary', new_cpu_grid_summary_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140619143228) do
+ActiveRecord::Schema.define(:version => 20140619143328) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -185,22 +185,18 @@ ActiveRecord::Schema.define(:version => 20140619143228) do
     t.integer  "benchmark_value_id", :limit => 8
   end
 
-  create_table "cpu_grid_norm_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                              :default => 0
-    t.integer  "publisher_id"
-    t.string   "lrmsId"
-    t.datetime "recordDate"
-    t.string   "localUser"
-    t.string   "execHost"
-    t.integer  "nodect"
-    t.integer  "nodes"
-    t.integer  "cput"
-    t.integer  "wallt"
-    t.integer  "pmem"
-    t.integer  "vmem"
-    t.string   "userDN"
-    t.string   "FQAN"
-    t.integer  "benchmark_value_id", :limit => 8
+  create_table "cpu_grid_summaries", :id => false, :force => true do |t|
+    t.integer "id",                                                            :default => 0
+    t.date    "date"
+    t.integer "publisher_id"
+    t.string  "userDN"
+    t.string  "vo"
+    t.string  "FQAN"
+    t.integer "records",           :limit => 8,                                :default => 0, :null => false
+    t.decimal "cput",                           :precision => 32, :scale => 0
+    t.decimal "wallt",                          :precision => 32, :scale => 0
+    t.float   "benchmark_value"
+    t.integer "benchmark_type_id"
   end
 
   create_table "cpu_grid_summaries_tentative", :id => false, :force => true do |t|
@@ -208,6 +204,7 @@ ActiveRecord::Schema.define(:version => 20140619143228) do
     t.date    "date"
     t.integer "publisher_id"
     t.string  "userDN"
+    t.string  "vo"
     t.string  "FQAN"
     t.integer "records",           :limit => 8,                                :default => 0, :null => false
     t.decimal "cput",                           :precision => 32, :scale => 0

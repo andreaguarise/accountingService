@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2014-06-19
+  publisher_id: 1
+  userDN: MyString
+  vo: MyString
+  FQAN: MyString
+  records: 1
+  cput: 1
+  wallt: 1
+  benchmark_value: 1
+  benchmark_type_id: 1
+
+two:
+  date: 2014-06-19
+  publisher_id: 1
+  userDN: MyString
+  vo: MyString
+  FQAN: MyString
+  records: 1
+  cput: 1
+  wallt: 1
+  benchmark_value: 1
+  benchmark_type_id: 1

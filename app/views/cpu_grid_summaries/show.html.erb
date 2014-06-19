@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Date:</b>
+  <%= @cpu_grid_summary.date %>
+</p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @cpu_grid_summary.publisher_id %>
+</p>
+
+<p>
+  <b>Userdn:</b>
+  <%= @cpu_grid_summary.userDN %>
+</p>
+
+<p>
+  <b>Vo:</b>
+  <%= @cpu_grid_summary.vo %>
+</p>
+
+<p>
+  <b>Fqan:</b>
+  <%= @cpu_grid_summary.FQAN %>
+</p>
+
+<p>
+  <b>Records:</b>
+  <%= @cpu_grid_summary.records %>
+</p>
+
+<p>
+  <b>Cput:</b>
+  <%= @cpu_grid_summary.cput %>
+</p>
+
+<p>
+  <b>Wallt:</b>
+  <%= @cpu_grid_summary.wallt %>
+</p>
+
+<p>
+  <b>Benchmark value:</b>
+  <%= @cpu_grid_summary.benchmark_value %>
+</p>
+
+<p>
+  <b>Benchmark type:</b>
+  <%= @cpu_grid_summary.benchmark_type_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_cpu_grid_summary_path(@cpu_grid_summary) %> |
+<%= link_to 'Back', cpu_grid_summaries_path %>
