@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140619113112) do
+ActiveRecord::Schema.define(:version => 20140619143228) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -179,6 +179,9 @@ ActiveRecord::Schema.define(:version => 20140619113112) do
     t.integer  "vmem"
     t.string   "userDN"
     t.string   "FQAN"
+    t.string   "vo"
+    t.string   "voGroup"
+    t.string   "voRole"
     t.integer  "benchmark_value_id", :limit => 8
   end
 
