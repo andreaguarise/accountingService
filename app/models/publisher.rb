@@ -7,13 +7,14 @@ class Publisher < ActiveRecord::Base
   validates_uniqueness_of :hostname, :scope => :resource_id
   belongs_to :resource 
   has_many :blah_records, :dependent => :delete_all
-  has_many :cloud_records, :dependent => :destroy
-  has_many :grid_cpu_records, :through => :blah_records 
+  has_many :cloud_records, :dependent => :destroy 
   has_many :local_cpu_summaries, :dependent => :destroy
   has_many :batch_execute_records, :dependent => :delete_all
   has_many :emi_storage_records, :dependent => :destroy
   has_many :benchmark_values, :dependent => :destroy
   has_many :database_schemes, :dependent => :destroy
+  has_many :cpu_grid_norm_records
+  has_many :cpu_grid_summaries
   
   accepts_nested_attributes_for :resource
   delegate :site, :to => :resource
