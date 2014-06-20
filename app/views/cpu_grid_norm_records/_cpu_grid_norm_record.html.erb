@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= cycle("odd", "even") %>">
     <td><%= if cpu_grid_norm_record.publisher then cpu_grid_norm_record.publisher.hostname end%></td>
     <td><%= cpu_grid_norm_record.lrmsId %></td>
     <td><%= cpu_grid_norm_record.recordDate %></td>

@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= cycle("odd", "even") %>">
     <td><%= cpu_grid_summary.date %></td>
     <td><%= if cpu_grid_summary.site then cpu_grid_summary.site.name end%></td>
     <td><%= if cpu_grid_summary.publisher then cpu_grid_summary.publisher.hostname end%></td>
