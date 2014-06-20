@@ -5,4 +5,10 @@ class CpuGridNormRecord < ActiveRecord::Base
   belongs_to :benchmark_value
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
+  
+  @attr_searchable =["publishers.hostname", "sites.name", "userDN", "vo", "FQAN", "localUser", "lrmsId"]
+  
+  def self.attrSearchable
+    @attr_searchable  
+  end
 end
