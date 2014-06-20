@@ -1,16 +1,8 @@
 class CpuGridSummariesController < ApplicationController
+    
+  # replaces index
   # GET /cpu_grid_summaries
   # GET /cpu_grid_summaries.json
-  def index
-    @cpu_grid_summaries = CpuGridSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @cpu_grid_summaries }
-      format.xml { render :xml => @cpu_grid_summaries }
-    end
-  end
-  
   def search
     whereBuffer = {}
     logger.info "Entering #search method."

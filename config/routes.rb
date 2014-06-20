@@ -3,6 +3,7 @@ AccountingService::Application.routes.draw do
   resources :cpu_grid_summaries do
     collection do
       get 'stats'
+      match 'index' => 'cpu_grid_summaries#search'
       match 'search' => 'cpu_grid_summaries#search'
     end
   end
@@ -19,6 +20,7 @@ AccountingService::Application.routes.draw do
   resources :cpu_grid_ids do
     collection do
       get 'stats'
+      match 'index' => 'cpu_grid_ids#search'
       match 'search' => 'cpu_grid_ids#search'
     end
   end
