@@ -2,11 +2,32 @@ class CpuGridSummariesController < ApplicationController
   # GET /cpu_grid_summaries
   # GET /cpu_grid_summaries.json
   def index
-    @cpu_grid_summaries = CpuGridSummary.all
+    @cpu_grid_summaries = CpuGridSummary.paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).all
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @cpu_grid_summaries }
+      format.xml { render :xml => @cpu_grid_summaries }
+    end
+  end
+  
+  def search
+    whereBuffer = {}
+    logger.info "Entering #search method."
+    
+    params.each do |param_k,param_v|
+      if CpuGridSummary.attrSearchable.include?(param_k) && param_v != ""
+        logger.info "Got search parameter: #{param_k} ==> #{param_v}" 
+        whereBuffer[param_k]=param_v 
+      end
+   end
+    
+    @cpu_grid_summaries = CpuGridSummary.joins(:publisher, :publisher => :resource, :publisher => {:resource => :site} ).orderByParms('id desc',params).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).where(whereBuffer)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @cpu_grid_summaries }
+      format.xml { render :xml => @cpu_grid_summaries }
     end
   end
 
@@ -21,63 +42,4 @@ class CpuGridSummariesController < ApplicationController
     end
   end
 
-  # GET /cpu_grid_summaries/new
-  # GET /cpu_grid_summaries/new.json
-  def new
-    @cpu_grid_summary = CpuGridSummary.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @cpu_grid_summary }
-    end
-  end
-
-  # GET /cpu_grid_summaries/1/edit
-  def edit
-    @cpu_grid_summary = CpuGridSummary.find(params[:id])
-  end
-
-  # POST /cpu_grid_summaries
-  # POST /cpu_grid_summaries.json
-  def create
-    @cpu_grid_summary = CpuGridSummary.new(params[:cpu_grid_summary])
-
-    respond_to do |format|
-      if @cpu_grid_summary.save
-        format.html { redirect_to @cpu_grid_summary, :notice => 'Cpu grid summary was successfully created.' }
-        format.json { render :json => @cpu_grid_summary, :status => :created, :location => @cpu_grid_summary }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @cpu_grid_summary.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /cpu_grid_summaries/1
-  # PUT /cpu_grid_summaries/1.json
-  def update
-    @cpu_grid_summary = CpuGridSummary.find(params[:id])
-
-    respond_to do |format|
-      if @cpu_grid_summary.update_attributes(params[:cpu_grid_summary])
-        format.html { redirect_to @cpu_grid_summary, :notice => 'Cpu grid summary was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @cpu_grid_summary.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /cpu_grid_summaries/1
-  # DELETE /cpu_grid_summaries/1.json
-  def destroy
-    @cpu_grid_summary = CpuGridSummary.find(params[:id])
-    @cpu_grid_summary.destroy
-
-    respond_to do |format|
-      format.html { redirect_to cpu_grid_summaries_url }
-      format.json { head :no_content }
-    end
-  end
 end

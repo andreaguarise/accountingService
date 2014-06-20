@@ -5,4 +5,11 @@ class CpuGridSummary < ActiveRecord::Base
   belongs_to :benchmark_type
   delegate :resource, :to => :publisher
   delegate :site, :to => :resource
+    
+  @attr_searchable =["publishers.hostname", "sites.name", "userDN", "vo", "FQAN"]
+  
+  def self.attrSearchable
+    @attr_searchable  
+  end
+
 end

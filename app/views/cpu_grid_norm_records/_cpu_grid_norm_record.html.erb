@@ -1,0 +1,20 @@
+<tr>
+    <td><%= if cpu_grid_norm_record.publisher then cpu_grid_norm_record.publisher.hostname end%></td>
+    <td><%= cpu_grid_norm_record.lrmsId %></td>
+    <td><%= cpu_grid_norm_record.recordDate %></td>
+    <td><%= cpu_grid_norm_record.localUser %></td>
+    <td><%= cpu_grid_norm_record.execHost %></td>
+    <td><%= cpu_grid_norm_record.nodect %></td>
+    <td><%= cpu_grid_norm_record.nodes %></td>
+    <td><%= cpu_grid_norm_record.cput %></td>
+    <td><%= cpu_grid_norm_record.wallt %></td>
+    <td><%= cpu_grid_norm_record.pmem %></td>
+    <td><%= cpu_grid_norm_record.vmem %></td>
+    <td><%= cpu_grid_norm_record.userDN %></td>
+    <td><%= cpu_grid_norm_record.FQAN %></td>
+    <td><%= cpu_grid_norm_record.vo %></td>
+    <td><%= cpu_grid_norm_record.voGroup %></td>
+    <td><%= cpu_grid_norm_record.voRole %></td>
+    <td><%= if cpu_grid_norm_record.benchmark_value then cpu_grid_norm_record.benchmark_value.value end%></td>
+    <td><%= link_to 'Show', cpu_grid_norm_record %></td>
+  </tr>

@@ -1,55 +1,9 @@
 <h1>Listing cpu_grid_norm_records</h1>
 
 <table>
-  <tr>
-    <th>Publisher</th>
-    <th>Lrmsid</th>
-    <th>Recorddate</th>
-    <th>Localuser</th>
-    <th>Exechost</th>
-    <th>Nodect</th>
-    <th>Nodes</th>
-    <th>Cput</th>
-    <th>Wallt</th>
-    <th>Pmem</th>
-    <th>Vmem</th>
-    <th>Userdn</th>
-    <th>Fqan</th>
-    <th>VO</th>
-    <th>VOGroup</th>
-    <th>VORole</th>
-    <th>Benchmark value</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @cpu_grid_norm_records.each do |cpu_grid_norm_record| %>
-  <tr>
-    <td><%= cpu_grid_norm_record.publisher_id %></td>
-    <td><%= cpu_grid_norm_record.lrmsId %></td>
-    <td><%= cpu_grid_norm_record.recordDate %></td>
-    <td><%= cpu_grid_norm_record.localUser %></td>
-    <td><%= cpu_grid_norm_record.execHost %></td>
-    <td><%= cpu_grid_norm_record.nodect %></td>
-    <td><%= cpu_grid_norm_record.nodes %></td>
-    <td><%= cpu_grid_norm_record.cput %></td>
-    <td><%= cpu_grid_norm_record.wallt %></td>
-    <td><%= cpu_grid_norm_record.pmem %></td>
-    <td><%= cpu_grid_norm_record.vmem %></td>
-    <td><%= cpu_grid_norm_record.userDN %></td>
-    <td><%= cpu_grid_norm_record.FQAN %></td>
-    <td><%= cpu_grid_norm_record.vo %></td>
-    <td><%= cpu_grid_norm_record.voGroup %></td>
-    <td><%= cpu_grid_norm_record.voRole %></td>
-    <td><%= cpu_grid_norm_record.benchmark_value_id %></td>
-    <td><%= link_to 'Show', cpu_grid_norm_record %></td>
-    <td><%= link_to 'Edit', edit_cpu_grid_norm_record_path(cpu_grid_norm_record) %></td>
-    <td><%= link_to 'Destroy', cpu_grid_norm_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%= render "table_header" %>
+<%= render(@cpu_grid_norm_records)%>
 </table>
 
 <br />
 
-<%= link_to 'New Cpu grid norm record', new_cpu_grid_norm_record_path %>
