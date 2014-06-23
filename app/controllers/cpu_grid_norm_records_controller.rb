@@ -12,6 +12,12 @@ class CpuGridNormRecordsController < ApplicationController
   end
   
   def stats
+    
+    @graphs ={}
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.count),"1d")'] = "&from=-15days"
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.cput),"1d")'] = "&from=-15days"
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.wallt),"1d")'] = "&from=-15days"
+    @graphs['summarize(faust.cpu_grid_norm_records_by_fqan.*.count,"1d")'] = "&from=-5days"
 
     logger.info "test #{config.itemsPerPageHTML.to_s}"
     
