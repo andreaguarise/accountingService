@@ -112,8 +112,8 @@ class DbToGraphite
   def main
     self.getLineParameters
     client = GraphiteAPI.new( :graphite => @options[:graphiteUrl] )
-    db = Database.new(options[:dbHost],options[:dbUser],options[:dbPassword],options[:dbSchema],options[:dbPort])
-    date = @optione[:date]
+    db = Database.new(@options[:dbHost],@options[:dbUser],@options[:dbPassword],@options[:dbSchema],@options[:dbPort])
+    date = @options[:date]
     ##INSERT HERE BLOCKS FOR query/metrics import
     
       table= Table.new(db,"cpu_grid_norm_records","recordDate","id")
