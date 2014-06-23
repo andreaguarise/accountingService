@@ -10,6 +10,15 @@ class CpuGridNormRecordsController < ApplicationController
       format.xml { render :xml => @cpu_grid_norm_records }
     end
   end
+  
+  def stats
+
+    logger.info "test #{config.itemsPerPageHTML.to_s}"
+    
+    respond_to do |format|
+      format.html # index.html.erb
+    end
+  end
 
   # GET /cpu_grid_norm_records/1
   # GET /cpu_grid_norm_records/1.json

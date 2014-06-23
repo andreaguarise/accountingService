@@ -1,0 +1,7 @@
+<h1>cpu grid norm records statistics page</h1>
+
+
+<img src="<%= Rails.configuration.graphiteUrl %>/render?target=summarize%28sumSeries%28faust.cpu_grid_norm_records_by_fqan.*.count%29,%221d%22%29&height=250&width=600&from=-15days">
+<img src="<%= Rails.configuration.graphiteUrl %>/render?target=summarize%28sumSeries%28faust.cpu_grid_norm_records_by_fqan.*.cput%29,%221d%22%29&height=250&width=600&from=-15days">
+<img src="<%= Rails.configuration.graphiteUrl %>/render?target=summarize%28sumSeries%28faust.cpu_grid_norm_records_by_fqan.*.wallt%29,%221d%22%29&height=250&width=600&from=-15days">
+<img src="<%= Rails.configuration.graphiteUrl %>/render?target=summarize%28faust.cpu_grid_norm_records_by_fqan.*.count,%221d%22%29&height=250&width=600&from=-15days">

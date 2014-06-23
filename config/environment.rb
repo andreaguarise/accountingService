@@ -8,4 +8,5 @@ AccountingService::Application.initialize!
 AccountingService::Application.configure do 
   config.itemsPerPage = 250
   config.itemsPerPageHTML = 25
+  config.graphiteUrl = "http://localhost:80"
 end
