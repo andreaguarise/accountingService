@@ -65,7 +65,7 @@ class DbToGraphite
       end
       
       @options[:graphiteUrl] = "localhost:2003"
-      opt.on( '-U', '--graphiteUrl url', 'graphite contact url') do |graphiteUrl|
+      opt.on( '-G', '--graphiteUrl url', 'graphite contact url') do |graphiteUrl|
         @options[:graphiteUrl] = graphiteUrl
       end
       
