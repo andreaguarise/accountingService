@@ -6,6 +6,7 @@ class Publisher < ActiveRecord::Base
   validates :resource_id, :presence => true, :on => :create
   validates_uniqueness_of :hostname, :scope => :resource_id
   belongs_to :resource 
+  has_many :apel_ssm_records, :dependent => :delete_all
   has_many :blah_records, :dependent => :delete_all
   has_many :cloud_records, :dependent => :destroy 
   has_many :local_cpu_summaries, :dependent => :destroy

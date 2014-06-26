@@ -1,0 +1,65 @@
+<h1>Listing apel_ssm_records</h1>
+
+<table>
+  <tr>
+    <th>Publisher</th>
+    <th>Recorddate</th>
+    <th>Submithost</th>
+    <th>Machinename</th>
+    <th>Queue</th>
+    <th>Localjobid</th>
+    <th>Localuserid</th>
+    <th>Globalusername</th>
+    <th>Fqan</th>
+    <th>Vo</th>
+    <th>Vogroup</th>
+    <th>Vorole</th>
+    <th>Wallduration</th>
+    <th>Cpuduration</th>
+    <th>Processors</th>
+    <th>Nodecount</th>
+    <th>Starttime</th>
+    <th>Endtime</th>
+    <th>Infrastructuredescription</th>
+    <th>Infrastructuretype</th>
+    <th>Memoryreal</th>
+    <th>Memoryvirtual</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @apel_ssm_records.each do |apel_ssm_record| %>
+  <tr>
+    <td><%= apel_ssm_record.publisher_id %></td>
+    <td><%= apel_ssm_record.recordDate %></td>
+    <td><%= apel_ssm_record.submitHost %></td>
+    <td><%= apel_ssm_record.machineName %></td>
+    <td><%= apel_ssm_record.queue %></td>
+    <td><%= apel_ssm_record.localJobId %></td>
+    <td><%= apel_ssm_record.localUserId %></td>
+    <td><%= apel_ssm_record.globalUserName %></td>
+    <td><%= apel_ssm_record.fqan %></td>
+    <td><%= apel_ssm_record.vo %></td>
+    <td><%= apel_ssm_record.voGroup %></td>
+    <td><%= apel_ssm_record.voRole %></td>
+    <td><%= apel_ssm_record.wallDuration %></td>
+    <td><%= apel_ssm_record.cpuDuration %></td>
+    <td><%= apel_ssm_record.processors %></td>
+    <td><%= apel_ssm_record.nodeCount %></td>
+    <td><%= apel_ssm_record.startTime %></td>
+    <td><%= apel_ssm_record.endTime %></td>
+    <td><%= apel_ssm_record.infrastructureDescription %></td>
+    <td><%= apel_ssm_record.infrastructureType %></td>
+    <td><%= apel_ssm_record.memoryReal %></td>
+    <td><%= apel_ssm_record.memoryVirtual %></td>
+    <td><%= link_to 'Show', apel_ssm_record %></td>
+    <td><%= link_to 'Edit', edit_apel_ssm_record_path(apel_ssm_record) %></td>
+    <td><%= link_to 'Destroy', apel_ssm_record, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Apel ssm record', new_apel_ssm_record_path %>

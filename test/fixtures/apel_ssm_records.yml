@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  publisher_id: 1
+  recordDate: 2014-06-26 15:34:49
+  submitHost: MyString
+  machineName: MyString
+  queue: 2014-06-26 15:34:49
+  localJobId: MyString
+  localUserId: MyString
+  globalUserName: MyString
+  fqan: MyString
+  vo: MyString
+  voGroup: 1
+  voRole: 1
+  wallDuration: 1
+  cpuDuration: 1
+  processors: MyString
+  nodeCount: 1
+  startTime: 1
+  endTime: 1
+  infrastructureDescription: MyString
+  infrastructureType: MyString
+  memoryReal: 1
+  memoryVirtual: 1
+
+two:
+  publisher_id: 1
+  recordDate: 2014-06-26 15:34:49
+  submitHost: MyString
+  machineName: MyString
+  queue: 2014-06-26 15:34:49
+  localJobId: MyString
+  localUserId: MyString
+  globalUserName: MyString
+  fqan: MyString
+  vo: MyString
+  voGroup: 1
+  voRole: 1
+  wallDuration: 1
+  cpuDuration: 1
+  processors: MyString
+  nodeCount: 1
+  startTime: 1
+  endTime: 1
+  infrastructureDescription: MyString
+  infrastructureType: MyString
+  memoryReal: 1
+  memoryVirtual: 1

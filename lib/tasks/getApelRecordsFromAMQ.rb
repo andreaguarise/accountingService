@@ -82,115 +82,8 @@ class BenchmarkRecordConverter
   end
 end
 
-class BlahRecordConverter
-  @@record_ary = Array.new
-  @@publishersCache = Hash.new
-  @@recordCount = 0
-  def initialize (n)
-    @n = n
-  end
-  
-  def self.record_ary
-    @@record_ary
-  end
-  
-  def self.recordCount
-    @@recordCount
-  end
-  
-  def import
-    #puts @@record_ary.to_json
-    #Rails.logger.info @@publishersCache.to_json
-    now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    Rails.logger.info "#{now} - Blah Record count: #{@@recordCount}"
-    valuesBuffer = ""
-    @@record_ary.each do |b|
-      b.computeUniqueId
-      valuesBuffer << "(NULL,'#{b.uniqueId}','#{b.recordDate}','#{b.recordDate}','#{b.userDN}','#{b.userFQAN}','#{b.vo}','#{b.voGroup}','#{b.voRole}','#{b.ceId}','','#{b.lrmsId}','#{b.localUser}','','#{now}','#{now}',#{b.publisher_id})"
-      if b != @@record_ary.last 
-        valuesBuffer << ","
-      end    
-    end
-    bulkInsert = "INSERT IGNORE INTO blah_records (`id`,
-`uniqueId`,
-`recordDate`,
-`timestamp`,
-`userDN`,
-`userFQAN`,
-`vo`,
-`voGroup`,
-`voRole`,
-`ceId`,
-`jobId`,
-`lrmsId`,
-`localUser`,
-`clientId`,
-`created_at`,
-`updated_at`,
-`publisher_id`) VALUES "
-    bulkInsert << valuesBuffer
-    ActiveRecord::Base.connection.execute bulkInsert
-    @@record_ary.clear
-  end
-  
-  def convert(r)
-    return if r["InfrastructureType"] == "local" # Do not pollute blah_records with non grid jobs.
-    if not @@publishersCache.key?(r["MachineName"])
-      publisher = Publisher.find_by_hostname(r["MachineName"])
-      @@publishersCache[r["MachineName"]] = publisher.id
-    end
-    if ! @@publishersCache[r["MachineName"]]
-      #Publisher does not exists.
-      site = Site.find_by_name(r["Site"])
-      rtype = ResourceType.find_by_name("Farm_grid+local") 
-      autoResource = Resource.new
-      autoResource.resource_type_id = rtype.id
-      autoResource.name = "#{r["Site"]}-autoCE"
-      Rails.logger.info "Creating Resource: #{autoResource.name}"
-      autoResource.site_id = site.id
-      autoResource.save
-      autoResource.find_by_name(autoResource.name)
-      autoPublisher = Publisher.new
-      autoPublisher.hostname = r["MachineName"]
-      Rails.logger.info "Creating Publisher: #{autoPublisher.hostname}"
-      autoPublisher.resource_id = autoResource.id
-      autoPublisher.save
-      publisher = Publisher.find_by_hostname(r["MachineName"])
-      @@publishersCache[r["MachineName"]] = publisher.id
-    end
-    if @@publishersCache[r["MachineName"]]
-      b = BlahRecord.new
-      b.publisher_id = @@publishersCache[r["MachineName"]]
-      b.ceId = r["SubmitHost"]
-      #b.clientId =
-      #b.jobId = r[""]
-      b.localUser = r["LocalUserId"] #BLAH has the numericId, APEL the local User Name. This probably should be removed from the table and the MODEL.
-      b.lrmsId = r["LocalJobId"]
-      b.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #BLAH do log at the start of the job
-      b.timestamp = r["StartTime"]
-      #b.uniqueId = ##AUTOMATICALLY INSERTED BY SERVER in MODEL
-      b.userDN = r["GlobalUserName"]
-      b.userFQAN = r["FQAN"]
-      b.vo = r["VO"]
-      b.voGroup = r["VOGroup"]
-      b.voRole = r["VORole"]
-      @@record_ary << b
-      @@recordCount = @@recordCount + 1;
-      #puts @@record_ary.length
-      if ( @@record_ary.length >= @n )
-        self.import
-      end
-      #puts "RecordDate --> **#{b.recordDate.to_s}**"
-      #puts "publisher_id --> #{b.publisher_id}"
-    end
-    #puts "MachineName --> **#{r["MachineName"]}**"
-    
-  end
-  
-  
-end
 
-class EventRecordConverter
+class ApelSsmRecordConverter
   @@record_ary = Array.new
   @@publishersCache = Hash.new
   @@recordCount = 0
@@ -201,46 +94,45 @@ class EventRecordConverter
   def import
     #puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    Rails.logger.info "#{now} - Event Record count: #{@@recordCount}"
+    Rails.logger.info "#{now} - Apel SSM Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
       Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.lrmsId}"
       if ( ! e.recordDate ) || ( ! e.lrmsId )
         Rails.logger.info "#{now} #{e.to_json}"
       end
-      e.computeUniqueId
-      valuesBuffer << "(NULL,'#{e.uniqueId}','#{e.recordDate}','#{e.lrmsId}','#{e.localUser}','','','#{e.queue}','','','',#{e.start},'#{e.execHost}',#{e.resourceList_nodect},'','','',#{e.end},'',#{e.resourceUsed_cput},#{e.resourceUsed_mem},#{e.resourceUsed_vmem},#{e.resourceUsed_walltime},'#{now}','#{now}',#{e.publisher_id})"
+      valuesBuffer << "(NULL,#{e.publisher_id},'#{e.recordDate}','#{e.submitHost}','#{e.machineName}','#{e.queue}','#{e.lrmsId}','#{e.localUser}','#{e.globalUserName}','#{e.fqan}','#{e.vo}','#{e.voGroup}','#{e.voRole}',#{e.wallDuration},#{e.cpuDuration},#{e.processors},#{e.nodeCount},#{e.startTime},#{e.endTime},'#{e.infrastructureDescription}','#{e.infrastructureType}',#{e.memoryReal},#{e.memoryVirtual},'#{now}','#{now}')"
       if e != @@record_ary.last 
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT IGNORE INTO batch_execute_records
+    bulkInsert = "INSERT IGNORE INTO apel_ssm_records
 (`id`,
-`uniqueId`,
+`publisher_id`,
 `recordDate`,
-`lrmsId`,
-`localUser`,
-`localGroup`,
-`jobName`,
+`submitHost`,
+`machineName`,
 `queue`,
-`ctime`,
-`qtime`,
-`etime`,
-`start`,
-`execHost`,
-`resourceList_nodect`,
-`resourceList_nodes`,
-`resourceList_walltime`,
-`session`,
-`end`,
-`exitStatus`,
-`resourceUsed_cput`,
-`resourceUsed_mem`,
-`resourceUsed_vmem`,
-`resourceUsed_walltime`,
+`localJobId`,
+`localUserId`,
+`globalUserName`,
+`fqan`,
+`vo`,
+`voGroup`,
+`voRole`,
+`wallDuration`,
+`cpuDuration`,
+`processors`,
+`nodeCount`,
+`startTime`,
+`endTime`,
+`infrastructureDescription`,
+`infrastructureType`,#
+`memoryReal`,
+`memoryVirtual`,
 `created_at`,
-`updated_at`,
-`publisher_id`)
+`updated_at`
+)
 VALUES "
     bulkInsert << valuesBuffer
     ActiveRecord::Base.connection.execute bulkInsert
@@ -277,31 +169,30 @@ VALUES "
     end
     
     if @@publishersCache[r["MachineName"]]
-      e = BatchExecuteRecord.new
-      #e.ctime =
-      e.end = r["EndTime"]
-      #e.etime =
-      e.execHost = r["MachineName"]
-      #e.exitStatus =
-      #e.localGroup = 
-      #e.jobName =
+      e = ApelSsmRecord.new
+      e.machineName = r["MachineName"]
+      e.submitHost = r["SubmitHost"]
       e.lrmsId = r["LocalJobId"]
       e.publisher_id = @@publishersCache[r["MachineName"]]
-      #e.qtime =
       e.queue = r["Queue"]
       e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do lag at the end of the job
-      #e.resourceList_walltime = 
-      e.resourceList_nodect = r["Processors"]
-      #e.resourceList_nodes =
-      e.resourceUsed_cput = r["CpuDuration"] #seconds
-      e.resourceUsed_mem = r["MemoryReal"] #KBytes
-      e.resourceUsed_vmem = r["MemoryVirtual"] #Kbytes
-      e.resourceUsed_walltime = r["WallDuration"] #seconds
-      #e.session =
-      e.start = r["StartTime"]
-      #e.uniqueId = "" #AUTOMATICALLY INSERTED BY SERVER in MODEL
+      e.processors = r["Processors"]
+      e.nodeCount = r["NodeCount"]
+      e.cpuDuration = r["CpuDuration"] #seconds
+      e.memoryReal = r["MemoryReal"] #KBytes
+      e.memoryVirtual = r["MemoryVirtual"] #Kbytes
+      e.wallDuration = r["WallDuration"] #seconds
+      e.startTime = r["StartTime"]
+      e.endTime = r["EndTime"]
       e.localUser = r["LocalUserId"]
       e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      e.globaUserName = r["GlobalUserName"]
+      e.fqan = r["FQAN"]
+      e.vo = r["VO"]
+      e.voGroup = r["VOGroup"]
+      e.voRole = r["VORole"]
+      e.infrastructureDescription = r["InfrastructureDescription"]
+      e.infrastructureType = r["InfrastructureType"]
     
       @@record_ary << e
       @@recordCount = @@recordCount + 1;
@@ -349,9 +240,6 @@ class SSMMessage
   end
   
 end
-
-
-
 
 
 class ApelSSMRecords
@@ -453,14 +341,12 @@ class ApelSSMRecords
         begin
           records = ssm_msg.parse
           next if not records
-          blah = BlahRecordConverter.new(@options[:bulk])
-          event = EventRecordConverter.new(@options[:bulk])
+          event = ApelSsmRecordConverter.new(@options[:bulk])
           benchmark = BenchmarkRecordConverter.new
           records.each do |r|
             if records.length >= @options[:bulk]
                #treat case when there are at least n records to be bulk processed
                 event.convert(r)
-                blah.convert(r)
                 benchmark.convert(r)
            else
                 Rails.logger.info "#{records.length} remaining in message --> Single insert."
@@ -468,9 +354,6 @@ class ApelSSMRecords
                 partialEvent = EventRecordConverter.new(records.length) if not partialEvent
                 Rails.logger.debug "Do single Event"
                 partialEvent.convert(r)
-                partialBlah = BlahRecordConverter.new(records.length) if not partialBlah
-                Rails.logger.debug "Do single Blah"
-               partialBlah.convert(r)
                 benchmark.convert(r) #we do not do bulk insert for benchmarks
             end
           end

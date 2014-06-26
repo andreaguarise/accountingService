@@ -1,0 +1,105 @@
+<%= form_for(@apel_ssm_record) do |f| %>
+  <% if @apel_ssm_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@apel_ssm_record.errors.count, "error") %> prohibited this apel_ssm_record from being saved:</h2>
+
+      <ul>
+      <% @apel_ssm_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :publisher_id %><br />
+    <%= f.number_field :publisher_id %>
+  </div>
+  <div class="field">
+    <%= f.label :recordDate %><br />
+    <%= f.datetime_select :recordDate %>
+  </div>
+  <div class="field">
+    <%= f.label :submitHost %><br />
+    <%= f.text_field :submitHost %>
+  </div>
+  <div class="field">
+    <%= f.label :machineName %><br />
+    <%= f.text_field :machineName %>
+  </div>
+  <div class="field">
+    <%= f.label :queue %><br />
+    <%= f.datetime_select :queue %>
+  </div>
+  <div class="field">
+    <%= f.label :localJobId %><br />
+    <%= f.text_field :localJobId %>
+  </div>
+  <div class="field">
+    <%= f.label :localUserId %><br />
+    <%= f.text_field :localUserId %>
+  </div>
+  <div class="field">
+    <%= f.label :globalUserName %><br />
+    <%= f.text_field :globalUserName %>
+  </div>
+  <div class="field">
+    <%= f.label :fqan %><br />
+    <%= f.text_field :fqan %>
+  </div>
+  <div class="field">
+    <%= f.label :vo %><br />
+    <%= f.text_field :vo %>
+  </div>
+  <div class="field">
+    <%= f.label :voGroup %><br />
+    <%= f.number_field :voGroup %>
+  </div>
+  <div class="field">
+    <%= f.label :voRole %><br />
+    <%= f.number_field :voRole %>
+  </div>
+  <div class="field">
+    <%= f.label :wallDuration %><br />
+    <%= f.number_field :wallDuration %>
+  </div>
+  <div class="field">
+    <%= f.label :cpuDuration %><br />
+    <%= f.number_field :cpuDuration %>
+  </div>
+  <div class="field">
+    <%= f.label :processors %><br />
+    <%= f.text_field :processors %>
+  </div>
+  <div class="field">
+    <%= f.label :nodeCount %><br />
+    <%= f.number_field :nodeCount %>
+  </div>
+  <div class="field">
+    <%= f.label :startTime %><br />
+    <%= f.number_field :startTime %>
+  </div>
+  <div class="field">
+    <%= f.label :endTime %><br />
+    <%= f.number_field :endTime %>
+  </div>
+  <div class="field">
+    <%= f.label :infrastructureDescription %><br />
+    <%= f.text_field :infrastructureDescription %>
+  </div>
+  <div class="field">
+    <%= f.label :infrastructureType %><br />
+    <%= f.text_field :infrastructureType %>
+  </div>
+  <div class="field">
+    <%= f.label :memoryReal %><br />
+    <%= f.number_field :memoryReal %>
+  </div>
+  <div class="field">
+    <%= f.label :memoryVirtual %><br />
+    <%= f.number_field :memoryVirtual %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

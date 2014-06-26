@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :apel_ssm_records
+
+
   resources :cpu_grid_summaries do
     collection do
       get 'stats'

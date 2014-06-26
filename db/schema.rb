@@ -10,7 +10,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140626143228) do
+ActiveRecord::Schema.define(:version => 20140626143229) do
+
+  create_table "apel_ssm_records", :force => true do |t|
+    t.integer  "publisher_id"
+    t.datetime "recordDate"
+    t.string   "submitHost"
+    t.string   "machineName"
+    t.datetime "queue"
+    t.string   "localJobId"
+    t.string   "localUserId"
+    t.string   "globalUserName"
+    t.string   "fqan"
+    t.string   "vo"
+    t.integer  "voGroup"
+    t.integer  "voRole"
+    t.integer  "wallDuration"
+    t.integer  "cpuDuration"
+    t.string   "processors"
+    t.integer  "nodeCount"
+    t.integer  "startTime"
+    t.integer  "endTime"
+    t.string   "infrastructureDescription"
+    t.string   "infrastructureType"
+    t.integer  "memoryReal"
+    t.integer  "memoryVirtual"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
