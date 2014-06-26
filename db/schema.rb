@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140626100314) do
+ActiveRecord::Schema.define(:version => 20140626143228) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(:version => 20140626100314) do
   end
 
   create_table "cpu_grid_norm_records", :id => false, :force => true do |t|
-    t.integer  "id",                              :default => 0
+    t.integer  "id",                 :default => 0
     t.integer  "publisher_id"
     t.string   "lrmsId"
     t.datetime "recordDate"
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(:version => 20140626100314) do
     t.string   "vo"
     t.string   "voGroup"
     t.string   "voRole"
-    t.integer  "benchmark_value_id", :limit => 8
+    t.integer  "benchmark_value_id", :default => 0
   end
 
   create_table "cpu_grid_summaries", :id => false, :force => true do |t|
