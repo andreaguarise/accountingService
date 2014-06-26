@@ -97,11 +97,11 @@ class ApelSsmRecordConverter
     Rails.logger.info "#{now} - Apel SSM Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
-      Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.lrmsId}"
-      if ( ! e.recordDate ) || ( ! e.lrmsId )
+      Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.localJobId}"
+      if ( ! e.recordDate ) || ( ! e.localJobId )
         Rails.logger.info "#{now} #{e.to_json}"
       end
-      valuesBuffer << "(NULL,#{e.publisher_id},'#{e.recordDate}','#{e.submitHost}','#{e.machineName}','#{e.queue}','#{e.lrmsId}','#{e.localUser}','#{e.globalUserName}','#{e.fqan}','#{e.vo}','#{e.voGroup}','#{e.voRole}',#{e.wallDuration},#{e.cpuDuration},#{e.processors},#{e.nodeCount},#{e.startTime},#{e.endTime},'#{e.infrastructureDescription}','#{e.infrastructureType}',#{e.memoryReal},#{e.memoryVirtual},'#{now}','#{now}')"
+      valuesBuffer << "(NULL,#{e.publisher_id},'#{e.recordDate}','#{e.submitHost}','#{e.machineName}','#{e.queue}','#{e.localJobId}','#{e.localUserId}','#{e.globalUserName}','#{e.fqan}','#{e.vo}','#{e.voGroup}','#{e.voRole}',#{e.wallDuration},#{e.cpuDuration},#{e.processors},#{e.nodeCount},#{e.startTime},#{e.endTime},'#{e.infrastructureDescription}','#{e.infrastructureType}',#{e.memoryReal},#{e.memoryVirtual},'#{now}','#{now}')"
       if e != @@record_ary.last 
         valuesBuffer << ","
       end    
@@ -172,7 +172,7 @@ VALUES "
       e = ApelSsmRecord.new
       e.machineName = r["MachineName"]
       e.submitHost = r["SubmitHost"]
-      e.lrmsId = r["LocalJobId"]
+      e.localJobId = r["LocalJobId"]
       e.publisher_id = @@publishersCache[r["MachineName"]]
       e.queue = r["Queue"]
       e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do lag at the end of the job
@@ -184,9 +184,9 @@ VALUES "
       e.wallDuration = r["WallDuration"] #seconds
       e.startTime = r["StartTime"]
       e.endTime = r["EndTime"]
-      e.localUser = r["LocalUserId"]
+      e.localUserId = r["LocalUserId"]
       e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
-      e.globaUserName = r["GlobalUserName"]
+      e.globalUserName = r["GlobalUserName"]
       e.fqan = r["FQAN"]
       e.vo = r["VO"]
       e.voGroup = r["VOGroup"]
