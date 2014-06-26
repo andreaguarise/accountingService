@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140619143328) do
+ActiveRecord::Schema.define(:version => 20140626100314) do
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20140619143328) do
   create_table "benchmark_values", :force => true do |t|
     t.integer  "benchmark_type_id"
     t.float    "value"
-    t.datetime "date"
+    t.date     "date"
     t.integer  "publisher_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
@@ -186,20 +186,6 @@ ActiveRecord::Schema.define(:version => 20140619143328) do
   end
 
   create_table "cpu_grid_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                                            :default => 0
-    t.date    "date"
-    t.integer "publisher_id"
-    t.string  "userDN"
-    t.string  "vo"
-    t.string  "FQAN"
-    t.integer "records",           :limit => 8,                                :default => 0, :null => false
-    t.decimal "cput",                           :precision => 32, :scale => 0
-    t.decimal "wallt",                          :precision => 32, :scale => 0
-    t.float   "benchmark_value"
-    t.integer "benchmark_type_id"
-  end
-
-  create_table "cpu_grid_summaries_tentative", :id => false, :force => true do |t|
     t.integer "id",                                                            :default => 0
     t.date    "date"
     t.integer "publisher_id"
