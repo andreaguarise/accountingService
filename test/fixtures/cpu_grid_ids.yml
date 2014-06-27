@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  batch_execute_record_id: 1
-  blah_record_id: 1
-
-two:
-  batch_execute_record_id: 1
-  blah_record_id: 1

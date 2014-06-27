@@ -38,10 +38,5 @@ class CpuGridNormRecordsController < ApplicationController
     end
   end
 
-  # GET /cpu_grid_norm_records/1/edit
-  def edit
-    @cpu_grid_norm_record = CpuGridNormRecord.find(params[:id])
-  end
-
  
 end

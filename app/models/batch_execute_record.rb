@@ -4,7 +4,6 @@ class BatchExecuteRecord < ActiveRecord::Base
   before_validation :computeUniqueId
   validates :publisher_id, :presence => true, :on => :create
   validates :uniqueId, :uniqueness => true, :on => :create
-  has_many :grid_cpu_record
   has_many :benchmark_values, :through => :publisher
   belongs_to :publisher
   delegate :benchmark_value, :to => :publisher
