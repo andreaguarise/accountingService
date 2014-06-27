@@ -65,7 +65,7 @@ class BenchmarkRecordConverter
         #puts "lastBenchmark inserting #{r["MachineName"]} --> #{@@lastBenchmark[r["MachineName"]]}"
       end
       #puts "lastBenchmark:#{r["MachineName"]} --> #{r["EndTime"]} -- #{@@lastBenchmark[r["MachineName"]]}"
-      if r["EndTime"].to_i - @@lastBenchmark[r["MachineName"]].to_i > 86400
+      if r["EndTime"].to_i - @@lastBenchmark[r["MachineName"]].to_i > 3600
         bt = BenchmarkType.new
         ##GO on by creating ActiveRecord benchmarkvalue object and saving it.
         if (r["ServiceLevelType"] == "si2k" )
