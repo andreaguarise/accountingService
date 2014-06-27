@@ -10,21 +10,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140626143229) do
+ActiveRecord::Schema.define(:version => 20140627100314) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
     t.datetime "recordDate"
     t.string   "submitHost"
     t.string   "machineName"
-    t.datetime "queue"
+    t.string   "queue"
     t.string   "localJobId"
     t.string   "localUserId"
     t.string   "globalUserName"
     t.string   "fqan"
     t.string   "vo"
-    t.integer  "voGroup"
-    t.integer  "voRole"
+    t.string   "voGroup"
+    t.string   "voRole"
     t.integer  "wallDuration"
     t.integer  "cpuDuration"
     t.string   "processors"
@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(:version => 20140626143229) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
   end
+
+  add_index "apel_ssm_records", ["publisher_id"], :name => "index_apel_ssm_records_on_publisher_id"
+  add_index "apel_ssm_records", ["recordDate"], :name => "index_apel_ssm_records_on_recordDate"
+  add_index "apel_ssm_records", ["vo"], :name => "index_apel_ssm_records_on_vo"
 
   create_table "batch_execute_records", :force => true do |t|
     t.string   "uniqueId"
@@ -185,50 +189,47 @@ ActiveRecord::Schema.define(:version => 20140626143229) do
     t.decimal "cpuCount",        :precision => 12, :scale => 6
   end
 
-  create_table "cpu_grid_ids", :id => false, :force => true do |t|
-    t.integer "id",                      :default => 0, :null => false
-    t.integer "batch_execute_record_id", :default => 0, :null => false
-    t.integer "blah_record_id",          :default => 0, :null => false
-  end
-
   create_table "cpu_grid_norm_records", :id => false, :force => true do |t|
-    t.integer  "id",                 :default => 0
+    t.integer  "id",                        :default => 0, :null => false
     t.integer  "publisher_id"
-    t.string   "lrmsId"
     t.datetime "recordDate"
-    t.string   "localUser"
-    t.string   "execHost"
-    t.integer  "nodect"
-    t.integer  "nodes"
-    t.integer  "cput"
-    t.integer  "wallt"
-    t.integer  "pmem"
-    t.integer  "vmem"
-    t.string   "userDN"
-    t.string   "FQAN"
+    t.string   "submitHost"
+    t.string   "machineName"
+    t.string   "queue"
+    t.string   "localJobId"
+    t.string   "localUserId"
+    t.string   "globalUserName"
+    t.string   "fqan"
     t.string   "vo"
     t.string   "voGroup"
     t.string   "voRole"
-    t.integer  "benchmark_value_id", :default => 0
+    t.integer  "wallDuration"
+    t.integer  "cpuDuration"
+    t.string   "processors"
+    t.integer  "nodeCount"
+    t.integer  "startTime"
+    t.integer  "endTime"
+    t.string   "infrastructureDescription"
+    t.string   "infrastructureType"
+    t.integer  "memoryReal"
+    t.integer  "memoryVirtual"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.integer  "benchmark_value_id",        :default => 0
   end
 
   create_table "cpu_grid_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                                            :default => 0
+    t.integer "id",                                                            :default => 0, :null => false
     t.date    "date"
     t.integer "publisher_id"
-    t.string  "userDN"
+    t.string  "globalUserName"
     t.string  "vo"
-    t.string  "FQAN"
+    t.string  "fqan"
     t.integer "records",           :limit => 8,                                :default => 0, :null => false
-    t.decimal "cput",                           :precision => 32, :scale => 0
-    t.decimal "wallt",                          :precision => 32, :scale => 0
+    t.decimal "cpuDuration",                    :precision => 32, :scale => 0
+    t.decimal "wallDuration",                   :precision => 32, :scale => 0
     t.float   "benchmark_value"
     t.integer "benchmark_type_id"
-  end
-
-  create_table "cpu_local_ids", :id => false, :force => true do |t|
-    t.integer "id",                      :default => 0, :null => false
-    t.integer "batch_execute_record_id", :default => 0, :null => false
   end
 
   create_table "database_descrs", :force => true do |t|
