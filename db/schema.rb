@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140627100314) do
+ActiveRecord::Schema.define(:version => 20140627111040) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20140627100314) do
     t.datetime "updated_at",                :null => false
   end
 
+  add_index "apel_ssm_records", ["localJobId", "recordDate"], :name => "unique_index", :unique => true
   add_index "apel_ssm_records", ["publisher_id"], :name => "index_apel_ssm_records_on_publisher_id"
   add_index "apel_ssm_records", ["recordDate"], :name => "index_apel_ssm_records_on_recordDate"
   add_index "apel_ssm_records", ["vo"], :name => "index_apel_ssm_records_on_vo"

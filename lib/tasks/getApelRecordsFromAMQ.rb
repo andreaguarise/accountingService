@@ -301,6 +301,11 @@ class ApelSSMRecords
       opt.on( '-D', '--Deaddir path', 'Path to directory used as dead letter repository, for apel SSM to resend it to queue') do |dir|
         @options[:deaddir] = dir
       end
+      
+      @options[:backupDir] = nil
+      opt.on( '-b', '--backupdirr path', 'Path to directory used as backup msg repository') do |dir|
+        @options[:backupDir] = dir
+      end
 
       opt.on( '-h', '--help', 'Print this screen') do
         puts opt
@@ -340,6 +345,10 @@ class ApelSSMRecords
         Rails.logger.debug "#{ssm_msg}"
         begin
           records = ssm_msg.parse
+          if ( @options[:backupDir] != nil )
+            bck = DeadMessage.new(@msg.body,@options[:backupDir])
+            bck.write
+          end
           next if not records
           event = ApelSsmRecordConverter.new(@options[:bulk])
           benchmark = BenchmarkRecordConverter.new

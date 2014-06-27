@@ -44,9 +44,13 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     google_visualr (2.1.7)
+    graphite-api (0.1.4)
+      eventmachine (>= 0.3.3)
+      zscheduler (>= 0.0.3)
     highline (1.6.19)
     hike (1.2.2)
     i18n (0.6.4)
@@ -123,6 +127,8 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     will_paginate (3.0.4)
+    zscheduler (0.0.5)
+      eventmachine
 
 PLATFORMS
   ruby
@@ -132,6 +138,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 3.2.1)
   google_visualr (>= 2.1)
+  graphite-api
   jquery-rails
   json
   minitest
