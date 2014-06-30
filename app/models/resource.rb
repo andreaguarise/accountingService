@@ -11,7 +11,7 @@ class Resource < ActiveRecord::Base
   has_many :local_cpu_summaries, :through => :publishers
   has_many :grid_cpu_records, :through => :publishers
   has_many :cloud_records, :through => :publishers
-  has_many :blah_records, :through => :publishers
+  has_many :apel_ssm_records, :through => :publishers
   has_many :batch_execute_records, :through => :publishers
   has_many :emi_storage_records, :through => :publishers
   has_many :database_schemes, :through => :publishers

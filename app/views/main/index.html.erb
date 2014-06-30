@@ -13,8 +13,8 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Cloud Records</th>
-    <th>Blah Records</th>
+    <th>Cloud CPU Records</th>
+    <th>Apel CPU Records</th>
     <th>Batch CPU Records</th>
     <th>Grid Storage Records</th>
   </tr>
@@ -23,7 +23,7 @@
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= link_to site.name, site %></td>
     <td><%= @cloudBySite[site.id] %></td>
-    <td><%= @blahBySite[site.id] %></td>
+    <td><%= @apelBySite[site.id] %></td>
     <td><%= @batchBySite[site.id] %></td>
     <td><%= @emiStorageBySite[site.name] %></td>
   </tr>

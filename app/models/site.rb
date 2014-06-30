@@ -4,7 +4,7 @@ class Site < ActiveRecord::Base
   has_many :resources, :dependent => :destroy
   has_many :publishers, :through => :resources
   has_many :cloud_records, :through => :resources
-  has_many :blah_records, :through => :resources
+  has_many :apel_ssm_records, :through => :resources
   has_many :batch_execute_records, :through => :resources
   has_many :local_cpu_records, :through => :resources
   has_many :cloud_record_summaries, :dependent => :destroy
