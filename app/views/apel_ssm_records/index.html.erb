@@ -30,7 +30,7 @@
   </tr>
 
 <% @apel_ssm_records.each do |apel_ssm_record| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even")%>" >
     <td><%= apel_ssm_record.publisher_id %></td>
     <td><%= apel_ssm_record.recordDate %></td>
     <td><%= apel_ssm_record.submitHost %></td>
@@ -61,5 +61,7 @@
 </table>
 
 <br />
+
+<div id="pagination"><%= will_paginate @apel_ssm_records %></div>
 
 <%= link_to 'New Apel ssm record', new_apel_ssm_record_path %>

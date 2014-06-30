@@ -5,9 +5,20 @@ require 'date'
 require 'graphite-api'
 
 class Table
-  def initialize (tableName, timeField )
-    @tableName = tableName
+  def initialize (obj, timeField,fromDate )
+    @fromDate = fromDate
+    @tableName = obj.table_name
+    @obj = obj
     @timeField = timeField
+  end
+  
+  def result
+    result = @obj.select("date(#{@timeField}) as d, 
+          hour(#{@timeField}) as h")
+    result = result.select("
+          UNIX_TIMESTAMP(#{@timeField}) as timestamp")
+    result = result.where("#{@timeField}>'#{@fromDate}'")
+    result = result.group("d,h")
   end
   
   def tableName
@@ -67,36 +78,30 @@ class DbToGraphite
   def main
     self.getLineParameters
     client = GraphiteAPI.new( :graphite => @options[:graphiteUrl] )
-    date = @options[:date]
     ##INSERT HERE BLOCKS FOR query/metrics import
     
-      table= Table.new("cpu_grid_norm_records","recordDate")
-      result = CpuGridNormRecord.joins(:publisher => [:resource => :site])
-      result = result.select("date(recordDate) as d, 
-          hour(recordDate) as h,
-          UNIX_TIMESTAMP(recordDate) as timestamp,
-          `sites`.`name` as siteName ,
-          vo,
+      t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
+      result = t.result.joins(:publisher => [:resource => :site])
+      result = result.select("
+          `sites`.`name` as siteName , vo,
           sum(wallDuration) as wallDuration, 
           sum(cpuDuration) as cpuDuration, 
           count(*) as count")
-      result = result.group("d,h,vo")
-      result = result.where("#{table.timeField}>'#{date}'")   
+      result = result.group("siteName,vo")
       result.each do |r|
-      puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']},#{r['vo']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
-       
-       if !@options[:dryrun] 
-       client.metrics({
-        "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.cpuDuration" => r['cpuDuration'].to_f/3600,
-        "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.wallDuration" => r['wallDuration'].to_f/3600,
-        "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.count" => r['count'],
-        "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.cpuDuration" => r['cpuDuration'].to_f/3600,
-        "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.wallDuration" => r['wallDuration'].to_f/3600,
-        "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.count" => r['count']
-        },Time.at(r['timestamp'].to_i))
-         date = r['recordDate']
-       end
-     end
+        puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']},#{r['vo']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        metrs = {
+            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.count" => r['count'],
+            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.count" => r['count']
+            }
+        if !@options[:dryrun] 
+          client.metrics(metrs,Time.at(r['timestamp'].to_i))
+        end
+      end
     ##
   end
   

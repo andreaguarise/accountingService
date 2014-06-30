@@ -2,7 +2,7 @@ class CpuGridNormRecordsController < ApplicationController
   # GET /cpu_grid_norm_records
   # GET /cpu_grid_norm_records.json
   def index
-    @cpu_grid_norm_records = CpuGridNormRecord.all
+    @cpu_grid_norm_records = CpuGridNormRecord.paginate( :page=>params[:page], :per_page => config.itemsPerPage).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,12 +14,10 @@ class CpuGridNormRecordsController < ApplicationController
   def stats
     
     @graphs ={}
-    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.count),"1d")'] = "&from=-15days"
-    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.cput),"1d")'] = "&from=-15days"
-    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records_by_fqan.*.wallt),"1d")'] = "&from=-15days"
-    @graphs['summarize(faust.cpu_grid_norm_records_by_fqan.*.count,"1d")'] = "&from=-5days"
-
-    logger.info "test #{config.itemsPerPageHTML.to_s}"
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records.by_site.*.by_vo.*.count),"1d")'] = "&from=-30days"
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records.by_site.*.by_vo.*.cpuDuration),"1d")'] = "&from=-30days"
+    @graphs['summarize(sumSeries(faust.cpu_grid_norm_records.by_site.*.by_vo.*.wallDuration),"1d")'] = "&from=-30days"
+    @graphs['summarize(faust.cpu_grid_norm_records.by_site.*.by_vo.*.count,"1d")'] = "&from=-60days"
     
     respond_to do |format|
       format.html # index.html.erb
