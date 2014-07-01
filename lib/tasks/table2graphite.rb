@@ -5,6 +5,15 @@ require 'date'
 require 'graphite-api'
 require 'open-uri'
 
+class String
+  def mgsub(key_value_pairs=[].freeze)
+         regexp_fragments = key_value_pairs.collect { |k,v| k }
+         gsub(Regexp.union(*regexp_fragments)) do |match|
+           key_value_pairs.detect{|k,v| k =~ match}[1]
+         end
+  end
+end
+
 class Table
   def initialize (obj, timeField,fromDate )
     @fromDate = fromDate
@@ -76,8 +85,10 @@ class DbToGraphite
     opt_parser.parse!
   end
   
+  
+  
   def uenc(s)
-    enc =URI::encode(s, "?.[{}]/\ ")
+    enc = s.mgsub([[/\./ , '_'],[/\// , '_']])
     enc
   end
   
