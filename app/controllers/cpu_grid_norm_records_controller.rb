@@ -7,7 +7,7 @@ class CpuGridNormRecordsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @cpu_grid_norm_records }
-      format.xml { render :xml => @cpu_grid_norm_records }
+      format.xml { render :xml => @cpu_grid_norm_records.to_xml(:include =>{:resource => {:include => :site}}) }
     end
   end
   

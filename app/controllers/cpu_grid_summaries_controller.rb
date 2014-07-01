@@ -19,7 +19,7 @@ class CpuGridSummariesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @cpu_grid_summaries }
-      format.xml { render :xml => @cpu_grid_summaries }
+      format.xml { render :xml => @cpu_grid_summaries.to_xml(:include =>{:resource => {:include => :site}}) }
     end
   end
 

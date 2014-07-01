@@ -3,6 +3,7 @@ require 'rubygems'
 require 'optparse'
 require 'date'
 require 'graphite-api'
+require 'open-uri'
 
 class Table
   def initialize (obj, timeField,fromDate )
@@ -75,6 +76,11 @@ class DbToGraphite
     opt_parser.parse!
   end
   
+  def uenc(s)
+    enc =URI::encode(s, "?.[{}]/\ ")
+    enc
+  end
+  
   def main
     self.getLineParameters
     client = GraphiteAPI.new( :graphite => @options[:graphiteUrl] )
@@ -82,27 +88,41 @@ class DbToGraphite
     
       t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
       result = t.result.joins(:publisher => [:resource => :site])
+      result = result.joins(:benchmark_value)
       result = result.select("
           `sites`.`name` as siteName , vo,
           sum(wallDuration) as wallDuration, 
-          sum(cpuDuration) as cpuDuration, 
+          sum(cpuDuration) as cpuDuration,
+          sum(memoryReal) as memoryReal,
+          sum(memoryVirtual) as memoryVirtual,
+          avg(benchmark_values.value) as benchmarkValue, 
           count(*) as count")
       result = result.group("siteName,vo")
       result.each do |r|
-        puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']},#{r['vo']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
-            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.cpuDuration" => r['cpuDuration'].to_f/3600,
-            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.wallDuration" => r['wallDuration'].to_f/3600,
-            "faust.cpu_grid_norm_records.by_site.#{r['siteName']}.by_vo.#{r['vo']}.count" => r['count'],
-            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.cpuDuration" => r['cpuDuration'].to_f/3600,
-            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.wallDuration" => r['wallDuration'].to_f/3600,
-            "faust.cpu_grid_norm_records.by_vo.#{r['vo']}.by_site.#{r['siteName']}.count" => r['count']
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.si2k" => r['benchmarkValue'],
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.si2k" => r['benchmarkValue']
             }
         if !@options[:dryrun] 
           client.metrics(metrs,Time.at(r['timestamp'].to_i))
         end
       end
     ##
+    
+    
   end
   
 end
