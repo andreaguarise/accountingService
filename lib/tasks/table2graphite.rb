@@ -128,7 +128,7 @@ class DbToGraphite
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.si2k" => r['benchmarkValue']
             }
         if !@options[:dryrun] 
-          client.metrics(metrs,Time.at(r['timestamp'].to_i))
+          client.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
       end
     ##
@@ -157,7 +157,7 @@ class DbToGraphite
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.si2k" => r['benchmarkValue']
             }
         if !@options[:dryrun] 
-          client.metrics(metrs,Time.at(r['timestamp'].to_i))
+          client.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
       end
     ##
@@ -174,7 +174,7 @@ class DbToGraphite
           count(*) as count")
       result = result.group("vo")
       result.each do |r|
-        puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        puts "#{r['siteName']} ---- date: #{"#{r['d']} #{r['h']}:00".to_datetime},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpuDuration" => r['cpuDuration'].to_f/3600,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.wallDuration" => r['wallDuration'].to_f/3600,
@@ -185,7 +185,7 @@ class DbToGraphite
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.si2k" => r['benchmarkValue']
             }
         if !@options[:dryrun] 
-          client.metrics(metrs,Time.at(r['timestamp'].to_i))
+          client.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
       end
     
