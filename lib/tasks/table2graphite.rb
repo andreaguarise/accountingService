@@ -188,7 +188,36 @@ class DbToGraphite
           client.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
       end
-    
+    ##
+    t= Table.new(CloudRecordSummary,"date",@options[:date])
+      result = t.result.joins(:site)
+      result = result.select("
+          `sites`.`name` as siteName,
+          local_group,
+          local_user,
+          status,
+          vmCount, 
+          cpuDuration,
+          wallDuration,
+          networkInbound,
+          networkOutbound,
+          cpuCount,
+          memory")
+      result.each do |r|
+        puts "#{r['siteName']} ---- date: #{"#{r['d']} #{r['h']}:00".to_datetime}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['vmCount']}"
+        metrs = {
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.vmCount" => r['vmCount'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.networkInbound" => r['networkInbound'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.networkOutbound" => r['networkOutbound'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuCount" => r['cpuCount'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.memory" => r['memory'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuDuration" => r['cpuDuration'].to_f/3600
+            }
+        if !@options[:dryrun] 
+          client.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
+        end
+      end
     
   end
   
