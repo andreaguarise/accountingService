@@ -73,12 +73,12 @@ class CloudRecordsController < ApplicationController
       end
    end
     
-    @cloud_records = CloudRecord.joins(:publisher,:resource,:site).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('cloud_records.id desc',params).where(whereBuffer).all 
+    @cloud_records = CloudRecord.joins(:publisher,:resource,:site).orderByParms('cloud_records.id desc',params).where(whereBuffer).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).all 
     
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
-      format.xml { render :xml => @cloud_record.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
+      format.json { render :json => @cloud_records.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }
+      format.xml { render :xml => @cloud_records.to_xml(:include => { :site => {:only => :name} , :resource => {:only => :name} } )}
     end
   end
 
