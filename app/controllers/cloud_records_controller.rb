@@ -50,35 +50,9 @@ class CloudRecordsController < ApplicationController
     @stats[:records_pages]= (CloudRecord.count/250.0).ceil
     @stats[:earliest_record] = CloudRecord.minimum(:endTime)
     @stats[:latest_record] = CloudRecord.maximum(:endTime)
-    startFrom = "2007-04-06".to_date
-    if @stats[:latest_record]
-      startFrom = @stats[:latest_record].to_date-90 
-    end
-    endFrom = @stats[:latest_record]
-
-    data_table = GoogleVisualr::DataTable.new
-    # Add Column Headers
-    data_table.new_column('date', 'date' )
-    data_table.new_column('number', 'running')
-    data_table.new_column('number', 'not running')
-
-    # Add Rows and Values
-
-    all_ary = CloudRecord.select("date(endTime)as ordered_date,hour(endTime) as ordered_hour,minute(endTime) as ordered_minute,count(id) as all_count").group('ordered_date,ordered_hour,ordered_minute').order('ordered_date')  
-    running_ary = CloudRecord.select("date(endTime)as ordered_date,hour(endTime) as ordered_hour,minute(endTime) as ordered_minute,count(localVMID) as running_count").where("status=\"RUNNING\"").group('ordered_date,ordered_hour,ordered_minute').order('ordered_date')
     
-    graph_hash = {}
-    
-    all_ary.each do |row|
-      graph_hash[row.ordered_date] = row.all_count
-    end
-    
-    running_ary.each do |row|
-      data_table.add_row([row.ordered_date.to_date,row.running_count,graph_hash[row.ordered_date]-row.running_count])
-    end
-    
-    option = { :width => 1100, :height => 650, :title => 'Running VMs', :hAxis => {:minValue => startFrom, :maxValue => endFrom }}
-    @chart = GoogleVisualr::Interactive::AreaChart.new(data_table, option)
+    @graphs ={}
+    @graphs['aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site.*.by_status.RUNNING.by_group.*.by_user.*.vmCount,"1d","avg")),10)'] = "&from=-90days"
 
     respond_to do |format|
       format.html # index.html.erb

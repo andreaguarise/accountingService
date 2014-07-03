@@ -1,4 +1,6 @@
 class CloudRecord < ActiveRecord::Base
+  #:memory -> MBytes
+  #:networkInbound, :networkOutbound -> Bytes
   include Search
   attr_accessible :FQAN, :VMUUID, :cloudType, :cpuCount, :cpuDuration, :disk, :diskImage, :endTime, :globaluserName, :hypervisor_hostname, :localVMID, :local_group, :local_user, :memory, :networkInbound, :networkOutBound, :networkType, :publisher_id, :resource_id, :startTime, :status, :storageRecordId, :suspendDuration, :wallDuration
   before_create :translateDates
