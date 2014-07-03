@@ -13,7 +13,7 @@
 
 
 
-// accessible variables in this scope
+// accessable variables in this scope
 var window, document, ARGS, $, jQuery, moment, kbn;
 
 // Setup some variables
@@ -33,6 +33,24 @@ dashboard = {
 
 // Set a title
 dashboard.title = 'Sites dashboard';
+dashboard.editable = 'false';
+dashboard.style= 'light';
+dashboard.panel_hints= 'false';
+dashboard.loader= {
+    "save_gist": false,
+    "save_elasticsearch": false,
+    "save_local": false,
+    "save_default": false,
+    "save_temp": false,
+    "save_temp_ttl_enable": false,
+    "save_temp_ttl": "30d",
+    "load_gist": false,
+    "load_elasticsearch": false,
+    "load_elasticsearch_size": 20,
+    "load_local": false,
+    "hide": true
+  };
+
 dashboard.services.filter = {
   time: {
     from: "now-" + (ARGS.from || timspan),
@@ -43,9 +61,14 @@ dashboard.services.filter = {
 if(!_.isUndefined(ARGS.siteName)) {
   siteName = ARGS.siteName;
   dashboard.title = siteName;
-} else
+}else
 {
-	siteName = "*";
+        siteName = "*";
+        dashboard.title = "ALL sites";
+}
+
+if(!_.isUndefined(ARGS.name)) {
+  seriesName = ARGS.name;
 }
 
 if(!_.isUndefined(ARGS.name)) {
@@ -56,6 +79,8 @@ if(!_.isUndefined(ARGS.name)) {
   dashboard.rows.push({
     title: 'CloudStats',
     height: '300px',
+    editable: false,
+    collapsable: false,
     panels: [
       {
         title: 'Cloud instantiated VM and CPUs',
@@ -75,9 +100,11 @@ if(!_.isUndefined(ARGS.name)) {
     ]
   });
 
-dashboard.rows.push({
+  dashboard.rows.push({
     title: 'CloudStats',
     height: '250px',
+    editable: false,
+    collapsable: false,
     panels: [
       {
         title: 'Cloud instantiated VM and CPUs',
