@@ -10,4 +10,5 @@ AccountingService::Application.configure do
   config.itemsPerPageHTML = 25
   config.graphiteUrl = "http://localhost:80"
   config.graphiteGraphOpts = "&height=250&width=600"
+  config.grafanaUrl = "http://dgas-dev-24.to.infn.it:8081"
 end

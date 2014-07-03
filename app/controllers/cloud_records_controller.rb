@@ -64,9 +64,7 @@ class CloudRecordsController < ApplicationController
   # GET /cloud_records/search?VMUUID=string
   def search
     whereBuffer = {}
-    groupBuffer = String.new
     logger.info "Entering #search method."
-    params[:doGraph] = "1"
     
     params.each do |param_k,param_v|
       if CloudRecord.attrSearchable.include?(param_k) && param_v != ""
@@ -75,34 +73,8 @@ class CloudRecordsController < ApplicationController
       end
    end
     
-    relationBuffer = "endTime as ordered_date,sum(wallDuration/60) as wall,sum(cpuDuration/60) as cpu,sum(networkInbound/1048576) as netIn,sum(networkOutBound/1048576) as netOut"
-    groupBuffer = "ordered_date"
     @cloud_records = CloudRecord.joins(:publisher,:resource,:site).paginate(:page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('cloud_records.id desc',params).where(whereBuffer).all 
     
-    if params[:doGraph] == "1"
-      min_max =  CloudRecord.joins(:publisher,:resource,:site).select("min(endTime) as minDate,max(endTime) as maxDate").where(whereBuffer)
-      graph_ary = CloudRecord.joins(:publisher,:resource,:site).select(relationBuffer).where(whereBuffer).group(groupBuffer).order("ordered_date")
-      tableCpu = GoogleVisualr::DataTable.new
-      tableNet = GoogleVisualr::DataTable.new
-    
-      # Add Column Headers
-      tableCpu.new_column('date', 'Date' )
-      tableCpu.new_column('number', 'wall time (min)')
-      tableCpu.new_column('number', 'cpu time (min)')
-    
-      tableNet.new_column('date', 'Date' )
-      tableNet.new_column('number', 'inbound net (MB)')
-      tableNet.new_column('number', 'outbound net (MB)')
-    
-      graph_ary.each do |row|
-        tableCpu.add_row([row.ordered_date.to_datetime,row.wall.to_i,row.cpu.to_i])
-        tableNet.add_row([row.ordered_date.to_datetime,row.netIn.to_i,row.netOut.to_i])
-      end 
-      optionCpu = { :width => 1100, :height => 325, :title => 'VM CPU History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
-      @chartCpu = GoogleVisualr::Interactive::AreaChart.new(tableCpu, optionCpu)
-      optionNet = { :width => 1100, :height => 325, :title => 'VM Network History', :hAxis => {:minValue => min_max.first.minDate.to_datetime, :maxValue => min_max.first.maxDate.to_datetime} }
-      @chartNet = GoogleVisualr::Interactive::AreaChart.new(tableNet, optionNet)
-    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @cloud_record.to_json(:include => { :site => {:only => :name} , :resource => {:only => :name} } ) }

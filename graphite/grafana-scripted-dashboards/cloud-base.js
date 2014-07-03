@@ -75,11 +75,34 @@ if(!_.isUndefined(ARGS.name)) {
   seriesName = ARGS.name;
 }
 
+if( ARGS.editable == "true") {
+  dashboardEditable = true;
+  dashboard.editable = 'true';
+  dashboard.panel_hints= 'true';
+  dashboard.loader= {
+    "save_gist": true,
+    "save_elasticsearch": true,
+    "save_local": true,
+    "save_default": false,
+    "save_temp": false,
+    "save_temp_ttl_enable": false,
+    "save_temp_ttl": "30d",
+    "load_gist": true,
+    "load_elasticsearch": true,
+    "load_elasticsearch_size": 20,
+    "load_local": true,
+    "hide": true
+  };
+} else
+{
+	dashboardEditable = false;
+}
+
 
   dashboard.rows.push({
     title: 'CloudStats',
     height: '300px',
-    editable: false,
+    editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
@@ -103,7 +126,7 @@ if(!_.isUndefined(ARGS.name)) {
   dashboard.rows.push({
     title: 'CloudStats',
     height: '250px',
-    editable: false,
+    editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
@@ -150,8 +173,6 @@ if(!_.isUndefined(ARGS.name)) {
       }
     ]
   });
-
-
 
 return dashboard;
 
