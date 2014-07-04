@@ -23,7 +23,7 @@ class SitesController < ApplicationController
       @stats << ["cloud",@site.cloud_records.count,@site.cloud_records.minimum(:endTime),@site.cloud_records.maximum(:endTime)]
     end
     if @site.public_methods.member?("apel_ssm_records")
-      @stats << ["grid",@site.apel_ssm_records.count,@site.blah_records.minimum(:recordDate),@site.apel_ssm_records.maximum(:recordDate)]
+      @stats << ["grid",@site.apel_ssm_records.count,@site.apel_ssm_records.minimum(:recordDate),@site.apel_ssm_records.maximum(:recordDate)]
     end
     if @site.public_methods.member?("batch_execute_records")
       @stats << ["batch",@site.batch_execute_records.count,@site.batch_execute_records.minimum(:recordDate),@site.batch_execute_records.maximum(:recordDate)]

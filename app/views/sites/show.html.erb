@@ -47,6 +47,9 @@
     <% end %>
 </table>
 
+<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/grid-base.js?siteName=<%=@site.name%> width="1024"; height="768"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
+
+
 
 <p>
 <%= link_to 'Edit', edit_site_path(@site) %> |

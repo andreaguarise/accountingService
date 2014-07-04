@@ -1,6 +1,4 @@
 <h1>cpu grid norm records statistics page</h1>
 
 
-<% @graphs.each_pair do |target,dateRef| %>
-<img src="<%= Rails.configuration.graphiteUrl %>/render?target=<%= target %><%= Rails.configuration.graphiteGraphOpts %><%= dateRef %>">
-<% end %>
+<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/grid-base.js width="1024"; height="768"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
