@@ -6,7 +6,7 @@ class SitesController < ApplicationController
     @sites = Site.paginate( :page=>params[:page], :per_page => config.itemsPerPageHTML).orderByParms('name',params).search(params[:key],params[:search])
     
     @emiStorageBySite = EmiStorageRecord.group(:site).count #FIXME this should go through joins as for the other record types
-    @blahBySite = Site.joins(:blah_records).group(:site_id).count
+    @apelBySite = Site.joins(:apel_ssm_records).group(:site_id).count
     @batchBySite = Site.joins(:batch_execute_records).group(:site_id).count
     respond_to do |format|
       format.html # index.html.erb
@@ -22,8 +22,8 @@ class SitesController < ApplicationController
     if @site.public_methods.member?("cloud_records")
       @stats << ["cloud",@site.cloud_records.count,@site.cloud_records.minimum(:endTime),@site.cloud_records.maximum(:endTime)]
     end
-    if @site.public_methods.member?("blah_records")
-      @stats << ["grid",@site.blah_records.count,@site.blah_records.minimum(:recordDate),@site.blah_records.maximum(:recordDate)]
+    if @site.public_methods.member?("apel_ssm_records")
+      @stats << ["grid",@site.apel_ssm_records.count,@site.blah_records.minimum(:recordDate),@site.apel_ssm_records.maximum(:recordDate)]
     end
     if @site.public_methods.member?("batch_execute_records")
       @stats << ["batch",@site.batch_execute_records.count,@site.batch_execute_records.minimum(:recordDate),@site.batch_execute_records.maximum(:recordDate)]

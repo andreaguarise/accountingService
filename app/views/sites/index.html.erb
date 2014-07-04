@@ -6,7 +6,7 @@
   <tr>
     <th>Name<%= upArrowLink "name"%><%= downArrowLink "name" %></th>
     <th>Cloud Records</th>
-    <th>Blah Records</th>
+    <th>Grid CPU Records</th>
     <th>Batch CPU Records</th>
     <th>Grid Storage Records</th>
     <th></th>
@@ -17,7 +17,7 @@
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= link_to site.name, site %></td>
     <td><%= site.cloud_records.count %></td>
-    <td><%= @blahBySite[site.id] if @blahBySite %></td>
+    <td><%= @apelBySite[site.id] if @apelBySite %></td>
     <td><%= @batchBySite[site.id] if @batchBySite%></td>
     <td><%= @emiStorageBySite[site.name] if @emiStorageBySite %></td>
     <td><%= link_to 'Edit', edit_site_path(site) %></td>
