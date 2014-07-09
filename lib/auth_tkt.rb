@@ -19,7 +19,7 @@
 
 module AuthTkt
   # set path to auth_tkt config file, where TKTAuthSecret is set
-  SECRET_KEY_FILE = Rails.configuration.modAuthSecretFile;
+  SECRET_KEY_FILE = "/tmp/auth_tkt.conf";
 
   # set root domain to be able to single sign on (SSO)
   # (access all subdomains with one valid ticket)

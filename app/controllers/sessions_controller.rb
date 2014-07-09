@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     if user = User.authenticate(params[:name], params[:password])
       session[:user_id] = user.id
       session[:role] = user.role.name
-      cookie = set_auth_tkt_cookie({:user => user.name,:token_list => "", :user_data => "", :encode => true, :ignore_ip => true })
+      cookie = set_auth_tkt_cookie({:user => user.name,:token_list => "", :user_data => "", :encode => true, :ignore_ip => false, :domain => AuthTkt::DOMAIN })
       logger.info "set cookie: #{cookie}"
       redirect_to main_url
     else
