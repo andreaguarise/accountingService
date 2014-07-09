@@ -1,5 +1,6 @@
 require 'digest/sha2'
 
+
 class User < ActiveRecord::Base
   include Search
   attr_accessible :name, :password, :password_confirmation, :role_id
