@@ -7,6 +7,7 @@ class CloudViewVmSummariesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @cloud_view_vm_summaries }
+      format.xml { render :xml => @cloud_view_vm_summaries }
     end
   end
 
@@ -18,6 +19,7 @@ class CloudViewVmSummariesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @cloud_view_vm_summary }
+      format.xml { render :xml => @cloud_view_vm_summary }
     end
   end
 end

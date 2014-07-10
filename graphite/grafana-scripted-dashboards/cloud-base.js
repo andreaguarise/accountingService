@@ -101,7 +101,7 @@ if( ARGS.editable == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '300px',
+    height: '280px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -125,12 +125,12 @@ if( ARGS.editable == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '250px',
+    height: '240px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
-        title: 'Cloud instantiated VM and CPUs',
+        title: 'CpuDuration and WallDuration',
         type: 'graphite',
         span: 4,
         fill: 1,
@@ -145,7 +145,7 @@ if( ARGS.editable == "true") {
         ],
       },
       {
-        title: 'Cloud instantiated VM and CPUs',
+        title: 'Network traffic',
         type: 'graphite',
         span: 4,
         fill: 1,
@@ -160,7 +160,7 @@ if( ARGS.editable == "true") {
         ],
       },
       {
-        title: 'Cloud instantiated VM and CPUs',
+        title: 'Memory occupation',
         type: 'graphite',
         span: 4,
         fill: 1,
@@ -173,6 +173,126 @@ if( ARGS.editable == "true") {
       }
     ]
   });
+  if(!_.isUndefined(ARGS.siteName)) {
+	dashboard.rows.push({
+    title: 'GroupsCloudStats',
+    height: '240px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'CPU allocated per group',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,9),7)"
+          }
+        ],
+      },
+      {
+        title: 'VM allocated per group',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
+          }
+        ],
+      },
+      {
+        title: 'Network inbound traffic per group',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
+          }
+        ],
+      },
+      {
+        title: 'Network outbound traffic per group',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
+          }
+        ],
+      },
+      {
+        title: 'memory allocated per group',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,9),7)"
+          }
+        ],
+      }
+    ]
+  	});
+  	dashboard.rows.push({
+    title: 'UsersCloudStats',
+    height: '240px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'CpuDuration and WallDuration',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'Network traffic',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'Memory occupation',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),10)"
+          }
+        ],
+      }
+    ]
+  	});
+  }	
 
 return dashboard;
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140627111040) do
+ActiveRecord::Schema.define(:version => 20140710111041) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20140627111040) do
   create_table "cloud_record_summaries", :id => false, :force => true do |t|
     t.integer "id",                                                          :default => 0, :null => false
     t.date    "date"
+    t.integer "hour"
     t.integer "site_id"
     t.string  "local_group"
     t.string  "local_user"
@@ -171,23 +172,23 @@ ActiveRecord::Schema.define(:version => 20140627111040) do
   add_index "cloud_records", ["publisher_id"], :name => "index_cloud_records_on_publisher_id"
 
   create_table "cloud_view_vm_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                             :default => 0, :null => false
-    t.date    "date"
-    t.string  "VMUUID"
-    t.string  "localVMID"
-    t.integer "publisher_id"
-    t.string  "local_user"
-    t.string  "local_group"
-    t.string  "status"
-    t.string  "diskImage"
-    t.string  "cloudType"
-    t.decimal "disk",            :precision => 14, :scale => 4
-    t.decimal "wallDuration",    :precision => 14, :scale => 4
-    t.decimal "cpuDuration",     :precision => 14, :scale => 4
-    t.decimal "networkInbound",  :precision => 23, :scale => 4
-    t.decimal "networkOutbound", :precision => 23, :scale => 4
-    t.decimal "memory",          :precision => 14, :scale => 4
-    t.decimal "cpuCount",        :precision => 12, :scale => 6
+    t.integer  "id",                                             :default => 0, :null => false
+    t.datetime "date"
+    t.string   "VMUUID"
+    t.string   "localVMID"
+    t.integer  "publisher_id"
+    t.string   "local_user"
+    t.string   "local_group"
+    t.string   "status"
+    t.string   "diskImage"
+    t.string   "cloudType"
+    t.decimal  "disk",            :precision => 14, :scale => 4
+    t.decimal  "wallDuration",    :precision => 14, :scale => 4
+    t.decimal  "cpuDuration",     :precision => 14, :scale => 4
+    t.decimal  "networkInbound",  :precision => 23, :scale => 4
+    t.decimal  "networkOutbound", :precision => 23, :scale => 4
+    t.decimal  "memory",          :precision => 14, :scale => 4
+    t.decimal  "cpuCount",        :precision => 12, :scale => 6
   end
 
   create_table "cpu_grid_norm_records", :id => false, :force => true do |t|
@@ -317,70 +318,6 @@ ActiveRecord::Schema.define(:version => 20140627111040) do
 
   add_index "emi_storage_records", ["publisher_id"], :name => "index_emi_storage_records_on_publisher_id"
 
-  create_table "gridfarm_all_cpu_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                    :default => 0, :null => false
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "localUser"
-    t.string   "localGroup"
-    t.string   "jobName"
-    t.string   "queue"
-    t.integer  "ctime"
-    t.integer  "qtime"
-    t.integer  "etime"
-    t.integer  "start"
-    t.string   "execHost"
-    t.integer  "resourceList_nodect"
-    t.integer  "resourceList_nodes"
-    t.integer  "resourceList_walltime"
-    t.integer  "session"
-    t.integer  "end"
-    t.integer  "exitStatus"
-    t.integer  "resourceUsed_cput"
-    t.integer  "resourceUsed_mem"
-    t.integer  "resourceUsed_vmem"
-    t.integer  "resourceUsed_walltime"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "publisher_id"
-  end
-
-  create_table "gridfarm_grid_cpu_record_ids_tentative", :id => false, :force => true do |t|
-    t.integer "id",                      :default => 0, :null => false
-    t.integer "batch_execute_record_id", :default => 0, :null => false
-    t.integer "blah_record_id",          :default => 0, :null => false
-  end
-
-  create_table "gridfarm_local_cpu_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                    :default => 0, :null => false
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "localUser"
-    t.string   "localGroup"
-    t.string   "jobName"
-    t.string   "queue"
-    t.integer  "ctime"
-    t.integer  "qtime"
-    t.integer  "etime"
-    t.integer  "start"
-    t.string   "execHost"
-    t.integer  "resourceList_nodect"
-    t.integer  "resourceList_nodes"
-    t.integer  "resourceList_walltime"
-    t.integer  "session"
-    t.integer  "end"
-    t.integer  "exitStatus"
-    t.integer  "resourceUsed_cput"
-    t.integer  "resourceUsed_mem"
-    t.integer  "resourceUsed_vmem"
-    t.integer  "resourceUsed_walltime"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "publisher_id"
-  end
-
   create_table "local_cpu_summaries", :force => true do |t|
     t.date     "date"
     t.string   "publisher_id"
@@ -394,78 +331,6 @@ ActiveRecord::Schema.define(:version => 20140627111040) do
     t.datetime "updated_at",      :null => false
     t.float    "normalisedCpuT"
     t.float    "normalisedWallT"
-  end
-
-  create_table "localfarm_local_cpu_norm_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                    :default => 0, :null => false
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "localUser"
-    t.string   "localGroup"
-    t.string   "jobName"
-    t.string   "queue"
-    t.integer  "ctime"
-    t.integer  "qtime"
-    t.integer  "etime"
-    t.integer  "start"
-    t.string   "execHost"
-    t.integer  "resourceList_nodect"
-    t.integer  "resourceList_nodes"
-    t.integer  "resourceList_walltime"
-    t.integer  "session"
-    t.integer  "end"
-    t.integer  "exitStatus"
-    t.integer  "resourceUsed_cput"
-    t.integer  "resourceUsed_mem"
-    t.integer  "resourceUsed_vmem"
-    t.integer  "resourceUsed_walltime"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "publisher_id"
-    t.float    "benchmark_value"
-  end
-
-  create_table "localfarm_local_cpu_records_tentative", :id => false, :force => true do |t|
-    t.integer  "id",                    :default => 0, :null => false
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.string   "lrmsId"
-    t.string   "localUser"
-    t.string   "localGroup"
-    t.string   "jobName"
-    t.string   "queue"
-    t.integer  "ctime"
-    t.integer  "qtime"
-    t.integer  "etime"
-    t.integer  "start"
-    t.string   "execHost"
-    t.integer  "resourceList_nodect"
-    t.integer  "resourceList_nodes"
-    t.integer  "resourceList_walltime"
-    t.integer  "session"
-    t.integer  "end"
-    t.integer  "exitStatus"
-    t.integer  "resourceUsed_cput"
-    t.integer  "resourceUsed_mem"
-    t.integer  "resourceUsed_vmem"
-    t.integer  "resourceUsed_walltime"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "publisher_id"
-  end
-
-  create_table "localfarm_local_cpu_summaries_tentative", :id => false, :force => true do |t|
-    t.date    "endDate"
-    t.integer "publisher_id"
-    t.string  "localGroup"
-    t.string  "queue"
-    t.string  "localUser"
-    t.integer "countRecord",     :limit => 8,                                :default => 0, :null => false
-    t.decimal "sumCpu",                       :precision => 32, :scale => 0
-    t.decimal "sumWall",                      :precision => 32, :scale => 0
-    t.float   "normalisedCpuT"
-    t.float   "normalisedWallT"
   end
 
   create_table "publishers", :force => true do |t|

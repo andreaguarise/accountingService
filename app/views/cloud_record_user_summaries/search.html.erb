@@ -1,33 +1,3 @@
-<% if params[:doGraph] == "1" %>
-<table>
-	<tbody>
-<tr>
-	<td>
-		<div id='chartCpu'></div>
-		<%= render_chart(@chartCpu, 'chartCpu') %>
-	</td>
-</tr>
-<tr>
-	<td>
-		<div id='chartRatio'></div>
-		<%= render_chart(@chartRatio, 'chartRatio') %>
-	</td>
-</tr>
-<tr>
-	<td>
-		<div id='chartNetIn'></div>
-		<%= render_chart(@chartNetIn, 'chartNetIn') %>
-	</td>
-</tr>
-<tr>
-	<td>
-		<div id='chartNetOut'></div>
-		<%= render_chart(@chartNetOut, 'chartNetOut') %>
-	</td>
-</tr>
-</tbody>
-</table>
-<% end%>
 <table id="recordstable">
 
 <%= render "table_header" %>

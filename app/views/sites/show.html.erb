@@ -9,7 +9,9 @@
   <b>Description:</b>
   <%= @site.description %>
 </p>
-
+<table>
+	<tr>
+<td>		
 <H3>Registered resources</H3>
 
 <table>
@@ -27,7 +29,8 @@
   </tr>
 <% end %>
 </table>
-
+</td>
+<td>
 <h3>Record statistics</h3>
 
 <table>
@@ -46,9 +49,15 @@
     </tr>
     <% end %>
 </table>
-
-<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/grid-base.js?siteName=<%=@site.name%> width="1024"; height="768"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
-
+</td>
+</tr>
+</table>
+<p>
+<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/grid-base.js?siteName=<%=@site.name%> width="1100"; height="640"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
+</p>
+<p>
+<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/cloud-base.js?siteName=<%=@site.name%> width="1100"; height="1024"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>	
+</p>
 
 
 <p>
