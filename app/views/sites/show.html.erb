@@ -53,10 +53,7 @@
 </tr>
 </table>
 <p>
-<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/grid-base.js?siteName=<%=@site.name%> width="1100"; height="640"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
-</p>
-<p>
-<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/cloud-base.js?siteName=<%=@site.name%> width="1100"; height="1024"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>	
+<object data=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?siteName=<%=@site.name%>&grid=true&cloud=true width="1280"; height="1024"> <embed src=<%= Rails.configuration.grafanaUrl %>> </embed> Error: Embedded data could not be displayed. Is grafana installed and configured? </object>
 </p>
 
 

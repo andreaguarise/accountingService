@@ -22,6 +22,7 @@ var ARGS;
 
 // Set a default timespan if one isn't specified
 timspan = '30d';
+defaultHeigth='180px';
 
 // Initialize a skeleton with nothing but a rows array and service object
 dashboard = {
@@ -95,7 +96,7 @@ if( ARGS.editable == "true") {
 if( ARGS.cloud == "true") {
   dashboard.rows.push({
     title: 'Cloud',
-    height: '20px',
+    height: '16px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -111,7 +112,7 @@ if( ARGS.cloud == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '200px',
+    height: defaultHeigth,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -179,7 +180,7 @@ if( ARGS.cloud == "true") {
   if(!_.isUndefined(ARGS.siteName)) {
 	dashboard.rows.push({
     title: 'GroupsCloudStats',
-    height: '210px',
+    height: defaultHeigth,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -251,7 +252,7 @@ if( ARGS.cloud == "true") {
 if( ARGS.grid == "true") {
 	dashboard.rows.push({
     title: 'Grid',
-    height: '20px',
+    height: '16px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -266,7 +267,7 @@ if( ARGS.grid == "true") {
    });
 	dashboard.rows.push({
     title: 'GridStats',
-    height: '200px',
+    height: defaultHeigth,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -317,7 +318,7 @@ if( ARGS.grid == "true") {
   if(!_.isUndefined(ARGS.siteName)) {
   	dashboard.rows.push({
     title: 'GridStats',
-    height: '210px',
+    height: defaultHeigth,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
