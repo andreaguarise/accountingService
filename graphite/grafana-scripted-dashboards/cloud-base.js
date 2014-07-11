@@ -224,7 +224,7 @@ if( ARGS.editable == "true") {
         linewidth: 2,
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,9),7)"
           }
         ],
       },
