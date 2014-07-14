@@ -29,7 +29,10 @@ dashboard = {
   rows : [],
   services : {}
 };
-
+interactive = true;
+if ( ARGS.interactive == "false" ) {
+	interactive = false;
+}
 // Set a title
 dashboard.title = 'Sites dashboard';
 dashboard.editable = 'false';
@@ -94,21 +97,23 @@ if( ARGS.editable == "true") {
 }
 
 if( ARGS.cloud == "true") {
-  dashboard.rows.push({
-    title: 'Cloud',
-    height: '16px',
-    editable: dashboardEditable,
-    collapsable: false,
-    panels: [
-      {
-        title: 'Cloud Report',
-        type: 'text',
-        span: 12,
-        mode: 'html',
-        content: '<a href="./#/dashboard/script/cloud-base.js?siteName=' + siteName + '">cloud dashboard</a>'
-      }
+  if ( interactive == true ){
+  	dashboard.rows.push({
+    	title: 'Cloud',
+    	height: '16px',
+    	editable: dashboardEditable,
+    	collapsable: false,
+    	panels: [
+      	{
+        	title: 'Cloud Report',
+        	type: 'text',
+        	span: 12,
+        	mode: 'html',
+        	content: '<a href="./#/dashboard/script/cloud-base.js?siteName=' + siteName + '">cloud dashboard</a>'
+      	}
       ]
    });
+  }
 
   dashboard.rows.push({
     title: 'CloudStats',
@@ -250,21 +255,23 @@ if( ARGS.cloud == "true") {
 }
 
 if( ARGS.grid == "true") {
-	dashboard.rows.push({
-    title: 'Grid',
-    height: '16px',
-    editable: dashboardEditable,
-    collapsable: false,
-    panels: [
-      {
-        title: 'Grid Report',
-        type: 'text',
-        span: 12,
-        mode: 'html',
-        content: '<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '">grid dashboard</a>'
-      }
-      ]
-   });
+	if ( interactive == true ){
+		dashboard.rows.push({
+	    title: 'Grid',
+    	height: '16px',
+	    editable: dashboardEditable,
+	    collapsable: false,
+	    panels: [
+   	   {
+    	    title: 'Grid Report',
+	        type: 'text',
+	        span: 12,
+    	    mode: 'html',
+        	content: '<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '">grid dashboard</a>'
+      	}
+    	  ]
+   		});
+  	}
 	dashboard.rows.push({
     title: 'GridStats',
     height: defaultHeigth,

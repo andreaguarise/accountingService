@@ -6,17 +6,17 @@
 
 <% #if session[:user_id] != nil  %>
 	
-<h3>Sites publishing to this instance</h3>
+<h3>Sites publishing to this instance, records published</h3>
 <table>
 <tr>
 <td>
 <table>
   <tr>
     <th>Name</th>
-    <th>Cloud CPU Records</th>
-    <th>Apel CPU Records</th>
-    <th>Batch CPU Records</th>
-    <th>Grid Storage Records</th>
+    <th>Cloud CPU</th>
+    <th>Apel CPU</th>
+    <th>Local Batch CPU</th>
+    <th>Grid Storage/th>
   </tr>
 
 <% @sites.sort_by{|e| e[:name]}.each do |site| %>
@@ -32,6 +32,7 @@
  </table>
  </td>
  <td>
+	<iframe class="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true" width=800 height=700> 
  </td>
  </tr>
  </table>
