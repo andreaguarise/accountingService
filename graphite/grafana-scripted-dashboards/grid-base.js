@@ -163,7 +163,7 @@ if( ARGS.editable == "true") {
       {
         title: 'Grid Executed jobs - per VO',
         type: 'graphite',
-        span: 6,
+        span: 4,
         fill: 1,
         linewidth: 2,
         targets: [
@@ -173,9 +173,21 @@ if( ARGS.editable == "true") {
         ],
       },
       {
+        title: 'Grid Executed jobs - per Site',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*.count,'1d','sum'),5),3)"
+          }
+        ],
+      },
+      {
         title: 'Normalized cputime and reported benchmark',
         type: 'graphite',
-        span: 6,
+        span: 4,
         fill: 1,
         linewidth: 2,
         targets: [
