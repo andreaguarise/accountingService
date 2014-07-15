@@ -33,6 +33,14 @@ interactive = true;
 if ( ARGS.interactive == "false" ) {
 	interactive = false;
 }
+cloud = true;
+if ( ARGS.cloud == "false" ) {
+	cloud = false;
+}
+grid = true;
+if ( ARGS.grid == "false" ) {
+	grid = false;
+}
 // Set a title
 dashboard.title = 'Sites dashboard';
 dashboard.editable = 'false';
@@ -96,7 +104,7 @@ if( ARGS.editable == "true") {
 	dashboardEditable = false;
 }
 
-if( ARGS.cloud == "true") {
+if( cloud == true) {
   if ( interactive == true ){
   	dashboard.rows.push({
     	title: 'Cloud',
@@ -254,7 +262,7 @@ if( ARGS.cloud == "true") {
   }
 }
 
-if( ARGS.grid == "true") {
+if( grid == true) {
 	if ( interactive == true ){
 		dashboard.rows.push({
 	    title: 'Grid',

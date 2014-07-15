@@ -57,23 +57,42 @@ dashboard.services.filter = {
     to: "now"
   }
 };
+/*
+dashboard.pulldowns= [
+        {
+                "type": "filtering",
+                "enable": true
+        }
+];
 
-if(!_.isUndefined(ARGS.siteName)) {
+dashboard.services.filter = {
+  time: {
+    from: "now-" + (ARGS.from || timspan),
+    to: "now"
+  },
+  list: [
+    {
+        "type": "terms",
+        "name": "site",
+        "active": true,
+        "query": "faust.cpu_grid_norm_records.by_site.*",
+        "includeAll": true
+    }
+  ]
+
+};
+*/
+
+dashboard.title = "ALL sites";
+if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
   siteName = ARGS.siteName;
   dashboard.title = siteName;
-}else
+}
+else
 {
         siteName = "*";
-        dashboard.title = "ALL sites";
 }
 
-if(!_.isUndefined(ARGS.name)) {
-  seriesName = ARGS.name;
-}
-
-if(!_.isUndefined(ARGS.name)) {
-  seriesName = ARGS.name;
-}
 
 if( ARGS.editable == "true") {
   dashboardEditable = true;

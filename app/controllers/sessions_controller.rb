@@ -11,7 +11,11 @@ class SessionsController < ApplicationController
       session[:role] = user.role.name
       cookie = set_auth_tkt_cookie({:user => user.name,:token_list => "", :user_data => "", :encode => true, :ignore_ip => false, :domain => AuthTkt::DOMAIN })
       logger.info "set cookie: #{cookie}"
-      redirect_to main_url
+      if ( params[:back] )
+        redirect_to params[:back]
+      else
+        redirect_to main_url
+      end
     else
       redirect_to login_url, :alert => "Invalid user/password combination"
     end
