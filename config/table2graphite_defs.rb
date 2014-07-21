@@ -25,7 +25,7 @@ class Graphics < BaseGraph
           sum(memoryVirtual) as memoryVirtual,
           avg(benchmark_values.value) as benchmarkValue, 
           count(*) as count")
-      result = result.group("siteName,vo,user")
+      result = result.group("siteName,vo")
       result.each do |r|
         puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['user'])},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
