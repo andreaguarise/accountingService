@@ -6,7 +6,7 @@ class BaseGraph
   
     
   def uenc(s)
-    enc = s.mgsub([[/\./ , '_'],[/\// , '_']])
+    enc = s.mgsub([[/\./ , '_'],[/\// , '_'],[/\ / , '_'],[/=/ , '_']])
     enc
   end
 end
@@ -14,6 +14,44 @@ end
 class Graphics < BaseGraph
 
   def defs
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
+      result = t.result.joins(:publisher => [:resource => :site])
+      result = result.joins(:benchmark_value)
+      result = result.select("
+          `sites`.`name` as siteName , vo, globalUserName as user,
+          sum(wallDuration) as wallDuration, 
+          sum(cpuDuration) as cpuDuration,
+          sum(memoryReal) as memoryReal,
+          sum(memoryVirtual) as memoryVirtual,
+          avg(benchmark_values.value) as benchmarkValue, 
+          count(*) as count")
+      result = result.group("siteName,vo,user")
+      result.each do |r|
+        puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['user'])},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        metrs = {
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_user.#{uenc(r['user'])}.si2k" => r['benchmarkValue'],
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_user.#{uenc(r['user'])}.si2k" => r['benchmarkValue']
+            }
+        if !@options[:dryrun] 
+          @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
+        end
+        sleep(@options[:sleep])
+      end
+    ##
     t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value)
@@ -31,6 +69,7 @@ class Graphics < BaseGraph
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.memoryVirtual" => r['memoryVirtual'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.memoryReal" => r['memoryReal'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
@@ -38,6 +77,7 @@ class Graphics < BaseGraph
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.si2k" => r['benchmarkValue'],
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.memoryVirtual" => r['memoryVirtual'].to_f,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.memoryReal" => r['memoryReal'].to_f,
@@ -47,6 +87,7 @@ class Graphics < BaseGraph
         if !@options[:dryrun] 
           @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
+        sleep(@options[:sleep])
       end
     ##
     
@@ -66,7 +107,8 @@ class Graphics < BaseGraph
         puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.cpuDuration" => r['cpuDuration'].to_f/3600,
-            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo..wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.memoryVirtual" => r['memoryVirtual'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.memoryReal" => r['memoryReal'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
@@ -76,6 +118,7 @@ class Graphics < BaseGraph
         if !@options[:dryrun] 
           @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
+        sleep(@options[:sleep])
       end
     ##
     t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
@@ -95,6 +138,7 @@ class Graphics < BaseGraph
         metrs = {
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpuDuration" => r['cpuDuration'].to_f/3600,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.memoryVirtual" => r['memoryVirtual'].to_f,
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.memoryReal" => r['memoryReal'].to_f,
@@ -104,9 +148,10 @@ class Graphics < BaseGraph
         if !@options[:dryrun] 
           @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
+        sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CloudRecordSummary,"date",@options[:date])
+    t= Table.new(CloudRecordSummary,"concat(`date`, ' ',`hour`, ':00:00')",@options[:date])
       result = t.result.joins(:site)
       result = result.select("
           `sites`.`name` as siteName,
@@ -135,6 +180,7 @@ class Graphics < BaseGraph
         if !@options[:dryrun] 
           @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
         end
+        sleep(@options[:sleep])
       end
   end
   

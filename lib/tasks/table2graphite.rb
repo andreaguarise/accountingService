@@ -78,6 +78,11 @@ class DbToGraphite
         @options[:date] = date
       end
       
+      @options[:sleep] = 0.001
+      opt.on( '-s', '--sleep sleep', 'pause per insert, default 0.001 secs') do |sleep|
+        @options[:sleep] = sleep.to_f
+      end
+      
 
       opt.on( '-h', '--help', 'Print this screen') do
         puts opt
