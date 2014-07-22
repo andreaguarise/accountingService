@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140710111041) do
+ActiveRecord::Schema.define(:version => 20140722111041) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -124,20 +124,19 @@ ActiveRecord::Schema.define(:version => 20140710111041) do
   add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId", :unique => true
 
   create_table "cloud_record_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                                          :default => 0, :null => false
-    t.date    "date"
-    t.integer "hour"
+    t.integer "id",                                                           :default => 0, :null => false
+    t.string  "date",            :limit => 24
     t.integer "site_id"
     t.string  "local_group"
     t.string  "local_user"
     t.string  "status"
-    t.integer "vmCount",         :limit => 8,                                :default => 0, :null => false
-    t.decimal "wallDuration",                 :precision => 36, :scale => 4
-    t.decimal "cpuDuration",                  :precision => 36, :scale => 4
-    t.decimal "networkInbound",               :precision => 45, :scale => 4
-    t.decimal "networkOutbound",              :precision => 45, :scale => 4
-    t.decimal "cpuCount",                     :precision => 34, :scale => 6
-    t.decimal "memory",                       :precision => 36, :scale => 4
+    t.integer "vmCount",         :limit => 8,                                 :default => 0, :null => false
+    t.decimal "wallDuration",                  :precision => 36, :scale => 4
+    t.decimal "cpuDuration",                   :precision => 36, :scale => 4
+    t.decimal "networkInbound",                :precision => 45, :scale => 4
+    t.decimal "networkOutbound",               :precision => 45, :scale => 4
+    t.decimal "cpuCount",                      :precision => 34, :scale => 6
+    t.decimal "memory",                        :precision => 36, :scale => 4
   end
 
   create_table "cloud_records", :force => true do |t|

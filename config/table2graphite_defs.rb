@@ -27,7 +27,7 @@ class Graphics < BaseGraph
           count(*) as count")
       result = result.group("siteName,vo")
       result.each do |r|
-        puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['user'])},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.wallDuration" => r['wallDuration'].to_f/3600,
@@ -151,7 +151,7 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CloudRecordSummary,"concat(`date`, ' ',`hour`, ':00:00')",@options[:date])
+    t= Table.new(CloudRecordSummary,"date",@options[:date])
       result = t.result.joins(:site)
       result = result.select("
           `sites`.`name` as siteName,
