@@ -56,6 +56,44 @@ class Graphics < BaseGraph
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value)
       result = result.select("
+          `sites`.`name` as siteName , vo, voGroup, voRole,
+          sum(wallDuration) as wallDuration, 
+          sum(cpuDuration) as cpuDuration,
+          sum(memoryReal) as memoryReal,
+          sum(memoryVirtual) as memoryVirtual,
+          avg(benchmark_values.value) as benchmarkValue, 
+          count(*) as count")
+      result = result.group("siteName,vo,voGroup,voRole")
+      result.each do |r|
+        puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+        metrs = {
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.si2k" => r['benchmarkValue'],
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpuDuration" => r['cpuDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.wallDuration" => r['wallDuration'].to_f/3600,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpu_H_KSi2k" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.memoryVirtual" => r['memoryVirtual'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.memoryReal" => r['memoryReal'].to_f,
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.count" => r['count'],
+            "faust.cpu_grid_norm_records_voGroup_voRole.by_vo.#{uenc(r['vo'])}.by_site.#{uenc(r['siteName'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.si2k" => r['benchmarkValue']
+            }
+        if !@options[:dryrun] 
+          @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
+        end
+        sleep(@options[:sleep])
+      end
+    ##
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date])
+      result = t.result.joins(:publisher => [:resource => :site])
+      result = result.joins(:benchmark_value)
+      result = result.select("
           `sites`.`name` as siteName , vo,
           sum(wallDuration) as wallDuration, 
           sum(cpuDuration) as cpuDuration,

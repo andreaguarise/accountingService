@@ -30,6 +30,20 @@ dashboard = {
   rows : [],
   services : {}
 };
+showLegend = true;
+showValues = true;
+if ( ARGS.showValues == "false" ) {
+	showValues = false;
+}
+metric= "count";
+measure = "count";
+if ( !_.isUndefined(ARGS.metric) ) {
+	metric = ARGS.metric;
+	if ( metric == "cpuDuration" | metric == "wallDuration")
+	{
+		measure = "hours";
+	}
+}
 
 // Set a title
 dashboard.title = 'Sites dashboard';
@@ -99,14 +113,14 @@ if( ARGS.editable == "true") {
   dashboard.editable = 'true';
   dashboard.panel_hints= 'true';
   dashboard.loader= {
-    "save_gist": true,
+    "save_gist": false,
     "save_elasticsearch": true,
     "save_local": true,
     "save_default": false,
     "save_temp": false,
     "save_temp_ttl_enable": false,
     "save_temp_ttl": "30d",
-    "load_gist": true,
+    "load_gist": false,
     "load_elasticsearch": true,
     "load_elasticsearch_size": 20,
     "load_local": true,
@@ -119,70 +133,58 @@ if( ARGS.editable == "true") {
 
 
   dashboard.rows.push({
-    title: 'GridStats',
-    height: '300px',
+    title: 'First Row',
+    height: '250px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
         title: 'Grid - completed jobs',
         type: 'graphite',
-        span: 6,
+        span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: measure,
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".all_vo.count),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".all_vo." + metric + "),'1d','sum'),5)"
           }
         ],
       },
       {
         title: 'Grid - cpu/wall time',
         type: 'graphite',
-        span: 6,
+        span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'hours',
+        rightYAxisLabel: 'percentage',
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpuDuration),'1d','sum'),5)"
           },
           {
             'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.wallDuration),'1d','sum'),5)"
-          }
-        ],
-      }
-    ]
-  });
-
-  dashboard.rows.push({
-    title: 'GridStats',
-    height: '250px',
-    editable: dashboardEditable,
-    collapsable: false,
-    panels: [
-      {
-        title: 'Grid Executed jobs - per VO',
-        type: 'graphite',
-        span: 4,
-        fill: 1,
-        linewidth: 2,
-        targets: [
+          },
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*.count,'1d','sum'),3),4)"
+          	'target': "alias(summarize(divideSeries(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName +".all_vo.cpuDuration),sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.wallDuration)),'1d','avg'),'efficiency')"
           }
         ],
-      },
-      {
-        title: 'Grid Executed jobs - per Site',
-        type: 'graphite',
-        span: 4,
-        fill: 1,
-        linewidth: 2,
-        targets: [
-          {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*.count,'1d','sum'),5),3)"
-          }
-        ],
+        aliasYAxis: {
+        	"efficiency": 2
+        }
       },
       {
         title: 'Normalized cputime and reported benchmark',
@@ -201,6 +203,155 @@ if( ARGS.editable == "true") {
       }
     ]
   });
+
+  dashboard.rows.push({
+    title: 'Row2',
+    height: '150px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+       {
+        title: 'Grid Executed jobs - per VO - highest ranking',
+        type: 'graphite',
+        span: 6,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: measure,
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),3),5),4)"
+          }
+        ],
+      },
+      {
+        title: 'Grid Executed jobs - per Site - highest ranking',
+        type: 'graphite',
+        span: 6,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: measure,
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),5),5),3)"
+          }
+        ],
+      }
+    ]
+  });
+  
+  dashboard.rows.push({
+    title: 'Row3',
+    height: '200px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Grid Executed jobs - per VO - all',
+        type: 'graphite',
+        span: 12,
+        fill: 2,
+        linewidth: 0,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        lines: false,
+        bars: true,
+        stack: true,
+        zerofill: true,
+        nullPointMode: 'null as zero',
+        targets: [
+          {
+            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*."+ metric +",'1d','sum'),3)),4)"
+          }
+        ],
+      }
+    ]
+  });
+  
+  dashboard.rows.push({
+    title: 'GridStats',
+    height: '200px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Grid Executed jobs - per Site - all',
+        type: 'graphite',
+        span: 12,
+        fill: 2,
+        linewidth: 0,
+        leftYAxisLabel: measure,
+        legend: {
+        	show: showLegend,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        lines: false,
+        bars: true,
+        stack: true,
+        zerofill: true,
+        nullPointMode: 'null as zero',
+        targets: [
+          {
+            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),5)),3)"
+          }
+        ],
+      },
+    ]
+  });
+  
+  dashboard.rows.push({
+    title: 'GridStatsPerVomsGroup',
+    height: '200px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Grid Executed jobs - per VOMS group',
+        type: 'graphite',
+        span: 6,
+        fill: 1,
+        leftYAxisLabel: measure,
+        linewidth: 2,
+        targets: [
+          {
+                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo.*.by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7),5)"
+          }
+        ],
+      },
+      {
+        title: 'Grid Executed jobs - per VOMS Role',
+        type: 'graphite',
+        span: 6,
+        fill: 1,
+        leftYAxisLabel: measure,
+        linewidth: 2,
+        targets: [
+          {
+                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo.*.by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5),6)"
+          }
+        ],
+      }
+    ]
+  });
+
 
 return dashboard;
 

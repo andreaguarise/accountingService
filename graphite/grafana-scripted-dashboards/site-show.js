@@ -29,6 +29,10 @@ dashboard = {
   rows : [],
   services : {}
 };
+showValues = true;
+if ( ARGS.showValues == "false" ) {
+	showValues = false;
+}
 interactive = true;
 if ( ARGS.interactive == "false" ) {
 	interactive = false;
@@ -86,14 +90,14 @@ if( ARGS.editable == "true") {
   dashboard.editable = 'true';
   dashboard.panel_hints= 'true';
   dashboard.loader= {
-    "save_gist": true,
+    "save_gist": false,
     "save_elasticsearch": true,
     "save_local": true,
     "save_default": false,
     "save_temp": false,
     "save_temp_ttl_enable": false,
     "save_temp_ttl": "30d",
-    "load_gist": true,
+    "load_gist": false,
     "load_elasticsearch": true,
     "load_elasticsearch_size": 20,
     "load_local": true,
@@ -135,6 +139,13 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
@@ -150,6 +161,13 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'hours',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
@@ -165,6 +183,13 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'bytes',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
@@ -180,9 +205,16 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'GB',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),10)"
+            'target': "aliasByNode(scale(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),1048576),10)"
           }
         ],
       }
@@ -203,6 +235,13 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,9),7)"
@@ -215,6 +254,13 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
@@ -227,6 +273,13 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'bytes',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
@@ -239,6 +292,13 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'bytes',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,9),7)"
@@ -251,9 +311,16 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'GB',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,9),7)"
+            'target': "aliasByNode(scale(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,9),1048576),7)"
           }
         ],
       }
@@ -292,6 +359,13 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".all_vo.count),'1d','sum'),5)"
@@ -304,6 +378,13 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'hours',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpuDuration),'1d','sum'),5)"
@@ -319,6 +400,13 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'Ksi2K*hours',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
         targets: [
           {
             'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpu_H_KSi2k),'1d','sum'),5)"
