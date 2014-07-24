@@ -37,11 +37,18 @@ if ( ARGS.showValues == "false" ) {
 }
 metric= "count";
 measure = "count";
+title = "completed jobs"
 if ( !_.isUndefined(ARGS.metric) ) {
 	metric = ARGS.metric;
 	if ( metric == "cpuDuration" | metric == "wallDuration")
 	{
 		measure = "hours";
+		title = metric;
+	}
+	if ( metric == "cpu_H_KSi2k" )
+	{
+		measure = "hours*ksi2k";
+		title = metric;
 	}
 }
 
@@ -263,7 +270,7 @@ if( ARGS.editable == "true") {
         span: 12,
         fill: 2,
         linewidth: 0,
-        leftYAxisLabel: 'count',
+        leftYAxisLabel: measure,
         legend: {
         	show: showLegend,
         	values: showValues,
