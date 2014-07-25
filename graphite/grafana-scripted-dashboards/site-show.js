@@ -112,7 +112,7 @@ if( cloud == true) {
   if ( interactive == true ){
   	dashboard.rows.push({
     	title: 'Cloud',
-    	height: '16px',
+    	height: '14px',
     	editable: dashboardEditable,
     	collapsable: false,
     	panels: [
@@ -161,7 +161,8 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'hours',
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -183,7 +184,8 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'bytes',
+        leftYAxisLabel: 'network traffic',
+        y_formats: ["bytes","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -205,7 +207,8 @@ if( cloud == true) {
         span: 3,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'GB',
+        y_formats: ["bytes","short"],
+        leftYAxisLabel: 'Memory',
         legend: {
         	show: true,
         	values: showValues,
@@ -273,7 +276,8 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'bytes',
+        leftYAxisLabel: 'network traffic',
+        y_formats: ["bytes","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -292,7 +296,8 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'bytes',
+        leftYAxisLabel: 'network traffic',
+        y_formats: ["bytes","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -311,7 +316,8 @@ if( cloud == true) {
         span: 2,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'GB',
+        leftYAxisLabel: 'memory',
+        y_formats: ["bytes","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -378,7 +384,8 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'hours',
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -401,6 +408,7 @@ if( grid == true) {
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: 'Ksi2K*hours',
+        y_formats: ["short","short"],
         legend: {
         	show: true,
         	values: showValues,
@@ -443,6 +451,8 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*.cpuDuration,'1d','sum'),3),4)"
@@ -455,6 +465,8 @@ if( grid == true) {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*.wallDuration,'1d','sum'),3),4)"

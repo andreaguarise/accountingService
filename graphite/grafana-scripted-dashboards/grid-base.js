@@ -37,19 +37,36 @@ if ( ARGS.showValues == "false" ) {
 }
 metric= "count";
 measure = "count";
+format = ["short","short"];
 title = "completed jobs"
 if ( !_.isUndefined(ARGS.metric) ) {
 	metric = ARGS.metric;
 	if ( metric == "cpuDuration" | metric == "wallDuration")
 	{
-		measure = "hours";
+		measure = "duration";
 		title = metric;
+		format = ["s","short"]
 	}
 	if ( metric == "cpu_H_KSi2k" )
 	{
 		measure = "hours*ksi2k";
 		title = metric;
 	}
+	if ( metric == "memoryReal" | metric == "memoryVirtual")
+	{
+		measure = "memory";
+		title = metric;
+		format = ["bytes","short"]
+	}
+	if ( metric == "efficiency" )
+	{
+		measure = "percentage";
+		title = metric;
+	}
+}
+interactive = true;
+if ( ARGS.interactive == "false" ) {
+	interactive = false;
 }
 
 // Set a title
@@ -139,6 +156,30 @@ if( ARGS.editable == "true") {
 }
 
 
+if ( interactive == true ){
+  	dashboard.rows.push({
+    	title: 'Metrics',
+    	height: '14px',
+    	editable: dashboardEditable,
+    	collapsable: false,
+    	panels: [
+      	{
+        	title: 'Available metrics',
+        	type: 'text',
+        	span: 12,
+        	mode: 'html',
+        	content: '<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=count">Record count</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpuDuration">cpuDuration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=wallDuration">wallDuration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpu_H_KSi2k">Normalised Cpu Duration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal">MemoryReal</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual">MemoryVirtual</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency">Efficiency</a>'
+      	}
+      ]
+   });
+  }
+
   dashboard.rows.push({
     title: 'First Row',
     height: '250px',
@@ -152,6 +193,7 @@ if( ARGS.editable == "true") {
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: measure,
+        y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
@@ -170,7 +212,8 @@ if( ARGS.editable == "true") {
         span: 4,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'hours',
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
         rightYAxisLabel: 'percentage',
         legend: {
         	show: showLegend,
@@ -224,6 +267,7 @@ if( ARGS.editable == "true") {
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: measure,
+        y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
@@ -243,6 +287,7 @@ if( ARGS.editable == "true") {
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: measure,
+        y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
@@ -271,6 +316,7 @@ if( ARGS.editable == "true") {
         fill: 2,
         linewidth: 0,
         leftYAxisLabel: measure,
+        y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
@@ -304,6 +350,7 @@ if( ARGS.editable == "true") {
         fill: 2,
         linewidth: 0,
         leftYAxisLabel: measure,
+        y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
@@ -336,6 +383,7 @@ if( ARGS.editable == "true") {
         span: 6,
         fill: 1,
         leftYAxisLabel: measure,
+        y_formats: format,
         linewidth: 2,
         targets: [
           {
@@ -349,6 +397,7 @@ if( ARGS.editable == "true") {
         span: 6,
         fill: 1,
         leftYAxisLabel: measure,
+        y_formats: format,
         linewidth: 2,
         targets: [
           {
