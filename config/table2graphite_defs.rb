@@ -202,7 +202,8 @@ class Graphics < BaseGraph
           networkInbound,
           networkOutbound,
           cpuCount,
-          memory")
+          memory,
+          disk")
           result = result.group("siteName,local_group,local_user,status")
       result.each do |r|
         puts "#{r['siteName']} - #{r['local_user']}---- date: #{"#{r['d']} #{r['h']}:00".to_datetime}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['vmCount']}"
@@ -212,6 +213,7 @@ class Graphics < BaseGraph
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.networkOutbound" => r['networkOutbound'].to_f,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuCount" => r['cpuCount'].to_f,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.memory" => r['memory'].to_f*1048576,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.disk" => r['disk'].to_f*1048576,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.wallDuration" => r['wallDuration'].to_f,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuDuration" => r['cpuDuration'].to_f
             }

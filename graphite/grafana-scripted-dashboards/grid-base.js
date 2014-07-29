@@ -131,6 +131,11 @@ else
         siteName = "*";
 }
 
+voName="*"
+if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
+  voName = ARGS.voName;
+}
+
 
 if( ARGS.editable == "true") {
   dashboardEditable = true;
@@ -202,7 +207,7 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".all_vo." + metric + "),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + "),'1d','sum'),6)"
           }
         ],
       },
@@ -223,13 +228,13 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpuDuration),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpuDuration),'1d','sum'),6)"
           },
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.wallDuration),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".wallDuration),'1d','sum'),6)"
           },
           {
-          	'target': "alias(summarize(divideSeries(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName +".all_vo.cpuDuration),sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.wallDuration)),'1d','avg'),'efficiency')"
+          	'target': "alias(summarize(divideSeries(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName +".by_vo." + voName + ".cpuDuration),sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".wallDuration)),'1d','avg'),'efficiency')"
           }
         ],
         aliasYAxis: {
@@ -244,10 +249,10 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpu_H_KSi2k),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpu_H_KSi2k),'1d','sum'),5)"
           },
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.si2k),'1d','avg'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".si2k),'1d','avg'),5)"
           }
         ],
       }
@@ -276,7 +281,7 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),3),5),4)"
+            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),3),5),4)"
           }
         ],
       },
@@ -296,7 +301,7 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),5),5),3)"
+            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),5),5),3)"
           }
         ],
       }
@@ -330,7 +335,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*."+ metric +",'1d','sum'),3)),4)"
+            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "."+ metric +",'1d','sum'),3)),4)"
           }
         ],
       }
@@ -364,7 +369,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo.*." + metric + ",'1d','sum'),5)),3)"
+            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),5)),3)"
           }
         ],
       },
@@ -387,7 +392,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo.*.by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7),5)"
+                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7),5)"
           }
         ],
       },
@@ -401,7 +406,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo.*.by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5),6)"
+                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5),6)"
           }
         ],
       }
