@@ -120,16 +120,18 @@ if( ARGS.editable == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '280px',
+    height: '240px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
         title: 'Cloud instantiated VM and CPUs',
         type: 'graphite',
-        span: 12,
+        span: 6,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
@@ -138,7 +140,24 @@ if( ARGS.editable == "true") {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
           }
         ],
-      }
+      },
+      {
+        title: 'CpuDuration and WallDuration',
+        type: 'graphite',
+        span: 6,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+          }
+        ],
+      },
     ]
   });
 
@@ -149,26 +168,13 @@ if( ARGS.editable == "true") {
     collapsable: false,
     panels: [
       {
-        title: 'CpuDuration and WallDuration',
-        type: 'graphite',
-        span: 4,
-        fill: 1,
-        linewidth: 2,
-        targets: [
-          {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
-          },
-          {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
-          }
-        ],
-      },
-      {
         title: 'Network traffic',
         type: 'graphite',
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: "Network usage",
+        y_formats: ["bytes","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
@@ -184,9 +190,25 @@ if( ARGS.editable == "true") {
         span: 4,
         fill: 1,
         linewidth: 2,
+        leftYAxisLabel: "Memory",
+        y_formats: ["bytes","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'Disk occupation',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "storage",
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg')),10)"
           }
         ],
       }
@@ -195,28 +217,32 @@ if( ARGS.editable == "true") {
   if(!_.isUndefined(ARGS.siteName)) {
 	dashboard.rows.push({
     title: 'GroupsCloudStats',
-    height: '240px',
+    height: '210px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
         title: 'CPU allocated per group',
         type: 'graphite',
-        span: 3,
+        span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'),9),7)"
           }
         ],
       },
       {
         title: 'VM allocated per group',
         type: 'graphite',
-        span: 3,
+        span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
@@ -228,10 +254,11 @@ if( ARGS.editable == "true") {
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),9),7)"
           }
         ],
       },
@@ -240,10 +267,11 @@ if( ARGS.editable == "true") {
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),9),7)"
           }
         ],
       },
@@ -252,10 +280,24 @@ if( ARGS.editable == "true") {
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),9),7)"
+          }
+        ],
+      },
+      {
+        title: 'disk allocated per group',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),9),7)"
           }
         ],
       }
@@ -263,28 +305,32 @@ if( ARGS.editable == "true") {
   	});
   	dashboard.rows.push({
     title: 'UsersCloudStats',
-    height: '240px',
+    height: '210px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
         title: 'CPU allocated per user',
         type: 'graphite',
-        span: 3,
+        span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'),7),8)"
           }
         ],
       },
       {
         title: 'VM allocated per user',
         type: 'graphite',
-        span: 3,
+        span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
         targets: [
           {
             'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),7),8)"
@@ -296,10 +342,11 @@ if( ARGS.editable == "true") {
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8)"
           }
         ],
       },
@@ -308,22 +355,37 @@ if( ARGS.editable == "true") {
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8)"
           }
         ],
       },
       {
-        title: 'memory allocated per user',
+        title: 'Memory allocated per user',
         type: 'graphite',
         span: 2,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),7),8)"
+          }
+        ],
+      },
+      {
+        title: 'Disk allocated per user',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 1,
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),7),8)"
           }
         ],
       }
