@@ -102,16 +102,30 @@
     height:778px
   }
 
+#topContainer {
+  top:10px;
+}
+
+#title {
+    position: absolute;
+    right: 250px;
+    font-size : 11px;
+    top: 10px;
+}
+
+#subtitle {
+    font-size : 12px;
+    top: 10px;
+}
+
 #grafana {
     float:left;
     width:98%;
     height:768px
   }
   
-#sites {
-    position:absolute;
+#sitesContainer {
     top: 90px;
-    width:26%;
   }
 
 

@@ -1,14 +1,18 @@
+<div id= "topContainer">
+<div id="title">
 <h2>Flexible Accounting for Usage and System Tracking</h2>
-
+</div>
 <% if notice %>
 	<p id="notice"><%= notice %></p> 
 <% end %>
 
 <% #if session[:user_id] != nil  %>
-	
+<div id = "subtitle">	
 <h3>Sites publishing to this instance, records published</h3>
-<div>
-<div id="sites">
+</div>
+</div>
+<div id = "mainContainer">
+<div id="sitesContainer">
 <table>
   <tr>
     <th>Name</th>
