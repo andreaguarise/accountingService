@@ -46,25 +46,27 @@
 }
 
 #columns {
-  float: left;
   background: #fee;
 }
 
 #main {
-  margin-left: 16em;
-  padding-top: 4ex;
-  padding-left: 2em;
+  position: absolute;
+  width:100%;
+  left:120px;
+  margin-left: 8em;
+  padding-top: 1ex;
+  padding-left: 1em;
   background: white;
-  height: 50 em;
 }
 
 #side {
-  float: left;
+  position: absolute;
+  width:200px;
   padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 1em;
-  width: 15em;
-  height: 50 em;
+  background: #fee;
+  height:1024px;
 }
 
 #sidemenu {
@@ -92,8 +94,25 @@
     }
 }
 
+#grafanaContainer {
+    position: absolute;
+    width:55%;
+    left:500px;
+    top:90px;
+    height:778px
+  }
+
 #grafana {
-  float: top;
-}
+    float:left;
+    width:98%;
+    height:768px
+  }
+  
+#sites {
+    position:absolute;
+    top: 90px;
+    width:26%;
+  }
+
 
 

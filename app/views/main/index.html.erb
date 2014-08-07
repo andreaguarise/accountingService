@@ -7,9 +7,8 @@
 <% #if session[:user_id] != nil  %>
 	
 <h3>Sites publishing to this instance, records published</h3>
-<table>
-<tr>
-<td>
+<div>
+<div id="sites">
 <table>
   <tr>
     <th>Name</th>
@@ -27,13 +26,11 @@
     <td><%= @batchBySite[site.id] %></td>
     <td><%= @emiStorageBySite[site.name] %></td>
   </tr>
-
 <% end %>
- </table>
- </td>
- <td>
-	<iframe class="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true" width=800 height=700> 
- </td>
- </tr>
- </table>
+</table>
+</div>
+ <div id="grafanaContainer">
+	<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true"> 
+ </div>
+</div>
 <% #end %>
