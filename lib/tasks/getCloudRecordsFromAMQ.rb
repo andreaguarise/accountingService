@@ -57,41 +57,43 @@ class CloudSsmRecordConverter
     Rails.logger.info "#{now} - Cloud SSM Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
-      Rails.logger.debug "#{now} site:#{e.siteName} machineName:#{e.machineName}"
-      if ( ! e.recordDate ) || ( ! e.localJobId )
+      #Rails.logger.debug "#{now} site:#{e.siteName} machineName:#{e.machineName}"
+      if ( ! e.startTime ) || ( ! e.VMUUID )
         Rails.logger.info "#{now} #{e.to_json}"
       end
-      valuesBuffer << "(NULL,#{e.publisher_id},'#{e.recordDate}','#{e.submitHost}','#{e.machineName}','#{e.queue}','#{e.localJobId}','#{e.localUserId}','#{e.globalUserName}','#{e.fqan}','#{e.vo}','#{e.voGroup}','#{e.voRole}',#{e.wallDuration},#{e.cpuDuration},#{e.processors},#{e.nodeCount},#{e.startTime},#{e.endTime},'#{e.infrastructureDescription}','#{e.infrastructureType}',#{e.memoryReal},#{e.memoryVirtual},'#{now}','#{now}')"
+      valuesBuffer << "(NULL,'#{e.VMUUID}',NULL,'#{e.localVMID}','#{e.local_user}','#{e.local_group}','#{e.globaluserName}','#{e.FQAN}','#{e.status}','#{e.startTime}','#{e.endTime}',0,#{e.wallDuration},#{e.cpuDuration},#{e.cpuCount},'#{e.networkType}',#{e.networkInbound},#{e.networkOutBound},#{e.memory},#{e.disk},NULL,'#{e.diskImage}','#{e.cloudType}','#{now}','#{now}',#{e.publisher_id},'#{e.hypervisor_hostname}')"
       if e != @@record_ary.last 
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT IGNORE INTO apel_ssm_records
+    bulkInsert = "INSERT IGNORE INTO cloud_records
 (`id`,
-`publisher_id`,
-`recordDate`,
-`submitHost`,
-`machineName`,
-`queue`,
-`localJobId`,
-`localUserId`,
-`globalUserName`,
-`fqan`,
-`vo`,
-`voGroup`,
-`voRole`,
-`wallDuration`,
-`cpuDuration`,
-`processors`,
-`nodeCount`,
+`VMUUID`,
+`resource_id`,
+`localVMID`,
+`local_user`,
+`local_group`,
+`globaluserName`,
+`FQAN`,
+`status`,
 `startTime`,
 `endTime`,
-`infrastructureDescription`,
-`infrastructureType`,#
-`memoryReal`,
-`memoryVirtual`,
+`suspendDuration`,
+`wallDuration`,
+`cpuDuration`,
+`cpuCount`,
+`networkType`,
+`networkInbound`,
+`networkOutBound`,
+`memory`,
+`disk`,
+`storageRecordId`,#
+`diskImage`,
+`cloudType`,
 `created_at`,
-`updated_at`
+`updated_at`,
+`publisher_id`,
+`hypervisor_hostname`
 )
 VALUES "
     bulkInsert << valuesBuffer
@@ -104,11 +106,11 @@ VALUES "
       Rails.logger.info "#{r.to_json}"
     end
     if not r["ControllerName"]
-      #Automatically assig a controller if not specified in the record (SSM does not foresees this field)
+      #Automatically assign a controller if not specified in the record (SSM does not foresees this field)
       r["ControllerName"] = "#{r["SiteName"]}.#{r["CloudType"]}"
     end
     if not r["PublisherName"]
-      #Automatically assig a controller if not specified in the record (SSM does not foresees this field)
+      #Automatically assign a publisher if not specified in the record (SSM does not foresees this field)
       r["PublisherName"] = "#{r["SiteName"]}.#{r["CloudType"]}.autoPublisher"
     end
     if not @@publishersCache.key?(r["PublisherName"])
@@ -137,35 +139,31 @@ VALUES "
     end
     
     if @@publishersCache[r["PublisherName"]]
-      e = CloudSsmRecord.new
-      e.controllerName = r["ControllerName"]
-      e.publisherName = r["PublisherNome"]
-      e.vmuuid = r["VMUUID"]
-      e.siteName = r["Sitename"]
-      e.machineName = r["MachineName"]
-      e.submitHost = r["SubmitHost"]
-      e.localJobId = r["LocalJobId"]
-      e.publisher_id = @@publishersCache[r["MachineName"]]
-      e.queue = r["Queue"]
-      e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do lag at the end of the job
-      e.processors = r["Processors"]
-      e.nodeCount = r["NodeCount"]
-      e.cpuDuration = r["CpuDuration"] #seconds
-      e.memoryReal = r["MemoryReal"] #KBytes
-      e.memoryVirtual = r["MemoryVirtual"] #Kbytes
-      e.wallDuration = r["WallDuration"] #seconds
-      e.startTime = r["StartTime"]
-      e.endTime = r["EndTime"]
-      e.localUserId = r["LocalUserId"]
-      e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
-      e.globalUserName = r["GlobalUserName"]
-      e.fqan = r["FQAN"]
-      e.vo = r["VO"]
-      e.voGroup = r["VOGroup"]
-      e.voRole = r["VORole"]
-      e.infrastructureDescription = r["InfrastructureDescription"]
-      e.infrastructureType = r["InfrastructureType"]
-    
+      e = CloudRecord.new
+      e.FQAN = r["FQAN"]
+      e.VMUUID = r["VMUUID"]
+      e.cloudType = r["CloudType"]
+      e.cpuCount = r["CpuCount"]
+      e.cpuDuration = r["CpuDuration"]
+      e.disk = r["Disk"]
+      e.diskImage = r["ImageId"]
+      e.endTime = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      e.globaluserName = r["GlobalUserName"]
+      e.hypervisor_hostname = r["HypervisorHostname"]
+      e.localVMID = r["LocalVMID"]
+      e.local_group = r["LocalGroupId"]
+      e.local_user = r["LocalUserId"]
+      e.memory = r["Memory"]
+      e.networkInbound = r["NetworkInbound"]
+      e.networkOutBound = r["NetworkOutbound"]
+      e.networkType = r["NetworkType"] 
+      e.publisher_id = @@publishersCache[r["PublisherName"]]
+      #e.resource_id
+      e.startTime = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      e.status = r["Status"]
+      #e.storageRecordId
+      e.suspendDuration = r["SuspendDuration"]
+      e.wallDuration = r["WallDuration"]
       @@record_ary << e
       @@recordCount = @@recordCount + 1;
       if ( @@record_ary.length >= @n )
@@ -214,7 +212,7 @@ class SSMMessage
 end
 
 
-class ApelSSMRecords
+class CloudSSMRecords
   def initialize
     @options = {}
   end
@@ -222,7 +220,7 @@ class ApelSSMRecords
   def getLineParameters
     
     opt_parser = OptionParser.new do |opt|
-      opt.banner = "Usage: opennebulaSensorMain.rb [OPTIONS]"
+      opt.banner = "Usage: getCloudRecordsFromAMQ.rb [OPTIONS]"
 
       @options[:verbose] = false
       opt.on( '-v', '--verbose', 'Output more information') do
@@ -290,7 +288,7 @@ class ApelSSMRecords
   
   def main
     self.getLineParameters
-    Rails.logger.info "Retrieving SSM grid records messages from queue: #{@options[:queue]}"
+    Rails.logger.info "Retrieving SSM cloud records messages from queue: #{@options[:queue]}"
     pattern = /^(.*):(.*)$/
     pattern =~ @options[:uri]
     data = Regexp.last_match
@@ -322,19 +320,17 @@ class ApelSSMRecords
             bck.write
           end
           next if not records
-          event = ApelSsmRecordConverter.new(@options[:bulk])
+          event = CloudSsmRecordConverter.new(@options[:bulk])
           records.each do |r|
             if records.length >= @options[:bulk]
                #treat case when there are at least n records to be bulk processed
                 event.convert(r)
-                benchmark.convert(r)
            else
                 Rails.logger.info "#{records.length} remaining in message --> Single insert."
                 #treat case where there are no sufficient record to be bulk processed
-                partialEvent = EventRecordConverter.new(records.length) if not partialEvent
+                partialEvent = CloudSsmRecordConverter.new(records.length) if not partialEvent
                 Rails.logger.debug "Do single Event"
                 partialEvent.convert(r)
-                benchmark.convert(r) #we do not do bulk insert for benchmarks
             end
           end
         rescue Exception => e
@@ -355,7 +351,7 @@ if defined?(Rails) && (Rails.env == 'development')
   Rails.logger = Logger.new(STDOUT)
 end
 
-SSM = ApelSSMRecords.new
+SSM = CloudSSMRecords.new
 SSM.main
 
 
