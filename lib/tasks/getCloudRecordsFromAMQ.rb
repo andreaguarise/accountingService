@@ -165,7 +165,7 @@ VALUES "
       e.suspendDuration = r["SuspendDuration"]
       e.wallDuration = r["WallDuration"]
       if e.cpuDuration.to_i > (e.wallDuration.to_i*e.cpuCount.to_f)
-        logger.info "Got unbelievable cpuDuration of #{e.cpuDuration}. Set it to ZERO. Sorry, not my fault..."
+        Rails.logger.info "Got unbelievable cpuDuration of #{e.cpuDuration}. Set it to ZERO. Sorry, not my fault..."
         e.cpuDuration = 0
       end
       @@record_ary << e
