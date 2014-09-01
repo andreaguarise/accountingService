@@ -1,14 +1,15 @@
 body {
+  margin-left:0px;
+  margin-top:0px;
+  margin-right:0px;
+  height:100%;
   background-color: #fff;
   color: #333;
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
 }
 
 p, ol, ul {
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
   line-height: 18px;
 }
 
@@ -22,7 +23,12 @@ th {
   padding: 3px;
   border: 1px solid black;
   background-color: #a00;
-  color: #ddd
+  color: #ddd;
+  font-size:11px;
+}
+
+tr {
+  font-size: 8px;
 }
 
 h1 {
@@ -34,13 +40,8 @@ h1 {
 }
 
 table.management {
-  font-size: 15px;
   a {
     text-decoration: none;
-    font-size: 15px;
-  }
-  td {
-    font-size: 14px;
   }
 }
 
@@ -53,7 +54,6 @@ td {
   padding: 2px;
   border: 1px solid grey;
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 12px;
   line-height: 18px;
   text-align: left;
   &.main_field {

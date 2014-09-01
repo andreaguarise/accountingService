@@ -1,6 +1,8 @@
-<h1>Cloud record statistics</h1>
-<br>
-<table>
+	<div id="pageTop">
+	<div id= "mainTitle">
+		Cloud record statistics
+	</div>
+	<table>
 	<tbody>
 		<tr>
 			<td>Number of records
@@ -25,11 +27,8 @@
 			</td>
 		</tr>
 	</tbody>
-</table>
-
-<h1>CPU grid norm records statistics page</h1>
-
-
-<iframe src=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/cloud-base.js width="1024"; height="768">
-
-<br>
+	</table>
+	</div>
+	<div id="pageMiddle">
+	<iframe id="grafana" src=<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/cloud-base.js> 
+	</div>

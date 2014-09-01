@@ -5,9 +5,11 @@
 
 
 #banner {
+  left:0px;
   background: #600;
   height: 40px;
   color: #ccc; 
+  padding: 10px;
   a {
        color: #aaa;
        font-size: 15px;
@@ -22,12 +24,9 @@
      } 
 }
 
-#banner {
-  padding: 10px;
-}
-
 #banner #logo {
   float: left;
+  width:200px;
   font-size: 34 px;
   ul { display: inline; }
   li { display: inline; }
@@ -49,24 +48,18 @@
   background: #fee;
 }
 
-#main {
+#columns #sideSection {
   position: absolute;
-  width:100%;
-  left:120px;
-  margin-left: 8em;
-  padding-top: 1ex;
-  padding-left: 1em;
-  background: white;
+  left: 0px;
+  width:10%;
+  min-width:200px;
+  max-width:200px;
+  background: #fee;
+  height:100%;
 }
 
-#side {
-  position: absolute;
-  width:200px;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-bottom: 1em;
-  background: #fee;
-  height:1024px;
+#columns #mainSection {
+  
 }
 
 #sidemenu {
@@ -87,46 +80,72 @@
     }
 }
 
-#recordstable {
-    font-size: 10px;
-    a {
-      font-size: 10px;
-    }
+#pageContainer {
+  position:absolute;
+  margin-left:200px;
+  margin-top:0px;
+  height:100%;
+  width: 90%;
+  min-width:1024px;
 }
 
-#grafanaContainer {
-    position: absolute;
-    width:55%;
-    left:500px;
-    top:90px;
-    height:778px
-  }
-
-#topContainer {
-  top:10px;
+#pageContainer #pageTop {
+  float:top;
+  width:100%;
 }
 
-#title {
-    position: absolute;
-    right: 250px;
-    font-size : 11px;
-    top: 10px;
+
+#pageContainer #pageMiddle {
+  float: top;
+  height:100%; 
+  font-size: 8px;
 }
 
-#subtitle {
-    font-size : 12px;
-    top: 10px;
-}
-
-#grafana {
-    float:left;
-    width:98%;
-    height:768px
-  }
+#pageContainer #pageMiddle #pageRight {
+  width:75%;
+  min-width:800px;
+  height:100%;
+  float: left;
   
-#sitesContainer {
-    top: 90px;
-  }
+}
+
+#pageContainer  #pageMiddle #pageRight #grafana {
+  width:100%;
+  height:100%;
+  float:top;
+}
+
+#pageContainer #pageMiddle #pageLeft {
+  float:left;
+  width: 25%;
+  height:100%;
+}
+
+#pageContainer #pageBottom {
+  float: bottom;
+  width:100%;
+}
+
+#pageContainer  #pageMiddle #grafana {
+  width:100%;
+  height:100%;
+  float:top;
+}
+
+#pageContainer #mainTitle {
+    background: #800;
+    height: 20px;
+    color: #ccc; 
+    font-size: 16px;
+    width: 100%;
+}
+
+#pageContainer #subTitle {
+    background: #a00;
+    color: #ccc;
+    height: 16px;
+    font-size: 12px;
+}
 
 
 

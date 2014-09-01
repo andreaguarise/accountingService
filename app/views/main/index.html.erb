@@ -1,40 +1,41 @@
-<div id= "topContainer">
-<div id="title">
-<h2>Flexible Accounting for Usage and System Tracking</h2>
-</div>
-<% if notice %>
-	<p id="notice"><%= notice %></p> 
-<% end %>
 
-<% #if session[:user_id] != nil  %>
-<div id = "subtitle">	
-<h3>Sites publishing to this instance, records published</h3>
-</div>
-</div>
-<div id = "mainContainer">
-<div id="sitesContainer">
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Cloud CPU</th>
-    <th>Apel CPU</th>
-    <th>Local Batch CPU</th>
-    <th>Grid Storage</th>
-  </tr>
+	<div id= "pageTop">
+	<div id="mainTitle">
+	Flexible Accounting for Usage and System Tracking
+	</div>
+	<% if notice %>
+		<p id="notice"><%= notice %></p> 
+	<% end %>
 
-<% @sites.sort_by{|e| e[:name]}.each do |site| %>
-  <tr class="<%= cycle("odd", "even") %>">
-    <td><%= link_to site.name, site %></td>
-    <td><%= @cloudBySite[site.id] %></td>
-    <td><%= @apelBySite[site.id] %></td>
-    <td><%= @batchBySite[site.id] %></td>
-    <td><%= @emiStorageBySite[site.name] %></td>
-  </tr>
-<% end %>
-</table>
-</div>
- <div id="grafanaContainer">
-	<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true"> 
- </div>
-</div>
+	<% #if session[:user_id] != nil  %>
+	<div id = "subTitle">	
+		Sites publishing to this instance, records published
+	</div>
+	</div>
+	<div id="pageMiddle">
+	<div id="pageLeft">
+	<table>
+ 	 <tr>
+	    <th>Name</th>
+	    <th>Cloud CPU</th>
+	    <th>Apel CPU</th>
+ 	   <th>Local Batch CPU</th>
+  	  <th>Grid Storage</th>
+  	</tr>
+
+	<% @sites.sort_by{|e| e[:name]}.each do |site| %>
+	  <tr class="<%= cycle("odd", "even") %>">
+  	  <td><%= link_to site.name, site %></td>
+   	 <td><%= @cloudBySite[site.id] %></td>
+   	 <td><%= @apelBySite[site.id] %></td>
+   	 <td><%= @batchBySite[site.id] %></td>
+   	 <td><%= @emiStorageBySite[site.name] %></td>
+  	</tr>
+	<% end %>
+	</table>
+	</div>
+ 	<div id="pageRight">
+		<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true"> 
+ 	</div>
+ 	</div>
 <% #end %>

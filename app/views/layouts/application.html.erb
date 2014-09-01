@@ -33,11 +33,13 @@
 				<% end %>
 		</div>
 		<div id="columns">
-			<div id="side">
+			<div id="sideSection">
 				<%=  render "side_bar" %>
 			</div>	
-			<div id ="main">
-				<%= yield %>
+			<div id ="mainSection">
+				<div id="pageContainer">
+					<%= yield %>
+				</div>
 			</div>
 		</div>
 	</body>
