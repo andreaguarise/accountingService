@@ -30,9 +30,14 @@ dashboard = {
   rows : [],
   services : {}
 };
+showLegend = true;
+showValues = true;
+if ( ARGS.showValues == "false" ) {
+	showValues = false;
+}
 
 // Set a title
-dashboard.title = 'Sites dashboard';
+dashboard.title = 'Cloud sites dashboard';
 dashboard.editable = 'false';
 dashboard.style= 'light';
 dashboard.panel_hints= 'false';
@@ -120,14 +125,14 @@ if( ARGS.editable == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '240px',
+    height: '200px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
         title: 'Cloud instantiated VM and CPUs',
         type: 'graphite',
-        span: 6,
+        span: 3,
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: "count",
@@ -142,9 +147,27 @@ if( ARGS.editable == "true") {
         ],
       },
       {
+        title: 'Cloud instantiated VM and CPUs (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
+      {
         title: 'CpuDuration and WallDuration',
         type: 'graphite',
-        span: 6,
+        span: 3,
         fill: 1,
         linewidth: 2,
         leftYAxisLabel: "duration",
@@ -158,12 +181,187 @@ if( ARGS.editable == "true") {
           }
         ],
       },
+      {
+        title: 'CpuDuration and WallDuration (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
     ]
   });
 
+  if(_.isUndefined(ARGS.siteName)) {
+  	dashboard.rows.push({
+    title: 'CloudStats',
+    height: '170px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Cloud instantiated VM by site',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),7),8),3)"
+          },
+        ],
+      },
+      {
+        title: 'Cloud instantiated VM and CPUs (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
+      {
+        title: 'CpuDuration and WallDuration',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'CpuDuration and WallDuration (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
+    ]
+  });
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '240px',
+    height: '190px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Cloud instantiated VM and CPUs',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'Cloud instantiated VM and CPUs (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "count",
+        y_formats: ["short","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
+      {
+        title: 'CpuDuration and WallDuration',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+          },
+          {
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+          }
+        ],
+      },
+      {
+        title: 'CpuDuration and WallDuration (variation)',
+        type: 'graphite',
+        span: 3,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "duration",
+        y_formats: ["s","short"],
+        targets: [
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+          },
+          {
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
+          }
+        ],
+        steppedLine: true,
+      },
+    ]
+  });
+  
+  }
+
+  dashboard.rows.push({
+    title: 'CloudStats',
+    height: '220px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -214,6 +412,74 @@ if( ARGS.editable == "true") {
       }
     ]
   });
+  
+  if(_.isUndefined(ARGS.siteName)) {
+  	dashboard.rows.push({
+    title: 'CloudStats',
+    height: '220px',
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Network inbound traffic by site',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "Network usage",
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8),3)"
+          }
+        ],
+      },
+      {
+        title: 'Network outbound traffic by site',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "Network usage",
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8),3)"
+          }
+        ],
+      },
+      {
+        title: 'Memory occupation by site',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "Memory",
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),7),8),3)"
+          }
+        ],
+      },
+      {
+        title: 'Disk occupation by site',
+        type: 'graphite',
+        span: 4,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: "storage",
+        y_formats: ["bytes","short"],
+        targets: [
+          {
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),7),8),3)"
+          }
+        ],
+      }
+    ]
+  });
+  }
+  
   if(!_.isUndefined(ARGS.siteName)) {
 	dashboard.rows.push({
     title: 'GroupsCloudStats',

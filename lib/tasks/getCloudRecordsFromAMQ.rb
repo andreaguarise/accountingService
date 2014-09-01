@@ -150,7 +150,7 @@ VALUES "
       e.endTime = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
       e.globaluserName = r["GlobalUserName"]
       e.hypervisor_hostname = r["HypervisorHostname"]
-      e.localVMID = r["LocalVMID"]
+      e.localVMID = r["MachineName"]
       e.local_group = r["LocalGroupId"]
       e.local_user = r["LocalUserId"]
       e.memory = r["Memory"]

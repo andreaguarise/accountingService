@@ -70,7 +70,7 @@ if ( ARGS.interactive == "false" ) {
 }
 
 // Set a title
-dashboard.title = 'Sites dashboard';
+dashboard.title = 'Grid dashboard';
 dashboard.editable = 'false';
 dashboard.style= 'light';
 dashboard.panel_hints= 'false';
