@@ -1,14 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<H2>
-  <b>Site:</b>
-  <%= @site.name %>
-</H2>
+<div id="pageTop">
+  <div id="mainTitle">
+  Site: <%= @site.name %> - Description:</b> <%= @site.description %>
+  </div>
 
-<p>
-  <b>Description:</b>
-  <%= @site.description %>
-</p>
+
+
 <table>
 	<tr>
 <td>		
@@ -52,12 +50,8 @@
 </td>
 </tr>
 </table>
-<p>
-<iframe src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&siteName=<%=@site.name%>&grid=true&cloud=true" width=1280 height=1024 seamless>
-</p>
+</div>
 
-
-<p>
-<%= link_to 'Edit', edit_site_path(@site) %> |
-<%= link_to 'Back', sites_path %>
-</p>
+<div id="pageMiddle">
+<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&siteName=<%=@site.name%>&grid=true&cloud=true" width=1280 height=1024 seamless>
+</div>

@@ -1,7 +1,14 @@
-<h1>Sites</h1>
+<div id="pageTop">
+<div id= "mainTitle">
+		Site statistics
+	</div>
+</div>
 
+<div id="pageBottom">
 <%= link_to 'New Site', new_site_path %>
+</div>
 
+<div id="pageMiddle">
 <table class="management">
   <tr>
     <th>Name<%= upArrowLink "name"%><%= downArrowLink "name" %></th>
@@ -29,5 +36,6 @@
 <br />
 
 <p><%= will_paginate @sites %></p>
+</div>
 
 

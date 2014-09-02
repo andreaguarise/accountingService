@@ -1,3 +1,8 @@
 <% if @site %>
 <a href="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&siteName=<%=@site.name%>&grid=true&cloud=true">dashboard</a>
+
+<p>
+<%= link_to 'Edit', edit_site_path(@site) %> |
+<%= link_to 'Back', sites_path %>
+</p>
 <% end %>

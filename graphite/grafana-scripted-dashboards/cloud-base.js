@@ -124,7 +124,7 @@ if( ARGS.editable == "true") {
 
 
   dashboard.rows.push({
-    title: 'CloudStats',
+    title: 'All sites 1',
     height: '200px',
     editable: dashboardEditable,
     collapsable: false,
@@ -139,10 +139,10 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
           }
         ],
       },
@@ -156,10 +156,10 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
           },
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
           }
         ],
         steppedLine: true,
@@ -174,10 +174,10 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
           }
         ],
       },
@@ -191,10 +191,10 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
           },
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
           }
         ],
         steppedLine: true,
@@ -204,7 +204,7 @@ if( ARGS.editable == "true") {
 
   if(_.isUndefined(ARGS.siteName)) {
   	dashboard.rows.push({
-    title: 'CloudStats',
+    title: 'Per sites 1',
     height: '170px',
     editable: dashboardEditable,
     collapsable: false,
@@ -219,12 +219,12 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),7),8),3)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'),7),8),3)"
           },
         ],
       },
       {
-        title: 'Cloud instantiated VM and CPUs (variation)',
+        title: 'Cloud instantiated VM by site (variation)',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -233,16 +233,13 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
-          },
-          {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'),7),8)),3)"
           }
         ],
         steppedLine: true,
       },
       {
-        title: 'CpuDuration and WallDuration',
+        title: 'CpuDuration by site',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -251,15 +248,12 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuDuration,'1d','avg'),7),8),3)"
           },
-          {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
-          }
         ],
       },
       {
-        title: 'CpuDuration and WallDuration (variation)',
+        title: 'CpuDuration by site (variation)',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -268,24 +262,21 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuDuration,'1d','avg'),7),8)),3)"
           },
-          {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
-          }
         ],
         steppedLine: true,
       },
     ]
   });
   dashboard.rows.push({
-    title: 'CloudStats',
-    height: '190px',
+    title: 'Per site 2',
+    height: '170px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
       {
-        title: 'Cloud instantiated VM and CPUs',
+        title: 'Cloud instantiated CPU by site',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -294,15 +285,12 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg'),7),8),3)"
           },
-          {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
-          }
         ],
       },
       {
-        title: 'Cloud instantiated VM and CPUs (variation)',
+        title: 'Cloud instantiated CPU by site (variation)',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -311,16 +299,13 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'))),10)"
-          },
-          {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg'),7),8)),3)"
           }
         ],
         steppedLine: true,
       },
       {
-        title: 'CpuDuration and WallDuration',
+        title: 'WallDuration by site',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -329,15 +314,12 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.wallDuration,'1d','avg'),7),8),3)"
           },
-          {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
-          }
         ],
       },
       {
-        title: 'CpuDuration and WallDuration (variation)',
+        title: 'WallDuration by site (variation)',
         type: 'graphite',
         span: 3,
         fill: 1,
@@ -346,11 +328,8 @@ if( ARGS.editable == "true") {
         y_formats: ["s","short"],
         targets: [
           {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg'))),10)"
+            'target': "aliasByNode(derivative(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.wallDuration,'1d','avg'),7),8)),3)"
           },
-          {
-            'target': "aliasByNode(derivative(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg'))),10)"
-          }
         ],
         steppedLine: true,
       },
@@ -361,7 +340,7 @@ if( ARGS.editable == "true") {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: '220px',
+    height: '200px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -375,10 +354,10 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,'1d','avg')),10)"
           }
         ],
       },
@@ -392,7 +371,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,'1d','avg')),10)"
           }
         ],
       },
@@ -406,7 +385,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.disk,'1d','avg')),10)"
           }
         ],
       }
@@ -415,8 +394,8 @@ if( ARGS.editable == "true") {
   
   if(_.isUndefined(ARGS.siteName)) {
   	dashboard.rows.push({
-    title: 'CloudStats',
-    height: '220px',
+    title: 'Per sites 3',
+    height: '200px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -430,7 +409,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8),3)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8),3)"
           }
         ],
       },
@@ -444,7 +423,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8),3)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8),3)"
           }
         ],
       },
@@ -458,7 +437,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),7),8),3)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,'1d','avg'),7),8),3)"
           }
         ],
       },
@@ -472,7 +451,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),7),8),3)"
+            'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.disk,'1d','avg'),7),8),3)"
           }
         ],
       }
@@ -483,7 +462,7 @@ if( ARGS.editable == "true") {
   if(!_.isUndefined(ARGS.siteName)) {
 	dashboard.rows.push({
     title: 'GroupsCloudStats',
-    height: '210px',
+    height: '200px',
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -497,7 +476,7 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg'),9),7)"
           }
         ],
       },
@@ -511,7 +490,7 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
           }
         ],
       },
@@ -524,7 +503,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,'1d','avg'),9),7)"
           }
         ],
       },
@@ -537,7 +516,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,'1d','avg'),9),7)"
           }
         ],
       },
@@ -550,7 +529,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,'1d','avg'),9),7)"
           }
         ],
       },
@@ -563,7 +542,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.disk,'1d','avg'),9),7)"
           }
         ],
       }
@@ -585,7 +564,7 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg'),7),8)"
           }
         ],
       },
@@ -599,7 +578,7 @@ if( ARGS.editable == "true") {
         y_formats: ["short","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'),7),8)"
           }
         ],
       },
@@ -612,7 +591,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,'1d','avg'),7),8)"
           }
         ],
       },
@@ -625,7 +604,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,'1d','avg'),7),8)"
           }
         ],
       },
@@ -638,7 +617,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,'1d','avg'),7),8)"
           }
         ],
       },
@@ -651,7 +630,7 @@ if( ARGS.editable == "true") {
         y_formats: ["bytes","short"],
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.disk,'1d','avg'),7),8)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.disk,'1d','avg'),7),8)"
           }
         ],
       }
