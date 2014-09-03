@@ -22,7 +22,8 @@ var ARGS;
 
 // Set a default timespan if one isn't specified
 timspan = '30d';
-defaultHeigth='180px';
+defaultHeight='180px';
+defaultHeightSecondary='140px';
 
 // Initialize a skeleton with nothing but a rows array and service object
 dashboard = {
@@ -129,7 +130,7 @@ if( cloud == true) {
 
   dashboard.rows.push({
     title: 'CloudStats',
-    height: defaultHeigth,
+    height: defaultHeight,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -228,7 +229,7 @@ if( cloud == true) {
   if(!_.isUndefined(ARGS.siteName)) {
 	dashboard.rows.push({
     title: 'GroupsCloudStats',
-    height: defaultHeigth,
+    height: defaultHeight,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -355,7 +356,7 @@ if( grid == true) {
   	}
 	dashboard.rows.push({
     title: 'GridStats',
-    height: defaultHeigth,
+    height: defaultHeight,
     editable: dashboardEditable,
     collapsable: false,
     panels: [
@@ -426,10 +427,156 @@ if( grid == true) {
       }
     ]
   });
+  
+  if (_.isUndefined(ARGS.siteName)) {
+  	dashboard.rows.push({
+    title: 'GridStats',
+    height: defaultHeightSecondary,
+    editable: dashboardEditable,
+    collapsable: false,
+    panels: [
+      {
+        title: 'Grid - completed jobs by site',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 1,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: false,
+        	current: false,
+        	avg: false,  	
+        },
+        lines: true,
+        bars: false,
+        stack: true,
+        zerofill: true,
+        nullPointMode: 'null as zero',
+        targets: [
+          {
+            'target': "aliasByNode(sortByMaxima(summarize(faust.cpu_grid_norm_records.by_site.*.all_vo.count,'1d','sum')),3)"
+          }
+        ],
+      },
+      {
+        title: 'Grid - completed jobs - by VO',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 1,
+        leftYAxisLabel: 'count',
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: false,
+        	avg: false,  	
+        },
+        lines: true,
+        bars: false,
+        stack: true,
+        zerofill: true,
+        nullPointMode: 'null as zero',
+        targets: [
+          {
+            'target': "aliasByNode(sortByMaxima(summarize(faust.cpu_grid_norm_records.by_vo.*.all_site.count,'1d','sum')),3)"
+          }
+        ],
+      },
+      {
+        title: 'Grid wall time by site',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 1,
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: false,
+        	avg: false,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(summarize(faust.cpu_grid_norm_records.by_site.*.all_vo.wallDuration,'1d','sum'),5)"
+          },
+        ],
+      },
+      {
+        title: 'Grid wall time by VO',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: 'duration',
+        y_formats: ["s","short"],
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: false,
+        	avg: false,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(sortByMaxima(summarize(faust.cpu_grid_norm_records.by_vo.*.all_site.count,'1d','sum')),3)"
+          },
+        ],
+      },
+      {
+        title: 'Normalized cputime and reported benchmark',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: 'Ksi2K*hours',
+        y_formats: ["short","short"],
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpu_H_KSi2k),'1d','sum'),5)"
+          },
+          {
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.si2k),'1d','avg'),5)"
+          }
+        ],
+      },
+      {
+        title: 'Normalized cputime and reported benchmark',
+        type: 'graphite',
+        span: 2,
+        fill: 1,
+        linewidth: 2,
+        leftYAxisLabel: 'Ksi2K*hours',
+        y_formats: ["short","short"],
+        legend: {
+        	show: true,
+        	values: showValues,
+        	current: true,
+        	avg: true,  	
+        },
+        targets: [
+          {
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.cpu_H_KSi2k),'1d','sum'),5)"
+          },
+          {
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".all_vo.si2k),'1d','avg'),5)"
+          }
+        ],
+      }
+    ]
+  });
+  }
+  
   if(!_.isUndefined(ARGS.siteName)) {
   	dashboard.rows.push({
     title: 'GridStats',
-    height: defaultHeigth,
+    height: defaultHeight,
     editable: dashboardEditable,
     collapsable: false,
     panels: [

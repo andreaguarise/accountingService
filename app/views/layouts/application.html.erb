@@ -8,6 +8,7 @@
 		<%= csrf_meta_tags %>
 	</head>
 	<body id ="faust">
+	<div id="page">
 		<div id="banner">
 				<div id="logo"><%= link_to 'F.A.U.S.T.', main_url%></div>
 			    <% if session[:user_id] %>
@@ -36,11 +37,10 @@
 			<div id="sideSection">
 				<%=  render "side_bar" %>
 			</div>	
-			<div id ="mainSection">
 				<div id="pageContainer">
 					<%= yield %>
 				</div>
-			</div>
 		</div>
+	</div>
 	</body>
 </html>

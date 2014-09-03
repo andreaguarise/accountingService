@@ -3,6 +3,10 @@ class DatabaseRecord < ActiveRecord::Base
   
   belongs_to :database_table
   
+  delegate :site, :to => :resource
+  delegate :resource, :to => :publisher
+  delegate :publisher, :to => :database_table
+  
   @attr_searchable =["database_table.name"]
   @date_searchable = ["endTime"]
   

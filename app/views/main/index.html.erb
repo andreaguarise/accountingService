@@ -17,19 +17,17 @@
 	<table>
  	 <tr>
 	    <th>Name</th>
-	    <th>Cloud CPU</th>
-	    <th>Apel CPU</th>
- 	   <th>Local Batch CPU</th>
-  	  <th>Grid Storage</th>
+	    <th>Status</th>
   	</tr>
 
 	<% @sites.sort_by{|e| e[:name]}.each do |site| %>
 	  <tr class="<%= cycle("odd", "even") %>">
   	  <td><%= link_to site.name, site %></td>
-   	 <td><%= @cloudBySite[site.id] %></td>
-   	 <td><%= @apelBySite[site.id] %></td>
-   	 <td><%= @batchBySite[site.id] %></td>
-   	 <td><%= @emiStorageBySite[site.name] %></td>
+   	 <td id="statusColumn">
+   	 <div id="<%= @cloudStatusBySite[site.id]%>">cloud</div>
+   	 <div id="<%= @apelStatusBySite[site.id]%>">grid</div>
+   	 <div id="<%= @emiStorageStatusBySite[site.id]%>">storage</div>
+   	 </td>
   	</tr>
 	<% end %>
 	</table>
