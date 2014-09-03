@@ -3,7 +3,7 @@ class DatabaseTable < ActiveRecord::Base
   
   belongs_to :database_scheme
   
-  delegete :publisher, :to => database_scheme
+  delegate :publisher, :to => database_scheme
   
   has_many :database_record
 end
