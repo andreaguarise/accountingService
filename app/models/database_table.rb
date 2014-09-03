@@ -3,5 +3,6 @@ class DatabaseTable < ActiveRecord::Base
   
   belongs_to :database_scheme
   
+  
   has_many :database_record
 end
