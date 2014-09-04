@@ -149,10 +149,10 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,'1d','avg')),10)"
           }
         ],
       },
@@ -172,10 +172,10 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuDuration,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.wallDuration,'1d','avg')),10)"
           }
         ],
       },
@@ -195,10 +195,10 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,'1d','avg')),10)"
           },
           {
-            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,'1d','avg')),10)"
+            'target': "aliasByNode(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,'1d','avg')),10)"
           }
         ],
       },
@@ -218,7 +218,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(scale(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,'1d','avg')),1048576),10)"
+            'target': "aliasByNode(scale(sumSeries(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,'1d','avg')),1048576),10)"
           }
         ],
       }
@@ -248,7 +248,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.cpuCount,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.cpuCount,9),7)"
           }
         ],
       },
@@ -267,7 +267,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(summarize(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.vmCount,'1d','avg'),9),7)"
           }
         ],
       },
@@ -287,7 +287,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkInbound,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkInbound,9),7)"
           }
         ],
       },
@@ -307,7 +307,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.networkOutbound,9),7)"
+            'target': "aliasByNode(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.networkOutbound,9),7)"
           }
         ],
       },
@@ -327,7 +327,7 @@ if( cloud == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(scale(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.RUNNING.by_group.*.by_user.*.memory,9),1048576),7)"
+            'target': "aliasByNode(scale(sumSeriesWithWildcards(faust.cpu_cloud_records.by_site." + siteName + ".by_status.started.by_group.*.by_user.*.memory,9),1048576),7)"
           }
         ],
       }
