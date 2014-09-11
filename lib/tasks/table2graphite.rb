@@ -4,7 +4,7 @@ require 'optparse'
 require 'date'
 require 'graphite-api'
 require 'open-uri'
-require 'config/table2graphite_defs'
+require 'table2graphite_defs'
 
 class String
   def mgsub(key_value_pairs=[].freeze)
