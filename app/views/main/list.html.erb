@@ -1,0 +1,29 @@
+
+	<div id= "pageTop">
+	<div id="mainTitle">
+	Flexible Accounting for Usage and System Tracking
+	</div>
+	<% if notice %>
+		<p id="notice"><%= notice %></p> 
+	<% end %>
+
+	<% #if session[:user_id] != nil  %>
+	<div id = "subTitle">	
+		Sites publishing to this instance, records published
+	</div>
+	</div>
+	<div id="pageMiddle">
+	<ul class="siteList">
+	<% @sites.sort_by{|e| e[:name]}.each do |site| %>
+	  <li id="<%= cycle("odd", "even") %>">
+  	  <%= link_to site.name, Rails.configuration.grafanaUrl + "/#/dashboard/script/site-show.js?interactive=true&grid=true&cloud=true?siteName=" +site.name  %>
+  	  </li>
+	<% end %>
+	</ul>
+	<!--
+ 	<div id="pageRight">
+		<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true"> 
+ 	</div>
+ 	-->
+ 	</div>
+<% #end %>
