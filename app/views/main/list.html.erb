@@ -16,7 +16,7 @@
 	<ul class="siteList">
 	<% @sites.sort_by{|e| e[:name]}.each do |site| %>
 	  <li id="<%= cycle("odd", "even") %>">
-  	  <%= link_to site.name, Rails.configuration.grafanaUrl + "/#/dashboard/script/site-show.js?interactive=true&grid=true&cloud=true?siteName=" +site.name  %>
+  	  <%= link_to site.name, Rails.configuration.grafanaUrl + "/#/dashboard/script/site-show.js?interactive=true&grid=true&cloud=true&siteName=" +site.name  %>
   	  </li>
 	<% end %>
 	</ul>
