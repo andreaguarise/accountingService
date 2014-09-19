@@ -2,7 +2,7 @@ set :application, "accountingService"
 set :repository,  "git@github.com:andreaguarise/accountingService.git"
 set :domain, 'root@dgas-dev-24.to.infn.it'
 set :deploy_to, "/var/www/html/accountingService"
-set :prod, 'root@dgas-dev-25.to.infn.it'
+set :prod, 'root@faust01.to.infn.it'
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`

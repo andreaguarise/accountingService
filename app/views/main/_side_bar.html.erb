@@ -1,1 +1,6 @@
- <a href="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?grid=true&cloud=true">Dashboard</a>
+<div id = "sidemenu">
+<ul>
+<li><%= link_to_if !session[:user_id], "Login", "/login" %></li>
+<li><a href="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?grid=true&cloud=true">Dashboard</a></li>
+</ul>
+</div>

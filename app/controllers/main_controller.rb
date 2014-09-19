@@ -1,4 +1,5 @@
 class MainController < ApplicationController
+  skip_before_filter :userAuthenticate, :only => [:list]
   skip_before_filter :publisherAuthenticate
   def index
     @sites = Site.all
@@ -23,7 +24,9 @@ class MainController < ApplicationController
     @cloudBySite.each do |k,v|
      @cloudStatusBySite[k] = ((Time.now.to_i - Time.at(v).to_i) < 86400 ? "stateSuccess" : "stateFailure" )  
     end
-    
-    
+  end
+  
+  def list
+    @sites = Site.all
   end
 end
