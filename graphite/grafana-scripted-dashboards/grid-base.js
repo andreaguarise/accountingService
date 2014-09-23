@@ -249,10 +249,10 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpu_H_KSi2k),'1d','sum'),5)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpu_H_KSi2k),'1d','sum'),6)"
           },
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".si2k),'1d','avg'),5)"
+            'target': "aliasByNode(summarize(averageSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".si2k),'1d','avg'),6)"
           }
         ],
       }

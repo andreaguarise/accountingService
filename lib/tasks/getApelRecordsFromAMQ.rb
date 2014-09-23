@@ -360,7 +360,8 @@ class ApelSSMRecords
            else
                 Rails.logger.info "#{records.length} remaining in message --> Single insert."
                 #treat case where there are no sufficient record to be bulk processed
-                partialEvent = EventRecordConverter.new(records.length) if not partialEvent
+                partialEvent = ApelSsmRecordConverter.new(records.length) if not partialEvent
+                benchmark = BenchmarkRecordConverter.new
                 Rails.logger.debug "Do single Event"
                 partialEvent.convert(r)
                 benchmark.convert(r) #we do not do bulk insert for benchmarks
