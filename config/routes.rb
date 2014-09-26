@@ -171,8 +171,10 @@ AccountingService::Application.routes.draw do
 
   resources :resource_types
 
+  #resources :sites
+
   resources :sites do
-    collection do
+   collection do
       match 'searchid' => 'sites#searchid'
     end
   end
