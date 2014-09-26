@@ -152,6 +152,7 @@ VALUES "
         autoResource = Resource.new
         autoResource.resource_type_id = rtype.id
         autoResource.name = "#{r["Site"]}-autoCE"
+        #FIXME Insert Resource.find_by_name here to populate auto resource if it already exists.!!!
         Rails.logger.info "Creating Resource: #{autoResource.name}"
         autoResource.site_id = site.id
         autoResource.save
