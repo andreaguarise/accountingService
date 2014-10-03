@@ -499,7 +499,7 @@ if( grid == true) {
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(faust.cpu_grid_norm_records.by_site.*.all_vo.wallDuration,'1d','sum'),5)"
+            'target': "aliasByNode(summarize(faust.cpu_grid_norm_records.by_site.*.all_vo.wallDuration,'1d','sum'),3)"
           },
         ],
       },
