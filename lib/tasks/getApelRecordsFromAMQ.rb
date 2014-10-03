@@ -152,10 +152,13 @@ VALUES "
         autoResource = Resource.new
         autoResource.resource_type_id = rtype.id
         autoResource.name = "#{r["Site"]}-autoCE"
-        #FIXME Insert Resource.find_by_name here to populate auto resource if it already exists.!!!
-        Rails.logger.info "Creating Resource: #{autoResource.name}"
-        autoResource.site_id = site.id
-        autoResource.save
+        autoResource = Resource.find_by_name("#{r["Site"]}-autoCE")
+        if !autoResource
+          Rails.logger.info "Creating Resource: #{autoResource.name}"
+          autoResource.site_id = site.id
+          autoResource.save
+        end
+        autoResource = Resource.find_by_name("#{r["Site"]}-autoCE") #Reload resource in case it has just been created, shoul find better coding
         autoPublisher = Publisher.new
         autoPublisher.hostname = r["MachineName"]
         Rails.logger.info "Creating Publisher: #{autoPublisher.hostname}"
@@ -164,9 +167,9 @@ VALUES "
         autoPublisher.save
         publisher = Publisher.find_by_hostname(r["MachineName"])
         @@publishersCache[r["MachineName"]] = publisher.id
+      else
+        @@publishersCache[r["MachineName"]] = publisher.id
       end
-      ##If publisher does not exists create it
-      @@publishersCache[r["MachineName"]] = publisher.id
     end
     
     if @@publishersCache[r["MachineName"]]
@@ -337,7 +340,7 @@ class ApelSSMRecords
       rescue Timeout::Error
         @conn.unsubscribe "/queue/#{@options[:queue]}"
         @conn.disconnect
-        Rails.logger.info "No more messages. Exiting."
+        Rails.logger.info "#{@options[:queue]} - No more messages. Exiting."
         return
       end
       @count = @count + 1
