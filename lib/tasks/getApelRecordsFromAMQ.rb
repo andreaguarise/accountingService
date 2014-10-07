@@ -94,7 +94,7 @@ class ApelSsmRecordConverter
   def import
     #puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    Rails.logger.info "#{now} - Apel SSM Record count: #{@@recordCount}"
+    Rails.logger.info "#{now}- Apel SSM Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
       Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.localJobId}"
@@ -154,7 +154,10 @@ VALUES "
         autoResource.name = "#{r["Site"]}-autoCE"
         autoResource = Resource.find_by_name("#{r["Site"]}-autoCE")
         if !autoResource
-          Rails.logger.info "Creating Resource: #{autoResource.name}"
+          autoResource = Resource.new
+          autoResource.resource_type_id = rtype.id
+          autoResource.name = "#{r["Site"]}-autoCE"
+          Rails.logger.info "#{r["Site"]}: Creating Resource: #{autoResource.name}"
           autoResource.site_id = site.id
           autoResource.save
         end
@@ -197,14 +200,17 @@ VALUES "
       e.voRole = r["VORole"]
       e.infrastructureDescription = r["InfrastructureDescription"]
       e.infrastructureType = r["InfrastructureType"]
-    
-      @@record_ary << e
+      if r["StartTime"] == "0"   ##Expunge Record with starttime at 0 (Start of the epoch)
+        Rails.logger.info "#{r["Site"]}: startTime at the beginning of the Epoch. skipping record!"
+      else
+        @@record_ary << e
+      end
       @@recordCount = @@recordCount + 1;
       if ( @@record_ary.length >= @n )
         self.import
       end
     else
-      puts "Publisher does not exists. Error!"
+       Rails.logger.info "Publisher does not exists. Error!"
       exit 1
     end
   end
@@ -236,7 +242,11 @@ class SSMMessage
         next
       end
       if ( line =~ /^(\w+):\s(.*)$/ )
-        recordBuff[$1] = $2.chomp
+        valueBuff = ActiveRecord::Base::sanitize($2.chomp)
+        key = $1
+        valueBuff =~ /^'(.*)'$/
+        value = $1
+        recordBuff[key] = value
         haveApelRecord = true;
       end
     end
@@ -337,6 +347,7 @@ class ApelSSMRecords
       records = Array.new
       begin Timeout::Error
       timeout(@options[:timeout]) { @msg = @conn.receive }
+      Rails.logger.info "#{@options[:queue]} - Message N.#{@count}"
       rescue Timeout::Error
         @conn.unsubscribe "/queue/#{@options[:queue]}"
         @conn.disconnect
