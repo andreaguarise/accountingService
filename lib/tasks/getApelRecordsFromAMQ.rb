@@ -49,14 +49,19 @@ class BenchmarkRecordConverter
   @@lastBenchmark = Hash.new
   
   def convert(r)
-    if not @@publishersCache.key?(r["MachineName"])
-      publisher = Publisher.find_by_hostname(r["MachineName"])
-      @@publishersCache[r["MachineName"]] = publisher.id
+    site = Site.find_by_name(r["Site"])
+    if !site
+      Rails.logger.info "#{r["Site"]}: Does not exists!"
+      raise "Site #{r["Site"]} does not exists."
     end
-    if @@publishersCache[r["MachineName"]]
+    if not @@publishersCache.key?("#{r["Site"]}.#{r["MachineName"]}")
+      publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
+      @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
+    end
+    if @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
       
       bv = BenchmarkValue.new
-      bv.publisher_id = @@publishersCache[r["MachineName"]] 
+      bv.publisher_id = @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] 
       bv.date = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
       bv.value = r["ServiceLevel"]
       #LOG HERE FOR DEBUG
@@ -143,11 +148,15 @@ VALUES "
     if not r["MachineName"]
       Rails.logger.info "#{r.to_json}"
     end
-    if not @@publishersCache.key?(r["MachineName"])
-      publisher = Publisher.find_by_hostname(r["MachineName"])
+    site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
+    if !site
+      Rails.logger.info "#{r["Site"]}: Does not exists!"
+      raise "Site #{r["Site"]} does not exists."
+    end
+    if not @@publishersCache.key?("#{r["Site"]}.#{r["MachineName"]}")
+      publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
       if !publisher
         #Publisher does not exists.
-        site = Site.find_by_name(r["Site"])
         rtype = ResourceType.find_by_name("Farm_grid+local") 
         autoResource = Resource.new
         autoResource.resource_type_id = rtype.id
@@ -168,19 +177,19 @@ VALUES "
         autoPublisher.resource_id = autoResource.id
         autoPublisher.ip = "127.0.0.1"
         autoPublisher.save
-        publisher = Publisher.find_by_hostname(r["MachineName"])
-        @@publishersCache[r["MachineName"]] = publisher.id
+        publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
+        @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
       else
-        @@publishersCache[r["MachineName"]] = publisher.id
+        @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
       end
     end
     
-    if @@publishersCache[r["MachineName"]]
+    if @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
       e = ApelSsmRecord.new
       e.machineName = r["MachineName"]
       e.submitHost = r["SubmitHost"]
       e.localJobId = r["LocalJobId"]
-      e.publisher_id = @@publishersCache[r["MachineName"]]
+      e.publisher_id = @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
       e.queue = r["Queue"]
       e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do lag at the end of the job
       e.processors = r["Processors"]
