@@ -39,9 +39,9 @@ class GrafanaDashboard
     }
   },
   "title": "Summary",
-  "editable": "true",
+  "editable": "false",
   "style": "light",
-  "panel_hints": "true",
+  "panel_hints": "false",
   "loader": {
     "save_gist": false,
     "save_elasticsearch": true,
