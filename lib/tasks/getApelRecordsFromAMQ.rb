@@ -46,16 +46,20 @@ end
 class BenchmarkRecordConverter
   ## use to populate benchmark values (the model server side already takes care of the sampling period)
   @@publishersCache = Hash.new
+  @@sitesCache = Hash.new
   @@lastBenchmark = Hash.new
   
   def convert(r)
-    site = Site.find_by_name(r["Site"])
-    if !site
-      Rails.logger.info "#{r["Site"]}: Does not exists!"
-      raise "Site #{r["Site"]} does not exists."
+    if not @@sitesCache.key?(r["Site"])
+      site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
+      if !site
+        Rails.logger.info "#{r["Site"]}: Does not exists!"
+        raise "Site #{r["Site"]} does not exists."
+      end
+      @@sitesCache[r["Site"]] = site.id
     end
     if not @@publishersCache.key?("#{r["Site"]}.#{r["MachineName"]}")
-      publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
+      publisher = Publisher.includes(:resource).where('resources.site_id' => @@sitesCache[r["Site"]]).find_by_hostname(r["MachineName"])
       @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
     end
     if @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
@@ -91,6 +95,7 @@ end
 class ApelSsmRecordConverter
   @@record_ary = Array.new
   @@publishersCache = Hash.new
+  @@sitesCache = Hash.new
   @@recordCount = 0
   def initialize (n)
     @n = n
@@ -148,13 +153,16 @@ VALUES "
     if not r["MachineName"]
       Rails.logger.info "#{r.to_json}"
     end
-    site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
-    if !site
-      Rails.logger.info "#{r["Site"]}: Does not exists!"
-      raise "Site #{r["Site"]} does not exists."
+    if not @@sitesCache.key?(r["Site"])
+      site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
+      if !site
+        Rails.logger.info "#{r["Site"]}: Does not exists!"
+        raise "Site #{r["Site"]} does not exists."
+      end
+      @@sitesCache[r["Site"]] = site.id
     end
     if not @@publishersCache.key?("#{r["Site"]}.#{r["MachineName"]}")
-      publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
+      publisher = Publisher.includes(:resource).where('resources.site_id' => @@sitesCache[r["Site"]]).find_by_hostname(r["MachineName"])
       if !publisher
         #Publisher does not exists.
         rtype = ResourceType.find_by_name("Farm_grid+local") 
@@ -167,7 +175,7 @@ VALUES "
           autoResource.resource_type_id = rtype.id
           autoResource.name = "#{r["Site"]}-autoCE"
           Rails.logger.info "#{r["Site"]}: Creating Resource: #{autoResource.name}"
-          autoResource.site_id = site.id
+          autoResource.site_id = @@sitesCache[r["Site"]]
           autoResource.save
         end
         autoResource = Resource.find_by_name("#{r["Site"]}-autoCE") #Reload resource in case it has just been created, shoul find better coding
@@ -177,7 +185,7 @@ VALUES "
         autoPublisher.resource_id = autoResource.id
         autoPublisher.ip = "127.0.0.1"
         autoPublisher.save
-        publisher = Publisher.includes(:resource).where('resources.site_id' => site.id).find_by_hostname(r["MachineName"])
+        publisher = Publisher.includes(:resource).where('resources.site_id' => @@sitesCache[r["Site"]] ).find_by_hostname(r["MachineName"])
         @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
       else
         @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] = publisher.id
