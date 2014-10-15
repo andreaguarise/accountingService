@@ -12,6 +12,7 @@ class Publisher < ActiveRecord::Base
   has_many :batch_execute_records, :dependent => :delete_all
   has_many :emi_storage_records, :dependent => :destroy
   has_many :benchmark_values, :dependent => :destroy
+  has_many :grid_pledges, :dependent => :destroy
   has_many :database_schemes, :dependent => :destroy
   has_many :cpu_grid_norm_records
   has_many :cpu_grid_summaries

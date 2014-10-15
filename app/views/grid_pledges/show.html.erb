@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @grid_pledge.publisher_id %>
+</p>
+
+<p>
+  <b>Recorddate:</b>
+  <%= @grid_pledge.recordDate %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @grid_pledge.value %>
+</p>
+
+<p>
+  <b>Logicalcpu:</b>
+  <%= @grid_pledge.logicalCPU %>
+</p>
+
+<p>
+  <b>Physicalcpu:</b>
+  <%= @grid_pledge.physicalCPU %>
+</p>
+
+<p>
+  <b>Benchmark type:</b>
+  <%= @grid_pledge.benchmark_type_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_grid_pledge_path(@grid_pledge) %> |
+<%= link_to 'Back', grid_pledges_path %>

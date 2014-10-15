@@ -1,0 +1,33 @@
+<h1>Listing grid_pledges</h1>
+
+<table>
+  <tr>
+    <th>Publisher</th>
+    <th>Recorddate</th>
+    <th>Value</th>
+    <th>Logicalcpu</th>
+    <th>Physicalcpu</th>
+    <th>Benchmark type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @grid_pledges.each do |grid_pledge| %>
+  <tr>
+    <td><%= grid_pledge.publisher_id %></td>
+    <td><%= grid_pledge.recordDate %></td>
+    <td><%= grid_pledge.value %></td>
+    <td><%= grid_pledge.logicalCPU %></td>
+    <td><%= grid_pledge.physicalCPU %></td>
+    <td><%= grid_pledge.benchmark_type_id %></td>
+    <td><%= link_to 'Show', grid_pledge %></td>
+    <td><%= link_to 'Edit', edit_grid_pledge_path(grid_pledge) %></td>
+    <td><%= link_to 'Destroy', grid_pledge, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Grid pledge', new_grid_pledge_path %>

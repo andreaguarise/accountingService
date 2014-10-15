@@ -1,5 +1,8 @@
 AccountingService::Application.routes.draw do
 
+  resources :grid_pledges
+
+
   resources :apel_ssm_records
 
 

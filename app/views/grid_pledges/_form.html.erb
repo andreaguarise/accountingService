@@ -1,0 +1,44 @@
+<%= form_for(@grid_pledge) do |f| %>
+  <% if @grid_pledge.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@grid_pledge.errors.count, "error") %> prohibited this grid_pledge from being saved:</h2>
+
+      <ul>
+      <% @grid_pledge.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<% publishers_array = Publisher.all.map { |publisher| [publisher.hostname, publisher.id] } %>
+  <% benchmarkTypes_array = BenchmarkType.all.map { |type| [type.name, type.id] } %>
+
+  <div class="field">
+    <%= f.label :publisher_name, 'Publisher' %>:
+	<%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+  </div>
+  <div class="field">
+    <%= f.label :recordDate %><br />
+    <%= f.date_select :recordDate %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.number_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :logicalCPU %><br />
+    <%= f.number_field :logicalCPU %>
+  </div>
+  <div class="field">
+    <%= f.label :physicalCPU %><br />
+    <%= f.number_field :physicalCPU %>
+  </div>
+  <div class="field">
+    <%= f.label :benchmark_type_name, 'Benchmark type' %>:
+	<%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array), :prompt => 'Select a benchmark type'%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  publisher_id: 1
+  recordDate: 2014-10-15
+  value: 1
+  logicalCPU: 1
+  physicalCPU: 1
+  benchmark_type_id: 1
+
+two:
+  publisher_id: 1
+  recordDate: 2014-10-15
+  value: 1
+  logicalCPU: 1
+  physicalCPU: 1
+  benchmark_type_id: 1
