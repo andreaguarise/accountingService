@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140722111041) do
+ActiveRecord::Schema.define(:version => 20141015083300) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -97,32 +97,6 @@ ActiveRecord::Schema.define(:version => 20140722111041) do
   add_index "benchmark_values", ["date"], :name => "date"
   add_index "benchmark_values", ["publisher_id"], :name => "publisher_id"
 
-  create_table "blah_records", :force => true do |t|
-    t.string   "uniqueId"
-    t.datetime "recordDate"
-    t.datetime "timestamp"
-    t.string   "userDN"
-    t.string   "userFQAN"
-    t.string   "ceId"
-    t.string   "jobId"
-    t.string   "lrmsId"
-    t.integer  "localUser"
-    t.string   "clientId"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "publisher_id"
-    t.string   "vo"
-    t.string   "voGroup"
-    t.string   "voRole"
-  end
-
-  add_index "blah_records", ["lrmsId"], :name => "blah_records_lrmsId"
-  add_index "blah_records", ["lrmsId"], :name => "index_blah_records_on_lrmsId"
-  add_index "blah_records", ["publisher_id"], :name => "blah_records_publisher_id"
-  add_index "blah_records", ["publisher_id"], :name => "index_blah_records_on_publisher_id"
-  add_index "blah_records", ["recordDate"], :name => "blah_records_recordDate"
-  add_index "blah_records", ["uniqueId"], :name => "index_blah_records_on_uniqueId", :unique => true
-
   create_table "cloud_record_summaries", :id => false, :force => true do |t|
     t.integer "id",                                                           :default => 0, :null => false
     t.string  "date",            :limit => 24
@@ -136,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20140722111041) do
     t.decimal "networkInbound",                :precision => 45, :scale => 4
     t.decimal "networkOutbound",               :precision => 45, :scale => 4
     t.decimal "cpuCount",                      :precision => 34, :scale => 6
+    t.decimal "disk",                          :precision => 36, :scale => 4
     t.decimal "memory",                        :precision => 36, :scale => 4
   end
 
