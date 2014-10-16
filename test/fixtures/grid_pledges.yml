@@ -2,7 +2,8 @@
 
 one:
   publisher_id: 1
-  recordDate: 2014-10-15
+  validFrom: 2014-10-16
+  validTo: 2014-10-16
   value: 1
   logicalCPU: 1
   physicalCPU: 1
@@ -10,7 +11,8 @@ one:
 
 two:
   publisher_id: 1
-  recordDate: 2014-10-15
+  validFrom: 2014-10-16
+  validTo: 2014-10-16
   value: 1
   logicalCPU: 1
   physicalCPU: 1

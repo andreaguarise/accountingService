@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141015091135) do
+ActiveRecord::Schema.define(:version => 20141016090440) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -294,7 +294,8 @@ ActiveRecord::Schema.define(:version => 20141015091135) do
 
   create_table "grid_pledges", :force => true do |t|
     t.integer  "publisher_id"
-    t.date     "recordDate"
+    t.date     "validFrom"
+    t.date     "validTo"
     t.integer  "value"
     t.integer  "logicalCPU"
     t.integer  "physicalCPU"

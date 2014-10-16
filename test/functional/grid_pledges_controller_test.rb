@@ -18,7 +18,7 @@ class GridPledgesControllerTest < ActionController::TestCase
 
   test "should create grid_pledge" do
     assert_difference('GridPledge.count') do
-      post :create, :grid_pledge => { :benchmark_type_id => @grid_pledge.benchmark_type_id, :logicalCPU => @grid_pledge.logicalCPU, :physicalCPU => @grid_pledge.physicalCPU, :publisher_id => @grid_pledge.publisher_id, :recordDate => @grid_pledge.recordDate, :value => @grid_pledge.value }
+      post :create, :grid_pledge => { :benchmark_type_id => @grid_pledge.benchmark_type_id, :logicalCPU => @grid_pledge.logicalCPU, :physicalCPU => @grid_pledge.physicalCPU, :publisher_id => @grid_pledge.publisher_id, :validFrom => @grid_pledge.validFrom, :validTo => @grid_pledge.validTo, :value => @grid_pledge.value }
     end
 
     assert_redirected_to grid_pledge_path(assigns(:grid_pledge))
@@ -35,7 +35,7 @@ class GridPledgesControllerTest < ActionController::TestCase
   end
 
   test "should update grid_pledge" do
-    put :update, :id => @grid_pledge, :grid_pledge => { :benchmark_type_id => @grid_pledge.benchmark_type_id, :logicalCPU => @grid_pledge.logicalCPU, :physicalCPU => @grid_pledge.physicalCPU, :publisher_id => @grid_pledge.publisher_id, :recordDate => @grid_pledge.recordDate, :value => @grid_pledge.value }
+    put :update, :id => @grid_pledge, :grid_pledge => { :benchmark_type_id => @grid_pledge.benchmark_type_id, :logicalCPU => @grid_pledge.logicalCPU, :physicalCPU => @grid_pledge.physicalCPU, :publisher_id => @grid_pledge.publisher_id, :validFrom => @grid_pledge.validFrom, :validTo => @grid_pledge.validTo, :value => @grid_pledge.value }
     assert_redirected_to grid_pledge_path(assigns(:grid_pledge))
   end
 

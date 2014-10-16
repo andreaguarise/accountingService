@@ -16,11 +16,15 @@
 
   <div class="field">
     <%= f.label :publisher_name, 'Publisher' %>:
-	<%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+        <%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
   </div>
   <div class="field">
-    <%= f.label :recordDate %><br />
-    <%= f.date_select :recordDate %>
+    <%= f.label :validFrom %><br />
+    <%= f.date_select :validFrom %>
+  </div>
+  <div class="field">
+    <%= f.label :validTo %><br />
+    <%= f.date_select :validTo %>
   </div>
   <div class="field">
     <%= f.label :value %><br />
@@ -36,7 +40,7 @@
   </div>
   <div class="field">
     <%= f.label :benchmark_type_name, 'Benchmark type' %>:
-	<%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array), :prompt => 'Select a benchmark type'%>
+        <%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array), :prompt => 'Select a benchmark type'%>
   </div>
   <div class="actions">
     <%= f.submit %>

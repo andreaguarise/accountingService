@@ -3,7 +3,8 @@
 <table>
   <tr>
     <th>Publisher</th>
-    <th>Recorddate</th>
+    <th>Validfrom</th>
+    <th>Validto</th>
     <th>Value</th>
     <th>Logicalcpu</th>
     <th>Physicalcpu</th>
@@ -16,7 +17,8 @@
 <% @grid_pledges.each do |grid_pledge| %>
   <tr>
     <td><%= grid_pledge.publisher_id %></td>
-    <td><%= grid_pledge.recordDate %></td>
+    <td><%= grid_pledge.validFrom %></td>
+    <td><%= grid_pledge.validTo %></td>
     <td><%= grid_pledge.value %></td>
     <td><%= grid_pledge.logicalCPU %></td>
     <td><%= grid_pledge.physicalCPU %></td>
