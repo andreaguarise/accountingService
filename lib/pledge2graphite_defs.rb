@@ -15,7 +15,7 @@ class Graphics < BaseGraph
 
   def defs
    t= Table.new(GridPledge,"validFrom",@options[:date])
-     result = t.result.joins(:publisher => [:resource => :site])
+     result = t.result.joins(:site)
      result = result.select("
           `sites`.`name` as siteName,
           validFrom,
