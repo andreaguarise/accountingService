@@ -11,12 +11,13 @@
     </div>
   <% end %>
 
-<% publishers_array = Publisher.all.map { |publisher| [publisher.hostname, publisher.id] } %>
+<% sites_array = Site.all.map { |site| [site.name, site.id] } %>
   <% benchmarkTypes_array = BenchmarkType.all.map { |type| [type.name, type.id] } %>
 
+
   <div class="field">
-    <%= f.label :publisher_name, 'Publisher' %>:
-        <%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+    <%= f.label :site_name, 'Site' %>:
+        <%= f.select :site_id, options_for_select(sites_array), :prompt => 'Select a Site'%>
   </div>
   <div class="field">
     <%= f.label :validFrom %><br />

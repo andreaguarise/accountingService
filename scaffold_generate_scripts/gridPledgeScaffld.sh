@@ -1,5 +1,5 @@
 rails generate scaffold GridPledge \
-publisher_id:integer \
+site_id:integer \
 validFrom:date \
 validTo:date \
 value:integer \

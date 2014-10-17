@@ -1,18 +1,18 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  publisher_id: 1
-  validFrom: 2014-10-16
-  validTo: 2014-10-16
+  site_id: 1
+  validFrom: 2014-10-17
+  validTo: 2014-10-17
   value: 1
   logicalCPU: 1
   physicalCPU: 1
   benchmark_type_id: 1
 
 two:
-  publisher_id: 1
-  validFrom: 2014-10-16
-  validTo: 2014-10-16
+  site_id: 1
+  validFrom: 2014-10-17
+  validTo: 2014-10-17
   value: 1
   logicalCPU: 1
   physicalCPU: 1

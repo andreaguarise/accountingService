@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141016090440) do
+ActiveRecord::Schema.define(:version => 20141017064129) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -293,7 +293,7 @@ ActiveRecord::Schema.define(:version => 20141016090440) do
   add_index "emi_storage_records", ["publisher_id"], :name => "index_emi_storage_records_on_publisher_id"
 
   create_table "grid_pledges", :force => true do |t|
-    t.integer  "publisher_id"
+    t.integer  "site_id"
     t.date     "validFrom"
     t.date     "validTo"
     t.integer  "value"
