@@ -10,6 +10,36 @@ class GrafanaDashboard
     puts '{
   "rows": [
     {
+      "title": "Summary",
+      "height": "70px",
+      "editable": false,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 7,
+          "editable": false,
+          "type": "text",
+          "mode": "markdown",
+          "content": "' + @content[:statistics] + '"
+      ,"style": {},
+          "title": "Grid statistics"
+        },
+        {
+          "error": false,
+          "span": 5,
+          "editable": false,
+          "type": "text",
+          "mode": "markdown",
+          "content": "' + @content[:nav] + '"
+      ,"style": {},
+          "title": "Navigation"
+        }
+      ],
+      "notice": false
+    },
+    {
       "title": "Statistics",
       "height": "800px",
       "editable": true,
@@ -102,18 +132,23 @@ class GrafanaDashboard
 end
 
 s = Site.joins(:apel_ssm_records).includes(:apel_ssm_records).group("sites.name").maximum(:endTime)
+interval = 129600 #FIXME Take this from configuration file 
 buffer = ""
+late = 0
 now = Time.at(Time.now).to_i
 buffer = "Last updated: #{Time.at(Time.now)}\\n\\n"
 sorted = s.sort_by {|site,date| date}
 sorted.each do |site,date|
-  if now - date > 129600
+  siteName=site
+  if now - date > interval
     site = "**#{site}**"
+    late = late +1
   end 
-  buffer += "* #{site} --> #{Time.at(date)}\\n"
+  buffer += "* [#{site}](#{Rails.configuration.grafanaUrl}/#/dashboard/script/grid-base.js?siteName=#{siteName}) --> #{Time.at(date)}\\n"
 end
 statistics = Hash.new
 statistics[:content] = buffer
-statistics[:countSites] = s.count
+statistics[:statistics] = "Total Site publishing: **#{s.count}**. Number of sites non publishing records in the last #{interval/3600} Hours: **#{late}**"
+statistics[:nav] = "[Main dashboard](#{Rails.configuration.grafanaUrl}/#/dashboard/script/grid-base.js)"
 dash = GrafanaDashboard.new(statistics)
 dash.print
