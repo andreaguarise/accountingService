@@ -132,7 +132,10 @@ class GrafanaDashboard
 end
 
 s = Site.joins(:apel_ssm_records).includes(:apel_ssm_records).group("sites.name").maximum(:endTime)
-interval = 129600 #FIXME Take this from configuration file 
+interval = 86400 #DEFAULT
+if Rails.configuration.warningTimeInterval
+  interval = Rails.configuration.warningTimeInterval
+ end 
 buffer = ""
 late = 0
 now = Time.at(Time.now).to_i

@@ -12,4 +12,5 @@ AccountingService::Application.configure do
   config.graphiteGraphOpts = "&height=250&width=600"
   config.grafanaUrl = "http://dgas-dev-24.to.infn.it:8081"
   config.modAuthSecretFile = "/etc/faust/auth_tkt.conf"
+  config.warningTimeInterval = 129600
 end
