@@ -7,7 +7,7 @@ class MainController < ApplicationController
     @emiStorageStatusBySite = {}
     @emiStorageBySite.each do |k,v|
       #@apelBySite[k] = Time.at(v)
-     @emiStorageStatusBySite[k] = ((Time.now.to_i - Time.at(v).to_i) < 86400 ? "stateSuccess" : "stateFailure" )  
+     @emiStorageStatusBySite[k] = ((Time.now.to_i - Time.at(v).to_i) < Rails.configuration.warningTimeInterval ? "stateSuccess" : "stateFailure" )  
     end
     
     @apelBySite = Site.joins(:apel_ssm_records).group(:site_id).maximum(:endTime)
