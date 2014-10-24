@@ -217,8 +217,8 @@ VALUES "
       e.voRole = r["VORole"]
       e.infrastructureDescription = r["InfrastructureDescription"]
       e.infrastructureType = r["InfrastructureType"]
-      if r["StartTime"] == "0"   ##Expunge Record with starttime at 0 (Start of the epoch)
-        Rails.logger.info "#{r["Site"]}: startTime at the beginning of the Epoch. skipping record!"
+      if ( r["StartTime"] == "0" && r["WallDuration"] != "0" )   ##Expunge Record with starttime at 0 (Start of the epoch)
+        Rails.logger.info "#{r["Site"]}: startTime at the beginning of the Epoch. And Non zero values, skipping record!"
       else
         @@record_ary << e
       end
