@@ -1,4 +1,5 @@
-
+require 'nokogiri'
+require 'open-uri'
 
 
 class GrafanaDashboard
@@ -131,23 +132,47 @@ class GrafanaDashboard
   end
 end
 
+class GocInfo
+  def initialize(url)
+    @url = url
+  end
+  
+  def get(matchSites)
+    recordHash = Hash.new
+    doc = Nokogiri::HTML(open(@url))
+    doc.xpath("/html/body/table/tr").each do |tr|
+      key = tr.xpath("td[1]").text
+      if ( matchSites.key?(key) )
+        recordHash[key] = tr.xpath("td[4]").text
+      end
+    end
+    recordHash
+  end
+end
+
 s = Site.joins(:apel_ssm_records).includes(:apel_ssm_records).group("sites.name").maximum(:endTime)
 interval = 86400 #DEFAULT
 if Rails.configuration.warningTimeInterval
   interval = Rails.configuration.warningTimeInterval
  end 
 buffer = ""
+faustSites = Hash.new
 late = 0
 now = Time.at(Time.now).to_i
 buffer = "Last updated: #{Time.at(Time.now)}\\n\\n"
 sorted = s.sort_by {|site,date| date}
+sorted.each do |site,date|
+  faustSites[site] = date
+end
+goc = GocInfo.new('http://goc-accounting.grid-support.ac.uk/apel/jobs2.html')
+gocInfoH = goc.get(faustSites)
 sorted.each do |site,date|
   siteName=site
   if now - date > interval
     site = "**#{site}**"
     late = late +1
   end 
-  buffer += "* [#{site}](#{Rails.configuration.grafanaUrl}/#/dashboard/script/grid-base.js?siteName=#{siteName}) --> #{Time.at(date)}\\n"
+  buffer += "* [#{site}](#{Rails.configuration.grafanaUrl}/#/dashboard/script/grid-base.js?siteName=#{siteName}) --> #{Time.at(date)}  --  (GOC last record: #{gocInfoH[siteName]})\\n"
 end
 statistics = Hash.new
 statistics[:content] = buffer
