@@ -1,5 +1,6 @@
 class CreateApelSsmRecords < ActiveRecord::Migration
   def change
+    if (!ActiveRecord::Base.connection.table_exists? 'apel_ssm_records')
     create_table :apel_ssm_records do |t|
       t.integer :publisher_id
       t.datetime :recordDate
@@ -25,6 +26,7 @@ class CreateApelSsmRecords < ActiveRecord::Migration
       t.integer :memoryVirtual
 
       t.timestamps
+    end
     end
   end
 end
