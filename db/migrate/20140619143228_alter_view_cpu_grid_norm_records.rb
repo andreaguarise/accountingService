@@ -1,6 +1,5 @@
 class AlterViewCpuGridNormRecords < ActiveRecord::Migration
   def up
-    CpuGridNormRecord.connection.execute('DROP VIEW `cpu_grid_norm_records`')
     CpuGridNormRecord.connection.execute('
     CREATE VIEW `cpu_grid_norm_records` AS 
       select `batch`.`id` AS `id`,
