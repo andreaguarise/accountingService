@@ -1,7 +1,7 @@
 class CreateCloudRecordSummariesView < ActiveRecord::Migration
   def up
     drop_table :cloud_record_summaries
-    GridCpuRecord.connection.execute('
+    CloudRecordSummary.connection.execute('
       CREATE VIEW `cloud_record_summaries` AS
     select 
         `cloud_view_vm_summaries`.`id` AS `id`,
