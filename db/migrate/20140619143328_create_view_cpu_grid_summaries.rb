@@ -1,7 +1,7 @@
 class CreateViewCpuGridSummaries < ActiveRecord::Migration
   def up
     CpuGridSummary.connection.execute('
-    VIEW `cpu_grid_summaries` AS
+    CREATE OR REPLACE VIEW `cpu_grid_summaries` AS
     select 
         `cpu_grid_norm_records`.`id` AS `id`,
         cast(`cpu_grid_norm_records`.`recordDate` as date) AS `date`,
