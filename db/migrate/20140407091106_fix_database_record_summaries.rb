@@ -1,6 +1,6 @@
 class FixDatabaseRecordSummaries < ActiveRecord::Migration
   def up
-    GridCpuRecord.connection.execute('
+    DatabaseRecordSummary.connection.execute('
       CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`dgas-services.to.infn.it` 

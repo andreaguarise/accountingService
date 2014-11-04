@@ -1,7 +1,7 @@
 class FixDatabaseRecordSummariesBis < ActiveRecord::Migration
   def up
-    GridCpuRecord.connection.execute('DROP VIEW database_record_summaries')
-    GridCpuRecord.connection.execute('
+    DatabaseRecordSummary.connection.execute('DROP VIEW database_record_summaries')
+    DatabaseRecordSummary.connection.execute('
       CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`dgas-services.to.infn.it` 
