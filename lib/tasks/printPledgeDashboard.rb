@@ -22,12 +22,25 @@ class GrafanaDashboard
         span: 4,
         fill: 1,
         linewidth: 2,
+        steppedLine: true,
+        legend: {
+          show: true,
+          values: true,
+          current: true,
+          avg: true
+        },
         targets: [
           {
-            \'target\': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo." + voName + ".wall_H_KSi2k),\'1d\',\'sum\'),6)"
+            \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'30d\',\'avg\'),\'[Ksi2k][days]/ 30 days - all\')"
           },
           {
-            \'target\': "alias(scale(faust_pledge.by_site.'+ site.name + '.specInt2k,0.024),\'pledge ksi2k*H/day\')"
+            \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_lhc_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'30d\',\'avg\'),\'[Ksi2k][days]/ 30 days - lhc\')"
+          },
+          {
+            \'target\': "alias(scale(faust_pledge.by_site.' + site.name + '.specInt2k,0.001),\'pledge Ksi2k*H/day\')"
+          },
+          {
+            \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'10d\',\'avg\'),\'10 days average\')"
           }
         ],
       },'
@@ -60,8 +73,8 @@ showValues = true;
 if ( ARGS.showValues == "false" ) {
   showValues = false;
 }
-metric= "wall_H_KSi2k";
-measure = "hours*ksi2k";
+metric= "wall_Day_KSi2k";
+measure = "[days]*[Ksi2k]";
 format = ["short","short"];
 title = "pledge"
 
