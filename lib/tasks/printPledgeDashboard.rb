@@ -241,7 +241,7 @@ if ( interactive == true ){
           span: 12,
           mode: \'html\',
           content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a> - \' + 
-          \'<a href="./#/dashboard/script/pledge.js?lhcStacked=true">Pledge LHC stack</a>\'
+          \'<a href="./#/dashboard/script/pledge.js?lhcStacked=true" onClick="setTimeout(location.reload.bind(location), 1)">Pledge LHC stack</a>\'
         }
       ]
    });
