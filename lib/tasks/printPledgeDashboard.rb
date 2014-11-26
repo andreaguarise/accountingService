@@ -227,6 +227,13 @@ if( ARGS.editable == "true") {
   dashboardEditable = false;
 }
 
+navigationLink = \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a> - \' + 
+          \'<a href="./#/dashboard/script/pledge.js?lhcStacked=true" onClick="setTimeout(location.reload.bind(location), 1)">Pledge LHC stack</a>\'
+if ( ARGS.lhcStacked == "true" ) {
+  navigationLink = \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a> - \' + 
+          \'<a href="./#/dashboard/script/pledge.js" onClick="setTimeout(location.reload.bind(location), 1)">Pledge LHC aggregate</a>\'
+}
+
 
 if ( interactive == true ){
     dashboard.rows.push({
@@ -240,8 +247,7 @@ if ( interactive == true ){
           type: \'text\',
           span: 12,
           mode: \'html\',
-          content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a> - \' + 
-          \'<a href="./#/dashboard/script/pledge.js?lhcStacked=true" onClick="setTimeout(location.reload.bind(location), 1)">Pledge LHC stack</a>\'
+          content: navigationLink
         }
       ]
    });

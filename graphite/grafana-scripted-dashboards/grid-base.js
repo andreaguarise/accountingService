@@ -160,6 +160,7 @@ if( ARGS.editable == "true") {
 	dashboardEditable = false;
 }
 
+autoReload = 'onClick="setTimeout(location.reload.bind(location), 1)"'
 
 if ( interactive == true ){
   	dashboard.rows.push({
@@ -173,15 +174,15 @@ if ( interactive == true ){
         	type: 'text',
         	span: 12,
         	mode: 'html',
-        	content: '<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=count">Record count</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpuDuration">cpuDuration</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=wallDuration">wallDuration</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpu_H_KSi2k">Normalised Cpu Duration</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal">MemoryReal</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual">MemoryVirtual</a> - ' +
-        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency">Efficiency</a> - ' +
+        	content: '<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=count" ' + autoReload + ' >Record count</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpuDuration" ' + autoReload + ' >cpuDuration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=wallDuration" ' + autoReload + ' >wallDuration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpu_H_KSi2k" ' + autoReload + ' >Normalised Cpu Duration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal" ' + autoReload + ' >MemoryReal</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual" ' + autoReload + ' >MemoryVirtual</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency" ' + autoReload + ' >Efficiency</a> - ' +
         		'<a href="./#/dashboard/script/pledge.js">Pledged</a> - ' +
-        		'<a href="./#/dashboard/file/report.json">Publishing status</a> - '
+        		'<a href="./#/dashboard/file/report.json">Publishing status</a>'
       	}
       ]
    });
