@@ -195,7 +195,7 @@ if ( interactive == true ){
           type: \'text\',
           span: 12,
           mode: \'html\',
-          content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*\'
+          content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a>\'
         }
       ]
    });

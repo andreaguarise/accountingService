@@ -180,7 +180,8 @@ if ( interactive == true ){
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal">MemoryReal</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual">MemoryVirtual</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency">Efficiency</a> - ' +
-        		'<a href="./#/dashboard/script/pledge.js">Pledged</a>'
+        		'<a href="./#/dashboard/script/pledge.js">Pledged</a> - ' +
+        		'<a href="./#/dashboard/file/report.json">Publishing status</a> - '
       	}
       ]
    });
