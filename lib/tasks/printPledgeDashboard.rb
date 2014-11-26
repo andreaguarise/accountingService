@@ -22,14 +22,15 @@ class GrafanaDashboard
         type: \'graphite\',
         span: 4,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
         steppedLine: true,
         nullPointMode: \'null as zero\',
         legend: {
           show: true,
           values: true,
           current: true,
-          avg: true
+          avg: true,
+          alignAsTable: true
         },
         targets: [
           {
@@ -43,6 +44,23 @@ class GrafanaDashboard
           }
           
         ],
+        seriesOverrides: [
+        {
+          alias: "pledge Ksi2k",
+          stack: false
+        },
+        {
+          alias: "[Ksi2k][days]/ 30 days - all",
+          stack: false
+        },
+        {
+          alias: "pledge Ksi2k",
+          fill: 0,
+          linewidth: 3
+        }
+        ],
+        leftYAxisLabel: "ksi2k",
+        stack: true
       },'
     end  
     rowBuffer += ']
@@ -93,6 +111,7 @@ if ( ARGS.lhcStacked == "true" ) {
 
 // Set a title
 dashboard.title = \'Grid dashboard\';
+dashboard.sharedCrosshair = \'true\';
 dashboard.editable = \'false\';
 dashboard.style= \'light\';
 dashboard.panel_hints= \'false\';
@@ -110,6 +129,32 @@ dashboard.loader= {
     "load_local": false,
     "hide": true
   };
+  
+dashboard.nav = [
+  {
+    "type": "timepicker",
+      "collapse": false,
+      "notice": false,
+      "enable": true,
+      "status": "Stable",
+      "time_options": [
+        "10d",
+        "30d",
+        "60d",
+        "90d",
+        "180d",
+        "365d"
+      ],
+      "refresh_intervals": [
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "now": true
+  }
+]
 
 dashboard.services.filter = {
   time: {
@@ -195,7 +240,8 @@ if ( interactive == true ){
           type: \'text\',
           span: 12,
           mode: \'html\',
-          content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a>\'
+          content: \'<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a> - \' + 
+          \'<a href="./#/dashboard/script/pledge.js?lhcStacked=true">Pledge LHC stack</a>\'
         }
       ]
    });
