@@ -328,6 +328,16 @@ class ApelSSMRecords
         @options[:uri] = uri
       end
       
+      @options[:user] = ''
+      opt.on( '-u', '--user user', 'AMQ username for authentication') do |user|
+        @options[:user] = user
+      end
+      
+      @options[:password] = ''
+      opt.on( '-p', '--password password', 'AMQ password') do |password|
+        @options[:password] = password
+      end
+      
       @options[:deaddir] = nil
       opt.on( '-D', '--Deaddir path', 'Path to directory used as dead letter repository, for apel SSM to resend it to queue') do |dir|
         @options[:deaddir] = dir
@@ -355,8 +365,10 @@ class ApelSSMRecords
     data = Regexp.last_match
     host = data[1]
     port = data[2]
+    user = @options[:user]
+    password = @options[:password]
     Rails.logger.info "Broker: #{host}, port: #{port}"
-    @conn = Stomp::Connection.open '', '', host, port, false
+    @conn = Stomp::Connection.open user, password, host, port, false
     @count = 0
 
     @conn.subscribe "/queue/#{@options[:queue]}"
