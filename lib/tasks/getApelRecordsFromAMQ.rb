@@ -1,6 +1,17 @@
 require 'optparse'
 require 'timeout'
 
+class Logger
+  def initialize
+    
+  end
+  
+  def self.log(msg)
+    now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    Rails.logger.info "#{now}: #{msg}"
+  end
+end
+
 class DirQ  
   def initialize(parent)
     @parent=parent
@@ -53,7 +64,7 @@ class BenchmarkRecordConverter
     if not @@sitesCache.key?(r["Site"])
       site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
       if !site
-        Rails.logger.info "#{r["Site"]}: Does not exists!"
+        Logger.log "#{r["Site"]}: Does not exists!"
         raise "Site #{r["Site"]} does not exists."
       end
       @@sitesCache[r["Site"]] = site.id
@@ -104,12 +115,12 @@ class ApelSsmRecordConverter
   def import
     #puts @@publishersCache.to_json
     now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    Rails.logger.info "#{now}- Apel SSM Record count: #{@@recordCount}"
+    Logger.log "#{now}- Apel SSM Record count: #{@@recordCount}"
     valuesBuffer = ""
     @@record_ary.each do |e|
       Rails.logger.debug "#{now} date:#{e.recordDate} lrmsId:#{e.localJobId}"
       if ( ! e.recordDate ) || ( ! e.localJobId )
-        Rails.logger.info "#{now} #{e.to_json}"
+        Logger.log "#{now} #{e.to_json}"
       end
       valuesBuffer << "(NULL,#{e.publisher_id},'#{e.recordDate}','#{e.submitHost}','#{e.machineName}','#{e.queue}','#{e.localJobId}','#{e.localUserId}','#{e.globalUserName}','#{e.fqan}','#{e.vo}','#{e.voGroup}','#{e.voRole}',#{e.wallDuration},#{e.cpuDuration},#{e.processors},#{e.nodeCount},#{e.startTime},#{e.endTime},'#{e.infrastructureDescription}','#{e.infrastructureType}',#{e.memoryReal},#{e.memoryVirtual},'#{now}','#{now}')"
       if e != @@record_ary.last 
@@ -151,7 +162,7 @@ VALUES "
   
   def convert(r)
     if not r["MachineName"]
-      Rails.logger.info "#{r.to_json}"
+      Logger.log "#{r.to_json}"
     end
     if not @@sitesCache.key?(r["Site"])
       site = Site.find_by_name(r["Site"])#FIXME Implement a cache for this, it slows down the insert
@@ -199,7 +210,7 @@ VALUES "
       e.localJobId = r["LocalJobId"]
       e.publisher_id = @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
       e.queue = r["Queue"]
-      e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do lag at the end of the job
+      e.recordDate = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do log at the end of the job
       e.processors = r["Processors"]
       e.nodeCount = r["NodeCount"]
       e.cpuDuration = r["CpuDuration"] #seconds
@@ -217,8 +228,8 @@ VALUES "
       e.voRole = r["VORole"]
       e.infrastructureDescription = r["InfrastructureDescription"]
       e.infrastructureType = r["InfrastructureType"]
-      if ( r["StartTime"] == "0" && r["WallDuration"] != "0" )   ##Expunge Record with starttime at 0 (Start of the epoch)
-        Rails.logger.info "#{r["Site"]}: startTime at the beginning of the Epoch. And Non zero values, skipping record!"
+      if ( (r["StartTime"] == "0" && r["WallDuration"] != "0") || (r["EndTime"] == "0" && r["WallDuration"] != "0"))   ##Expunge Record with starttime at 0 (Start of the epoch)
+        Rails.logger.info "#{r["Site"]}: startTime or endTime at the beginning of the Epoch. And Non zero values, skipping record!"
       else
         @@record_ary << e
       end
@@ -273,10 +284,12 @@ class SSMMessage
 end
 
 
+
 class ApelSSMRecords
   def initialize
     @options = {}
   end
+  
   
   def getLineParameters
     
@@ -367,20 +380,26 @@ class ApelSSMRecords
     port = data[2]
     user = @options[:user]
     password = @options[:password]
-    Rails.logger.info "Broker: #{host}, port: #{port}"
-    @conn = Stomp::Connection.open user, password, host, port, false
     @count = 0
-
-    @conn.subscribe "/queue/#{@options[:queue]}"
+    Logger.log "Broker: #{host}, port: #{port}"
+    begin
+      @conn = Stomp::Connection.open user, password, host, port, false
+      @conn.subscribe "/queue/#{@options[:queue]}"
+    rescue Exception => e
+      Logger.log "Got exception: #{e.message}"
+      if @conn.open?
+        @conn.disconnect
+      end
+    end
     while @count < @options[:limit]
       records = Array.new
-      begin Timeout::Error
+      begin
       timeout(@options[:timeout]) { @msg = @conn.receive }
-      Rails.logger.info "#{@options[:queue]} - Message N.#{@count}"
+      Logger.log "#{@options[:queue]} - Message N.#{@count}"
       rescue Timeout::Error
         @conn.unsubscribe "/queue/#{@options[:queue]}"
         @conn.disconnect
-        Rails.logger.info "#{@options[:queue]} - No more messages. Exiting."
+        Logger.log "#{@options[:queue]} - No more messages. Exiting."
         return
       end
       @count = @count + 1
@@ -402,19 +421,19 @@ class ApelSSMRecords
                 event.convert(r)
                 benchmark.convert(r)
            else
-                Rails.logger.info "#{records.length} remaining in message --> Single insert."
+                Logger.log "#{records.length} remaining in message --> Single insert."
                 #treat case where there are no sufficient record to be bulk processed
                 partialEvent = ApelSsmRecordConverter.new(records.length) if not partialEvent
                 benchmark = BenchmarkRecordConverter.new
-                Rails.logger.debug "Do single Event"
+                Logger.log "Do single Event"
                 partialEvent.convert(r)
                 benchmark.convert(r) #we do not do bulk insert for benchmarks
             end
           end
         rescue Exception => e
-           Rails.logger.info "Got Error inserting records, pushing message to dead.letter.queue"
-           Rails.logger.info "Error: #{e.message}"
-           Rails.logger.info e.backtrace.inspect
+           Logger.log "Got Error inserting records, pushing message to dead.letter.queue"
+           Logger.log "Error: #{e.message}"
+           Logger.log e.backtrace.inspect
            dm = DeadMessage.new(@msg.body,@options[:deaddir])
            dm.write
         end  
