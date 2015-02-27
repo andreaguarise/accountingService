@@ -38,16 +38,21 @@ if ( ARGS.showValues == "false" ) {
 metric= "count";
 measure = "count";
 format = ["short","short"];
-title = "completed jobs"
+title = "completed jobs";
 if ( !_.isUndefined(ARGS.metric) ) {
 	metric = ARGS.metric;
 	if ( metric == "cpuDuration" | metric == "wallDuration")
 	{
 		measure = "duration";
 		title = metric;
-		format = ["s","short"]
+		format = ["s","short"];
 	}
 	if ( metric == "cpu_H_KSi2k" )
+	{
+		measure = "hours*ksi2k";
+		title = metric;
+	}
+	if ( metric == "wall_H_KSi2k" )
 	{
 		measure = "hours*ksi2k";
 		title = metric;
@@ -56,7 +61,7 @@ if ( !_.isUndefined(ARGS.metric) ) {
 	{
 		measure = "memory";
 		title = metric;
-		format = ["bytes","short"]
+		format = ["bytes","short"];
 	}
 	if ( metric == "efficiency" )
 	{
@@ -178,6 +183,7 @@ if ( interactive == true ){
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpuDuration" ' + autoReload + ' >cpuDuration</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=wallDuration" ' + autoReload + ' >wallDuration</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=cpu_H_KSi2k" ' + autoReload + ' >Normalised Cpu Duration</a> - ' +
+        		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=wall_H_KSi2k" ' + autoReload + ' >Normalised Wall Duration</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal" ' + autoReload + ' >MemoryReal</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual" ' + autoReload + ' >MemoryVirtual</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency" ' + autoReload + ' >Efficiency</a> - ' +
