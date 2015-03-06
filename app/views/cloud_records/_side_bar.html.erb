@@ -13,7 +13,7 @@
   <% CloudRecord.attrSearchable.each do |item| %>
 	<div class="field">
     	<p><%= item %>:</p>
-    	<%= search_field_tag (item, params[item]) %>
+    	<%= search_field_tag (item) %>
   	</div>
   <% end %>
   <div>
