@@ -47,7 +47,6 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    google_visualr (2.1.7)
     graphite-api (0.1.4)
       eventmachine (>= 0.3.3)
       zscheduler (>= 0.0.3)
@@ -140,7 +139,6 @@ DEPENDENCIES
   arel
   capistrano
   coffee-rails (~> 3.2.1)
-  google_visualr (>= 2.1)
   graphite-api
   jquery-rails
   json

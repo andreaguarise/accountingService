@@ -39,27 +39,7 @@ class LocalCpuRecordsController < ApplicationController
     if @stats[:latest_record]
       startFrom = @stats[:latest_record].to_date-90 
     end
-    #GRAPH for latest 3 months.
-    @results1 = LocalCpuRecord.select("date(batch_execute_records.recordDate) as ordered_date , count(*) as count, sum(resourceUsed_walltime)/3600 as wall, sum(resourceUsed_cput)/3600 as cpu").where("batch_execute_records.recordDate > ?",startFrom).group("ordered_date")
-    table = GoogleVisualr::DataTable.new
-    
-    
-    # Add Column Headers
-    table.new_column('date', 'Date' )
-    table.new_column('number', 'jobs')
-    table.new_column('number', 'wall time (h)')
-    table.new_column('number', 'cpu time (h)')
-    
-    
-    @results1.each do |result1|
-      table.add_row([result1.ordered_date.to_date,result1.count.to_i,result1.wall.to_i,result1.cpu.to_i])
-    end 
-    
-    
-    option1 = { :width => 1200, :height => 600, :title => 'Local Jobs' }
-    @chart1 = GoogleVisualr::Interactive::AreaChart.new(table, option1)
 
-    
 
     respond_to do |format|
       format.html # index.html.erb

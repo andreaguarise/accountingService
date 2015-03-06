@@ -3,7 +3,8 @@
 
 class LocalCpuRecord < BatchExecuteRecord
   #default_scope includes(:publisher).joins("LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id").where("grid_cpu_records.id IS NULL")
-  default_scope includes(:publisher).joins("LEFT JOIN blah_records ON blah_records.lrmsId=batch_execute_records.lrmsId").where("blah_records.id IS NULL")
+  #FOLLOWING costraint was valid when DGAS sensors where used and we used batvh_execute_rcords table for both local and grid workload. NOW this isn't true anymore. In future if local workload is needed this table shall be dedicated to this.
+  #default_scope includes(:publisher).joins("LEFT JOIN blah_records ON blah_records.lrmsId=batch_execute_records.lrmsId").where("blah_records.id IS NULL")
   #default scope apply to all methods:
   #
   #  BatchExecuteRecord.find_by_sql("SELECT batch_execute_records.* FROM batch_execute_records LEFT JOIN grid_cpu_records ON grid_cpu_records.batch_execute_record_id=batch_execute_records.id WHERE grid_cpu_records.id IS NULL")

@@ -15,7 +15,8 @@ gem 'stomp'
 gem 'graphite-api'
 
 gem 'will_paginate', '>= 3.0.pre'
-gem "google_visualr", ">= 2.1"
+#NEXT is old, pre grafana adoption
+#gem "google_visualr", ">= 2.1"
 
 # Gems used only for assets and not required:q
 # in production environments by default.

@@ -60,15 +60,6 @@ AccountingService::Application.routes.draw do
   end
 
 
-  resources :database_tables
-
-
-  resources :database_descrs
-
-
-  resources :database_schemes
-
-
   resources :cloud_record_summaries do
     collection do
       get '' => :search
