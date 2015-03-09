@@ -51,7 +51,7 @@ group :production do
   gem 'mysql2'
 end
 
-gem 'nokogiri'
+gem 'nokogiri', '1.6.3.1'
 
 
 
