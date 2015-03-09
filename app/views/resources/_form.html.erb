@@ -23,11 +23,11 @@
   </div>
   <div>
 	<%= f.label :site_name, 'Site' %>:
-	<%= f.select :site_id, options_for_select(sites_array), :prompt => 'Select a site'%>		
+	<%= f.select :site_id, options_for_select(sites_array,@resource.site_id), :prompt => 'Select a site'%>		
   </div>
   <div>
 	<%= f.label :resource_type_name, 'Resource Type' %>:
-	<%= f.select :resource_type_id, options_for_select(resource_types_array), :prompt => 'Select a resource type'%>		
+	<%= f.select :resource_type_id, options_for_select(resource_types_array,@resource.resource_type_id), :prompt => 'Select a resource type'%>		
   </div>
   <div class="actions">
     <%= f.submit %>

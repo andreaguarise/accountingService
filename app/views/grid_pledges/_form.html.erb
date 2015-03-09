@@ -14,11 +14,13 @@
 <% sites_array = Site.all.map { |site| [site.name, site.id] } %>
   <% benchmarkTypes_array = BenchmarkType.all.map { |type| [type.name, type.id] } %>
 
-
+  <H1><% "pippo" %></H1>
   <div class="field">
-    <%= f.label :site_name, 'Site' %>:
-        <%= f.select :site_id, options_for_select(sites_array), :prompt => 'Select a Site'%>
+    <%= f.label :site_id, "Site" %>:
+        <%= f.select :site_id, options_for_select(sites_array,@grid_pledge.site_id), :prompt => 'Select a Site'%>
   </div>
+ 
+
   <div class="field">
     <%= f.label :validFrom %><br />
     <%= f.date_select :validFrom %>
@@ -41,7 +43,7 @@
   </div>
   <div class="field">
     <%= f.label :benchmark_type_name, 'Benchmark type' %>:
-        <%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array), :prompt => 'Select a benchmark type'%>
+        <%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array,@grid_pledge.benchmark_type_id), :prompt => 'Select a benchmark type'%>
   </div>
   <div class="actions">
     <%= f.submit %>

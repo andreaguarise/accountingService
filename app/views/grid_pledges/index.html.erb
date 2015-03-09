@@ -16,7 +16,7 @@
 
 <% @grid_pledges.each do |grid_pledge| %>
   <tr>
-    <td><%= grid_pledge.site_id %></td>
+    <td><%= grid_pledge.site.name %></td>
     <td><%= grid_pledge.validFrom %></td>
     <td><%= grid_pledge.validTo %></td>
     <td><%= grid_pledge.value %></td>

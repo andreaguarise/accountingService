@@ -23,7 +23,7 @@
   </div>
   <div>
 	<%= f.label :resource_name, 'Resource' %>:
-	<%= f.select :resource_id, options_for_select(resources_array), :prompt => 'Select a resource'%>		
+	<%= f.select :resource_id, options_for_select(resources_array,@publisher.resource_id), :prompt => 'Select a resource'%>		
   </div>
   <div class="actions">
     <%= f.submit %>

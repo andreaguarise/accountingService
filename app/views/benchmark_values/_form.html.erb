@@ -16,7 +16,7 @@
 
   <div class="field">
     <%= f.label :benchmark_type_name, 'Benchmark type' %>:
-	<%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array), :prompt => 'Select a benchmark type'%>
+	<%= f.select :benchmark_type_id, options_for_select(benchmarkTypes_array,@benchmark_value.benchmark_type_id), :prompt => 'Select a benchmark type'%>
   </div>
   <div class="field">
     <%= f.label :value %><br />
@@ -28,7 +28,7 @@
   </div>
   <div class="field">
     <%= f.label :publisher_name, 'Publisher' %>:
-	<%= f.select :publisher_id, options_for_select(publishers_array), :prompt => 'Select a publisher'%>
+	<%= f.select :publisher_id, options_for_select(publishers_array,@benchmark_value.publisher_id), :prompt => 'Select a publisher'%>
   </div>
   <div class="actions">
     <%= f.submit %>
