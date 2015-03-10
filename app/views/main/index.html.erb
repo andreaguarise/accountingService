@@ -23,17 +23,16 @@
 	<% @sites.sort_by{|e| e[:name]}.each do |site| %>
 	  <tr class="<%= cycle("odd", "even") %>">
   	  <td><%= link_to site.name, site %></td>
-   	 <td id="statusColumn">
+   	 <td>
+   	 <div id="statusColumn">
    	 <div id="<%= @cloudStatusBySite[site.id]%>">cloud</div>
    	 <div id="<%= @apelStatusBySite[site.id]%>">grid</div>
    	 <div id="<%= @emiStorageStatusBySite[site.id]%>">storage</div>
+   	 </div>
    	 </td>
   	</tr>
 	<% end %>
 	</table>
 	</div>
- 	<div id="pageRight">
-		<iframe id="grafana" src="<%= Rails.configuration.grafanaUrl %>/#/dashboard/script/site-show.js?interactive=false&grid=true&cloud=true"> 
- 	</div>
  	</div>
 <% #end %>
