@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141017064129) do
+ActiveRecord::Schema.define(:version => 20150311085012) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -303,6 +303,7 @@ ActiveRecord::Schema.define(:version => 20141017064129) do
     t.integer  "benchmark_type_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "vo"
   end
 
   create_table "local_cpu_summaries", :force => true do |t|

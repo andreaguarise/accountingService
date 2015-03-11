@@ -20,7 +20,10 @@
         <%= f.select :site_id, options_for_select(sites_array,@grid_pledge.site_id), :prompt => 'Select a Site'%>
   </div>
  
-
+  <div class="field">
+    <%= f.label :vo %><br />
+    <%= f.text_field :vo %>
+  </div>
   <div class="field">
     <%= f.label :validFrom %><br />
     <%= f.date_select :validFrom %>
