@@ -23,7 +23,7 @@ class Graphics < BaseGraph
           validTo,
           vo,
          value")
-      result = result.group("siteName")
+      result = result.group("siteName,vo")
     result.each do |r|
       puts "#{r['siteName']} - date: #{"#{r['validFrom']}".to_datetime} #{r['validTo'].to_datetime}  pledged: #{r['value']} #{r['benchmark']}"
       if !@options[:dryrun]

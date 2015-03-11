@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-<% sites_array = Site.all.map { |site| [site.name, site.id] } %>
+<% sites_array = Site.orderByParms('name',params).all.map { |site| [site.name, site.id] } %>
   <% benchmarkTypes_array = BenchmarkType.all.map { |type| [type.name, type.id] } %>
 
   <H1><% "pippo" %></H1>

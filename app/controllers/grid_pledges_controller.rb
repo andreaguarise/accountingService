@@ -2,7 +2,7 @@ class GridPledgesController < ApplicationController
   # GET /grid_pledges
   # GET /grid_pledges.json
   def index
-    @grid_pledges = GridPledge.all
+    @grid_pledges = GridPledge.joins(:site).orderByParms('sites.name',params).all
 
     respond_to do |format|
       format.html # index.html.erb

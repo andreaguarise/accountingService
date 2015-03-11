@@ -34,7 +34,7 @@ class GrafanaDashboard
         },
         targets: [
           {
-            \'target\': "alias(scale(faust_pledge.by_site.' + site.name + '.specInt2k,0.001),\'pledge Ksi2k\')"
+            \'target\': "alias(scale(sumSeries(faust_pledge.by_site.' + site.name + '.by_vo.*.specInt2k),0.001),\'pledge Ksi2k\')"
           },
           {
             \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'30d\',\'avg\'),\'[Ksi2k][days]/ 30 days - all\')"

@@ -16,7 +16,7 @@
   </tr>
 
 <% @grid_pledges.each do |grid_pledge| %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td><%= grid_pledge.site.name %></td>
     <td><%= grid_pledge.vo %></td>
     <td><%= grid_pledge.validFrom %></td>
@@ -24,7 +24,7 @@
     <td><%= grid_pledge.value %></td>
     <td><%= grid_pledge.logicalCPU %></td>
     <td><%= grid_pledge.physicalCPU %></td>
-    <td><%= grid_pledge.benchmark_type_id %></td>
+    <td><%= grid_pledge.benchmark_type.name%></td>
     <td><%= link_to 'Show', grid_pledge %></td>
     <td><%= link_to 'Edit', edit_grid_pledge_path(grid_pledge) %></td>
     <td><%= link_to 'Destroy', grid_pledge, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
