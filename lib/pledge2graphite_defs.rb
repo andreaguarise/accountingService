@@ -30,12 +30,12 @@ class Graphics < BaseGraph
           d1=r['validFrom'].to_date
           d2=r['validTo'].to_date
                 metrs = {
-                "faust_pledge.by_site.#{r['siteName']}.#{r['vo']}.#{r['benchmark']}" => r['value'].to_f
+                "faust_pledge.by_site.#{r['siteName']}.by_vo.#{r['vo']}.#{r['benchmark']}" => r['value'].to_f
                 }
           (d1..d2).map{ |d|
                 t=d.to_time
                 metrs = {
-                "faust_pledge.by_site.#{r['siteName']}.#{r['vo']}.#{r['benchmark']}" => r['value'].to_f
+                "faust_pledge.by_site.#{r['siteName']}.by_vo.#{r['vo']}.#{r['benchmark']}" => r['value'].to_f
                 }
                 #client = GraphiteAPI.new( :graphite => @options[:graphiteUrl] )
                 puts "#{r['siteName']} - date: #{t.to_datetime}"
