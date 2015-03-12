@@ -150,7 +150,7 @@ class GocInfo
   end
 end
 
-s = Site.joins(:apel_ssm_records).includes(:apel_ssm_records).group("sites.name").maximum(:endTime)
+s = Site.joins(:apel_ssm_records).includes(:apel_ssm_records).where(:enabled => true).group("sites.name").maximum(:endTime)
 interval = 86400 #DEFAULT
 if Rails.configuration.warningTimeInterval
   interval = Rails.configuration.warningTimeInterval
