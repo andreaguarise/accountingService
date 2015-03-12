@@ -12,6 +12,8 @@
 <table class="management">
   <tr>
     <th>Name<%= upArrowLink "name"%><%= downArrowLink "name" %></th>
+    <th>Enabled</th>
+    <th>Type</th>
     <th>Cloud Records</th>
     <th>Grid CPU Records</th>
     <th>Batch CPU Records</th>
@@ -23,6 +25,8 @@
 <% @sites.each do |site| %>
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= link_to site.name, site %></td>
+    <td><%= site.enabled %></td>
+    <td><%= site.type %></td>
     <td><%= site.cloud_records.count %></td>
     <td><%= @apelBySite[site.id] if @apelBySite %></td>
     <td><%= @batchBySite[site.id] if @batchBySite%></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150311085012) do
+ActiveRecord::Schema.define(:version => 20150312090012) do
 
   create_table "apel_ssm_records", :force => true do |t|
     t.integer  "publisher_id"
@@ -370,8 +370,10 @@ ActiveRecord::Schema.define(:version => 20150311085012) do
   create_table "sites", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "type"
+    t.boolean  "enabled",     :default => true
   end
 
   create_table "storage_summaries", :force => true do |t|

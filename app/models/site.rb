@@ -1,6 +1,6 @@
 class Site < ActiveRecord::Base
   include Search
-  attr_accessible :description, :name
+  attr_accessible :description, :name, :type, :enabled
   has_many :resources, :dependent => :destroy
   has_many :publishers, :through => :resources
   has_many :cloud_records, :through => :resources
