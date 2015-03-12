@@ -100,13 +100,22 @@ dashboard.services.filter = {
     to: "now"
   }
 };
-/*
 dashboard.pulldowns= [
         {
                 "type": "filtering",
                 "enable": true
         }
 ];
+
+if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
+  siteText = ARGS.siteName;
+  siteValue = ARGS.siteName;
+}
+else
+{
+        siteText = "All";
+        siteValue = "*";
+}
 
 dashboard.services.filter = {
   time: {
@@ -115,28 +124,34 @@ dashboard.services.filter = {
   },
   list: [
     {
-        "type": "terms",
+        "type": "query",
         "name": "site",
         "active": true,
         "query": "faust.cpu_grid_norm_records.by_site.*",
-        "includeAll": true
+        "includeAll": true,
+        "refresh": true,
+        "allFormat": "wildcard",
+        "current" : {
+                "text": siteText,
+                "value": siteValue
+        }
     }
   ]
 
 };
-*/
 
-dashboard.title = "ALL sites";
+dashboard.title = "Grid dashboard";
 if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
   siteName = ARGS.siteName;
   dashboard.title = siteName;
 }
 else
 {
-        siteName = "*";
+        siteName = "$site";
 }
+siteName = "$site";
 
-voName="*"
+voName="*";
 if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
   voName = ARGS.voName;
 }
@@ -358,7 +373,7 @@ if ( interactive == true ){
     collapsable: false,
     panels: [
       {
-        title: 'Grid Executed jobs - per Site - all',
+        title: 'Grid Executed jobs - per Site - $site',
         type: 'graphite',
         span: 12,
         fill: 2,
