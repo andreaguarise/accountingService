@@ -11,7 +11,7 @@
     </div>
   <% end %>
   
-  <% resources_array = Resource.all.map { |resource| [resource.name, resource.id] } %>
+  <% resources_array = Resource.orderByParms('name',params).all.map { |resource| [resource.name, resource.id] } %>
 
   <div class="field">
     <%= f.label :hostname %><br />

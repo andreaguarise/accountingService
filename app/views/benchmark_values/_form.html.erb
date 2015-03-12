@@ -11,7 +11,7 @@
     </div>
   <% end %>
   
-  <% publishers_array = Publisher.all.map { |publisher| [publisher.hostname, publisher.id] } %>
+  <% publishers_array = Publisher.orderByParms('hostname',params).all.map { |publisher| [publisher.hostname, publisher.id] } %>
   <% benchmarkTypes_array = BenchmarkType.all.map { |type| [type.name, type.id] } %>
 
   <div class="field">

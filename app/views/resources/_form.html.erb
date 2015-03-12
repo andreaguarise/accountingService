@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% sites_array = Site.all.map { |site| [site.name, site.id] } %>
+  <% sites_array = Site.orderByParms('name',params).all.map { |site| [site.name, site.id] } %>
   <% resource_types_array = ResourceType.all.map { |resource_type| [resource_type.name, resource_type.id] } %>
   <div class="field">
     <%= f.label :name %><br />
