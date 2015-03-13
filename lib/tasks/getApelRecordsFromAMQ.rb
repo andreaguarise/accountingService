@@ -127,7 +127,7 @@ class ApelSsmRecordConverter
         valuesBuffer << ","
       end    
     end
-    bulkInsert = "INSERT IGNORE INTO apel_ssm_records
+    bulkInsert = "REPLACE INTO apel_ssm_records
 (`id`,
 `publisher_id`,
 `recordDate`,
