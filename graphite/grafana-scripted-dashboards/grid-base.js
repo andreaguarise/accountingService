@@ -117,6 +117,16 @@ else
         siteValue = "*";
 }
 
+if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
+  voText = ARGS.voName;
+  voValue = ARGS.voName;
+}
+else
+{
+        voText = "All";
+        voValue = "*";
+}
+
 dashboard.services.filter = {
   time: {
     from: "now-" + (ARGS.from || timspan),
@@ -145,8 +155,8 @@ dashboard.services.filter = {
         "refresh": true,
         "allFormat": "wildcard",
         "current" : {
-                "text": siteText,
-                "value": siteValue
+                "text": voText,
+                "value": voValue
         }
     }
   ]
