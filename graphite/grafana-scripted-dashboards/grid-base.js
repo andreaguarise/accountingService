@@ -135,6 +135,19 @@ dashboard.services.filter = {
                 "text": siteText,
                 "value": siteValue
         }
+    },
+    {
+        "type": "query",
+        "name": "vo",
+        "active": true,
+        "query": "faust.cpu_grid_norm_records.by_site.$site.by_vo.*",
+        "includeAll": true,
+        "refresh": true,
+        "allFormat": "wildcard",
+        "current" : {
+                "text": siteText,
+                "value": siteValue
+        }
     }
   ]
 
@@ -151,7 +164,7 @@ else
 }
 siteName = "$site";
 
-voName="*";
+voName="$vo";
 if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
   voName = ARGS.voName;
 }
@@ -180,7 +193,7 @@ if( ARGS.editable == "true") {
 	dashboardEditable = false;
 }
 
-autoReload = 'onClick="setTimeout(location.reload.bind(location), 1)"'
+autoReload = 'onClick="setTimeout(location.reload.bind(location), 1)"';
 
 if ( interactive == true ){
   	dashboard.rows.push({
