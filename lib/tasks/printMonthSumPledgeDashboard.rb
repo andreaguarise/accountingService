@@ -35,10 +35,10 @@ class GrafanaDashboard
         },
         targets: [
           {
-            \'target\': "alias(sumSeries(scale(faust_pledge.by_site.' + site.name + '.by_vo.*.specInt2k,0.083)),\'pledge Ksi2k\')"
+            \'target\': "alias(summarize(sumSeries(scale(faust_pledge.by_site.' + site.name + '.by_vo.*.specInt2k,0.00274)), \'$binning\', \'sum\', true),\'pledge Ksi2k\')"
           },
           {
-            \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'30d\',\'sum\'),\'[Ksi2k][days] - all\')"
+            \'target\': "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.$vo.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'$binning\',\'sum\'),\'[Ksi2k][days] - all\')"
           },
           {
             \'target\': lhcGraphPre + "' + site.name + '" + lhcGraphPost
@@ -105,10 +105,10 @@ if ( ARGS.interactive == "false" ) {
 
 
 lhcGraphPre = "alias(summarize(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site.";
-lhcGraphPost = ".by_lhc_vo.*.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'30d\',\'sum\'),\'[Ksi2k][days]/ - lhc\')";
+lhcGraphPost = ".by_lhc_vo.$vo.wall_H_KSi2k),\'1d\',\'sum\'),0.04167),\'$binning\',\'sum\'),\'[Ksi2k][days]/ - lhc\')";
 if ( ARGS.lhcStacked == "true" ) {
     lhcGraphPre = "aliasByNode(summarize(scale(summarize(faust.cpu_grid_norm_records.by_site.";
-    lhcGraphPost = ".by_lhc_vo.*.wall_H_KSi2k,\'1d\',\'sum\'),0.04167),\'30d\',\'sum\'),5)";
+    lhcGraphPost = ".by_lhc_vo.$vo.wall_H_KSi2k,\'1d\',\'sum\'),0.04167),\'$binning\',\'sum\'),5)";
 }
 
 
@@ -165,7 +165,7 @@ dashboard.services.filter = {
     to: "now"
   }
 };
-/*
+
 dashboard.pulldowns= [
         {
                 "type": "filtering",
@@ -179,17 +179,55 @@ dashboard.services.filter = {
     to: "now"
   },
   list: [
+   
     {
-        "type": "terms",
-        "name": "site",
+        "type": "query",
+        "name": "vo",
         "active": true,
-        "query": "faust.cpu_grid_norm_records.by_site.*",
-        "includeAll": true
-    }
+        "query": "faust.cpu_grid_norm_records.by_site.*.by_lhc_vo.*",
+        "includeAll": true,
+        "refresh": true,
+        "allFormat": "wildcard",
+        "current" : {
+                "text": "all",
+                "value": "*"
+        }
+    },
+    {
+        "type": "custom",
+        "datasource": null,
+        "refresh_on_load": false,
+        "name": "binning",
+        "options": [
+          {
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "text": "30d",
+            "value": "30d"
+          },
+          {
+            "text": "90d",
+            "value": "90d"
+          },
+        ],
+        "includeAll": false,
+        "allFormat": "glob",
+        "query": "1d,7d,30d,90d",
+        "current": {
+          "text": "30d",
+          "value": "30d"
+        }
+      }
   ]
 
 };
-*/
+
 
 dashboard.title = "Site pledges";
 if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
