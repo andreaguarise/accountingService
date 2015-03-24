@@ -16,8 +16,9 @@ class String
 end
 
 class Table
-  def initialize (obj, timeField,fromDate )
+  def initialize (obj, timeField,fromDate,toDate )
     @fromDate = fromDate
+    @toDate = toDate
     @tableName = obj.table_name
     @obj = obj
     @timeField = timeField
@@ -29,6 +30,9 @@ class Table
     result = result.select("
           UNIX_TIMESTAMP(#{@timeField}) as timestamp")
     result = result.where("#{@timeField}>'#{@fromDate}'")
+    if @toDate != ""
+      result = result.where("#{@timeField}<='#{@toDate}'") 
+    end
     result = result.group("d,h")
   end
   
@@ -76,6 +80,11 @@ class DbToGraphite
       @options[:date] = "2014-01-01"
       opt.on( '-d', '--date date', 'start date') do |date|
         @options[:date] = date
+      end
+      
+      @options[:toDate] = ""
+      opt.on( '-t', '--toDate date', 'optional stop date') do |toDate|
+        @options[:toDate] = toDate
       end
       
       @options[:sleep] = 0.001
