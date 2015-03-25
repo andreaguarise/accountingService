@@ -24,7 +24,7 @@ class Graphics < BaseGraph
           sum(cpuDuration) as cpuDuration,
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
-          avg(processors) as processors,
+          sum(processors) as processors,
           avg(benchmark_values.value) as benchmarkValue,
           benchmark_types.name as benchmarkName, 
           count(*) as count")
@@ -37,8 +37,7 @@ class Graphics < BaseGraph
         when "HEPSPEC06"
           benchmarkName = "HEPSPEC06"
         end
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end       
+        processors = r['processors'].to_f      
         puts "#{r['siteName']} -> date:#{r['d']}:#{r['h']},vo:#{uenc(r['vo'])},type:#{uenc(r['type'])},timestamp:#{r['timestamp']},cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_type.#{uenc(r['type'])}.cpuDuration" => r['cpuDuration'].to_f,
@@ -81,7 +80,7 @@ class Graphics < BaseGraph
           sum(cpuDuration) as cpuDuration,
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
-          avg(processors) as processors,
+          sum(processors) as processors,
           avg(benchmark_values.value) as benchmarkValue, 
           benchmark_types.name as benchmarkName,
           count(*) as count")
@@ -94,8 +93,7 @@ class Graphics < BaseGraph
         when "HEPSPEC06"
           benchmarkName = "HEPSPEC06"
         end
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end
+        processors = r['processors'].to_f   
         puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
         metrs = {
             "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpuDuration" => r['cpuDuration'].to_f,
@@ -134,7 +132,7 @@ class Graphics < BaseGraph
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
           avg(benchmark_values.value) as benchmarkValue,
-          avg(processors) as processors, 
+          sum(processors) as processors, 
           benchmark_types.name as benchmarkName,
           count(*) as count")
       result = result.group("siteName,vo,benchmarkName")
@@ -146,8 +144,7 @@ class Graphics < BaseGraph
         when "HEPSPEC06"
           benchmarkName = "HEPSPEC06"
         end
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end
+        processors = r['processors'].to_f
         puts "#{r['siteName']} -> date:#{r['d']}:#{r['h']},vo:#{uenc(r['vo'])},timestamp:#{r['timestamp']},cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f,
@@ -190,7 +187,7 @@ class Graphics < BaseGraph
           sum(cpuDuration) as cpuDuration,
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
-          avg(processors) as processors,
+          sum(processors) as processors,
           avg(benchmark_values.value) as benchmarkValue, 
           benchmark_types.name as benchmarkName,
           count(*) as count")
@@ -203,8 +200,7 @@ class Graphics < BaseGraph
         when "HEPSPEC06"
           benchmarkName = "HEPSPEC06"
         end
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end
+        processors = r['processors'].to_f
         puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.cpuDuration" => r['cpuDuration'].to_f,
@@ -235,7 +231,7 @@ class Graphics < BaseGraph
           sum(cpuDuration) as cpuDuration,
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
-          avg(processors) as processors,
+          sum(processors) as processors,
           avg(benchmark_values.value) as benchmarkValue, 
           benchmark_types.name as benchmarkName,
           count(*) as count")
@@ -248,8 +244,7 @@ class Graphics < BaseGraph
         when "HEPSPEC06"
           benchmarkName = "HEPSPEC06"
         end
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end
+        processors = r['processors'].to_f
         puts "#{r['siteName']} ---- date: #{"#{r['d']} #{r['h']}:00".to_datetime},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpuDuration" => r['cpuDuration'].to_f,

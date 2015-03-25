@@ -25,15 +25,14 @@ class Graphics < BaseGraph
           sum(cpuDuration) as cpuDuration,
           sum(memoryReal) as memoryReal,
           sum(memoryVirtual) as memoryVirtual,
-          avg(processors) as processors,
+          sum(processors) as processors,
           avg(benchmark_values.value) as benchmarkValue, 
           count(*) as count")
       result = result.where("vo" => lhc_vo)
       result = result.group("siteName,vo")
       
       result.each do |r|
-        processors = r['processors']
-        if  processors == "0" then processors = "1" end
+        processors = r['processors'].to_f
         puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_lhc_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f,

@@ -220,7 +220,7 @@ VALUES "
       e.startTime = r["StartTime"]
       e.endTime = r["EndTime"]
       e.localUserId = r["LocalUserId"]
-      e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
+      e.recordDate = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")#FIXME why both start and end?
       e.globalUserName = r["GlobalUserName"]
       e.fqan = r["FQAN"]
       e.vo = r["VO"]
