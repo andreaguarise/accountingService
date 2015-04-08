@@ -43,10 +43,20 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    elasticsearch (1.0.8)
+      elasticsearch-api (= 1.0.7)
+      elasticsearch-transport (= 1.0.7)
+    elasticsearch-api (1.0.7)
+      multi_json
+    elasticsearch-transport (1.0.7)
+      faraday
+      multi_json
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     graphite-api (0.1.4)
       eventmachine (>= 0.3.3)
       zscheduler (>= 0.0.3)
@@ -67,6 +77,7 @@ GEM
     mini_portile (0.6.0)
     minitest (4.7.4)
     multi_json (1.7.3)
+    multipart-post (2.0.0)
     mysql2 (0.3.11)
     net-scp (1.1.1)
       net-ssh (>= 2.6.5)
@@ -139,6 +150,7 @@ DEPENDENCIES
   arel
   capistrano
   coffee-rails (~> 3.2.1)
+  elasticsearch
   graphite-api
   jquery-rails
   json
