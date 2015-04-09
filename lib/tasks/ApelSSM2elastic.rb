@@ -91,8 +91,8 @@ class ApelSsmRecordConverter
     end
     
       
-      r["recordEndDate"] = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S") #LRMS do log at the end of the job
-      r["recordStartDate"] = Time.at(r["StartTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")#FIXME why both start and end?
+      r["recordEndDate"] = Time.at(r["EndTime"].to_i) #LRMS do log at the end of the job
+      r["recordStartDate"] = Time.at(r["StartTime"].to_i)
       if ( (r["StartTime"] == "0" && r["WallDuration"] != "0") || (r["EndTime"] == "0" && r["WallDuration"] != "0"))   ##Expunge Record with starttime at 0 (Start of the epoch)
         Rails.logger.info "#{r["Site"]}: startTime or endTime at the beginning of the Epoch. And Non zero values, skipping record!"
       else
@@ -131,11 +131,23 @@ class SSMMessage
         end
         next
       end
-      if ( line =~ /^(\w+):\s(.*)$/ )
-        valueBuff = ActiveRecord::Base::sanitize($2.chomp)
+      line = line.chomp
+      #Rails.logger.info "---#{line}---"
+      if ( line =~ /^(\w+):\s(\d+)$/)
+        value = $2
         key = $1
-        valueBuff =~ /^'(.*)'$/
-        value = $1
+        recordBuff[key] = value.to_i
+        #Rails.logger.info "#{recordBuff[key]} is an integer"
+        haveApelRecord = true;
+      elsif ( line =~ /^(\w+):\s(\d+)\.(\d+)$/)
+        value = "#{$2}.#{$3}"
+        key = $1
+        recordBuff[key] = value.to_f
+        #Rails.logger.info "#{recordBuff[key]} is a float"
+        haveApelRecord = true;
+      elsif ( line =~ /^(\w+):\s(.*)$/ )
+        value = $2
+        key = $1
         recordBuff[key] = value
         haveApelRecord = true;
       end
