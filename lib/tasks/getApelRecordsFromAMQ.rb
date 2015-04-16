@@ -80,12 +80,12 @@ class BenchmarkRecordConverter
       bv.date = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
       bv.value = r["ServiceLevel"]
       #LOG HERE FOR DEBUG
-      if not @@lastBenchmark.key?(r["MachineName"])
-        @@lastBenchmark[r["MachineName"]] = "0"
+      if not @@lastBenchmark.key?("#{r["Site"]}.#{r["MachineName"]}")
+        @@lastBenchmark[r["#{r["Site"]}.#{r["MachineName"]}"]] = "0"
         #puts "lastBenchmark inserting #{r["MachineName"]} --> #{@@lastBenchmark[r["MachineName"]]}"
       end
       #puts "lastBenchmark:#{r["MachineName"]} --> #{r["EndTime"]} -- #{@@lastBenchmark[r["MachineName"]]}"
-      if r["EndTime"].to_i - @@lastBenchmark[r["MachineName"]].to_i > 3600
+      if r["EndTime"].to_i - @@lastBenchmark["#{r["Site"]}.#{r["MachineName"]}"].to_i > 3600
         bt = BenchmarkType.new
         ##GO on by creating ActiveRecord benchmarkvalue object and saving it.
         if (r["ServiceLevelType"] == "si2k" )
@@ -96,7 +96,7 @@ class BenchmarkRecordConverter
         end
         bv.benchmark_type_id = bt.id
         bv.save
-        @@lastBenchmark[r["MachineName"]] = r["EndTime"]
+        @@lastBenchmark["#{r["Site"]}.#{r["MachineName"]}"] = r["EndTime"]
       end
     end
   end

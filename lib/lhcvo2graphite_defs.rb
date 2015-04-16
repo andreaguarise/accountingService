@@ -14,7 +14,7 @@ end
 class Graphics < BaseGraph
 
   def defs
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       lhc_vo = ['alice','pilalice','sgmalice','atlas','pilatlas','sgmatlas','cms','pilcms','sgmcms','lhcb','pillhcb','sgmlhcb']
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value)

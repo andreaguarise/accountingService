@@ -14,7 +14,7 @@ end
 class Graphics < BaseGraph
 
   def defs
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select("
@@ -71,7 +71,7 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select("
@@ -121,7 +121,7 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select("
@@ -177,7 +177,7 @@ class Graphics < BaseGraph
       end
     ##
     
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select("
@@ -221,7 +221,7 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select("
@@ -265,7 +265,7 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CloudRecordSummary,"date",@options[:date],@options[:toDate])
+    t= Table.new(CloudRecordSummary,"date",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:site)
       result = result.select("
           `sites`.`name` as siteName,

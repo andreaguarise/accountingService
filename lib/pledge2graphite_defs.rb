@@ -24,6 +24,7 @@ class Graphics < BaseGraph
           vo,
          value")
       result = result.group("siteName,vo")
+      #Benchmark values for pledged in the datbase are for si2k expressed in [Ksi2k][hours] in one year.
     result.each do |r|
       puts "#{r['siteName']} - date: #{"#{r['validFrom']}".to_datetime} #{r['validTo'].to_datetime}  pledged: #{r['value']} #{r['benchmark']}"
       if !@options[:dryrun]

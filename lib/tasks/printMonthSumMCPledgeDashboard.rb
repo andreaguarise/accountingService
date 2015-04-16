@@ -35,7 +35,7 @@ class GrafanaDashboard
         },
         targets: [
           {
-            \'target\': "alias(summarize(sumSeries(scale(faust_pledge.by_site.' + site.name + '.by_vo.*.specInt2k,0.00274)), \'$binning\', \'sum\', true),\'pledge Ksi2k\')"
+            \'target\': "alias(summarize(sumSeries(scale(faust_pledge.by_site.' + site.name + '.by_vo.$vo.specInt2k,0.00274)), \'$binning\', \'sum\', true),\'pledge [Ksi2k][days] in $binning\')"
           },
           {
             \'target\': "aliasByNode(summarize(scale(summarize(sumSeriesWithWildcards(faust.cpu_grid_norm_records.by_site.' + site.name + '.by_vo.$vo.$wallMetric,5),\'1d\',\'sum\'),0.04167),\'$binning\',\'sum\'),5)"
@@ -47,7 +47,7 @@ class GrafanaDashboard
         ],
         seriesOverrides: [
         {
-          alias: "pledge Ksi2k",
+          alias: "/pledge/",
           stack: false
         },
         {
@@ -55,7 +55,7 @@ class GrafanaDashboard
           stack: false
         },
         {
-          alias: "pledge Ksi2k",
+          alias: "/pledge/",
           fill: 0,
           linewidth: 3
         }
@@ -215,10 +215,18 @@ dashboard.services.filter = {
             "text": "90d",
             "value": "90d"
           },
+          {
+            "text": "180d",
+            "value": "180d"
+          },
+          {
+            "text": "365d",
+            "value": "365d"
+          },
         ],
         "includeAll": false,
         "allFormat": "glob",
-        "query": "1d,7d,30d,90d",
+        "query": "1d,7d,30d,90d,180d,365d",
         "current": {
           "text": "30d",
           "value": "30d"

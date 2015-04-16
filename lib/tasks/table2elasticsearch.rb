@@ -7,9 +7,9 @@ require 'open-uri'
 require 'table2graphite_defs'
 
 class Table
-  def initialize (obj, timeField,fromDate,toDate)
-    @fromDate = fromDate
-    @toDate = toDate
+  def initialize (obj, timeField,startId,stopId)
+    @startId = startId
+    @stopId = stopId
     @tableName = obj.table_name
     @obj = obj
     @timeField = timeField
@@ -17,10 +17,9 @@ class Table
   
   def result
     result = @obj
-    result = result.select("UNIX_TIMESTAMP(#{@timeField}) as timestamp")
-    result = result.where("#{@timeField}>'#{@fromDate}'")
-    if @toDate != ""
-      result = result.where("#{@timeField}<='#{@toDate}'") 
+    result = result.where("`cpu_grid_norm_records`.`id`>=#{@startId}")
+    if @stopId != -1
+      result = result.where("`cpu_grid_norm_records`.`id`<='#{@stopId}'") 
     end 
     result
   end
@@ -49,8 +48,13 @@ end
 class ELData < BaseGraph
 
   def defs
-    startid = CpuGridNormRecord.select(:id).where("recordDate > ?",@options[:date]).first
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate])
+    stopId = -1
+    startid = CpuGridNormRecord.select(:id).where("recordDate > ?",@options[:date]).order(:recordDate).first.id
+    if (@options[:toDate] != "")
+      stopid = CpuGridNormRecord.select(:id).where("recordDate <= ?",@options[:toDate]).order(recordDate: desc).first.id
+    end
+    puts "startid: #{startid} - stopid: #{stopid}"
+    t= Table.new(CpuGridNormRecord,"recordDate",startid,stopid)
       result = t.result.joins(:publisher => [:resource => :site])
       result = result.joins(:benchmark_value => [:benchmark_type])
       result = result.select(
@@ -58,8 +62,7 @@ class ELData < BaseGraph
 	  "`cpu_grid_norm_records`.`id` as id",
           "`sites`.`name`",
 	  "vo",
-          "wallDuration",
-          "wallDuration*processors as mcwallDuration", 
+          "wallDuration", 
           "cpuDuration",
           "memoryReal",
           "memoryVirtual",
@@ -81,11 +84,10 @@ class ELData < BaseGraph
 	])
       index=1
       time0 = Time.now.to_i
-      result.find_each(start: startid.id, batch_size: 50000) do |r|
+      result.find_each(start: startid, batch_size: 50000) do |r|
           uniqueId=uenc("#{r['submitHost']}-#{r['endTime']}-#{r['localJobId']}")
        	  puts "#{index} -- #{r['recordDate']} -- #{uniqueId} -->  #{r.to_json}" 
-          system "curl -X PUT http://#{@options[:elasticUrl]}/faust/cpuGridNorm/#{uniqueId}  --data-ascii '#{r.to_json}'" 
-	  puts 
+          #system "curl -X PUT http://#{@options[:elasticUrl]}/faust/cpuGridNorm/#{uniqueId}  --data-ascii '#{r.to_json}'" 
 	if !@options[:dryrun] 
           #@gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
           end

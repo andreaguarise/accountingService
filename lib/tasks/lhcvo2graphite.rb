@@ -16,9 +16,10 @@ class String
 end
 
 class Table
-  def initialize (obj, timeField,fromDate,toDate )
+  def initialize (obj, timeField,fromDate,toDate,site )
     @fromDate = fromDate
     @toDate = toDate
+    @site = site
     @tableName = obj.table_name
     @obj = obj
     @timeField = timeField
@@ -32,6 +33,9 @@ class Table
     result = result.where("#{@timeField}>'#{@fromDate}'")
     if @toDate != ""
       result = result.where("#{@timeField}<='#{@toDate}'") 
+    end
+    if @site != ""
+      result = result.where("`sites`.`name` = '#{@site}'")
     end
     result = result.group("d,h")
   end
@@ -70,6 +74,11 @@ class DbToGraphite
       @options[:env] = nil
       opt.on( '-e', '--environment env', 'rails environment') do |env|
         @options[:env] = env
+      end
+      
+      @options[:site] = ""
+      opt.on( '-S', '--Site site', 'select a specific Site') do |site|
+        @options[:site] = site
       end
       
       @options[:graphiteUrl] = "localhost:2003"
