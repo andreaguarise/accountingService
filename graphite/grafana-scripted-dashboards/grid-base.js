@@ -37,6 +37,7 @@ if ( ARGS.showValues == "false" ) {
 }
 metric= "count";
 measure = "count";
+scale = 1;
 format = ["short","short"];
 title = "completed jobs";
 if ( !_.isUndefined(ARGS.metric) ) {
@@ -49,13 +50,15 @@ if ( !_.isUndefined(ARGS.metric) ) {
 	}
 	if ( metric == "cpu_H_KSi2k" )
 	{
-		measure = "hours*ksi2k";
+		measure = "ksi2k*day";
 		title = metric;
+		scale = "0.04167";
 	}
 	if ( metric == "wall_H_KSi2k" )
 	{
-		measure = "hours*ksi2k";
+		measure = "ksi2k*day";
 		title = metric;
+		scale = "0.04167";
 	}
 	if ( metric == "memoryReal" | metric == "memoryVirtual")
 	{
@@ -76,6 +79,7 @@ if ( ARGS.interactive == "false" ) {
 
 // Set a title
 dashboard.title = 'Grid dashboard';
+dashboard.sharedCrosshair = 'true';
 dashboard.editable = 'false';
 dashboard.style= 'light';
 dashboard.panel_hints= 'false';
@@ -93,6 +97,33 @@ dashboard.loader= {
     "load_local": false,
     "hide": true
   };
+
+dashboard.nav = [
+  {
+    "type": "timepicker",
+      "collapse": false,
+      "notice": false,
+      "enable": true,
+      "status": "Stable",
+      "time_options": [
+        "10d",
+        "30d",
+        "60d",
+        "90d",
+        "180d",
+        "365d"
+      ],
+      "refresh_intervals": [
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "now": true
+  }
+];
+
 
 dashboard.services.filter = {
   time: {
@@ -276,15 +307,15 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "alias(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + "),'1d','sum'),'grid+local')"
+            'target': "alias(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + "),'1d','sum')," + scale + "),'grid+local')"
           },
           {
-            'target': "aliasByNode(sortByMinima(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + ",'1d','sum'), 3), 4)),5)"
+            'target': "aliasByNode(scale(sortByMinima(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + ",'1d','sum'), 3), 4))," + scale + "),5)"
           }   
         ],
         seriesOverrides: [
@@ -301,21 +332,21 @@ if ( interactive == true ){
         span: 4,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'duration',
+        leftYAxisLabel: 'duration - days',
         y_formats: ["s","short"],
         rightYAxisLabel: 'percentage',
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.cpuDuration),'1d','sum'),8)"
+            'target': "aliasByNode(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.cpuDuration),'1d','sum')," + scale + "),8)"
           },
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.wallDuration),'1d','sum'),8)"
+            'target': "aliasByNode(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.wallDuration),'1d','sum')," + scale + "),8)"
           },
           {
           	'target': "alias(summarize(divideSeries(#A,#B),'1d','avg'),'efficiency')"
@@ -360,12 +391,12 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),3),5),4)"
+            'target': "aliasByNode(scale(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),3),5)," + scale + "),4)"
           }
         ],
       },
@@ -385,7 +416,7 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5),5),3)"
+            'target': "aliasByNode(scale(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5),5)," + scale + "),3)"
           }
         ],
       }
@@ -409,7 +440,7 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         lines: false,
@@ -419,7 +450,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type."+ metric +",'1d','sum'),3)),4)"
+            'target': "aliasByNode(scale(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type."+ metric +",'1d','sum'),3))," + scale + "),4,6)"
           }
         ],
       }
@@ -443,7 +474,7 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         lines: false,
@@ -453,7 +484,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5)),3)"
+            'target': "aliasByNode(scale(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5))," + scale + "),3,6)"
           }
         ],
       },
@@ -476,7 +507,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7),5)"
+                'target': "aliasByNode(scale(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7)," + scale + "),5)"
           }
         ],
       },
@@ -490,7 +521,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5),6)"
+                'target': "aliasByNode(scale(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5)," + scale + "),6)"
           }
         ],
       }

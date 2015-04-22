@@ -33,6 +33,19 @@ class GrafanaDashboard
           total: true,
           alignAsTable: true
         },
+        links: [
+    {
+      \'type\': "absolute",
+      \'name\': "Drilldown dashboard",
+      \'title\': "Grid dashboard",
+      \'url\': "./#/dashboard/script/grid-base.js",
+      \'params\': "siteName='+ site.name + '"
+    },
+    {
+      \'type\': "dashboard",
+      \'name\': "Drilldown dashboard"
+    }
+  ],
         targets: [
           {
             \'target\': "alias(summarize(sumSeries(scale(faust_pledge.by_site.' + site.name + '.by_vo.$vo.specInt2k,0.00274)), \'$binning\', \'sum\', true),\'pledge [Ksi2k][days] in $binning\')"
@@ -228,8 +241,8 @@ dashboard.services.filter = {
         "allFormat": "glob",
         "query": "1d,7d,30d,90d,180d,365d",
         "current": {
-          "text": "30d",
-          "value": "30d"
+          "text": "1d",
+          "value": "1d"
         }
       },
       {
@@ -330,7 +343,7 @@ if ( interactive == true ){
           type: \'text\',
           span: 8,
           mode: \'html\',
-          content: \'mcwall_*:  Normalised wall times using correction for multi processor jobs.\n\n wall_*: Normalised wall times\',
+          content: \'In the wallMetric menu you can select: mcwall_*:  Normalised wall times using correction for multi processor jobs.\n\n wall_*: Normalised wall times\',
         },
       ]
    });

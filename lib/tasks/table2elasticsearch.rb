@@ -17,7 +17,6 @@ class Table
   
   def result
     result = @obj
-    result = result.where("`cpu_grid_norm_records`.`id`>=#{@startId}")
     if @stopId != -1
       result = result.where("`cpu_grid_norm_records`.`id`<='#{@stopId}'") 
     end 
@@ -48,10 +47,13 @@ end
 class ELData < BaseGraph
 
   def defs
+    startId = 0
     stopId = -1
-    startid = CpuGridNormRecord.select(:id).where("recordDate > ?",@options[:date]).order(:recordDate).first.id
-    if (@options[:toDate] != "")
-      stopid = CpuGridNormRecord.select(:id).where("recordDate <= ?",@options[:toDate]).order(recordDate: desc).first.id
+    if (@options[:fromId] == "")
+      startid = CpuGridNormRecord.select(:id).order(:id).first.id
+    end
+    if (@options[:toId] == "")
+      stopid = CpuGridNormRecord.select(:id).order(:id).last.id
     end
     puts "startid: #{startid} - stopid: #{stopid}"
     t= Table.new(CpuGridNormRecord,"recordDate",startid,stopid)
@@ -84,13 +86,13 @@ class ELData < BaseGraph
 	])
       index=1
       time0 = Time.now.to_i
-      result.find_each(start: startid, batch_size: 50000) do |r|
+      result.find_each(start: startid, batch_size: 1000) do |r|
           uniqueId=uenc("#{r['submitHost']}-#{r['endTime']}-#{r['localJobId']}")
        	  puts "#{index} -- #{r['recordDate']} -- #{uniqueId} -->  #{r.to_json}" 
           #system "curl -X PUT http://#{@options[:elasticUrl]}/faust/cpuGridNorm/#{uniqueId}  --data-ascii '#{r.to_json}'" 
-	if !@options[:dryrun] 
+	     if !@options[:dryrun] 
           #@gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
-          end
+       end
 	  index = index +1
 	  time1 = Time.now.to_i
 	  freq = index.to_f/(time1.to_f-time0.to_f)
@@ -146,14 +148,14 @@ class DbToElasticsearch
         @options[:elasticUrl] = elasticUrl
       end
       
-      @options[:date] = "2014-01-01"
-      opt.on( '-d', '--date date', 'start date') do |date|
-        @options[:date] = date
+      @options[:fromId] = ""
+      opt.on( '-f', '--fromId date', 'start id') do |id|
+        @options[:fromId] = id
       end
       
-      @options[:toDate] = ""
-      opt.on( '-t', '--toDate date', 'optional stop date') do |toDate|
-        @options[:toDate] = toDate
+      @options[:toId] = ""
+      opt.on( '-t', '--toId date', 'optional stop id') do |toId|
+        @options[:toId] = toId
       end
       
       @options[:sleep] = 0.001
