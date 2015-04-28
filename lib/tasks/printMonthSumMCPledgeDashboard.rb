@@ -42,6 +42,13 @@ class GrafanaDashboard
       \'params\': "siteName='+ site.name + '"
     },
     {
+      \'type\': "absolute",
+      \'name\': "Drilldown dashboard",
+      \'title\': "Grid monthly report",
+      \'url\': "./#/dashboard/file/monthlyReport_'+ site.name + '.json",
+      \'params\': "siteName='+ site.name + '"
+    },
+    {
       \'type\': "dashboard",
       \'name\': "Drilldown dashboard"
     }

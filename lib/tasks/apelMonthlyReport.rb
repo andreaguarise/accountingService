@@ -56,7 +56,8 @@ class ELData < BaseGraph
     record.each do |r| 
       content += "#{r['siteName']}   #{r['year']}  #{r['month']}  #{r['vo']}  #{r['count']}  #{r['wall_H'].round(2)} #{r['wall_H_ksi2k'].round(2)}  \\n"
     end
-    navigation = ""
+    navigation = '<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a>' 
+    info = "Last updated on: " + Date.today.to_s
     puts '{
   "rows": [
     {
@@ -71,10 +72,20 @@ class ELData < BaseGraph
           "span": 5,
           "editable": false,
           "type": "text",
-          "mode": "markdown",
+          "mode": "html",
           "content": "' + navigation + '"
       ,"style": {},
           "title": "Navigation"
+        },
+        {
+          "error": false,
+          "span": 7,
+          "editable": false,
+          "type": "text",
+          "mode": "markdown",
+          "content": "' + info + '"
+      ,"style": {},
+          "title": "Info"
         }
       ],
       "notice": false
@@ -240,7 +251,7 @@ class ApelMonthlyReport
       
       @options[:toDate] = ""
       opt.on( '-t', '--toDate date', 'optional date') do |toDate|
-        @options[:toDate] = todate
+        @options[:toDate] = toDate
       end
       
       @options[:site] = ""
