@@ -56,7 +56,7 @@ class ELData < BaseGraph
     record.each do |r| 
       content += "#{r['siteName']}   #{r['year']}  #{r['month']}  #{r['vo']}  #{r['count']}  #{r['wall_H'].round(2)} #{r['wall_H_ksi2k'].round(2)}  \\n"
     end
-    navigation = '<a href="./#/dashboard/script/grid-base.js?siteName=*">Grid Dashboard</a>' 
+    navigation = '<a href=\"./#/dashboard/script/grid-base.js?siteName=*\">Grid Dashboard</a>' 
     info = "Last updated on: " + Date.today.to_s
     puts '{
   "rows": [
@@ -73,8 +73,7 @@ class ELData < BaseGraph
           "editable": false,
           "type": "text",
           "mode": "html",
-          "content": "' + navigation + '"
-      ,"style": {},
+          "content": "' + navigation + '",
           "title": "Navigation"
         },
         {
