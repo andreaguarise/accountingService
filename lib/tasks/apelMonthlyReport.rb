@@ -54,6 +54,12 @@ class ELData < BaseGraph
   def print record
     content = "siteName  Year  Month  vo  count  wall_H  wall_H_ksi2k  \\n"
     record.each do |r| 
+      if r['wall_H'].nil?
+        r['wall_H'] = 0.0
+      end
+      if r['wall_H_ksi2k'].nil?
+        r['wall_H_ksi2k'] = 0.0
+      end
       content += "#{r['siteName']}   #{r['year']}  #{r['month']}  #{r['vo']}  #{r['count']}  #{r['wall_H'].round(2)} #{r['wall_H_ksi2k'].round(2)}  \\n"
     end
     navigation = '<a href=\"./#/dashboard/script/grid-base.js?siteName=*\">Grid Dashboard</a>' 

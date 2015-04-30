@@ -6,6 +6,49 @@ require 'graphite-api'
 require 'open-uri'
 require 'table2graphite_defs'
 
+
+class DirQ  
+  def initialize(parent)
+    @parent=parent
+  end
+  
+  def dir
+    dir = "deadbeef"
+    if (!File.directory? "#{@parent}/#{dir}")
+      Dir.mkdir "#{@parent}/#{dir}"
+    end
+    dir
+  end
+  
+  def RandomExa(length, chars = 'abcdef0123456789')
+        rnd_str = ''
+        length.times { rnd_str << chars[rand(chars.size)] }
+        rnd_str
+  end
+  
+  def file
+    time = Time.now.to_i
+    timeHex = time.to_s(16)
+    random_string = self.RandomExa(6)
+    filename = timeHex + random_string
+    filename
+  end
+  
+end
+
+class Message
+  def initialize(message,parent_dir)
+    @message = message
+    @parent_dir = parent_dir
+    @dirq = DirQ.new(parent_dir)
+    @filename = @dirq.dir + "/" + @dirq.file    
+  end 
+  
+  def write
+    open("#{@parent_dir}/#{@filename}", "a") { |f| f << @message }
+  end
+end
+
 class Table
   def initialize (obj, timeField,startId,stopId)
     @startId = startId
