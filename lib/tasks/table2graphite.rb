@@ -93,6 +93,11 @@ class DbToGraphite
         @options[:date] = date
       end
       
+      @options[:noMetric] = ""
+      opt.on( '-n', '--noMetric metricList', 'list of metrics to skip') do |noMetric|
+        @options[:noMetric] = noMetric
+      end
+      
       @options[:toDate] = ""
       opt.on( '-t', '--toDate date', 'optional stop date') do |toDate|
         @options[:toDate] = toDate

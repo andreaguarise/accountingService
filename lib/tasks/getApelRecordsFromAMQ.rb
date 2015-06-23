@@ -75,26 +75,33 @@ class BenchmarkRecordConverter
     end
     if @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"]
       
-      bv = BenchmarkValue.new
-      bv.publisher_id = @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] 
-      bv.date = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d %H:%M:%S")
-      bv.value = r["ServiceLevel"]
+      publisher_id = @@publishersCache["#{r["Site"]}.#{r["MachineName"]}"] 
+      date = Time.at(r["EndTime"].to_i).strftime("%Y-%m-%d")
+      value = r["ServiceLevel"]
       #LOG HERE FOR DEBUG
       if not @@lastBenchmark.key?("#{r["Site"]}.#{r["MachineName"]}")
         @@lastBenchmark[r["#{r["Site"]}.#{r["MachineName"]}"]] = "0"
         #puts "lastBenchmark inserting #{r["MachineName"]} --> #{@@lastBenchmark[r["MachineName"]]}"
       end
       #puts "lastBenchmark:#{r["MachineName"]} --> #{r["EndTime"]} -- #{@@lastBenchmark[r["MachineName"]]}"
-      if r["EndTime"].to_i - @@lastBenchmark["#{r["Site"]}.#{r["MachineName"]}"].to_i > 3600
+        datediff = r["EndTime"].to_i - @@lastBenchmark["#{r["Site"]}.#{r["MachineName"]}"].to_i
+        
+      if (datediff > 43200 ) || ( datediff < -43200)# #half a day
+        Logger.log "#{datediff}"
         bt = BenchmarkType.new
         ##GO on by creating ActiveRecord benchmarkvalue object and saving it.
         if (r["ServiceLevelType"] == "si2k" )
             bt = BenchmarkType.find_by_name("specInt2k")
         end
-        if (r["ServiceLevelType"] == "hs06" )##check against apel
-            bt = BenchmarkType.find_by_name("HEPSPEC06")
+        if (r["ServiceLevelType"] == "HEPSPEC" )##check against apel
+            bt = BenchmarkType.find_by_name("specInt2k")
+            value = value.to_f*250.0 #automatically scale HEPSPEC to si2k using 250.0 magic value. FIXME
+            Logger.log "Convertingg HEPSPEC to si2k for publisher #{publisher_id}"
         end
-        bv.benchmark_type_id = bt.id
+        benchmark_type_id = bt.id
+        bv=BenchmarkValue.where({:date => date, :publisher_id => publisher_id, :benchmark_type_id => benchmark_type_id}).first_or_initialize
+        Logger.log "#{bv.to_json} -- oldValue: #{bv.value} -- newValue: #{value}"
+        bv.value = value
         bv.save
         @@lastBenchmark["#{r["Site"]}.#{r["MachineName"]}"] = r["EndTime"]
       end

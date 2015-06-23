@@ -221,51 +221,8 @@ class Graphics < BaseGraph
         sleep(@options[:sleep])
       end
     ##
-    t= Table.new(CpuGridNormRecord,"recordDate",@options[:date],@options[:toDate],@options[:site])
-      result = t.result.joins(:publisher => [:resource => :site])
-      result = result.joins(:benchmark_value => [:benchmark_type])
-      result = result.select("
-          vo,
-          sum(wallDuration) as wallDuration,
-          sum(wallDuration*processors) as mcwallDuration, 
-          sum(cpuDuration) as cpuDuration,
-          sum(memoryReal) as memoryReal,
-          sum(memoryVirtual) as memoryVirtual,
-          sum(processors) as processors,
-          avg(benchmark_values.value) as benchmarkValue, 
-          benchmark_types.name as benchmarkName,
-          count(*) as count")
-      result = result.group("vo,benchmarkName")
-      result.each do |r|
-        benchmarkName = "Unknown"
-        case r['benchmarkName']
-        when "specInt2k"
-          benchmarkName = "Si2k"
-        when "HEPSPEC06"
-          benchmarkName = "HEPSPEC06"
-        end
-        processors = r['processors'].to_f
-        puts "#{r['siteName']} ---- date: #{"#{r['d']} #{r['h']}:00".to_datetime},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
-        metrs = {
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpuDuration" => r['cpuDuration'].to_f,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.wallDuration" => r['wallDuration'].to_f,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.cpu_H_K#{benchmarkName}" => (r['cpuDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.wall_H_K#{benchmarkName}" => (r['wallDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.mcwall_H_K#{benchmarkName}" => (r['mcwallDuration'].to_f*r['benchmarkValue'].to_f)/3600000,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.memoryVirtual" => r['memoryVirtual'].to_f*1024,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.memoryReal" => r['memoryReal'].to_f*1024,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.count" => r['count'],
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.processors" => processors,
-            "faust.cpu_grid_norm_records.by_vo.#{uenc(r['vo'])}.all_site.#{benchmarkName}" => r['benchmarkValue']
-            }
-        if !@options[:dryrun] 
-          @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)
-        end
-        sleep(@options[:sleep])
-      end
-    ##
-    t= Table.new(CloudRecordSummary,"date",@options[:date],@options[:toDate],@options[:site])
+    if !@options[:noMetric].include?("cpu_cloud_records") 
+      t= Table.new(CloudRecordSummary,"date",@options[:date],@options[:toDate],@options[:site])
       result = t.result.joins(:site)
       result = result.select("
           `sites`.`name` as siteName,
@@ -298,6 +255,7 @@ class Graphics < BaseGraph
         end
         sleep(@options[:sleep])
       end
+    end
   end
   
 end
