@@ -8,11 +8,12 @@ gem 'rails', '3.2.11'
 gem 'sqlite3'
 gem 'therubyracer', '0.11.4'
 
+gem 'elasticsearch'
+
 gem 'json'
 gem 'arel'
 gem 'minitest'
 gem 'stomp'
-gem 'elasticsearch'
 gem 'graphite-api'
 
 gem 'will_paginate', '>= 3.0.pre'

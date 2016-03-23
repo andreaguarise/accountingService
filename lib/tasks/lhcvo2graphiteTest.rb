@@ -4,7 +4,7 @@ require 'optparse'
 require 'date'
 require 'graphite-api'
 require 'open-uri'
-require 'table2graphite_defs'
+require 'lhcvo2graphiteTest_defs'
 
 class String
   def mgsub(key_value_pairs=[].freeze)
@@ -16,7 +16,7 @@ class String
 end
 
 class Table
-  def initialize (obj, timeField,fromDate,toDate,site)
+  def initialize (obj, timeField,fromDate,toDate,site )
     @fromDate = fromDate
     @toDate = toDate
     @site = site
@@ -61,8 +61,6 @@ class DbToGraphite
     opt_parser = OptionParser.new do |opt|
       opt.banner = "Usage: db2graphite.rb [OPTIONS]"
 
-      
-
       @options[:verbose] = false
       opt.on( '-v', '--verbose', 'Output more information') do
         @options[:verbose] = true
@@ -91,11 +89,6 @@ class DbToGraphite
       @options[:date] = "2014-01-01"
       opt.on( '-d', '--date date', 'start date') do |date|
         @options[:date] = date
-      end
-      
-      @options[:noMetric] = ""
-      opt.on( '-n', '--noMetric metricList', 'list of metrics to skip') do |noMetric|
-        @options[:noMetric] = noMetric
       end
       
       @options[:toDate] = ""

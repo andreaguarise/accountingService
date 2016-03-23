@@ -80,7 +80,7 @@ class ApelSsmRecordConverter
       bulk_ary << r  
     end
     #Rails.logger.info bulk_ary.to_json
-    client = Elasticsearch::Client.new host: 'hdesk-dev-20.to.infn.it:9200'
+    client = Elasticsearch::Client.new host: '192.168.0.74:9200'
     client.bulk body: bulk_ary
     @@record_ary.clear
   end
@@ -323,6 +323,7 @@ end
 
 SSM = ApelSSMRecords.new
 SSM.main
+
 
 
 

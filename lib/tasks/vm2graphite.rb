@@ -4,7 +4,7 @@ require 'optparse'
 require 'date'
 require 'graphite-api'
 require 'open-uri'
-require 'table2graphite_defs'
+require 'vm2graphite_defs'
 
 class String
   def mgsub(key_value_pairs=[].freeze)
@@ -26,18 +26,26 @@ class Table
   end
   
   def result
-    result = @obj.select("date(#{@timeField}) as d, 
-          hour(#{@timeField}) as h")
-    result = result.select("
-          UNIX_TIMESTAMP(#{@timeField}) as timestamp")
-    result = result.where("#{@timeField}>'#{@fromDate}'")
+    start_end = "#{@timeField}>'#{@fromDate}'"
     if @toDate != ""
-      result = result.where("#{@timeField}<='#{@toDate}'") 
+      start_end = "#{start_end} AND #{@timeField}<='#{@toDate}'" 
     end
-    if @site != ""
-      result = result.where("`sites`.`name` = '#{@site}'")
-    end
-    result = result.group("d,h")
+    sql = "SELECT
+	\"INFN-TORINO\" as siteName,
+	localVMID, 
+	endTime,
+	local_user,
+	local_group,
+	cpuCount,
+	disk,
+	memory,
+	cpuDuration,
+	wallDuration,
+	networkInbound,
+	networkOutbound,
+	status
+	FROM cloud_records WHERE #{start_end}" 
+    result = ActiveRecord::Base.connection.execute(sql)
   end
   
   def tableName
@@ -90,7 +98,8 @@ class DbToGraphite
       
       @options[:date] = "2014-01-01"
       opt.on( '-d', '--date date', 'start date') do |date|
-        @options[:date] = date
+        puts date
+	@options[:date] = date
       end
       
       @options[:noMetric] = ""

@@ -4,7 +4,7 @@ require 'optparse'
 require 'date'
 require 'graphite-api'
 require 'open-uri'
-require 'table2graphite_defs'
+require 'cloud2graphite_defs'
 
 class String
   def mgsub(key_value_pairs=[].freeze)
@@ -26,18 +26,53 @@ class Table
   end
   
   def result
-    result = @obj.select("date(#{@timeField}) as d, 
-          hour(#{@timeField}) as h")
-    result = result.select("
-          UNIX_TIMESTAMP(#{@timeField}) as timestamp")
-    result = result.where("#{@timeField}>'#{@fromDate}'")
+    start_end = "#{@timeField}>'#{@fromDate}'"
     if @toDate != ""
-      result = result.where("#{@timeField}<='#{@toDate}'") 
+      start_end = "#{start_end} AND #{@timeField}<='#{@toDate}'" 
     end
-    if @site != ""
-      result = result.where("`sites`.`name` = '#{@site}'")
-    end
-    result = result.group("d,h")
+    sql = "SELECT
+	\"INFN-TORINO\" as siteName, 
+	endTime,
+	date(endTime) as d,	
+	hour(endTime) as h,
+	minute(endtime) as m,
+	local_user,
+	local_group,
+	count(localVMID) as vmCount,
+	sum(cpuCount) cpuCount,
+	sum(disk) as disk,
+	sum(memory) as memory,
+	sum(cpuDuration) as cpuDuration,
+	sum(wallDuration) as wallDuration,
+	sum(networkInbound) as networkInbound,
+	sum(networkOutbound) as networkOutbound,
+	status
+	FROM (SELECT  `cloud_records`.`id` AS `id`, 
+		endTime as endTime,
+		date(endTime) as d,	
+		hour(endTime) as h,
+		minute(endtime) as m,
+		`cloud_records`.`VMUUID` AS `VMUUID`, 
+		localVMID, 
+		publisher_id as publisher_id,
+		local_user,
+		local_group, 
+		status,
+		`cloud_records`.`diskImage` AS `diskImage`,
+		`cloud_records`.`cloudType` AS `cloudType`, 
+		max(disk) as disk,
+		max(wallDuration) as wallDuration,
+		max(cpuDuration) as cpuDuration,
+		max(networkInbound) as networkInbound,
+		max(networkOutbound) as networkOutbound,
+		max(memory) as memory,
+		max(cpuCount) as cpuCount 
+FROM cloud_records WHERE #{start_end} group by d,h,m,localVMID,status ) AS cloud_records group by d,h,m,local_user,local_group,status " 
+    #if @site != ""
+    #  result = result.where("`sites`.`name` = '#{@site}'")
+    #end
+    #result = result.group("d,h,m")
+    result = ActiveRecord::Base.connection.execute(sql)
   end
   
   def tableName

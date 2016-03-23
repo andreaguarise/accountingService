@@ -2,8 +2,28 @@ class BaseGraph
   def initialize(options,client)
     @options = options
     @gClient= client
+    @transHash = {
+        "sgmalice" => "alice",
+	"pilalice" => "alice",
+	"pilatlas" => "atlas",
+	"sgmatlas" => "atlas",
+	"pilcms" => "cms",
+	"prdcms" => "cms",
+	"pillhcb" => "lhcb",
+	"sgmlhcb" => "lhcb"
+        }
+    @siteTransArray = ["INFN-BARI"]
   end
-  
+
+  def translateVo (vo,site)
+        if @siteTransArray.include?(site)
+                if @transHash.include?(vo)
+                puts "site:#{site}, originalvo: #{vo}, targetvo:#{@transHash[vo]}"
+                vo = @transHash[vo]
+                end
+        end
+  vo
+  end
     
   def uenc(s)
     enc = s.mgsub([[/\./ , '_'],[/\// , '_'],[/\ / , '_'],[/=/ , '_']])
@@ -39,6 +59,7 @@ class Graphics < BaseGraph
         end
         processors = r['processors'].to_f      
         puts "#{r['siteName']} -> date:#{r['d']}:#{r['h']},vo:#{uenc(r['vo'])},type:#{uenc(r['type'])},timestamp:#{r['timestamp']},cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
+#       r['vo']=translateVo(r['vo'],r['siteName'])
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_type.#{uenc(r['type'])}.cpuDuration" => r['cpuDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_type.#{uenc(r['type'])}.wallDuration" => r['wallDuration'].to_f,
@@ -95,6 +116,7 @@ class Graphics < BaseGraph
         end
         processors = r['processors'].to_f   
         puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
+#        r['vo']=translateVo(r['vo'],r['siteName'])
         metrs = {
             "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.cpuDuration" => r['cpuDuration'].to_f,
             "faust.cpu_grid_norm_records_voGroup_voRole.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.by_voGroup.#{uenc(r['voGroup'])}.by_voRole.#{uenc(r['voRole'])}.wallDuration" => r['wallDuration'].to_f,
@@ -146,6 +168,7 @@ class Graphics < BaseGraph
         end
         processors = r['processors'].to_f
         puts "#{r['siteName']} -> date:#{r['d']}:#{r['h']},vo:#{uenc(r['vo'])},timestamp:#{r['timestamp']},cpuDuration=#{r['cpuDuration']},count=#{r['count']},#{benchmarkName}=#{r['benchmarkValue']}"
+#        r['vo']=translateVo(r['vo'],r['siteName'])
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_vo.#{uenc(r['vo'])}.wallDuration" => r['wallDuration'].to_f,
@@ -202,6 +225,7 @@ class Graphics < BaseGraph
         end
         processors = r['processors'].to_f
         puts "#{r['siteName']} ---- date: #{r['d']} #{r['h']}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
+#        r['vo']=translateVo(r['vo'],r['siteName'])
         metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.cpuDuration" => r['cpuDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.all_vo.wallDuration" => r['wallDuration'].to_f,
@@ -248,7 +272,9 @@ class Graphics < BaseGraph
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.memory" => r['memory'].to_f*1048576,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.disk" => r['disk'].to_f*1048576,
             "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.wallDuration" => r['wallDuration'].to_f,
-            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuDuration" => r['cpuDuration'].to_f
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuDuration" => r['cpuDuration'].to_f,
+            "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuFraction" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
+	    "faust.cpu_cloud_records.by_site.#{r['siteName']}.by_status.#{r['status']}.by_group.#{r['local_group']}.by_user.#{r['local_user']}.cpuFractionMultCpu" => (r['cpuDuration'].to_f/r['wallDuration'].to_f)*r['cpuCount'].to_f
             }
         if !@options[:dryrun] 
           @gClient.metrics(metrs,"#{r['d']} #{r['h']}:00".to_datetime)

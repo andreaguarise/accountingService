@@ -209,63 +209,6 @@ ActiveRecord::Schema.define(:version => 20150312090012) do
     t.integer "benchmark_type_id"
   end
 
-  create_table "database_descrs", :force => true do |t|
-    t.string   "backend"
-    t.string   "version"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "database_record_summaries", :id => false, :force => true do |t|
-    t.integer "id",                                               :default => 0, :null => false
-    t.date    "record_date"
-    t.string  "table_name"
-    t.string  "scheme_name"
-    t.decimal "rows",              :precision => 23, :scale => 4
-    t.decimal "tablesize",         :precision => 23, :scale => 4
-    t.decimal "indexsize",         :precision => 23, :scale => 4
-    t.integer "publisher_id"
-    t.integer "database_descr_id"
-  end
-
-  create_table "database_record_summaries_ls", :id => false, :force => true do |t|
-    t.integer "id",                                                            :default => 0, :null => false
-    t.date    "record_date"
-    t.integer "record_timestamp",  :limit => 8
-    t.string  "table_name"
-    t.string  "scheme_name"
-    t.integer "rows",              :limit => 8
-    t.decimal "tablesize",                      :precision => 23, :scale => 4
-    t.decimal "indexsize",                      :precision => 23, :scale => 4
-    t.integer "publisher_id"
-    t.integer "database_descr_id"
-  end
-
-  create_table "database_records", :force => true do |t|
-    t.datetime "time"
-    t.integer  "rows",              :limit => 8
-    t.integer  "tablesize",         :limit => 8
-    t.integer  "indexsize",         :limit => 8
-    t.integer  "database_table_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-  end
-
-  create_table "database_schemes", :force => true do |t|
-    t.string   "name"
-    t.integer  "publisher_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.integer  "database_descr_id"
-  end
-
-  create_table "database_tables", :force => true do |t|
-    t.string   "name"
-    t.integer  "database_scheme_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
   create_table "emi_storage_records", :force => true do |t|
     t.string   "recordIdentity"
     t.string   "storageSystem"
@@ -349,6 +292,7 @@ ActiveRecord::Schema.define(:version => 20150312090012) do
   end
 
   add_index "resources", ["resource_type_id"], :name => "resource_type_id"
+  add_index "resources", ["site_id"], :name => "site_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"

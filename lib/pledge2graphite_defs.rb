@@ -2,8 +2,21 @@ class BaseGraph
   def initialize(options,client)
     @options = options
     @gClient= client
+    @transHash = {
+        "sgmalice" => "alice"
+        }
+    @siteTransArray = ["INFN-BARI"]
   end
 
+def translateVo (vo,site)
+	if @siteTransArray.include?(site)
+        	if @transHash.include?(vo)
+		puts "site:#{site}, originalvo: #{vo}, targetvo:#{@transHash[vo]}"
+        	vo = @transHash[vo]
+        	end
+	end
+vo
+end
 
   def uenc(s)
     enc = s.mgsub([[/\./ , '_'],[/\// , '_'],[/\ / , '_'],[/=/ , '_']])
@@ -24,9 +37,9 @@ class Graphics < BaseGraph
           vo,
          value")
       result = result.group("siteName,vo")
-      #Benchmark values for pledged in the datbase are for si2k expressed in [Ksi2k][hours] in one year.
     result.each do |r|
       puts "#{r['siteName']} - date: #{"#{r['validFrom']}".to_datetime} #{r['validTo'].to_datetime}  pledged: #{r['value']} #{r['benchmark']}"
+      r['vo']=translateVo(r['vo'],r['siteName'])
       if !@options[:dryrun]
           d1=r['validFrom'].to_date
           d2=r['validTo'].to_date
@@ -39,7 +52,7 @@ class Graphics < BaseGraph
                 "faust_pledge.by_site.#{r['siteName']}.by_vo.#{r['vo']}.#{r['benchmark']}" => r['value'].to_f
                 }
                 #client = GraphiteAPI.new( :graphite => @options[:graphiteUrl] )
-                puts "#{r['siteName']} - date: #{t.to_datetime}"
+      		puts "#{r['siteName']} - date: #{t}  pledged: #{r['value']} #{r['benchmark']}"
 
                 @gClient.metrics(metrs,t)
                 sleep(@options[:sleep])

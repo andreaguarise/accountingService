@@ -2,9 +2,29 @@ class BaseGraph
   def initialize(options,client)
     @options = options
     @gClient= client
+    @transHash = {
+        "sgmalice" => "alice",
+        "pilalice" => "alice",
+        "pilatlas" => "atlas",
+        "sgmatlas" => "atlas",
+        "pilcms" => "cms",
+        "prdcms" => "cms",
+        "pillhcb" => "lhcb",
+        "sgmlhcb" => "lhcb"
+        }
+    @siteTransArray = ["INFN-BARI"]
   end
   
-    
+  def translateVo (vo,site)
+        if @siteTransArray.include?(site)
+                if @transHash.include?(vo)
+                puts "site:#{site}, originalvo: #{vo}, targetvo:#{@transHash[vo]}"
+                vo = @transHash[vo]
+                end
+        end
+  vo
+  end
+
   def uenc(s)
     enc = s.mgsub([[/\./ , '_'],[/\// , '_'],[/\ / , '_'],[/=/ , '_']])
     enc
@@ -34,7 +54,8 @@ class Graphics < BaseGraph
       result.each do |r|
         processors = r['processors'].to_f
         puts "#{r['siteName']} ---- date:  #{r['d']} #{r['h']},#{uenc(r['vo'])}, timestamp: #{r['timestamp']}, cpuDuration=#{r['cpuDuration']},count=#{r['count']}"
-        metrs = {
+#        r['vo']=translateVo(r['vo'],r['siteName'])
+	metrs = {
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_lhc_vo.#{uenc(r['vo'])}.cpuDuration" => r['cpuDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_lhc_vo.#{uenc(r['vo'])}.wallDuration" => r['wallDuration'].to_f,
             "faust.cpu_grid_norm_records.by_site.#{uenc(r['siteName'])}.by_lhc_vo.#{uenc(r['vo'])}.efficiency" => r['cpuDuration'].to_f/r['wallDuration'].to_f,
