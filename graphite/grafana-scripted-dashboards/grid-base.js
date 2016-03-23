@@ -37,6 +37,7 @@ if ( ARGS.showValues == "false" ) {
 }
 metric= "count";
 measure = "count";
+scale = 1;
 format = ["short","short"];
 title = "completed jobs";
 if ( !_.isUndefined(ARGS.metric) ) {
@@ -49,13 +50,15 @@ if ( !_.isUndefined(ARGS.metric) ) {
 	}
 	if ( metric == "cpu_H_KSi2k" )
 	{
-		measure = "hours*ksi2k";
+		measure = "ksi2k*day";
 		title = metric;
+		scale = "0.04167";
 	}
 	if ( metric == "wall_H_KSi2k" )
 	{
-		measure = "hours*ksi2k";
+		measure = "ksi2k*day";
 		title = metric;
+		scale = "0.04167";
 	}
 	if ( metric == "memoryReal" | metric == "memoryVirtual")
 	{
@@ -76,6 +79,7 @@ if ( ARGS.interactive == "false" ) {
 
 // Set a title
 dashboard.title = 'Grid dashboard';
+dashboard.sharedCrosshair = 'true';
 dashboard.editable = 'false';
 dashboard.style= 'light';
 dashboard.panel_hints= 'false';
@@ -94,19 +98,65 @@ dashboard.loader= {
     "hide": true
   };
 
+dashboard.nav = [
+  {
+    "type": "timepicker",
+      "collapse": false,
+      "notice": false,
+      "enable": true,
+      "status": "Stable",
+      "time_options": [
+        "10d",
+        "30d",
+        "60d",
+        "90d",
+        "180d",
+        "365d"
+      ],
+      "refresh_intervals": [
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "now": true
+  }
+];
+
+
 dashboard.services.filter = {
   time: {
     from: "now-" + (ARGS.from || timspan),
     to: "now"
   }
 };
-/*
 dashboard.pulldowns= [
         {
                 "type": "filtering",
                 "enable": true
         }
 ];
+
+if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
+  siteText = ARGS.siteName;
+  siteValue = ARGS.siteName;
+}
+else
+{
+        siteText = "All";
+        siteValue = "*";
+}
+
+if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
+  voText = ARGS.voName;
+  voValue = ARGS.voName;
+}
+else
+{
+        voText = "All";
+        voValue = "*";
+}
 
 dashboard.services.filter = {
   time: {
@@ -115,28 +165,74 @@ dashboard.services.filter = {
   },
   list: [
     {
-        "type": "terms",
+        "type": "query",
         "name": "site",
         "active": true,
         "query": "faust.cpu_grid_norm_records.by_site.*",
-        "includeAll": true
-    }
+        "includeAll": true,
+        "refresh": true,
+        "allFormat": "wildcard",
+        "current" : {
+                "text": siteText,
+                "value": siteValue
+        }
+    },
+    {
+        "type": "query",
+        "name": "vo",
+        "active": true,
+        "query": "faust.cpu_grid_norm_records.by_site.$site.by_vo.*",
+        "includeAll": true,
+        "refresh": true,
+        "allFormat": "wildcard",
+        "current" : {
+                "text": voText,
+                "value": voValue
+        }
+    },
+    {
+        "type": "query",
+        "datasource": null,
+        "refresh_on_load": false,
+        "name": "type",
+        "options": [
+          {
+            "text": "All",
+            "value": "*"
+          },
+          {
+            "text": "grid",
+            "value": "grid"
+          },
+          {
+            "text": "local",
+            "value": "local"
+          }
+        ],
+        "includeAll": true,
+        "allFormat": "wildcard",
+        "query": "faust.cpu_grid_norm_records.by_site.*.by_vo.*.by_type.*",
+        "current": {
+          "text": "All",
+          "value": "*"
+        }
+     }
   ]
 
 };
-*/
 
-dashboard.title = "ALL sites";
+dashboard.title = "Grid dashboard";
 if(!_.isUndefined(ARGS.siteName) & ARGS.siteName != "*" ) {
   siteName = ARGS.siteName;
   dashboard.title = siteName;
 }
 else
 {
-        siteName = "*";
+        siteName = "$site";
 }
+siteName = "$site";
 
-voName="*"
+voName="$vo";
 if(!_.isUndefined(ARGS.voName) & ARGS.voName != "*" ) {
   voName = ARGS.voName;
 }
@@ -165,7 +261,7 @@ if( ARGS.editable == "true") {
 	dashboardEditable = false;
 }
 
-autoReload = 'onClick="setTimeout(location.reload.bind(location), 1)"'
+autoReload = 'onClick="setTimeout(location.reload.bind(location), 1)"';
 
 if ( interactive == true ){
   	dashboard.rows.push({
@@ -187,7 +283,7 @@ if ( interactive == true ){
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryReal" ' + autoReload + ' >MemoryReal</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=memoryVirtual" ' + autoReload + ' >MemoryVirtual</a> - ' +
         		'<a href="./#/dashboard/script/grid-base.js?siteName=' + siteName + '&metric=efficiency" ' + autoReload + ' >Efficiency</a> - ' +
-        		'<a href="./#/dashboard/script/pledge.js">Pledged</a> - ' +
+        		'<a href="./#/dashboard/script/pledge_sum.js">Pledged</a> - ' +
         		'<a href="./#/dashboard/file/report.json">Publishing status</a>'
       	}
       ]
@@ -205,45 +301,55 @@ if ( interactive == true ){
         type: 'graphite',
         span: 4,
         fill: 1,
-        linewidth: 2,
+        linewidth: 1,
         leftYAxisLabel: measure,
         y_formats: format,
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + "),'1d','sum'),6)"
-          }
+            'target': "alias(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + "),'1d','sum')," + scale + "),'grid+local')"
+          },
+          {
+            'target': "aliasByNode(scale(sortByMinima(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.*." + metric + ",'1d','sum'), 3), 4))," + scale + "),5)"
+          }   
         ],
+        seriesOverrides: [
+            {
+              alias: "grid+local",
+              linewidth: 3,
+              fill: 0
+            }
+          ],
       },
       {
-        title: 'Grid - cpu/wall time',
+        title: 'Grid - cpu/wall time - $type',
         type: 'graphite',
         span: 4,
         fill: 1,
         linewidth: 2,
-        leftYAxisLabel: 'duration',
+        leftYAxisLabel: 'duration - days',
         y_formats: ["s","short"],
         rightYAxisLabel: 'percentage',
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpuDuration),'1d','sum'),6)"
+            'target': "aliasByNode(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.cpuDuration),'1d','sum')," + scale + "),8)"
           },
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".wallDuration),'1d','sum'),6)"
+            'target': "aliasByNode(scale(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.wallDuration),'1d','sum')," + scale + "),8)"
           },
           {
-          	'target': "alias(summarize(divideSeries(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName +".by_vo." + voName + ".cpuDuration),sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".wallDuration)),'1d','avg'),'efficiency')"
+          	'target': "alias(summarize(divideSeries(#A,#B),'1d','avg'),'efficiency')"
           }
         ],
         aliasYAxis: {
@@ -258,10 +364,10 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".cpu_H_KSi2k),'1d','sum'),6)"
+            'target': "aliasByNode(summarize(sumSeries(faust.cpu_grid_norm_records.by_site." + siteName + ".by_vo." + voName + ".by_type.$type.cpu_H_KSi2k),'1d','sum'),8)"
           },
           {
-            'target': "aliasByNode(sumSeries(averageSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo."+ voName +".si2k,'1d','avg'),5)),6)"
+            'target': "aliasByNode(sumSeries(averageSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo."+ voName +".by_type.$type.si2k,'1d','avg'),5)),8)"
           }
         ],
       }
@@ -285,12 +391,12 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),3),5),4)"
+            'target': "aliasByNode(scale(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),3),5)," + scale + "),4)"
           }
         ],
       },
@@ -310,7 +416,7 @@ if ( interactive == true ){
         },
         targets: [
           {
-            'target': "aliasByNode(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),5),5),3)"
+            'target': "aliasByNode(scale(highestAverage(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5),5)," + scale + "),3)"
           }
         ],
       }
@@ -334,7 +440,7 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         lines: false,
@@ -344,7 +450,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "."+ metric +",'1d','sum'),3)),4)"
+            'target': "aliasByNode(scale(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type."+ metric +",'1d','sum'),3))," + scale + "),4,6)"
           }
         ],
       }
@@ -358,7 +464,7 @@ if ( interactive == true ){
     collapsable: false,
     panels: [
       {
-        title: 'Grid Executed jobs - per Site - all',
+        title: 'Grid Executed jobs - per Site - $site',
         type: 'graphite',
         span: 12,
         fill: 2,
@@ -368,7 +474,7 @@ if ( interactive == true ){
         legend: {
         	show: showLegend,
         	values: showValues,
-        	current: true,
+        	current: false,
         	avg: true,  	
         },
         lines: false,
@@ -378,7 +484,7 @@ if ( interactive == true ){
         nullPointMode: 'null as zero',
         targets: [
           {
-            'target': "aliasByNode(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + "." + metric + ",'1d','sum'),5)),3)"
+            'target': "aliasByNode(scale(sortByMaxima(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records.by_site."+ siteName +".by_vo." + voName + ".by_type.$type." + metric + ",'1d','sum'),5))," + scale + "),3,6)"
           }
         ],
       },
@@ -401,7 +507,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7),5)"
+                'target': "aliasByNode(scale(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),7)," + scale + "),5)"
           }
         ],
       },
@@ -415,7 +521,7 @@ if ( interactive == true ){
         linewidth: 2,
         targets: [
           {
-                'target': "aliasByNode(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5),6)"
+                'target': "aliasByNode(scale(sumSeriesWithWildcards(sumSeriesWithWildcards(sumSeriesWithWildcards(summarize(faust.cpu_grid_norm_records_voGroup_voRole.by_site." + siteName + ".by_vo." + voName + ".by_voGroup.*.by_voRole.*." + metric + ",'1d','sum'),3),4),5)," + scale + "),6)"
           }
         ],
       }
@@ -424,4 +530,5 @@ if ( interactive == true ){
 
 
 return dashboard;
+
 
